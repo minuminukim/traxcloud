@@ -1,4 +1,4 @@
-const { validationResult } = require('express-validator');
+const { validationResult, check } = require('express-validator');
 
 const handleValidationErrors = (req, _res, next) => {
   const validationErrors = validationResult(req);
@@ -10,12 +10,24 @@ const handleValidationErrors = (req, _res, next) => {
     error.errors = errors;
     error.status = 400;
     error.title = 'Bad request.';
-    next(err);
+    next(error);
   }
 
   next();
 };
 
+const validateLogin = [
+  check('credential')
+    .exists({ checkFalsy: true })
+    .notEmpty()
+    .withMessage('Please provide a valid email or username.'),
+  check('password')
+    .exists({ checkFalsy: true })
+    .withMessage('Please provide a password.'),
+  handleValidationErrors,
+];
+
 module.exports = {
   handleValidationErrors,
+  validateLogin,
 };
