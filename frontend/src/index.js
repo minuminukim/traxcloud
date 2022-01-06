@@ -5,14 +5,18 @@ import { BrowserRouter } from 'react-router-dom';
 import './index.css';
 import App from './App';
 import configureStore from './store';
+import { restoreCSRF, csrfFetch } from './store/csrf';
 
 const store = configureStore();
 
 if (process.env.NODE !== 'production') {
+  restoreCSRF();
+
+  window.csrfFetch = csrfFetch;
   window.store = store;
 }
 
-function Root() {
+const Root = () => {
   return (
     <Provider store={store}>
       <BrowserRouter>
@@ -20,7 +24,7 @@ function Root() {
       </BrowserRouter>
     </Provider>
   );
-}
+};
 
 ReactDOM.render(
   <React.StrictMode>
