@@ -1,6 +1,6 @@
 'use strict';
-const faker = require('faker');
 const bcrypt = require('bcryptjs');
+const { passwords } = require('../../config');
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
@@ -10,17 +10,27 @@ module.exports = {
         {
           email: 'demo@user.io',
           username: 'howdy_world',
-          hashedPassword: bcrypt.hashSync('password'),
+          hashedPassword: bcrypt.hashSync(passwords.demo),
         },
         {
-          email: faker.internet.email(),
-          username: 'FakeUser1',
-          hashedPassword: bcrypt.hashSync(faker.internet.password()),
+          email: 'plankton@user.io',
+          username: 'sheldon_plankton',
+          hashedPassword: bcrypt.hashSync(passwords.seed),
         },
         {
-          email: faker.internet.email(),
-          username: 'FakeUser2',
-          hashedPassword: bcrypt.hashSync(faker.internet.password()),
+          email: 'squidward@user.io',
+          username: 'squidward_tentacles',
+          hashedPassword: bcrypt.hashSync(passwords.seed),
+        },
+        {
+          email: 'bubblebass@user.io',
+          username: 'bubblebass',
+          hashedPassword: bcrypt.hashSync(passwords.seed),
+        },
+        {
+          email: 'patrick@user.io',
+          username: 'patrick_star',
+          hashedPassword: bcrypt.hashSync(passwords.seed),
         },
       ],
       {}
