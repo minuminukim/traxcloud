@@ -1,0 +1,24 @@
+.form-group {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 7px 8px;
+}
+
+input {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 7px 8px;
+  height: 40px;
+  width: 100%;
+}
+
+input,
+::placeholder {
+  font-size: 18px;
+  line-height: 24px;
+}
+
+input:focus {
+  outline: none;
+}

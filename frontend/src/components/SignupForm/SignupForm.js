@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import InputField from '../common/InputField';
+import FormButton from '../common/FormButton';
 
 const SignupForm = () => {
   const dispatch = useDispatch();
@@ -9,6 +11,8 @@ const SignupForm = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
+  if (session)
+
   const updateEmail = (e) => setEmail(e.target.value);
   const updateUsername = (e) => setUsername(e.target.value);
   const updatePassword = (e) => setPassword(e.target.value);
@@ -16,46 +20,35 @@ const SignupForm = () => {
 
   return (
     <form>
-      <label className="form-group">
-        Enter your email
-        <input
-          type="email"
-          name="email"
-          id="email"
-          value={email}
-          onChange={updateEmail}
-        />
-      </label>
-      <label className="form-group">
-        Choose a username
-        <input
-          type="text"
-          name="username"
-          id="username"
-          value={username}
-          onChange={updateUsername}
-        />
-      </label>
-      <label className="form-group">
-        Choose a password
-        <input
-          type="password"
-          name="password"
-          id="password"
-          value={password}
-          onChange={updatePassword}
-        />
-      </label>
-      <label className="form-group">
-        Confirm your password
-        <input
-          type="password"
-          name="password"
-          id="password"
-          value={confirmPassword}
-          onChange={updateConfirmPassword}
-        />
-      </label>
+      <InputField
+        label="Enter your email"
+        type="email"
+        id="signup-email"
+        value={email}
+        onChange={updateEmail}
+      />
+      <InputField
+        label="Choose a username"
+        type="text"
+        id="signup-username"
+        value={username}
+        onChange={updateUsername}
+      />
+      <InputField
+        label="Choose a password"
+        type="password"
+        id="signup-password"
+        value={password}
+        onChange={updatePassword}
+      />
+      <InputField
+        label="Confirm your password"
+        type="password"
+        id="confirm-password"
+        value={confirmPassword}
+        onChange={updateConfirmPassword}
+      />
+      <FormButton label="Sign up" />
     </form>
   );
 };
