@@ -1,22 +1,16 @@
 import { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { createUser } from '../../store/session';
 import InputField from '../common/InputField';
 import FormButton from '../common/FormButton';
 
 const SignupForm = () => {
   const dispatch = useDispatch();
-  const sessionUser = useSelector((state) => state.session.user);
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [errors, setErrors] = useState([]);
-
-  if (sessionUser) {
-    return <Redirect to="/" />;
-  }
 
   const updateEmail = (e) => setEmail(e.target.value);
   const updateUsername = (e) => setUsername(e.target.value);

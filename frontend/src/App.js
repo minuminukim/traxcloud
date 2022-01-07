@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Switch, Route } from 'react-router-dom';
 import { restoreUser } from './store/session';
-import LoginForm from './components/LoginForm';
-import SignupForm from './components/SignupForm';
+import LoginFormModal from './components/LoginFormModal';
+import SignupForm from './components/SignupFormModal';
 import Navigation from './components/Navigation';
 
 function App() {
@@ -19,9 +19,6 @@ function App() {
       <Navigation isLoaded={isLoaded} />
       {isLoaded && (
         <Switch>
-          <Route path="/login">
-            <LoginForm />
-          </Route>
           <Route path="/signup">
             <SignupForm />
           </Route>
