@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { login } from '../../store/session';
 
@@ -10,16 +10,30 @@ const LoginForm = () => {
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState([]);
 
-  // TODO: figure out error handling and dispatch
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
+  // TODO figure out redirect on first load
+  if (sessionUser) {
+    return <Redirect to="/" />;
+  }
 
-  //   const response = await dispatch(login({ credential, password }));
-  //   if ()
-  // };
+  const handleCredential = (e) => setCredential(e.target.value);
+  const handlePassword = (e) => setPassword(e.target.value);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const user = { credential, password };
+    const response = await dispatch(login(user));
+
+    if (response && response.errors) {
+      setErrors(response.errors);
+    }
+  };
 
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
+      <ul>
+        {errors.map((error) => (
+          <li key={error}>{error}</li>
+        ))}
+      </ul>
       <label>
         Username or Email:
         <input
@@ -27,7 +41,7 @@ const LoginForm = () => {
           name="credential"
           id="credential"
           value={credential}
-          onChange={(e) => setCredential(e.target.value)}
+          onChange={handleCredential}
         />
       </label>
       <label>
@@ -37,10 +51,10 @@ const LoginForm = () => {
           name="password"
           id="password"
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={handlePassword}
         />
       </label>
-      <input type="submit" value="Continue" />
+      <button type="submit">Continue</button>
     </form>
   );
 };
