@@ -44,6 +44,21 @@ export const logout = () => async (dispatch) => {
   }
 };
 
+export const createUser =
+  ({ username, email, password }) =>
+  async (dispatch) => {
+    try {
+      const response = await csrfFetch('/api/users', {
+        method: 'POST',
+        body: JSON.stringify({ username, email, password }),
+      });
+      const { user } = await response.json();
+      return dispatch(setUser(user));
+    } catch (error) {
+      return await error.json();
+    }
+  };
+
 const sessionReducer = (state = { user: null }, action) => {
   switch (action.type) {
     case SET_USER:
