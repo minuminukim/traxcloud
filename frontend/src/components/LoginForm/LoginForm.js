@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { login } from '../../store/session';
+import './LoginForm.css';
 
 const LoginForm = () => {
   const dispatch = useDispatch();
@@ -10,20 +11,21 @@ const LoginForm = () => {
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState([]);
 
-  // TODO figure out redirect on first load
   if (sessionUser) {
     return <Redirect to="/" />;
   }
 
-  const handleCredential = (e) => setCredential(e.target.value);
-  const handlePassword = (e) => setPassword(e.target.value);
+  const updateCredential = (e) => setCredential(e.target.value);
+  const updatePassword = (e) => setPassword(e.target.value);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const user = { credential, password };
-    const response = await dispatch(login(user));
+
+    const userInput = { credential, password };
+    const response = await dispatch(login(userInput));
 
     if (response && response.errors) {
-      setErrors(response.errors);
+      return setErrors(response.errors);
     }
   };
 
@@ -34,27 +36,27 @@ const LoginForm = () => {
           <li key={error}>{error}</li>
         ))}
       </ul>
-      <label>
-        Username or Email:
+      <div className="form-group">
         <input
           type="text"
           name="credential"
           id="credential"
+          placeholder="Your email address or username"
           value={credential}
-          onChange={handleCredential}
+          onChange={updateCredential}
         />
-      </label>
-      <label>
-        Password:
+      </div>
+      <div className="form-group">
         <input
           type="password"
           name="password"
           id="password"
+          placeholder="Your Password"
           value={password}
-          onChange={handlePassword}
+          onChange={updatePassword}
         />
-      </label>
-      <button type="submit">Continue</button>
+      </div>
+      <button type="submit">Sign In</button>
     </form>
   );
 };
