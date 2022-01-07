@@ -34,7 +34,7 @@ router.post(
 // User Logout
 router.delete('/', (_req, res) => {
   res.clearCookie('token');
-  return res.json({ message: 'success' });
+  return res.json({ message: 'Success' });
 });
 
 // Restore session user
