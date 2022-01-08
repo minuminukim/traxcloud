@@ -15,4 +15,8 @@ module.exports = {
     demo: process.env.DEMO_PASSWORD,
     seed: process.env.SEED_PASSWORD,
   },
+  awsConfig: {
+    keyId: process.env.AWS_ACCESS_KEY_ID,
+    secret: process.env.AWS_SECRET_ACCESS_KEY,
+  },
 };
