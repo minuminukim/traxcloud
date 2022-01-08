@@ -8,26 +8,33 @@ import './Navigation.css';
 
 const Navigation = ({ isLoaded }) => {
   const sessionUser = useSelector((state) => state.session.user);
-  console.log('sessionUser', sessionUser);
 
   const links = sessionUser ? (
     <ProfileButton user={sessionUser} />
   ) : (
-    <>
+    <div className="nav-right">
       <li className="nav-item">
-        <ModalWrapper children={<LoginForm />} buttonLabel="Sign In" />
+        <ModalWrapper
+          children={<LoginForm />}
+          label="Sign In"
+          className="nav-button transparent"
+        />
       </li>
       <li className="nav-item">
-        <ModalWrapper children={<SignupForm />} buttonLabel="Create account" />
+        <ModalWrapper
+          children={<SignupForm />}
+          label="Create account"
+          className="nav-button"
+        />
       </li>
-    </>
+    </div>
   );
 
   return (
     <ul className="nav-bar">
-      <li className="nav-item">
+      <li className="nav-item nav-logo">
         <NavLink exact to="/">
-          Home
+          TRAXCLOUD
         </NavLink>
       </li>
       {isLoaded && links}

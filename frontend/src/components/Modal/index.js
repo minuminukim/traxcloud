@@ -1,14 +1,16 @@
 import { useState } from 'react';
 import Modal from './Modal';
+import Button from '../common/Button';
 
-const ModalWrapper = ({ children, buttonLabel }) => {
+const ModalWrapper = ({ children, label, className }) => {
   const [showModal, setShowModal] = useState(false);
   const modalOnClick = () => setShowModal(true);
   const modalOnClose = () => setShowModal(false);
 
   return (
     <>
-      <button onClick={modalOnClick}>{buttonLabel}</button>
+      {/* <button onClick={modalOnClick}>{buttonLabel}</button> */}
+      <Button label={label} className={className} onClick={modalOnClick} />
       {showModal && <Modal onClose={modalOnClose}>{children}</Modal>}
     </>
   );
