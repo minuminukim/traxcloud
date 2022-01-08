@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { login } from '../../store/session';
 import InputField from '../common/InputField';
-import FormButton from '../common/Button';
+import Button from '../common/Button';
 import './LoginForm.css';
 
 const LoginForm = () => {
@@ -45,7 +45,7 @@ const LoginForm = () => {
         value={password}
         onChange={updatePassword}
       />
-      <FormButton label="Sign In" type="submit" className="form-button" />
+      <Button label="Sign In" type="submit" className="form-button" />
     </form>
   );
 };
