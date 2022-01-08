@@ -4,6 +4,7 @@ import ProfileButton from './ProfileButton';
 import ModalWrapper from '../Modal';
 import LoginForm from '../LoginForm';
 import SignupForm from '../SignupForm';
+import './Navigation.css';
 
 const Navigation = ({ isLoaded }) => {
   const sessionUser = useSelector((state) => state.session.user);
@@ -13,18 +14,18 @@ const Navigation = ({ isLoaded }) => {
     <ProfileButton user={sessionUser} />
   ) : (
     <>
-      <li>
+      <li className="nav-item">
         <ModalWrapper children={<LoginForm />} buttonLabel="Sign In" />
       </li>
-      <li>
-        <ModalWrapper children={<SignupForm />} buttonLabel="Sign Up" />
+      <li className="nav-item">
+        <ModalWrapper children={<SignupForm />} buttonLabel="Create account" />
       </li>
     </>
   );
 
   return (
-    <ul>
-      <li>
+    <ul className="nav-bar">
+      <li className="nav-item">
         <NavLink exact to="/">
           Home
         </NavLink>

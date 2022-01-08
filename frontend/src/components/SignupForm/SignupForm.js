@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { createUser } from '../../store/session';
 import InputField from '../common/InputField';
-import FormButton from '../common/FormButton';
+import FormButton from '../common/Button';
 
 const SignupForm = () => {
   const dispatch = useDispatch();
@@ -74,7 +74,7 @@ const SignupForm = () => {
         value={confirmPassword}
         onChange={updateConfirmPassword}
       />
-      <FormButton label="Sign up" />
+      <FormButton label="Sign up" type="submit" className="form-button" />
     </form>
   );
 };

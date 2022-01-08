@@ -3,6 +3,8 @@
 *::before,
 *::after {
   box-sizing: border-box;
+  font-family: 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Garuda,
+    Verdana, Tahoma, sans-serif;
 }
 
 html,
@@ -15,4 +17,16 @@ body {
 
 button {
   cursor: pointer;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:visited {
+  color: inherit;
+}
+
+li {
+  list-style: none;
 }

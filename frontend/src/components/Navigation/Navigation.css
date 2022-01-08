@@ -1,0 +1,5 @@
+.nav-bar {
+  display: flex;
+  border: 1px solid brown;
+  height: fit-content;
+}
