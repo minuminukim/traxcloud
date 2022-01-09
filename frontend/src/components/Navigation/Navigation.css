@@ -1,18 +1,23 @@
 .nav-bar {
+  position: absolute;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border: 1px solid brown;
   height: fit-content;
   width: 100%;
-  background-color: green;
+  background-color: transparent;
 }
 
 .nav-right {
   display: flex;
 }
 
+.nav-button.transparent {
+  margin-right: 10px;
+}
+
 .nav-logo {
   color: #fff;
   font-size: 14px;
+  font-weight: 600;
 }

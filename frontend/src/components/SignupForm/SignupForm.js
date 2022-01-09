@@ -74,7 +74,11 @@ const SignupForm = () => {
         value={confirmPassword}
         onChange={updateConfirmPassword}
       />
-      <Button label="Sign up" className="form-button" type="submit" />
+      <Button
+        label="Sign up"
+        className="large-button form-button"
+        type="submit"
+      />
     </form>
   );
 };

@@ -3,7 +3,7 @@
 *::before,
 *::after {
   box-sizing: border-box;
-  font-family: 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Garuda,
+  font-family: 'Overpass', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Garuda,
     Verdana, Tahoma, sans-serif;
 }
 
@@ -13,6 +13,15 @@ body {
   width: 100%;
   margin: 0;
   padding: 0;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  border: 1px solid green;
+  align-items: center;
 }
 
 button {
