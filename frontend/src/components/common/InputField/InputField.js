@@ -2,8 +2,8 @@ import './InputField.css';
 
 const InputField = ({ label, type, id, placeholder, value, onChange }) => {
   return (
-    <label className="form-group">
-      {label}
+    <div className="form-row">
+      <label className="form-label">{label}</label>
       <input
         type={type}
         name={id}
@@ -12,7 +12,7 @@ const InputField = ({ label, type, id, placeholder, value, onChange }) => {
         value={value}
         onChange={onChange}
       />
-    </label>
+    </div>
   );
 };
 

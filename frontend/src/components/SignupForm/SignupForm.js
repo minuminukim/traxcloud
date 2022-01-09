@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { createUser } from '../../store/session';
 import InputField from '../common/InputField';
 import Button from '../common/Button';
+import '../common/Form.css';
 
 const SignupForm = () => {
   const dispatch = useDispatch();
@@ -46,6 +47,7 @@ const SignupForm = () => {
         {errors.length > 0 &&
           errors.map((error) => <li key={error}>{error}</li>)}
       </ul>
+      <h2 className="form-header">Create your TraxCloud account</h2>
       <InputField
         label="Enter your email"
         type="email"

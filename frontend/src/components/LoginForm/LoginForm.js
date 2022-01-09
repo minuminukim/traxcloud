@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { login } from '../../store/session';
 import InputField from '../common/InputField';
 import Button from '../common/Button';
-import './LoginForm.css';
+import '../common/Form.css';
 
 const LoginForm = () => {
   const dispatch = useDispatch();
@@ -41,7 +41,7 @@ const LoginForm = () => {
       <InputField
         id="login-password"
         type="password"
-        placeholder="Your Password"
+        placeholder="Your password"
         value={password}
         onChange={updatePassword}
       />
