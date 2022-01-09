@@ -55,6 +55,7 @@ export const createUser =
         method: 'POST',
         body: JSON.stringify({ username, email, password }),
       });
+
       const { user } = await response.json();
       dispatch(setUser(user));
       return user;
