@@ -86,6 +86,18 @@ module.exports = (sequelize, DataTypes) => {
     return await User.scope('currentUser').findByPk(user.id);
   };
 
+  User.isUnique = async function (credential) {
+    const user = await User.findOne({
+      where: {
+        [Op.or]: {
+          username: credential,
+          email: credential,
+        },
+      },
+    });
+    return user === null;
+  };
+
   // Instance methods
   User.prototype.toSafeObject = function () {
     const { id, username, email } = this;
