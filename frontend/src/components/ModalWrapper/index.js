@@ -9,7 +9,6 @@ const ModalWrapper = ({ children, label, className }) => {
 
   return (
     <>
-      {/* <button onClick={modalOnClick}>{buttonLabel}</button> */}
       <Button label={label} className={className} onClick={modalOnClick} />
       {showModal && <Modal onClose={modalOnClose}>{children}</Modal>}
     </>

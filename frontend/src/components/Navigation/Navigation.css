@@ -5,7 +5,11 @@
   align-items: center;
   height: fit-content;
   width: 100%;
+  max-width: 1240px;
   background-color: transparent;
+  /* padding: 8px 30px; */
+  margin: 25px 30px;
+  padding: 0 30px;
 }
 
 .nav-right {

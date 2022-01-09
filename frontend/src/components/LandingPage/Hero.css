@@ -3,10 +3,12 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 45%;
-  width: 100%;
+  min-height: 450px;
+  height: 450px;
   border-top: 4px solid #f50;
   background-image: url('../../assets/images/hero-background.jpeg');
+  margin-left: -30px;
+  margin-right: -30px;
 }
 
 .hero-content {
