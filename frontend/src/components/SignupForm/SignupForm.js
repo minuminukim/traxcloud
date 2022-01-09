@@ -11,7 +11,7 @@ const SignupForm = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [errors, setErrors] = useState([]);
+  const [errors, setErrors] = useState({});
 
   const updateEmail = (e) => setEmail(e.target.value);
   const updateUsername = (e) => setUsername(e.target.value);
@@ -30,23 +30,20 @@ const SignupForm = () => {
     const response = await dispatch(createUser(userInput));
 
     if (response && response.errors) {
+      console.log('response', response);
       setErrors(response.errors);
     }
 
-    if (password !== confirmPassword) {
-      setErrors((prevErrors) => [
-        ...prevErrors,
-        'Please make sure your passwords match.',
-      ]);
-    }
+    // if (password !== confirmPassword) {
+    //   setErrors((prevErrors) => [
+    //     ...prevErrors,
+    //     'Please make sure your passwords match.',
+    //   ]);
+    // }
   };
 
   return (
     <form onSubmit={handleSubmit}>
-      <ul>
-        {errors.length > 0 &&
-          errors.map((error) => <li key={error}>{error}</li>)}
-      </ul>
       <h2 className="form-header">Create your TraxCloud account</h2>
       <InputField
         label="Enter your email"
@@ -54,6 +51,7 @@ const SignupForm = () => {
         id="signup-email"
         value={email}
         onChange={updateEmail}
+        error={errors.email}
       />
       <InputField
         label="Choose a username"
@@ -61,6 +59,7 @@ const SignupForm = () => {
         id="signup-username"
         value={username}
         onChange={updateUsername}
+        error={errors.username}
       />
       <InputField
         label="Choose a password"
@@ -68,6 +67,7 @@ const SignupForm = () => {
         id="signup-password"
         value={password}
         onChange={updatePassword}
+        error={errors.password}
       />
       <InputField
         label="Confirm your password"
@@ -75,6 +75,7 @@ const SignupForm = () => {
         id="confirm-password"
         value={confirmPassword}
         onChange={updateConfirmPassword}
+        error={errors.confirmPassword}
       />
       <Button
         label="Sign up"

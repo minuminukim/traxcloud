@@ -30,3 +30,13 @@ input,
 input:focus {
   outline: none;
 }
+
+.validation-error {
+  font-size: 13px;
+  color: #d61348;
+  margin: 8px 0 0 0;
+}
+
+input.error-field {
+  border-color: #d61348;
+}

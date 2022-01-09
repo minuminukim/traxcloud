@@ -1,5 +1,6 @@
 const { check } = require('express-validator');
 const handleValidationErrors = require('./handleValidationErrors');
+const { User } = require('../db/models');
 
 const validateSignup = [
   check('email').isEmail().withMessage('Please provide a valid email.'),
@@ -14,6 +15,13 @@ const validateSignup = [
     .withMessage('Please provide a password.')
     .isLength({ min: 6 })
     .withMessage('Password must be six characters or more.'),
+  check('confirmPassword').custom((value, { req }) => {
+    const { password } = req.body;
+    if (password && value !== password) {
+      throw new Error('Password confirmation does not match password');
+    }
+    return true;
+  }),
   handleValidationErrors,
 ];
 
