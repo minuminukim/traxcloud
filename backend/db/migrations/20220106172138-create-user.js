@@ -22,6 +22,10 @@ module.exports = {
         type: Sequelize.STRING.BINARY,
         allowNull: false,
       },
+      profilePictureUrl: {
+        type: Sequelize.STRING,
+        defaultValue: 'https://ibb.co/KmZQxTG',
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
