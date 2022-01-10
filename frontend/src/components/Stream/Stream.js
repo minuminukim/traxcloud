@@ -1,10 +1,25 @@
-import TrackBody from "../TrackBody";
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllTracks } from '../../store/trackReducer';
+import toArray from '../../utils/toArray';
+import TrackBody from '../TrackBody';
 
 const Stream = () => {
-  
-  return <div className="stream">
+  const dispatch = useDispatch();
+  const tracksObject = useSelector((state) => state.tracks);
+  const tracks = toArray(tracksObject);
 
-  </div>;
+  useEffect(() => {
+    dispatch(getAllTracks());
+  }, [dispatch]);
+
+  return (
+    <div className="stream">
+      {tracks.map((track) => (
+        <TrackBody track={track} />
+      ))}
+    </div>
+  );
 };
 
 export default Stream;

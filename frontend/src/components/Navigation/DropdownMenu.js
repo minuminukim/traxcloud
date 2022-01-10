@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { logout } from '../../store/session';
+import { logout } from '../../store/sessionReducer';
 import sanitizeString from '../../utils/sanitizeString';
 
 const DropdownMenu = ({ user }) => {

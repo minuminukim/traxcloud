@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { login } from '../../store/session';
+import { login } from '../../store/sessionReducer';
 import InputField from '../common/InputField';
 import Button from '../common/Button';
 import '../common/Form.css';
