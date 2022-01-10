@@ -25,6 +25,7 @@ const SignupForm = () => {
       email,
       username,
       password,
+      confirmPassword,
     };
 
     const response = await dispatch(createUser(userInput));
