@@ -12,8 +12,10 @@ const validateSignup = [
   check('username')
     .exists({ checkFalsy: true })
     .withMessage('Please provide a username.')
-    .isLength({ min: 4 })
-    .withMessage('Please provide a username with at least four characters.'),
+    .isLength({ min: 4, max: 30 })
+    .withMessage('Username must be between 4 and 30 characters.')
+    .matches(/^[A-Za-z-0-9 \-]+$/i)
+    .withMessage('Username can include letters, numbers, and dashes (-).'),
   check('username').not().isEmail().withMessage('Username cannot be an email.'),
   check('username').custom(async (value) => {
     const unique = await User.isUnique(value);

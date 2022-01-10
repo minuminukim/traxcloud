@@ -24,10 +24,15 @@ module.exports = {
       },
       profilePictureUrl: {
         type: Sequelize.STRING(255),
+        allowNull: false,
         defaultValue: 'https://i.ibb.co/DLX6f0b/default-profile-photo.png',
       },
       bio: {
         type: Sequelize.STRING(160),
+      },
+      displayName: {
+        type: Sequelize.STRING(30),
+        allowNull: false,
       },
       createdAt: {
         allowNull: false,

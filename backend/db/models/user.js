@@ -38,6 +38,13 @@ module.exports = (sequelize, DataTypes) => {
       bio: {
         type: DataTypes.STRING,
       },
+      displayName: {
+        type: DataTypes.STRING,
+        defaultValue: `${this.username}`,
+        validate: {
+          len: [4, 30],
+        },
+      },
     },
     {
       defaultScope: {
