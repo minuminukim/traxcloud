@@ -14,7 +14,7 @@ module.exports = {
         unique: true,
       },
       email: {
-        type: Sequelize.STRING(256),
+        type: Sequelize.STRING(255),
         allowNull: false,
         unique: true,
       },
@@ -23,8 +23,11 @@ module.exports = {
         allowNull: false,
       },
       profilePictureUrl: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(255),
         defaultValue: 'https://ibb.co/KmZQxTG',
+      },
+      bio: {
+        type: Sequelize.STRING(160),
       },
       createdAt: {
         allowNull: false,
