@@ -6,6 +6,7 @@ import SignupForm from '../SignupForm';
 import './Navigation.css';
 
 const Navigation = ({ isLoaded, sessionUser }) => {
+  console.log(sessionUser);
   const sessionLinks = sessionUser ? (
     <>
       <li className="nav-item">
@@ -36,32 +37,6 @@ const Navigation = ({ isLoaded, sessionUser }) => {
     </>
   );
 
-  const links = sessionUser ? (
-    <>
-      <NavLink exact to="/upload">
-        Upload
-      </NavLink>
-      <ProfileButton user={sessionUser} />
-    </>
-  ) : (
-    <div className="nav-right">
-      <li className="nav-item">
-        <ModalWrapper
-          children={<LoginForm />}
-          label="Sign In"
-          className="nav-button transparent"
-        />
-      </li>
-      <li className="nav-item">
-        <ModalWrapper
-          children={<SignupForm />}
-          label="Create account"
-          className="nav-button"
-        />
-      </li>
-    </div>
-  );
-
   return (
     <nav className="nav-bar">
       <ul className="nav-left">
@@ -72,7 +47,7 @@ const Navigation = ({ isLoaded, sessionUser }) => {
         </li>
         {sessionUser && (
           <li className="nav-item">
-            <NavLink exact to="/">
+            <NavLink exact to="/stream">
               Stream
             </NavLink>
           </li>

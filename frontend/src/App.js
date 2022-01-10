@@ -21,7 +21,10 @@ function App() {
       {!sessionUser && <LandingPage />}
       {isLoaded && (
         <Switch>
-          <Route path="/upload">
+          <Route exact path="/stream">
+            Stream
+          </Route>
+          <Route exact path="/upload">
             <SongUploadForm />
           </Route>
         </Switch>

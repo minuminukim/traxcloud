@@ -1,7 +1,5 @@
 'use strict';
 
-const { Sequelize } = require('.');
-
 module.exports = (sequelize, DataTypes) => {
   const Track = sequelize.define(
     'Track',
@@ -57,9 +55,17 @@ module.exports = (sequelize, DataTypes) => {
     Track.belongsTo(models.User, { foreignKey: 'userId' });
   };
 
-  Track.getTrackById = async function(id) {
+  Track.getTrackById = async function (id) {
     return await Track.findByPk(id);
-  }
+  };
+
+  Track.getTracksByMostRecent = async function (User) {
+    console.log('User', User);
+    return await Track.findAll({
+      order: [['id', 'DESC']],
+      include: User,
+    });
+  };
 
   return Track;
 };

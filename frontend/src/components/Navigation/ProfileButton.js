@@ -14,12 +14,10 @@ const ProfileButton = ({ user }) => {
   }, [showMenu]);
 
   const toggleMenu = () => setShowMenu(!showMenu);
-  // const openMenu = () => (showMenu ? null : setShowMenu(true));
 
   return (
     <>
       <div className="profile-button" onClick={toggleMenu}>
-        {/* <i className="fas fa-user-circle"></i> */}
         <img
           src={profilePictureUrl}
           alt="Profile photo"

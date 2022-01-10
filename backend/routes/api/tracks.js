@@ -29,6 +29,15 @@ router.get(
   })
 );
 
+// for /stream
+router.get(
+  '/',
+  asyncHandler(async (req, res) => {
+    const tracks = await Track.getTracksByMostRecent(User);
+    return res.json({ tracks });
+  })
+);
+
 router.post(
   '/',
   requireAuth,
