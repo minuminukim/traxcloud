@@ -4,7 +4,7 @@ import { Switch, Route } from 'react-router-dom';
 import { restoreUser } from './store/sessionReducer';
 import Navigation from './components/Navigation';
 import LandingPage from './components/LandingPage';
-import SongUploadForm from './components/SongUploadForm';
+import TrackUploadForm from './components/TrackUploadForm';
 import Stream from './components/Stream';
 
 function App() {
@@ -26,7 +26,7 @@ function App() {
             <Stream />
           </Route>
           <Route exact path="/upload">
-            <SongUploadForm />
+            <TrackUploadForm />
           </Route>
         </Switch>
       )}
