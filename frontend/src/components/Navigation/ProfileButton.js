@@ -4,6 +4,7 @@ import './ProfileButton.css';
 
 const ProfileButton = ({ user }) => {
   const [showMenu, setShowMenu] = useState(false);
+  const { profilePictureUrl } = user;
 
   useEffect(() => {
     if (!showMenu) return;
@@ -18,7 +19,12 @@ const ProfileButton = ({ user }) => {
   return (
     <>
       <div className="profile-button" onClick={toggleMenu}>
-        <i className="fas fa-user-circle"></i>
+        {/* <i className="fas fa-user-circle"></i> */}
+        <img
+          src={profilePictureUrl}
+          alt="Profile photo"
+          className="profile-button"
+        />
       </div>
       {showMenu && <DropdownMenu user={user} />}
     </>

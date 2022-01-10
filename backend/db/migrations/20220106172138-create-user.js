@@ -24,7 +24,7 @@ module.exports = {
       },
       profilePictureUrl: {
         type: Sequelize.STRING(255),
-        defaultValue: 'https://ibb.co/KmZQxTG',
+        defaultValue: 'https://i.ibb.co/DLX6f0b/default-profile-photo.png',
       },
       bio: {
         type: Sequelize.STRING(160),

@@ -13,6 +13,10 @@ router.post(
   asyncHandler(async (req, res) => {
     const { file } = req;
     console.log(file);
+    // if no errors, await singlePublicFileUpload
+      // then pull metadata and make entry to db
+      // then if no errors, send info to client
+      // else send error(s)
   })
 );
 
