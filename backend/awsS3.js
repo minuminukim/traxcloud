@@ -1,6 +1,7 @@
 const AWS = require('aws-sdk');
-const NAME_OF_BUCKET = 'traxcloud';
 const multer = require('multer');
+const { awsConfig } = require('./config/');
+const NAME_OF_BUCKET = awsConfig.bucket;
 
 const s3 = new AWS.S3({ apiVersion: '2006-03-01' });
 

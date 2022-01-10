@@ -30,16 +30,8 @@ const SignupForm = () => {
     const response = await dispatch(createUser(userInput));
 
     if (response && response.errors) {
-      console.log('response', response);
       setErrors(response.errors);
     }
-
-    // if (password !== confirmPassword) {
-    //   setErrors((prevErrors) => [
-    //     ...prevErrors,
-    //     'Please make sure your passwords match.',
-    //   ]);
-    // }
   };
 
   return (
