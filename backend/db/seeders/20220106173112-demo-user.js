@@ -8,29 +8,22 @@ module.exports = {
       'Users',
       [
         {
-          email: 'demo@user.io',
-          username: 'howdy_world',
+          email: 'moodymann@traxcloud.com',
+          username: 'moodymann',
           hashedPassword: bcrypt.hashSync(passwords.demo),
+          profilePictureUrl: `https://i.ibb.co/Q6BXsT1/moodymann.jpg`
         },
         {
-          email: 'plankton@user.io',
-          username: 'sheldon_plankton',
+          email: 'chuckperson@traxcloud.com',
+          username: 'chuck_person',
           hashedPassword: bcrypt.hashSync(passwords.seed),
+          profilePictureUrl: `https://i.ibb.co/19WtL2h/chuckperson.jpg`
         },
         {
-          email: 'squidward@user.io',
-          username: 'squidward_tentacles',
+          email: 'sons@traxcloud.com',
+          username: 'S.O.N.S',
           hashedPassword: bcrypt.hashSync(passwords.seed),
-        },
-        {
-          email: 'bubblebass@user.io',
-          username: 'bubblebass',
-          hashedPassword: bcrypt.hashSync(passwords.seed),
-        },
-        {
-          email: 'patrick@user.io',
-          username: 'patrick_star',
-          hashedPassword: bcrypt.hashSync(passwords.seed),
+          profilePictureUrl: `https://i.ibb.co/Wnc5SQf/SONS.jpg`
         },
       ],
       {}
