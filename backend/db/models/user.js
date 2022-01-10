@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-          len: [3, 256],
+          len: [3, 255],
         },
       },
       hashedPassword: {
@@ -33,6 +33,9 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
       profilePictureUrl: {
+        type: DataTypes.STRING,
+      },
+      bio: {
         type: DataTypes.STRING,
       },
     },
