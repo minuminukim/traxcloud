@@ -45,6 +45,13 @@ module.exports = (sequelize, DataTypes) => {
           len: [4, 30],
         },
       },
+      dataSpent: {
+        type: DataTypes.INTEGER,
+        defaultValue: 0,
+        validate: {
+          max: [52428800],
+        },
+      },
     },
     {
       defaultScope: {
@@ -116,6 +123,12 @@ module.exports = (sequelize, DataTypes) => {
 
   User.prototype.validatePassword = function (password) {
     return bcrypt.compareSync(password, this.hashedPassword.toString());
+  };
+
+  User.prototype.updateDataSpent = async function (data) {
+    this.set({ dataSpent: this.dataSpent + data });
+    await this.save();
+    return this.dataSpent;
   };
 
   return User;
