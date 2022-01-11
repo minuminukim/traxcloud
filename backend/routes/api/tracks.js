@@ -45,11 +45,11 @@ router.post(
   singleMulterUpload('trackFile'),
   validateTrack,
   asyncHandler(async (req, res) => {
-    // const url = await singlePublicFileUpload(req.file);
-    const url =
-      'https://traxcloud-react-project.s3.amazonaws.com/1641880865108.mp3';
+    const trackUrl = await singlePublicFileUpload(req.file);
+    // const url =
+    //   'https://traxcloud-react-project.s3.amazonaws.com/1641880865108.mp3';
 
-    const newTrack = await Track.create({ ...req.body, url });
+    const newTrack = await Track.create({ ...req.body, trackUrl });
     return res.json({ newTrack });
   })
 );

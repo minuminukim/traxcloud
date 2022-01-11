@@ -13,7 +13,7 @@ module.exports = {
         allowNull: false,
         references: { model: 'Users' },
       },
-      url: {
+      trackUrl: {
         type: Sequelize.STRING(255),
         allowNull: false,
         unique: true,
