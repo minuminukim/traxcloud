@@ -60,21 +60,39 @@ router.post(
       dataLimitError.title = 'Data Limit Error';
       dataLimitError.errors = { trackFile: `${dataLimitError.message}` };
       return next(dataLimitError);
-    } else {
-      await currentUser.setDataSpent(req.file.size, 'post');
     }
 
+    await currentUser.setDataSpent(req.file.size, 'post');
     const trackUrl = await singlePublicFileUpload(req.file);
     const newTrack = await Track.create({ ...req.body, trackUrl });
-
     return res.json({ newTrack });
+  })
+);
+
+router.put(
+  '/:trackId(\\d+)',
+  requireAuth,
+  asyncHandler(async (req, res, next) => {
+    const trackId = +req.params.trackId;
+    const track = await Track.getTrackById(trackId);
+
+    if (track) {
+      const pairs = Object.values(req.body);
+      pairs.forEach(([key, value]) => track.set(key, value));
+      const updatedTrack = await track.save();
+      res.status(200).json({ updatedTrack });
+    } else {
+      res
+        .status(404)
+        .json({ message: 'The requested track could not be found.' });
+    }
   })
 );
 
 router.delete(
   '/:trackId(\\d+)',
   requireAuth,
-  asyncHandler(async (req, res, next) => {
+  asyncHandler(async (req, res) => {
     const trackId = +req.params.trackId;
     const track = await Track.getTrackById(trackId);
 
