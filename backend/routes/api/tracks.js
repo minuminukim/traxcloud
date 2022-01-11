@@ -59,7 +59,6 @@ router.post(
       dataLimitError.status = 400;
       dataLimitError.title = 'Data Limit Error';
       dataLimitError.errors = { trackFile: `${dataLimitError.message}` };
-
       return next(dataLimitError);
     } else {
       await currentUser.setDataSpent(req.file.size, 'post');
@@ -73,22 +72,19 @@ router.post(
 );
 
 router.delete(
-  '/track/:trackId',
+  '/:trackId(\\d+)',
   requireAuth,
   asyncHandler(async (req, res, next) => {
     const trackId = +req.params.trackId;
     const track = await Track.getTrackById(trackId);
 
     if (track) {
-      const { trackUrl } = track;
-      const key = getObjectKey(trackUrl);
-      await singlePublicFileDelete(key);
-      await track.destroy();
-
+      const key = getObjectKey(track.trackUrl);
       const userId = +req.body.userId;
       const currentUser = await User.getCurrentUserById(userId);
+      await singlePublicFileDelete(key);
       await currentUser.setDataSpent(track.fileSize, 'delete');
-  
+      await track.destroy();
       res.status(204).json({ message: 'You have deleted your track.' });
     } else {
       res.status(404).json({ message: 'Track does not exist.' });

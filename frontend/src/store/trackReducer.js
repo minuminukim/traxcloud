@@ -2,7 +2,7 @@ import { csrfFetch } from './csrf';
 
 const LOAD_TRACKS = 'track/loadTracks';
 const ADD_TRACK = 'track/addTrack';
-const DELETE_TRACK = 'track/deleteTrack';
+const REMOVE_TRACK = 'track/removeTrack';
 
 const loadTracks = (tracks) => ({
   type: LOAD_TRACKS,
@@ -14,8 +14,8 @@ const addTrack = (track) => ({
   track,
 });
 
-const deleteTrack = (trackId) => ({
-  type: DELETE_TRACK,
+const removeTrack = (trackId) => ({
+  type: REMOVE_TRACK,
   trackId,
 });
 
@@ -64,7 +64,7 @@ export const deleteTrack = (trackId, userId) => async (dispatch) => {
       body: JSON.stringify({ userId, trackId }),
     });
     const { message } = await response.json();
-    dispatch(deleteTrack(trackId));
+    dispatch(removeTrack(trackId));
     return message;
   } catch (error) {
     return await error.json();
@@ -86,7 +86,7 @@ const trackReducer = (state = {}, action) => {
     case ADD_TRACK:
       const { track } = action;
       return { ...state, track };
-    case DELETE_TRACK:
+    case REMOVE_TRACK:
       const newState = { ...state };
       delete newState[action.trackId];
       return newState;
