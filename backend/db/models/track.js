@@ -42,6 +42,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
+      fileSize: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
       commentCount: {
         type: DataTypes.INTEGER,
       },
@@ -59,7 +63,8 @@ module.exports = (sequelize, DataTypes) => {
     return await Track.findByPk(id);
   };
 
-  Track.getTracksByMostRecent = async function (User) {
+  Track.getTracksByMostRecent = async function () {
+    const { User } = this.associations;
     return await Track.findAll({
       order: [['id', 'DESC']],
       include: User,

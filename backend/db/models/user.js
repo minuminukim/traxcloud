@@ -125,8 +125,18 @@ module.exports = (sequelize, DataTypes) => {
     return bcrypt.compareSync(password, this.hashedPassword.toString());
   };
 
-  User.prototype.setDataSpent = async function (data) {
-    this.set({ dataSpent: this.dataSpent + data });
+  User.prototype.setDataSpent = async function (data, action) {
+    switch (action) {
+      case 'post':
+        this.set({ dataSpent: this.dataSpent + data });
+        break;
+      case 'delete':
+        this.set({ dataSpent: this.dataSpent - data });
+        break;
+      default:
+        return this.dataSpent;
+    }
+
     await this.save();
     return this.dataSpent;
   };

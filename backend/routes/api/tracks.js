@@ -57,15 +57,31 @@ router.post(
 
       return next(dataLimitError);
     } else {
-      await currentUser.setDataSpent(req.file.size);
+      await currentUser.setDataSpent(req.file.size, 'post');
     }
 
     const trackUrl = await singlePublicFileUpload(req.file);
     const newTrack = await Track.create({ ...req.body, trackUrl });
-    // const url =
-    //   'https://traxcloud-react-project.s3.amazonaws.com/1641880865108.mp3';
 
     return res.json({ newTrack });
+  })
+);
+
+router.delete(
+  '/track/:trackId',
+  requireAuth,
+  asyncHandler(async (req, res, next) => {
+    const trackId = +req.params.trackId;
+    const track = await Track.getTrackById(trackId);
+
+    if (track) {
+      await track.destroy();
+      // TODO: update model and post route to set file size on upload
+          // then set currUser.dataSpent
+      res.status(204).json({ message: 'You have deleted your track.' });
+    } else {
+      res.status(404).json({ message: 'Track does not exist.' });
+    }
   })
 );
 

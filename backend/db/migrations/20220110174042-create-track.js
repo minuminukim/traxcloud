@@ -32,6 +32,10 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
       },
+      fileSize: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
       commentCount: {
         type: Sequelize.INTEGER,
         defaultValue: 0,
