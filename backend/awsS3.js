@@ -32,13 +32,8 @@ const singlePublicFileDelete = async (key) => {
     Key: key,
   };
 
-  try {
-    const result = await s3.deleteObject(uploadParams).promise();
-    console.log('result', result);
-    return result;
-  } catch (error) {
-    console.error(error);
-  }
+  const result = await s3.deleteObject(uploadParams).promise();
+  return result;
 };
 
 const multiplePublicFileUpload = async (files) => {

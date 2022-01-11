@@ -47,8 +47,8 @@ const Navigation = ({ isLoaded, sessionUser }) => {
         </li>
         {sessionUser && (
           <li className="nav-item">
-            <NavLink exact to="/stream">
-              Stream
+            <NavLink exact to="/">
+              Home
             </NavLink>
           </li>
         )}

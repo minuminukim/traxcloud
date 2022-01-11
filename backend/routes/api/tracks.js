@@ -57,12 +57,12 @@ router.post(
   '/',
   requireAuth,
   singleMulterUpload('trackFile'),
-  validateTrackFile,
+  // validateTrackFile,
   validateTrack,
   asyncHandler(async (req, res, next) => {
     const userId = parseInt(req.body.userId, 10);
     const currentUser = await User.getCurrentUserById(userId);
-
+    console.log('do i get here');
     // check if upload will push user over data limit of 50mb;
     if (currentUser.dataSpent + req.file.size >= 52428800) {
       const dataLimitError = new Error('You have reached your data limit.');
@@ -87,7 +87,7 @@ router.put(
     const track = await Track.getTrackById(trackId);
 
     if (track) {
-      const pairs = Object.values(req.body);
+      const pairs = Object.entries(req.body);
       pairs.forEach(([key, value]) => track.set(key, value));
       const updatedTrack = await track.save();
       res.status(200).json({ updatedTrack });

@@ -13,26 +13,25 @@ const SignupForm = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [errors, setErrors] = useState({});
 
-  const updateEmail = (e) => setEmail(e.target.value);
-  const updateUsername = (e) => setUsername(e.target.value);
-  const updatePassword = (e) => setPassword(e.target.value);
-  const updateConfirmPassword = (e) => setConfirmPassword(e.target.value);
+  const handleEmail = (e) => setEmail(e.target.value);
+  const handleUsername = (e) => setUsername(e.target.value);
+  const handlePassword = (e) => setPassword(e.target.value);
+  const handleConfirmPassword = (e) => setConfirmPassword(e.target.value);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
-    const userInput = {
+    const newUser = {
       email,
       username,
       password,
       confirmPassword,
     };
 
-    const response = await dispatch(createUser(userInput));
-
-    if (response && response.errors) {
-      setErrors(response.errors);
-    }
+    return dispatch(createUser(newUser)).catch(async (response) => {
+      const data = await response.json();
+      if (data && data.errors) setErrors(data.errors);
+    });
   };
 
   return (
@@ -43,7 +42,7 @@ const SignupForm = () => {
         type="email"
         id="signup-email"
         value={email}
-        onChange={updateEmail}
+        onChange={handleEmail}
         error={errors.email}
       />
       <InputField
@@ -51,7 +50,7 @@ const SignupForm = () => {
         type="text"
         id="signup-username"
         value={username}
-        onChange={updateUsername}
+        onChange={handleUsername}
         error={errors.username}
       />
       <InputField
@@ -59,7 +58,7 @@ const SignupForm = () => {
         type="password"
         id="signup-password"
         value={password}
-        onChange={updatePassword}
+        onChange={handlePassword}
         error={errors.password}
       />
       <InputField
@@ -67,7 +66,7 @@ const SignupForm = () => {
         type="password"
         id="confirm-password"
         value={confirmPassword}
-        onChange={updateConfirmPassword}
+        onChange={handleConfirmPassword}
         error={errors.confirmPassword}
       />
       <Button

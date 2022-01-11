@@ -10,13 +10,15 @@ const Stream = () => {
   const tracks = toArray(tracksObject);
 
   useEffect(() => {
-    dispatch(getAllTracks());
+    return dispatch(getAllTracks()).catch(
+      async (response) => await response.json()
+    );
   }, [dispatch]);
 
   return (
     <div className="stream">
       {tracks.map((track) => (
-        <MusicPlayer track={track} />
+        <MusicPlayer key={track.id} track={track} />
       ))}
     </div>
   );

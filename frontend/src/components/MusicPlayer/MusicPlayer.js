@@ -14,8 +14,11 @@ const MusicPlayer = ({ track }) => {
   const dispatch = useDispatch();
   const belongsToSessionUser = belongsTo(sessionUser.id, user.id);
 
-  const handleDelete = async () =>
-    await dispatch(deleteTrack(track.id, sessionUser.id));
+  const handleDelete = () =>
+    dispatch(deleteTrack(track.id, sessionUser.id)).catch(async (response) => {
+      const data = await response.json();
+      return data;
+    });
 
   // const handleEdit = async () => await dispatch(editTrack(track));
 
@@ -28,9 +31,7 @@ const MusicPlayer = ({ track }) => {
       />
       <div className="track-signature">
         <Link to={`/${userFragment}`}>{user.displayName}</Link>
-        <Link exact to={`/${userFragment}/${trackFragment}`}>
-          {track.title}
-        </Link>
+        <Link to={`/${userFragment}/${trackFragment}`}>{track.title}</Link>
       </div>
       <div className="player"></div>
       {belongsToSessionUser && (

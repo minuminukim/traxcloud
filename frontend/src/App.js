@@ -19,11 +19,10 @@ function App() {
   return (
     <>
       <Navigation isLoaded={isLoaded} sessionUser={sessionUser} />
-      {!sessionUser && <LandingPage />}
       {isLoaded && (
         <Switch>
-          <Route exact path="/stream">
-            <Stream />
+          <Route exact path="/">
+            {sessionUser ? <Stream /> : <LandingPage />}
           </Route>
           <Route exact path="/upload">
             <TrackUploadForm sessionUser={sessionUser} />

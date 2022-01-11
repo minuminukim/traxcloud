@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { postTrack } from '../../store/trackReducer';
+import { postTrack, getAllTracks } from '../../store/trackReducer';
 import InputField from '../common/InputField';
 import Button from '../common/Button';
 import FileUploader from './FileUploader';
@@ -21,23 +21,24 @@ const TrackUploadForm = ({ sessionUser }) => {
     e.preventDefault();
 
     const userId = sessionUser.id;
-    const response = await dispatch(
-      postTrack({
-        title,
-        description,
-        artworkUrl,
-        trackDuration,
-        trackFile,
-        userId,
-        fileSize,
-      })
-    );
+    const params = {
+      title,
+      description,
+      artworkUrl,
+      trackDuration,
+      trackFile,
+      userId,
+      fileSize,
+    };
 
+    const response = await dispatch(postTrack(params));
     if (response && response.errors) {
-      return setErrors(response.errors);
+      setErrors(response.errors);
+    } else {
+      await dispatch(getAllTracks());
+      history.push('/');
+      return response;
     }
-
-    history.push('/stream');
   };
 
   const getTrackDuration = async (file) => {
@@ -59,6 +60,7 @@ const TrackUploadForm = ({ sessionUser }) => {
     if (file) {
       const duration = await getTrackDuration(file);
       console.log('duration', duration);
+      console.log('file', file);
       setTrackDuration(Math.ceil(duration));
       setFileSize(Math.ceil(file.size));
       setTrackFile(file);
@@ -72,35 +74,30 @@ const TrackUploadForm = ({ sessionUser }) => {
   return (
     <form onSubmit={handleSubmit}>
       <h2>Upload</h2>
-      {!trackFile ? (
-        <FileUploader handleFile={handleTrackFile} />
-      ) : (
-        <>
-          <InputField
-            label="Artwork"
-            id="artworkUrl"
-            value={artworkUrl}
-            onChange={updateArtworkUrl}
-            error={errors.artworkUrl}
-          />
-          <InputField
-            label="Title"
-            id="title"
-            value={title}
-            onChange={updateTitle}
-            error={errors.title}
-          />
-          <InputField
-            label="Description"
-            id="description"
-            placeholder="Describe your track (optional)"
-            value={description}
-            onChange={updateDescription}
-            error={errors.description}
-          />
-          <Button label="Submit" className="large-button" type="submit" />
-        </>
-      )}
+      <FileUploader handleFile={handleTrackFile} />
+      <InputField
+        label="Artwork"
+        id="artworkUrl"
+        value={artworkUrl}
+        onChange={updateArtworkUrl}
+        error={errors.artworkUrl}
+      />
+      <InputField
+        label="Title"
+        id="title"
+        value={title}
+        onChange={updateTitle}
+        error={errors.title}
+      />
+      <InputField
+        label="Description"
+        id="description"
+        placeholder="Describe your track (optional)"
+        value={description}
+        onChange={updateDescription}
+        error={errors.description}
+      />
+      <Button label="Submit" className="large-button" type="submit" />
     </form>
   );
 };

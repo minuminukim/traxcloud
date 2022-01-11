@@ -28,14 +28,11 @@ const removeTrack = (trackId) => ({
 export const getAllTracks =
   (sort = '') =>
   async (dispatch) => {
-    try {
-      const response = await csrfFetch(`/api/tracks/${sort}`);
-      const { tracks } = await response.json();
-      dispatch(loadTracks(tracks));
-      return tracks;
-    } catch (error) {
-      return await error.json();
-    }
+    const response = await csrfFetch(`/api/tracks/${sort}`);
+    const { tracks } = await response.json();
+    dispatch(loadTracks(tracks));
+
+    return tracks;
   };
 
 export const postTrack = (track) => async (dispatch) => {
@@ -51,48 +48,40 @@ export const postTrack = (track) => async (dispatch) => {
     formData.append('trackFile', track.trackFile);
   }
 
-  try {
-    const response = await csrfFetch('/api/tracks', {
-      method: 'POST',
-      headers: { 'Content-Type': 'multipart/form-data' },
-      body: formData,
-    });
-    const { newTrack } = await response.json();
-    dispatch(addTrack(newTrack));
-    return newTrack;
-  } catch (error) {
-    return await error.json();
-  }
+  const response = await csrfFetch('/api/tracks', {
+    method: 'POST',
+    headers: { 'Content-Type': 'multipart/form-data' },
+    body: formData,
+  });
+
+  const data = await response.json();
+  dispatch(addTrack(data.newTrack));
+  
+  return data;
 };
 
 export const editTrack = (track) => async (dispatch) => {
   const { trackId, ...rest } = track;
 
-  try {
-    const response = await csrfFetch(`/api/tracks/${track.trackId}`, {
-      method: 'PUT',
-      body: JSON.stringify({ ...rest }),
-    });
-    const { updatedTrack } = response;
-    dispatch(updateTrack(updatedTrack));
-    return updatedTrack;
-  } catch (error) {
-    return await error.json();
-  }
+  const response = await csrfFetch(`/api/tracks/${track.trackId}`, {
+    method: 'PUT',
+    body: JSON.stringify({ ...rest }),
+  });
+
+  console.log('response', response, 'isOK', response.ok);
+  const { updatedTrack } = await response.json();
+  dispatch(updateTrack(updatedTrack));
+  return response;
 };
 
 export const deleteTrack = (trackId, userId) => async (dispatch) => {
-  try {
-    const response = await csrfFetch(`/api/tracks/${trackId}`, {
-      method: 'DELETE',
-      body: JSON.stringify({ userId, trackId }),
-    });
-    const { message } = await response.json();
-    dispatch(removeTrack(trackId));
-    return message;
-  } catch (error) {
-    return await error.json();
-  }
+  const response = await csrfFetch(`/api/tracks/${trackId}`, {
+    method: 'DELETE',
+    body: JSON.stringify({ userId, trackId }),
+  });
+
+  dispatch(removeTrack(trackId));
+  return response;
 };
 
 const trackReducer = (state = {}, action) => {

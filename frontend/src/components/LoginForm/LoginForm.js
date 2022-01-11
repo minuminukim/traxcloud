@@ -1,28 +1,30 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { login } from '../../store/sessionReducer';
 import InputField from '../common/InputField';
 import Button from '../common/Button';
 import '../common/Form.css';
 
 const LoginForm = () => {
-  const dispatch = useDispatch();
   const [credential, setCredential] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({});
+  const dispatch = useDispatch();
+  const history = useHistory();
 
   const updateCredential = (e) => setCredential(e.target.value);
   const updatePassword = (e) => setPassword(e.target.value);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-
-    const userInput = { credential, password };
-    const response = await dispatch(login(userInput));
-
-    if (response && response.errors) {
-      setErrors(response.errors);
-    }
+    setErrors({});
+    return dispatch(login({ credential, password })).catch(async (response) => {
+      const data = await response.json();
+      if (data && data.errors) {
+        setErrors(data.errors);
+      }
+    });
   };
 
   return (

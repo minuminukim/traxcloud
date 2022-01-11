@@ -21,47 +21,36 @@ export const restoreUser = () => async (dispatch) => {
 export const login =
   ({ credential, password }) =>
   async (dispatch) => {
-    try {
-      const response = await csrfFetch('/api/session', {
-        method: 'POST',
-        body: JSON.stringify({ credential, password }),
-      });
-      const { user } = await response.json();
-      dispatch(setUser(user));
-      return user;
-    } catch (error) {
-      return await error.json();
-    }
+    const response = await csrfFetch('/api/session', {
+      method: 'POST',
+      body: JSON.stringify({ credential, password }),
+    });
+
+    const { user } = await response.json();
+    dispatch(setUser(user));
+    return response;
   };
 
 export const logout = () => async (dispatch) => {
-  try {
-    const response = await csrfFetch('/api/session', {
-      method: 'DELETE',
-    });
-    const data = await response.json();
-    dispatch(removeUser());
-    return data;
-  } catch (error) {
-    return await error.json();
-  }
+  const response = await csrfFetch('/api/session', {
+    method: 'DELETE',
+  });
+
+  dispatch(removeUser());
+  return response;
 };
 
 export const createUser =
   ({ username, email, password, confirmPassword }) =>
   async (dispatch) => {
-    try {
-      const response = await csrfFetch('/api/users', {
-        method: 'POST',
-        body: JSON.stringify({ username, email, password, confirmPassword }),
-      });
+    const response = await csrfFetch('/api/users', {
+      method: 'POST',
+      body: JSON.stringify({ username, email, password, confirmPassword }),
+    });
 
-      const { user } = await response.json();
-      dispatch(setUser(user));
-      return user;
-    } catch (error) {
-      return await error.json();
-    }
+    const { user } = await response.json();
+    dispatch(setUser(user));
+    return response;
   };
 
 const sessionReducer = (state = { user: null }, action) => {
