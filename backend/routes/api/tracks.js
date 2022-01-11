@@ -44,12 +44,27 @@ router.post(
   requireAuth,
   singleMulterUpload('trackFile'),
   validateTrack,
-  asyncHandler(async (req, res) => {
+  asyncHandler(async (req, res, next) => {
+    const userId = parseInt(req.body.userId, 10);
+    const currentUser = await User.getCurrentUserById(userId);
+
+    // check if upload will push user over data limit of 50mb;
+    if (currentUser.dataSpent + req.file.size >= 52428800) {
+      const dataLimitError = new Error('You have reached your data limit.');
+      dataLimitError.status = 400;
+      dataLimitError.title = 'Data Limit Error';
+      dataLimitError.errors = { trackFile: `${dataLimitError.message}` };
+
+      return next(dataLimitError);
+    } else {
+      await currentUser.setDataSpent(req.file.size);
+    }
+
     const trackUrl = await singlePublicFileUpload(req.file);
+    const newTrack = await Track.create({ ...req.body, trackUrl });
     // const url =
     //   'https://traxcloud-react-project.s3.amazonaws.com/1641880865108.mp3';
 
-    const newTrack = await Track.create({ ...req.body, trackUrl });
     return res.json({ newTrack });
   })
 );
