@@ -1,4 +1,5 @@
 const AWS = require('aws-sdk');
+const { MulterError } = require('multer');
 const multer = require('multer');
 const { awsConfig } = require('./config/');
 const NAME_OF_BUCKET = awsConfig.bucket;
@@ -79,8 +80,10 @@ const storage = multer.memoryStorage({
   },
 });
 
-const singleMulterUpload = (nameOfKey) =>
-  multer({ storage: storage }).single(nameOfKey);
+const singleMulterUpload = (nameOfKey) => {
+  return multer({ storage: storage }).single(nameOfKey);
+};
+
 const multipleMulterUpload = (nameOfKey) =>
   multer({ storage: storage }).array(nameOfKey);
 

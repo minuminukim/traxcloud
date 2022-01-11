@@ -2,7 +2,12 @@ const express = require('express');
 const asyncHandler = require('express-async-handler');
 const { User, Track } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth');
-const { singleMulterUpload, singlePublicFileUpoad } = require('../../awsS3');
+const validateTrack = require('../../validations/validateTrack');
+const {
+  singleMulterUpload,
+  singlePublicFileUpoad,
+  singlePublicFileUpload,
+} = require('../../awsS3');
 
 const router = express.Router();
 
@@ -41,10 +46,14 @@ router.get(
 router.post(
   '/',
   requireAuth,
-  singleMulterUpload('track'),
+  singleMulterUpload('trackFile'),
+  validateTrack,
   asyncHandler(async (req, res) => {
-    const { file } = req;
-    console.log(file);
+    const { title, description, artworkUrl } = req.body;
+    console.log('req.body@@@@@@@', req.body);
+    // const url = await singlePublicFileUpload(req.file);
+    // console.log(url);
+    console.log('file', req.file);
     // if no errors, await singlePublicFileUpload
     // then pull metadata and make entry to db
     // then if no errors, send info to client

@@ -7,6 +7,7 @@ const cookieParser = require('cookie-parser');
 const { environment } = require('./config');
 const routes = require('./routes');
 const { ValidationError } = require('sequelize');
+const { MulterError } = require('multer');
 
 const isProduction = environment === 'production';
 const app = express();
@@ -47,7 +48,7 @@ app.use((_req, _res, next) => {
   next(error);
 });
 
-// Process sequelize errors
+// Process Sequelize errors
 app.use((error, _req, _res, next) => {
   if (error instanceof ValidationError) {
     error.errors = error.errors.map((err) => err.message);
