@@ -3,7 +3,12 @@ const asyncHandler = require('express-async-handler');
 const { User, Track } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth');
 const validateTrack = require('../../validations/validateTrack');
-const { singleMulterUpload, singlePublicFileUpload } = require('../../awsS3');
+const getObjectKey = require('../../utils/getObjectKey');
+const {
+  singleMulterUpload,
+  singlePublicFileUpload,
+  singlePublicFileDelete,
+} = require('../../awsS3');
 
 const router = express.Router();
 
@@ -75,9 +80,15 @@ router.delete(
     const track = await Track.getTrackById(trackId);
 
     if (track) {
+      const { trackUrl } = track;
+      const key = getObjectKey(trackUrl);
+      await singlePublicFileDelete(key);
       await track.destroy();
-      // TODO: update model and post route to set file size on upload
-          // then set currUser.dataSpent
+
+      const userId = +req.body.userId;
+      const currentUser = await User.getCurrentUserById(userId);
+      await currentUser.setDataSpent(track.fileSize, 'delete');
+  
       res.status(204).json({ message: 'You have deleted your track.' });
     } else {
       res.status(404).json({ message: 'Track does not exist.' });

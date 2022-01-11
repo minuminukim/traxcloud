@@ -4,12 +4,13 @@ import { postTrack } from '../../store/trackReducer';
 import InputField from '../common/InputField';
 import Button from '../common/Button';
 
-const TrackUploadForm = ({sessionUser}) => {
+const TrackUploadForm = ({ sessionUser }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [artworkUrl, setArtworkUrl] = useState('');
   const [trackFile, setTrackFile] = useState(null);
   const [trackDuration, setTrackDuration] = useState(0);
+  const [fileSize, setFileSize] = useState(0);
   const [errors, setErrors] = useState({});
 
   const dispatch = useDispatch();
@@ -26,6 +27,7 @@ const TrackUploadForm = ({sessionUser}) => {
         trackDuration,
         trackFile,
         userId,
+        fileSize,
       })
     );
 
@@ -50,6 +52,7 @@ const TrackUploadForm = ({sessionUser}) => {
     if (file) {
       const duration = await getTrackDuration(file);
       setTrackDuration(Math.ceil(duration));
+      setFileSize(Math.ceil(file.size));
       setTrackFile(file);
     }
   };

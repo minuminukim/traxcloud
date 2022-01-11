@@ -1,17 +1,22 @@
 import { csrfFetch } from './csrf';
 
-const LOAD_TRACK = 'track/loadTrack';
 const LOAD_TRACKS = 'track/loadTracks';
-const SET_TRACK = 'track/addTrack';
+const ADD_TRACK = 'track/addTrack';
+const DELETE_TRACK = 'track/deleteTrack';
 
 const loadTracks = (tracks) => ({
   type: LOAD_TRACKS,
   tracks,
 });
 
-const setTrack = (track) => ({
-  type: SET_TRACK,
+const addTrack = (track) => ({
+  type: ADD_TRACK,
   track,
+});
+
+const deleteTrack = (trackId) => ({
+  type: DELETE_TRACK,
+  trackId,
 });
 
 export const getAllTracks = () => async (dispatch) => {
@@ -26,31 +31,41 @@ export const getAllTracks = () => async (dispatch) => {
 };
 
 export const postTrack = (track) => async (dispatch) => {
-  const { trackFile, title, description, artworkUrl, trackDuration, userId } =
-    track;
   const formData = new FormData();
-  formData.append('title', title);
-  formData.append('description', description);
-  formData.append('artworkUrl', artworkUrl);
-  formData.append('duration', trackDuration);
-  formData.append('userId', userId);
+  formData.append('title', track.title);
+  formData.append('description', track.description);
+  formData.append('artworkUrl', track.artworkUrl);
+  formData.append('duration', track.trackDuration);
+  formData.append('fileSize', track.fileSize);
+  formData.append('userId', track.userId);
 
-  if (trackFile) {
-    formData.append('trackFile', trackFile);
+  if (track.trackFile) {
+    formData.append('trackFile', track.trackFile);
   }
 
   try {
     const response = await csrfFetch('/api/tracks', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
+      headers: { 'Content-Type': 'multipart/form-data' },
       body: formData,
     });
-
     const { newTrack } = await response.json();
-    dispatch(setTrack(newTrack));
+    dispatch(addTrack(newTrack));
     return newTrack;
+  } catch (error) {
+    return await error.json();
+  }
+};
+
+export const deleteTrack = (trackId, userId) => async (dispatch) => {
+  try {
+    const response = await csrfFetch(`/api/tracks/${trackId}`, {
+      method: 'DELETE',
+      body: JSON.stringify({ userId, trackId }),
+    });
+    const { message } = await response.json();
+    dispatch(deleteTrack(trackId));
+    return message;
   } catch (error) {
     return await error.json();
   }
@@ -68,9 +83,13 @@ const trackReducer = (state = {}, action) => {
         ...state,
         ...tracksObject,
       };
-    case SET_TRACK:
+    case ADD_TRACK:
       const { track } = action;
       return { ...state, track };
+    case DELETE_TRACK:
+      const newState = { ...state };
+      delete newState[action.trackId];
+      return newState;
     default:
       return state;
   }

@@ -26,6 +26,21 @@ const singlePublicFileUpload = async (file) => {
   return result.Location;
 };
 
+const singlePublicFileDelete = async (key) => {
+  const uploadParams = {
+    Bucket: NAME_OF_BUCKET,
+    Key: key,
+  };
+
+  try {
+    const result = await s3.deleteObject(uploadParams).promise();
+    console.log('result', result);
+    return result;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 const multiplePublicFileUpload = async (files) => {
   return await Promise.all(
     files.map((file) => {
@@ -94,6 +109,7 @@ const multipleMulterUpload = (nameOfKey) =>
 module.exports = {
   s3,
   singlePublicFileUpload,
+  singlePublicFileDelete,
   multiplePublicFileUpload,
   singlePrivateFileUpload,
   multiplePrivateFileUpload,
