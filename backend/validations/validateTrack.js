@@ -11,17 +11,6 @@ const validateTrack = [
   check('description')
     .isLength({ max: 4000 })
     .withMessage('Description cannot be longer than 4000 characters.'),
-  check('trackFile').custom((_value, { req }) => {
-    const { file } = req;
-    if (!file) {
-      throw new Error('Please provide a valid mp3.');
-    } else if (file.mimetype !== 'audio/mpeg') {
-      throw new Error('File must be an .mp3.');
-    } else if (file.size >= 10485760) {
-      throw new Error('File size cannot exceed 10MB.');
-    }
-    return true;
-  }),
   handleValidationErrors,
 ];
 

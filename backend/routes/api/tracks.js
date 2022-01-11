@@ -3,6 +3,7 @@ const asyncHandler = require('express-async-handler');
 const { User, Track } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth');
 const validateTrack = require('../../validations/validateTrack');
+const validateTrackFile = require('../../validations/validateTrackFile');
 const getObjectKey = require('../../utils/getObjectKey');
 const {
   singleMulterUpload,
@@ -39,7 +40,15 @@ router.get(
 router.get(
   '/',
   asyncHandler(async (req, res) => {
-    const tracks = await Track.getTracksByMostRecent(User);
+    const tracks = await Track.getTracksByMostRecent();
+    return res.json({ tracks });
+  })
+);
+
+router.get(
+  '/trending',
+  asyncHandler(async (req, res) => {
+    const tracks = await Track.getTracksByMostPlays();
     return res.json({ tracks });
   })
 );
@@ -48,6 +57,7 @@ router.post(
   '/',
   requireAuth,
   singleMulterUpload('trackFile'),
+  validateTrackFile,
   validateTrack,
   asyncHandler(async (req, res, next) => {
     const userId = parseInt(req.body.userId, 10);

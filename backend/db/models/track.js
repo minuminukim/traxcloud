@@ -55,6 +55,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     {}
   );
+
   Track.associate = function (models) {
     Track.belongsTo(models.User, { foreignKey: 'userId' });
   };
@@ -67,6 +68,14 @@ module.exports = (sequelize, DataTypes) => {
     const { User } = this.associations;
     return await Track.findAll({
       order: [['id', 'DESC']],
+      include: User,
+    });
+  };
+
+  Track.getTracksByMostPlays = async function () {
+    const { User } = this.associations;
+    return await Track.findAll({
+      order: [['playCount', 'ASC']],
       include: User,
     });
   };
