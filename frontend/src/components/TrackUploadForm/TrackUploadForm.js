@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { postTrack } from '../../store/trackReducer';
 import InputField from '../common/InputField';
 import Button from '../common/Button';
+import FileUploader from './FileUploader';
 
 const TrackUploadForm = ({ sessionUser }) => {
   const [title, setTitle] = useState('');
@@ -12,8 +14,8 @@ const TrackUploadForm = ({ sessionUser }) => {
   const [trackDuration, setTrackDuration] = useState(0);
   const [fileSize, setFileSize] = useState(0);
   const [errors, setErrors] = useState({});
-
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -32,25 +34,31 @@ const TrackUploadForm = ({ sessionUser }) => {
     );
 
     if (response && response.errors) {
-      setErrors(response.errors);
+      return setErrors(response.errors);
     }
+
+    history.push('/stream');
   };
 
   const getTrackDuration = async (file) => {
-    const url = URL.createObjectURL(file);
+    const objectURL = URL.createObjectURL(file);
 
     return new Promise((resolve) => {
       const audio = document.createElement('audio');
-      audio.src = url;
-      audio.onloadedmetadata = () => resolve(audio.duration);
+      audio.src = objectURL;
+      // audio.onloadedmetadata = () => resolve(audio.duration);
+      audio.onloadedmetadata = () => {
+        const duration = audio.duration;
+        URL.revokeObjectURL(objectURL);
+        return resolve(duration);
+      };
     });
   };
 
-  const handleTrackFile = async (e) => {
-    const file = e.target.files[0];
-
+  const handleTrackFile = async (file) => {
     if (file) {
       const duration = await getTrackDuration(file);
+      console.log('duration', duration);
       setTrackDuration(Math.ceil(duration));
       setFileSize(Math.ceil(file.size));
       setTrackFile(file);
@@ -64,36 +72,35 @@ const TrackUploadForm = ({ sessionUser }) => {
   return (
     <form onSubmit={handleSubmit}>
       <h2>Upload</h2>
-      <InputField
-        label="Upload a track"
-        type="file"
-        id="trackFile"
-        onChange={handleTrackFile}
-        error={errors.trackFile}
-      />
-      <InputField
-        label="Artwork"
-        id="artworkUrl"
-        value={artworkUrl}
-        onChange={updateArtworkUrl}
-        error={errors.artworkUrl}
-      />
-      <InputField
-        label="Title"
-        id="title"
-        value={title}
-        onChange={updateTitle}
-        error={errors.title}
-      />
-      <InputField
-        label="Description"
-        id="description"
-        placeholder="Describe your track (optional)"
-        value={description}
-        onChange={updateDescription}
-        error={errors.description}
-      />
-      <Button label="Submit" className="large-button" type="submit" />
+      {!trackFile ? (
+        <FileUploader handleFile={handleTrackFile} />
+      ) : (
+        <>
+          <InputField
+            label="Artwork"
+            id="artworkUrl"
+            value={artworkUrl}
+            onChange={updateArtworkUrl}
+            error={errors.artworkUrl}
+          />
+          <InputField
+            label="Title"
+            id="title"
+            value={title}
+            onChange={updateTitle}
+            error={errors.title}
+          />
+          <InputField
+            label="Description"
+            id="description"
+            placeholder="Describe your track (optional)"
+            value={description}
+            onChange={updateDescription}
+            error={errors.description}
+          />
+          <Button label="Submit" className="large-button" type="submit" />
+        </>
+      )}
     </form>
   );
 };

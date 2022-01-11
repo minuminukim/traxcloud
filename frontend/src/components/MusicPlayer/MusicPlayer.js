@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import MusicPlayerButton from './MusicPlayerButton';
+import { deleteTrack } from '../../store/trackReducer';
 import './MusicPlayer.css';
 import sanitizeString from '../../utils/sanitizeString';
 import belongsTo from '../../utils/belongsTo';
@@ -10,8 +11,11 @@ const MusicPlayer = ({ track }) => {
   const userFragment = sanitizeString(user.username);
   const trackFragment = sanitizeString(track.title);
   const sessionUser = useSelector((state) => state.session.user);
+  const dispatch = useDispatch();
   const belongsToSessionUser = belongsTo(sessionUser.id, user.id);
-  console.log('track', track);
+
+  const handleDelete = async () =>
+    await dispatch(deleteTrack(track.id, sessionUser.id));
   return (
     <div className="track-body">
       <img

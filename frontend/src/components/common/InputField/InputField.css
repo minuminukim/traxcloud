@@ -40,3 +40,7 @@ input:focus {
 input.error-field {
   border-color: #d61348;
 }
+
+input.hidden {
+  display: none;
+}
