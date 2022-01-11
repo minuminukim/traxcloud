@@ -1,10 +1,10 @@
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import MusicPlayerButton from './MusicPlayerButton';
-import { deleteTrack } from '../../store/trackReducer';
-import './MusicPlayer.css';
+import { deleteTrack, editTrack } from '../../store/trackReducer';
 import sanitizeString from '../../utils/sanitizeString';
 import belongsTo from '../../utils/belongsTo';
+import './MusicPlayer.css';
 
 const MusicPlayer = ({ track }) => {
   const user = track.User;
@@ -16,6 +16,9 @@ const MusicPlayer = ({ track }) => {
 
   const handleDelete = async () =>
     await dispatch(deleteTrack(track.id, sessionUser.id));
+
+  // const handleEdit = async () => await dispatch(editTrack(track));
+
   return (
     <div className="track-body">
       <img
@@ -41,6 +44,7 @@ const MusicPlayer = ({ track }) => {
             type="Delete"
             trackId={track.id}
             userId={sessionUser.id}
+            handleClick={handleDelete}
           />
         </div>
       )}

@@ -25,16 +25,18 @@ const removeTrack = (trackId) => ({
   trackId,
 });
 
-export const getAllTracks = () => async (dispatch) => {
-  try {
-    const response = await csrfFetch('/api/tracks');
-    const { tracks } = await response.json();
-    dispatch(loadTracks(tracks));
-    return tracks;
-  } catch (error) {
-    return await error.json();
-  }
-};
+export const getAllTracks =
+  (sort = '') =>
+  async (dispatch) => {
+    try {
+      const response = await csrfFetch(`/api/tracks/${sort}`);
+      const { tracks } = await response.json();
+      dispatch(loadTracks(tracks));
+      return tracks;
+    } catch (error) {
+      return await error.json();
+    }
+  };
 
 export const postTrack = (track) => async (dispatch) => {
   const formData = new FormData();
