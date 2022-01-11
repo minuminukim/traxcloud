@@ -4,11 +4,12 @@ import { postTrack } from '../../store/trackReducer';
 import InputField from '../common/InputField';
 import Button from '../common/Button';
 
-const TrackUploadForm = () => {
+const TrackUploadForm = ({sessionUser}) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [artworkUrl, setArtworkUrl] = useState('');
   const [trackFile, setTrackFile] = useState(null);
+  const [trackDuration, setTrackDuration] = useState(0);
   const [errors, setErrors] = useState({});
 
   const dispatch = useDispatch();
@@ -16,12 +17,15 @@ const TrackUploadForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const userId = sessionUser.id;
     const response = await dispatch(
       postTrack({
         title,
         description,
         artworkUrl,
+        trackDuration,
         trackFile,
+        userId,
       })
     );
 
@@ -30,9 +34,24 @@ const TrackUploadForm = () => {
     }
   };
 
-  const handleTrackFile = (e) => {
+  const getTrackDuration = async (file) => {
+    const url = URL.createObjectURL(file);
+
+    return new Promise((resolve) => {
+      const audio = document.createElement('audio');
+      audio.src = url;
+      audio.onloadedmetadata = () => resolve(audio.duration);
+    });
+  };
+
+  const handleTrackFile = async (e) => {
     const file = e.target.files[0];
-    if (file) setTrackFile(file);
+
+    if (file) {
+      const duration = await getTrackDuration(file);
+      setTrackDuration(Math.ceil(duration));
+      setTrackFile(file);
+    }
   };
 
   const updateTitle = (e) => setTitle(e.target.value);

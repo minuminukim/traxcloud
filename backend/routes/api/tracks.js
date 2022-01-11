@@ -3,11 +3,7 @@ const asyncHandler = require('express-async-handler');
 const { User, Track } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth');
 const validateTrack = require('../../validations/validateTrack');
-const {
-  singleMulterUpload,
-  singlePublicFileUpoad,
-  singlePublicFileUpload,
-} = require('../../awsS3');
+const { singleMulterUpload, singlePublicFileUpload } = require('../../awsS3');
 
 const router = express.Router();
 
@@ -49,15 +45,12 @@ router.post(
   singleMulterUpload('trackFile'),
   validateTrack,
   asyncHandler(async (req, res) => {
-    const { title, description, artworkUrl } = req.body;
-    console.log('req.body@@@@@@@', req.body);
     // const url = await singlePublicFileUpload(req.file);
-    // console.log(url);
-    console.log('file', req.file);
-    // if no errors, await singlePublicFileUpload
-    // then pull metadata and make entry to db
-    // then if no errors, send info to client
-    // else send error(s)
+    const url =
+      'https://traxcloud-react-project.s3.amazonaws.com/1641880865108.mp3';
+
+    const newTrack = await Track.create({ ...req.body, url });
+    return res.json({ newTrack });
   })
 );
 

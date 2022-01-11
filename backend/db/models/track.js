@@ -60,7 +60,6 @@ module.exports = (sequelize, DataTypes) => {
   };
 
   Track.getTracksByMostRecent = async function (User) {
-    console.log('User', User);
     return await Track.findAll({
       order: [['id', 'DESC']],
       include: User,

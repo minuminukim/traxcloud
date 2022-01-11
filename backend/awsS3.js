@@ -17,11 +17,10 @@ const singlePublicFileUpload = async (file) => {
     Bucket: NAME_OF_BUCKET,
     Key,
     Body: buffer,
-    ACL: 'public-read',
+    // ACL: 'public-read',
   };
 
   const result = await s3.upload(uploadParams).promise();
-  console.log('result', result);
 
   // save the name of the file in your bucket as the key in your database to retrieve for later
   return result.Location;
@@ -81,7 +80,12 @@ const storage = multer.memoryStorage({
 });
 
 const singleMulterUpload = (nameOfKey) => {
-  return multer({ storage: storage }).single(nameOfKey);
+  return multer({
+    storage: storage,
+    limits: {
+      fileSize: 10485760,
+    },
+  }).single(nameOfKey);
 };
 
 const multipleMulterUpload = (nameOfKey) =>

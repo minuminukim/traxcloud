@@ -57,6 +57,17 @@ app.use((error, _req, _res, next) => {
   next(error);
 });
 
+app.use((error, _req, _res, next) => {
+  if (error instanceof MulterError) {
+    if (error.code === 'LIMIT_FILE_SIZE') {
+      error.message = 'File size cannot exceed 10MB.';
+    }
+    error.title = 'File upload error';
+    error.errors = { trackFile: `${error.message}` };
+  }
+  next(error);
+});
+
 // Error formatter
 app.use((error, _req, res, _next) => {
   res.status(error.status || 500);

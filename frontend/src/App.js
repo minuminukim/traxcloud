@@ -26,7 +26,7 @@ function App() {
             <Stream />
           </Route>
           <Route exact path="/upload">
-            <TrackUploadForm />
+            <TrackUploadForm sessionUser={sessionUser} />
           </Route>
         </Switch>
       )}

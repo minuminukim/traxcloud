@@ -26,11 +26,14 @@ export const getAllTracks = () => async (dispatch) => {
 };
 
 export const postTrack = (track) => async (dispatch) => {
-  const { trackFile, title, description, artworkUrl } = track;
+  const { trackFile, title, description, artworkUrl, trackDuration, userId } =
+    track;
   const formData = new FormData();
   formData.append('title', title);
   formData.append('description', description);
   formData.append('artworkUrl', artworkUrl);
+  formData.append('duration', trackDuration);
+  formData.append('userId', userId);
 
   if (trackFile) {
     formData.append('trackFile', trackFile);
