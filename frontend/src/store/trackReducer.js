@@ -80,6 +80,7 @@ export const editTrack = (track) => async (dispatch) => {
   });
 
   const { updatedTrack } = await response.json();
+  console.log('updatedTrack@@@@@@@@', updatedTrack);
   dispatch(updateTrack(updatedTrack));
   return response;
 };
@@ -108,9 +109,11 @@ const trackReducer = (state = {}, action) => {
     case ADD_TRACK:
       return {
         ...state,
+        ...state.tracks,
         [action.track.id]: action.track,
       };
-    case UPDATE_TRACK:
+      case UPDATE_TRACK:
+      console.log('action@@@@@@@@@@@@@@', action.track);
       return {
         ...state,
         [action.track.id]: action.track,

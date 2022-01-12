@@ -36,7 +36,7 @@ const AudioPlayer = ({ track }) => {
   // useEffect(() => {
   //   setCurrentTime(audio.current.currentTime);
   // }, [audio.current.currentTime]);
-
+  // console.log('track', track);
   const user = track.User;
   const sessionUser = useSelector((state) => state.session.user);
   const dispatch = useDispatch();
@@ -79,7 +79,7 @@ const AudioPlayer = ({ track }) => {
       )}
       <TrackDetails
         //TODO figure out how to get reference to track.User after submitting edit form
-        // displayName={user.displayName}
+        displayName={user.displayName}
         userId={track.userId}
         title={track.title}
         trackId={track.id}

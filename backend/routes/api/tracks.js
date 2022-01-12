@@ -80,7 +80,8 @@ router.post(
 
     await currentUser.setDataSpent(req.file.size, 'post');
     const trackUrl = await singlePublicFileUpload(req.file);
-    const newTrack = await Track.create({ ...req.body, trackUrl });
+    const track = await Track.create({ ...req.body, trackUrl });
+    const newTrack = await Track.getSingleTrackWithUser(track.id);
     return res.json({ newTrack });
   })
 );
@@ -96,7 +97,8 @@ router.put(
     if (track) {
       const pairs = Object.entries(req.body);
       pairs.forEach(([key, value]) => track.set(key, value));
-      const updatedTrack = await track.save();
+      await track.save();
+      const updatedTrack = await Track.getSingleTrackWithUser(track.id);
       res.status(200).json({ updatedTrack });
     } else {
       res

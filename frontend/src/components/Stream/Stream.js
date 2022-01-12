@@ -11,6 +11,8 @@ const Stream = () => {
   const tracks = toArray(tracksObject);
   const sorted = byMostRecent(tracks);
 
+  // TODO: resolve Uncaught (in promise) TypeError after form submission
+    // 
   useEffect(() => {
     return dispatch(getAllTracks()).catch(
       async (response) => await response.json()
