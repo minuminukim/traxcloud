@@ -1,17 +1,17 @@
-import { useState, useEffect, useRef } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { deleteTrack, editTrack } from "../../store/trackReducer";
-import prefixCORS from "../../utils/prefixCORS";
-import TrackUploadForm from "../TrackUploadForm";
-import PlayButton from "./PlayButton";
-import PauseButton from "./PauseButton";
-import AudioElement from "./AudioElement";
-import TrackDetails from "./TrackDetails";
-import TrackArtwork from "./TrackArtwork";
-import ProgressBar from "./ProgressBar";
-import TrackButtons from "./TrackButtons";
-import "./AudioPlayer.css";
-import source from "../../assets/images/14. Chuck Person - Lightening Strikes.mp3";
+import { useState, useEffect, useRef } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { deleteTrack, editTrack } from '../../store/trackReducer';
+import prefixCORS from '../../utils/prefixCORS';
+import TrackUploadForm from '../TrackUploadForm';
+import PlayButton from './PlayButton';
+import PauseButton from './PauseButton';
+import AudioElement from './AudioElement';
+import TrackDetails from './TrackDetails';
+import TrackArtwork from './TrackArtwork';
+import ProgressBar from './ProgressBar';
+import TrackButtons from './TrackButtons';
+import './AudioPlayer.css';
+import source from '../../assets/images/14. Chuck Person - Lightening Strikes.mp3';
 
 const AudioPlayer = ({ track }) => {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -57,7 +57,9 @@ const AudioPlayer = ({ track }) => {
   // const handleEdit = async () => await dispatch(editTrack(track));
 
   // const togglePlay = () => setIsPlaying(!isPlaying);
-  console.log("audio", audio);
+  let testSrc =
+    'https://traxcloud-react-project.s3.amazonaws.com/14.+Chuck+Person+-+Lightening+Strikes.mp3';
+  // console.log('audio', audio);
   return (
     <div className={`music-player track-${track.id}`}>
       <TrackArtwork
@@ -77,7 +79,10 @@ const AudioPlayer = ({ track }) => {
         trackId={track.id}
       />
       <audio
-        src={source}
+        // src={testSrc}
+        // src={prefixCORS(track.trackUrl)}
+        // src={track.trackUrl}
+        src={prefixCORS(testSrc)}
         crossOrigin="true"
         ref={audio}
         onTimeUpdate={handleTimeUpdate}

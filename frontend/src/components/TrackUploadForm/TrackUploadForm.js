@@ -35,8 +35,7 @@ const TrackUploadForm = ({ sessionUser }) => {
 
     return dispatch(postTrack(params))
       .then(() => history.push('/'))
-      .catch(async (response) => {
-        const data = await response.json();
+      .catch((data) => {
         if (data && data.errors) {
           setErrors(data.errors);
         }

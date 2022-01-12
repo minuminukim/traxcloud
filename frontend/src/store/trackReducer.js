@@ -48,6 +48,7 @@ export const getSingleTrack = (trackId) => async (dispatch) => {
 };
 
 export const postTrack = (track) => async (dispatch) => {
+  console.log('track', track);
   const formData = new FormData();
   formData.append('title', track.title);
   formData.append('description', track.description);

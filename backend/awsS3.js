@@ -117,7 +117,7 @@ const singleMulterUpload = multer({
     fileSize: 10 * 1024 * 1024,
   },
   fileFilter,
-}).single('audio');
+}).single('trackFile');
 
 
 const multipleMulterUpload = (nameOfKey) =>

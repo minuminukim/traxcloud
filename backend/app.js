@@ -24,10 +24,27 @@ if (!isProduction) {
 app.use(
   helmet({
     contentSecurityPolicy: false,
-    crossOriginEmbedderPolicy: true,
+    // crossOriginEmbedderPolicy: true,
     crossOriginResourcePolicy: { policy: 'cross-origin' },
+    // referrerPolicy: { policy: 'strict-origin' },
   })
 );
+
+// app.use((req, res, next) => {
+//   const allowedOrigins = [
+//     'http://localhost:3000',
+//     'https://traxcloud.herokuapp.com/',
+//   ];
+//   const origin = req.headers.origin;
+//   if (allowedOrigins.includes(origin)) {
+//     res.setHeader('Access-Control-Allow-Origin', origin);
+//   }
+
+//   res.header('Access-Control-Allow-Methods', 'GET, OPTIONS');
+//   res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+//   res.header('Access-Control-Allow-Credentials', true);
+//   return next();
+// });
 
 app.use(
   csurf({
@@ -59,7 +76,7 @@ app.use((error, _req, _res, next) => {
   next(error);
 });
 
-app.use((error, _req, _res, next) => {
+app.use((error, _req, res, next) => {
   if (error instanceof MulterError) {
     if (error.code === 'LIMIT_FILE_SIZE') {
       error.message = 'File size cannot exceed 10MB.';
@@ -67,7 +84,7 @@ app.use((error, _req, _res, next) => {
     error.title = 'File upload error';
     error.errors = { trackFile: `${error.message}` };
   }
-  next(error);
+  res.status(400).send(error);
 });
 
 // Error formatter
