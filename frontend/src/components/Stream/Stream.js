@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllTracks } from '../../store/trackReducer';
 import toArray from '../../utils/toArray';
-import MusicPlayer from '../MusicPlayer';
+import AudioPlayer from '../AudioPlayer';
 
 const Stream = () => {
   const dispatch = useDispatch();
@@ -11,14 +11,14 @@ const Stream = () => {
 
   useEffect(() => {
     return dispatch(getAllTracks()).catch(
-      async (response) => response.json()
+      async (response) => await response.json()
     );
   }, [dispatch]);
 
   return (
     <div className="stream">
       {tracks.map((track) => (
-        <MusicPlayer key={track.id} track={track} />
+        <AudioPlayer key={track.id} track={track} />
       ))}
     </div>
   );

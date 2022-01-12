@@ -1,6 +1,6 @@
 import './MediaButton.css';
 
-const Play = ({ isPlaying, onClick }) => {
+const PlayButton = ({ isPlaying, onClick }) => {
   return (
     <button
       className="media-button play-button small-button"
@@ -9,4 +9,4 @@ const Play = ({ isPlaying, onClick }) => {
   );
 };
 
-export default Play;
+export default PlayButton;

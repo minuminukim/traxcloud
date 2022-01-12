@@ -1,6 +1,6 @@
-import './MediaButton.css';
+import "./MediaButton.css";
 
-const Pause = ({ isPlaying, onClick }) => {
+const PauseButton = ({ isPlaying, onClick }) => {
   return (
     <button
       className="media-button pause-button small-button"
@@ -9,4 +9,4 @@ const Pause = ({ isPlaying, onClick }) => {
   );
 };
 
-export default Pause;
+export default PauseButton;

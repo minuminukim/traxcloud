@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import MusicPlayer from '../MusicPlayer';
+import AudioPlayer from '../AudioPlayer';
 
 const SingleTrack = () => {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -9,7 +9,7 @@ const SingleTrack = () => {
   const tracks = useSelector((state) => state.tracks);
   const track = tracks[trackId];
 
-  return <MusicPlayer track={track} />;
+  return <AudioPlayer track={track} />;
 };
 
 export default SingleTrack;
