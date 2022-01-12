@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { deleteTrack, editTrack } from '../../store/trackReducer';
@@ -9,9 +9,10 @@ import Pause from './Pause';
 import AudioElement from './AudioElement';
 import TrackDetails from './TrackDetails';
 import TrackArtwork from './TrackArtwork';
-import Timeline from './Timeline';
+import ProgressBar from './ProgressBar';
 import TrackButtons from './TrackButtons';
 import './MusicPlayer.css';
+import source from '../../assets/images/14. Chuck Person - Lightening Strikes.mp3';
 
 const MusicPlayer = ({ track }) => {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -19,10 +20,35 @@ const MusicPlayer = ({ track }) => {
   const [currentTime, setCurrentTime] = useState(0);
   const [seekTime, setSeekTime] = useState(0);
 
+  const audio = useRef();
+
+  useEffect(() => {
+    setDuration(audio.current.duration);
+  }, [audio]);
+
+  useEffect(() => {
+    setCurrentTime(audio.current.currentTime);
+  }, [audio.current.currentTime]);
+
   const user = track.User;
   const sessionUser = useSelector((state) => state.session.user);
   const dispatch = useDispatch();
   const history = useHistory();
+
+  const onPlay = () => {
+    setIsPlaying(true);
+    audio.current.play();
+  };
+
+  const onPause = () => {
+    setIsPlaying(false);
+    audio.current.pause();
+  };
+
+  const onTimeUpdate = (e) => {
+    e.preventPropagation();
+    setCurrentTime(audio.current.currentTime);
+  };
 
   const handleDelete = () =>
     dispatch(deleteTrack(track.id, sessionUser.id)).catch(async (response) => {
@@ -36,9 +62,7 @@ const MusicPlayer = ({ track }) => {
   // const handleEdit = async () => await dispatch(editTrack(track));
 
   // const togglePlay = () => setIsPlaying(!isPlaying);
-  const onPlay = () => setIsPlaying(true);
-  const onPause = () => setIsPlaying(false);
-
+  console.log('aduio', audio);
   return (
     <div className="music-player">
       <TrackArtwork
@@ -53,8 +77,15 @@ const MusicPlayer = ({ track }) => {
         title={track.title}
         trackId={track.id}
       />
-      <AudioElement trackUrl={track.trackUrl} />
-      <Timeline />
+      <audio
+        src={source}
+        preloaded="metadata"
+        crossOrigin="true"
+        ref={audio}
+        onTimeUpdate={onTimeUpdate}
+      />
+      {/* <AudioElement trackUrl={track.trackUrl} ref={audio} /> */}
+      <ProgressBar duration={duration} currentTime={currentTime} />
       <TrackButtons
         sessionId={sessionUser.id}
         userId={user.id}

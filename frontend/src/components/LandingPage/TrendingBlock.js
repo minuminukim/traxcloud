@@ -8,12 +8,12 @@ const TrendingBlock = ({ track }) => {
   // const safeTitle = sanitizeString(track.title);
   return (
     <div className="trending-block">
-      <img className="trending-art" src={prefixCORS(track.artworkUrl)} />
-      <a
-        href={`/tracks/${track.id}`}
-        className="trending-title"
+      <img
+        className="trending-art"
+        src={prefixCORS(track.artworkUrl)}
         crossOrigin="true"
-      >
+      />
+      <a href={`/tracks/${track.id}`} className="trending-title">
         {track.title}
       </a>
       <a href={`/users/${User.id}`} className="trending-artist">

@@ -11,7 +11,7 @@ const Stream = () => {
 
   useEffect(() => {
     return dispatch(getAllTracks()).catch(
-      async (response) => await response.json()
+      async (response) => response.json()
     );
   }, [dispatch]);
 
