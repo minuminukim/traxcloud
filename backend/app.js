@@ -24,8 +24,8 @@ if (!isProduction) {
 app.use(
   helmet({
     contentSecurityPolicy: false,
-    crossOriginEmbedderPolicy: { policy: 'credentialless' },
-    crossOriginResourcePolicy: true,
+    crossOriginEmbedderPolicy: true,
+    crossOriginResourcePolicy: { policy: 'cross-origin' },
   })
 );
 
