@@ -64,6 +64,11 @@ module.exports = (sequelize, DataTypes) => {
     return await Track.findByPk(id);
   };
 
+  Track.getAllTracks = async function () {
+    const { User } = this.associations;
+    return await Track.findAll({ include: User });
+  };
+
   Track.getTracksByMostRecent = async function () {
     const { User } = this.associations;
     return await Track.findAll({

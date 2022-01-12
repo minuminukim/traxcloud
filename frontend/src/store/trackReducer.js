@@ -31,15 +31,13 @@ const removeTrack = (trackId) => ({
   trackId,
 });
 
-export const getAllTracks =
-  (sort = '') =>
-  async (dispatch) => {
-    const response = await csrfFetch(`/api/tracks/${sort}`);
-    const { tracks } = await response.json();
-    dispatch(loadTracks(tracks));
+export const getAllTracks = (sortFunction = null) => async (dispatch) => {
+  const response = await csrfFetch(`/api/tracks`);
+  const { tracks } = await response.json();
+  dispatch(loadTracks(tracks));
 
-    return tracks;
-  };
+  return tracks;
+};
 
 export const getSingleTrack = (trackId) => async (dispatch) => {
   const response = await csrfFetch(`/api/tracks/${trackId}`);

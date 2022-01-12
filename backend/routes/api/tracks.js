@@ -40,7 +40,8 @@ router.get(
 router.get(
   '/',
   asyncHandler(async (req, res) => {
-    const tracks = await Track.getTracksByMostRecent();
+    // const tracks = await Track.getTracksByMostRecent();
+    const tracks = await Track.getAllTracks();
     return res.json({ tracks });
   })
 );
