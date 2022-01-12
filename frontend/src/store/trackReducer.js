@@ -69,13 +69,13 @@ export const postTrack = (track) => async (dispatch) => {
   const data = await response.json();
   dispatch(addTrack(data.newTrack));
 
-  return data;
+  return response;
 };
 
 export const editTrack = (track) => async (dispatch) => {
-  const { trackId, ...rest } = track;
+  const { id, ...rest } = track;
 
-  const response = await csrfFetch(`/api/tracks/${track.trackId}`, {
+  const response = await csrfFetch(`/api/tracks/${track.id}`, {
     method: 'PUT',
     body: JSON.stringify({ ...rest }),
   });

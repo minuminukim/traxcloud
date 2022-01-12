@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
-import { postTrack, getAllTracks } from '../../store/trackReducer';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
 import InputField from '../common/InputField';
 import Button from '../common/Button';
 import FileUploader from './FileUploader';
+import { postTrack, getAllTracks } from '../../store/trackReducer';
 
-const TrackUploadForm = ({ sessionUser, formState = {} }) => {
+const TrackUploadForm = ({ sessionUser }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [artworkUrl, setArtworkUrl] = useState('');
@@ -17,8 +17,10 @@ const TrackUploadForm = ({ sessionUser, formState = {} }) => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
+
+    setErrors({});
 
     const userId = sessionUser.id;
     const params = {
@@ -31,14 +33,14 @@ const TrackUploadForm = ({ sessionUser, formState = {} }) => {
       fileSize,
     };
 
-    const response = await dispatch(postTrack(params));
-    if (response && response.errors) {
-      setErrors(response.errors);
-    } else {
-      await dispatch(getAllTracks());
-      history.push('/');
-      return response;
-    }
+    return dispatch(postTrack(params))
+      .then(() => history.push('/'))
+      .catch(async (response) => {
+        const data = await response.json();
+        if (data && data.errors) {
+          setErrors(data.errors);
+        }
+      });
   };
 
   const getTrackDuration = async (file) => {
@@ -59,8 +61,6 @@ const TrackUploadForm = ({ sessionUser, formState = {} }) => {
   const handleTrackFile = async (file) => {
     if (file) {
       const duration = await getTrackDuration(file);
-      console.log('duration', duration);
-      console.log('file', file);
       setTrackDuration(Math.ceil(duration));
       setFileSize(Math.ceil(file.size));
       setTrackFile(file);
@@ -78,14 +78,14 @@ const TrackUploadForm = ({ sessionUser, formState = {} }) => {
       <InputField
         label="Artwork"
         id="artworkUrl"
-        value={artworkUrl || formState.artworkUrl}
+        value={artworkUrl}
         onChange={updateArtworkUrl}
         error={errors.artworkUrl}
       />
       <InputField
         label="Title"
         id="title"
-        value={title || formState.title}
+        value={title}
         onChange={updateTitle}
         error={errors.title}
       />
@@ -93,7 +93,7 @@ const TrackUploadForm = ({ sessionUser, formState = {} }) => {
         label="Description"
         id="description"
         placeholder="Describe your track (optional)"
-        value={description || formState.description}
+        value={description}
         onChange={updateDescription}
         error={errors.description}
       />

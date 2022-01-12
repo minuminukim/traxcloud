@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
-import TrackUploadForm from '../TrackUploadForm';
+import TrackEditForm from '../TrackEditForm';
+import ModalWrapper from '../ModalWrapper';
 import MusicPlayerButton from './MusicPlayerButton';
 import belongsTo from '../../utils/belongsTo';
 
@@ -9,9 +10,14 @@ const TrackButtons = (props) => {
   return (
     belongsToSessionUser && (
       <div className="track-buttons">
-        <Link to={`/tracks/${track.id}/edit`} state={track}>
+        <ModalWrapper
+          label="Edit"
+          children={<TrackEditForm track={track} />}
+          className={'edit-button'}
+        />
+        {/* <Link to={`/tracks/${track.id}/edit`} state={{ track }}>
           <MusicPlayerButton type="Edit" handleClick={handleEdit} />
-        </Link>
+        </Link> */}
         <MusicPlayerButton
           type="Delete"
           trackId={track.id}

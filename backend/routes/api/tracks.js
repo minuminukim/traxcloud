@@ -3,7 +3,7 @@ const asyncHandler = require('express-async-handler');
 const { User, Track } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth');
 const validateTrack = require('../../validations/validateTrack');
-const validateTrackFile = require('../../validations/validateTrackFile');
+const validateTrackPUT = require('../../validations/validateTrackPUT');
 const getObjectKey = require('../../utils/getObjectKey');
 const {
   singleMulterUpload,
@@ -57,12 +57,11 @@ router.post(
   '/',
   requireAuth,
   singleMulterUpload('trackFile'),
-  // validateTrackFile,
   validateTrack,
   asyncHandler(async (req, res, next) => {
     const userId = parseInt(req.body.userId, 10);
     const currentUser = await User.getCurrentUserById(userId);
-    console.log('do i get here');
+
     // check if upload will push user over data limit of 50mb;
     if (currentUser.dataSpent + req.file.size >= 52428800) {
       const dataLimitError = new Error('You have reached your data limit.');
@@ -82,6 +81,7 @@ router.post(
 router.put(
   '/:trackId(\\d+)',
   requireAuth,
+  validateTrackPUT,
   asyncHandler(async (req, res, next) => {
     const trackId = +req.params.trackId;
     const track = await Track.getTrackById(trackId);

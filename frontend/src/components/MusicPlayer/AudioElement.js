@@ -10,11 +10,11 @@ const AudioElement = ({ trackUrl }) => {
 
   // track.connect(audioContext.destination);
 
-  return <audio src={trackUrl} preloaded="metadata" crossOrigin></audio>;
+  return <audio src={trackUrl} preloaded="metadata" crossOrigin="true"></audio>;
 };
 
 const Audio = ({ trackUrl }) => {
-  <audio src={trackUrl} preloaded="metadata" crossOrigin></audio>;
+  <audio src={trackUrl} preloaded="metadata" crossOrigin="true"></audio>;
   console.log(Audio);
 };
 
