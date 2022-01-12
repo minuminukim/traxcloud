@@ -1,0 +1,26 @@
+.media-button {
+  background-image: url(../../assets/images/play-button.png);
+  background-color: #f50;
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 0;
+}
+
+.media-button:hover {
+  filter: brightness(95%);
+}
+
+.play-button {
+  background-image: url(../../assets/images/play-button.png);
+}
+
+.pause-button {
+  background-image: url(../../assets/images/pause-button.png);
+}
+
+.small-button {
+  height: 36px;
+  width: 36px;
+}

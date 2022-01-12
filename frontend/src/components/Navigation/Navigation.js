@@ -6,7 +6,6 @@ import SignupForm from '../SignupForm';
 import './Navigation.css';
 
 const Navigation = ({ isLoaded, sessionUser }) => {
-  console.log(sessionUser);
   const sessionLinks = sessionUser ? (
     <>
       <li className="nav-item">

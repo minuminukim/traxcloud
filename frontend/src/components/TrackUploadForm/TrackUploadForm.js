@@ -6,7 +6,7 @@ import InputField from '../common/InputField';
 import Button from '../common/Button';
 import FileUploader from './FileUploader';
 
-const TrackUploadForm = ({ sessionUser }) => {
+const TrackUploadForm = ({ sessionUser, formState = {} }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [artworkUrl, setArtworkUrl] = useState('');
@@ -78,14 +78,14 @@ const TrackUploadForm = ({ sessionUser }) => {
       <InputField
         label="Artwork"
         id="artworkUrl"
-        value={artworkUrl}
+        value={artworkUrl || formState.artworkUrl}
         onChange={updateArtworkUrl}
         error={errors.artworkUrl}
       />
       <InputField
         label="Title"
         id="title"
-        value={title}
+        value={title || formState.title}
         onChange={updateTitle}
         error={errors.title}
       />
@@ -93,7 +93,7 @@ const TrackUploadForm = ({ sessionUser }) => {
         label="Description"
         id="description"
         placeholder="Describe your track (optional)"
-        value={description}
+        value={description || formState.description}
         onChange={updateDescription}
         error={errors.description}
       />

@@ -1,0 +1,23 @@
+.player-timeline-container {
+  display: flex;
+}
+
+input.timeline {
+  cursor: pointer;
+  width: 100%;
+  background: transparent;
+  color: transparent;
+}
+
+.timer-text,
+.duration-text {
+  color: #333;
+  font-size: 12px;
+  height: 15px;
+  display: flex;
+  border: 1px solid orange;
+}
+
+.player-time {
+  background-color: yellow;
+}

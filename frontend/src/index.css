@@ -50,3 +50,21 @@ a:visited {
 li {
   list-style: none;
 }
+
+.link-light,
+.link-light:visited {
+  color: #999;
+  font-weight: 200;
+}
+
+.link-light:hover,
+.link-dark:hover {
+  filter: brightness(50%);
+}
+
+.link-dark,
+.link-dark:visited {
+  color: #000;
+  font-size: 15;
+  font-weight: 300;
+}

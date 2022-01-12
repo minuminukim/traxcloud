@@ -1,4 +1,22 @@
+.music-player {
+  display: flex;
+}
+
+.track-signature {
+  display: flex;
+}
+
+.track-links {
+  display: flex;
+  flex-direction: column;
+}
+
+
 .track-artwork {
   height: 160px;
   width: 160px;
+}
+
+.link-user {
+  font-size: 13px;
 }

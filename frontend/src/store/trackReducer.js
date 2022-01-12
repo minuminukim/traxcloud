@@ -1,6 +1,7 @@
 import { csrfFetch } from './csrf';
 
 const LOAD_TRACKS = 'track/loadTracks';
+const LOAD_TRACK = 'track/loadTrack';
 const ADD_TRACK = 'track/addTrack';
 const UPDATE_TRACK = 'track/updateTrack';
 const REMOVE_TRACK = 'track/removeTrack';
@@ -8,6 +9,11 @@ const REMOVE_TRACK = 'track/removeTrack';
 const loadTracks = (tracks) => ({
   type: LOAD_TRACKS,
   tracks,
+});
+
+const loadTrack = (trackId) => ({
+  type: LOAD_TRACK,
+  trackId,
 });
 
 const addTrack = (track) => ({
@@ -35,6 +41,12 @@ export const getAllTracks =
     return tracks;
   };
 
+export const getSingleTrack = (trackId) => async (dispatch) => {
+  const response = await csrfFetch(`/api/tracks/${trackId}`);
+  const { track } = await response.json();
+  dispatch(loadTrack(track));
+};
+
 export const postTrack = (track) => async (dispatch) => {
   const formData = new FormData();
   formData.append('title', track.title);
@@ -56,7 +68,7 @@ export const postTrack = (track) => async (dispatch) => {
 
   const data = await response.json();
   dispatch(addTrack(data.newTrack));
-  
+
   return data;
 };
 
@@ -68,7 +80,6 @@ export const editTrack = (track) => async (dispatch) => {
     body: JSON.stringify({ ...rest }),
   });
 
-  console.log('response', response, 'isOK', response.ok);
   const { updatedTrack } = await response.json();
   dispatch(updateTrack(updatedTrack));
   return response;
