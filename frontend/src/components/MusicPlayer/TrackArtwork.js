@@ -4,7 +4,7 @@ const TrackArtwork = ({ className, src, title }) => {
       className={className}
       src={src}
       alt={`${title} artwork`}
-      // crossOrigin="true"
+      crossOrigin="true"
     />
   );
 };

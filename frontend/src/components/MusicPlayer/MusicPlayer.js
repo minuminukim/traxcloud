@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { deleteTrack, editTrack } from '../../store/trackReducer';
+import prefixCORS from '../../utils/prefixCORS';
 import TrackUploadForm from '../TrackUploadForm';
 import Play from './Play';
 import Pause from './Pause';
@@ -42,7 +43,7 @@ const MusicPlayer = ({ track }) => {
     <div className="music-player">
       <TrackArtwork
         className="track-artwork artwork-large"
-        src={track.artworkUrl}
+        src={prefixCORS(track.artworkUrl)}
         title={track.title}
       />
       {isPlaying ? <Pause onClick={onPause} /> : <Play onClick={onPlay} />}

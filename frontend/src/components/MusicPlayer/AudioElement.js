@@ -1,4 +1,5 @@
 import { useRef } from 'react';
+import prefixCORS from '../../utils/prefixCORS';
 
 const AudioElement = ({ trackUrl }) => {
   const AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -10,11 +11,17 @@ const AudioElement = ({ trackUrl }) => {
 
   // track.connect(audioContext.destination);
 
-  return <audio src={trackUrl} preloaded="metadata"></audio>;
+  return (
+    <audio
+      src={prefixCORS(trackUrl)}
+      preloaded="metadata"
+      crossOrigin="true"
+    ></audio>
+  );
 };
 
 const Audio = ({ trackUrl }) => {
-  <audio src={trackUrl} preloaded="metadata"></audio>;
+  <audio src={trackUrl} preloaded="metadata" crossOrigin="true"></audio>;
   console.log(Audio);
 };
 
