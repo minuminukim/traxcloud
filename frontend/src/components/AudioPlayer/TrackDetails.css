@@ -1,0 +1,14 @@
+.track-details {
+  display: flex;
+  align-items: center;
+}
+
+.track-links {
+  display: flex;
+  flex-direction: column;
+  padding-left: 5px;
+}
+
+.track-links .link-dark {
+  font-size: 14px;
+}

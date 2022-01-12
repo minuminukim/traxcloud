@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import './TrackDetails.css';
 
 const TrackDetails = ({ displayName, userId, title, trackId }) => {
   return (

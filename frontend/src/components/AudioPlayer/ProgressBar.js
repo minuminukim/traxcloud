@@ -2,9 +2,8 @@ import './ProgressBar.css';
 
 const ProgressBar = ({ duration, currentTime, onSeeking }) => {
   const formatTime = (time) => {
-    const minutes = Math.floor(time / 60)
-      .toString()
-      .padStart(2, '0');
+    const minutes = Math.floor(time / 60).toString();
+    // .padStart(2, '0');
     const seconds = Math.floor(time - minutes * 60)
       .toString()
       .padStart(2, '0');
@@ -14,8 +13,9 @@ const ProgressBar = ({ duration, currentTime, onSeeking }) => {
 
   return (
     <div className="player-timeline-container">
-      <div className="timer-container">
+      <div className="timers-container">
         <p className="timer-text">{formatTime(currentTime)}</p>
+        <p className="duration-text">{formatTime(duration)}</p>
       </div>
       <input
         className="progress-bar"
@@ -26,9 +26,6 @@ const ProgressBar = ({ duration, currentTime, onSeeking }) => {
         value={currentTime}
         onChange={(e) => onSeeking(e.target.value)}
       />
-      <div className="duration-container">
-        <p className="duration-text">{formatTime(duration)}</p>
-      </div>
     </div>
   );
 };

@@ -1,5 +1,6 @@
 .player-timeline-container {
   display: flex;
+  flex-direction: column;
 }
 
 input.timeline {
@@ -9,13 +10,28 @@ input.timeline {
   color: transparent;
 }
 
+.timers-container {
+  display: flex;
+  justify-content: space-between;;
+  align-items: center;
+  height: 12px;
+}
+
 .timer-text,
 .duration-text {
-  color: #333;
   font-size: 12px;
   height: 15px;
-  display: flex;
-  border: 1px solid orange;
+  padding: 2px;
+  background-color: #000;
+  width: fit-content;
+}
+
+.timer-text {
+  color: #f50;
+}
+
+.duration-text {
+  color: #999;
 }
 
 .player-time {

@@ -72,44 +72,48 @@ const AudioPlayer = ({ track }) => {
         src={prefixCORS(track.artworkUrl)}
         title={track.title}
       />
-      {isPlaying ? (
-        <PauseButton onClick={handlePauseClick} />
-      ) : (
-        <PlayButton onClick={handlePlayClick} />
-      )}
-      <TrackDetails
-        //TODO figure out how to get reference to track.User after submitting edit form
-        displayName={user.displayName}
-        userId={track.userId}
-        title={track.title}
-        trackId={track.id}
-      />
-      <audio
-        // src={testSrc}
-        // src={prefixCORS(track.trackUrl)}
-        // src={track.trackUrl}
-        id={`track-${track.id}`}
-        src={prefixCORS(testSrc)}
-        crossOrigin="true"
-        ref={audio}
-        onTimeUpdate={handleTimeUpdate}
-        onLoadedMetadata={handleLoadedMetadata}
-        onPlay={handlePlay}
-      />
-      {/* <AudioElement trackUrl={track.trackUrl} ref={audio} /> */}
-      <ProgressBar
-        duration={duration}
-        currentTime={currentTime}
-        onChange={handleTimeUpdate}
-        onSeeking={handleSeeking}
-      />
-      <TrackButtons
-        sessionId={sessionUser.id}
-        userId={track.userId}
-        handleEdit={handleEdit}
-        track={track}
-        handleDelete={handleDelete}
-      />
+      <div className="music-player-main">
+        <div className="music-player-main-top">
+          {isPlaying ? (
+            <PauseButton onClick={handlePauseClick} />
+          ) : (
+            <PlayButton onClick={handlePlayClick} />
+          )}
+          <TrackDetails
+            //TODO figure out how to get reference to track.User after submitting edit form
+            displayName={user.displayName}
+            userId={track.userId}
+            title={track.title}
+            trackId={track.id}
+          />
+        </div>
+        <audio
+          // src={testSrc}
+          // src={prefixCORS(track.trackUrl)}
+          // src={track.trackUrl}
+          id={`track-${track.id}`}
+          src={prefixCORS(testSrc)}
+          crossOrigin="true"
+          ref={audio}
+          onTimeUpdate={handleTimeUpdate}
+          onLoadedMetadata={handleLoadedMetadata}
+          onPlay={handlePlay}
+        />
+        {/* <AudioElement trackUrl={track.trackUrl} ref={audio} /> */}
+        <ProgressBar
+          duration={duration}
+          currentTime={currentTime}
+          onChange={handleTimeUpdate}
+          onSeeking={handleSeeking}
+        />
+        <TrackButtons
+          sessionId={sessionUser.id}
+          userId={track.userId}
+          handleEdit={handleEdit}
+          track={track}
+          handleDelete={handleDelete}
+        />
+      </div>
     </div>
   );
 };

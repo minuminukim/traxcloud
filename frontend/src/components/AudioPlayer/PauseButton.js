@@ -1,4 +1,4 @@
-import "./MediaButton.css";
+import "./PlayButton.css";
 
 const PauseButton = ({ isPlaying, onClick }) => {
   return (
