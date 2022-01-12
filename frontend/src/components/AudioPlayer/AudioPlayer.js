@@ -18,6 +18,7 @@ const AudioPlayer = ({ track }) => {
   const [duration, setDuration] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
   const [seekTime, setSeekTime] = useState(0);
+  const [trackId, setTrackId] = useState(0);
   const audio = useRef(null);
 
   useEffect(() => {
@@ -41,9 +42,17 @@ const AudioPlayer = ({ track }) => {
   const dispatch = useDispatch();
 
   const handleLoadedMetadata = () => setDuration(audio.current.duration);
-  const handlePlay = () => setIsPlaying(true);
-  const handlePause = () => setIsPlaying(false);
+  const handlePlayClick = () => setIsPlaying(true);
+  const handlePauseClick = () => setIsPlaying(false);
   const handleTimeUpdate = () => setCurrentTime(audio.current.currentTime);
+  const handleSeeking = (value) => (audio.current.currentTime = value);
+
+  const handlePlay = (e) => {
+    const id = +e.target.id.split('-')[1];
+    console.log('id', id);
+    setTrackId(id);
+    console.log('stateId', trackId);
+  };
 
   const handleDelete = () =>
     dispatch(deleteTrack(track.id, sessionUser.id)).catch(async (response) => {
@@ -51,12 +60,8 @@ const AudioPlayer = ({ track }) => {
       return data;
     });
 
-  // const handleEdit = () => history.push(`/tracks/${track.id}/edit`);
   const handleEdit = () => <TrackUploadForm formState={track} />;
 
-  // const handleEdit = async () => await dispatch(editTrack(track));
-
-  // const togglePlay = () => setIsPlaying(!isPlaying);
   let testSrc =
     'https://traxcloud-react-project.s3.amazonaws.com/14.+Chuck+Person+-+Lightening+Strikes.mp3';
   // console.log('audio', audio);
@@ -68,9 +73,9 @@ const AudioPlayer = ({ track }) => {
         title={track.title}
       />
       {isPlaying ? (
-        <PauseButton onClick={handlePause} />
+        <PauseButton onClick={handlePauseClick} />
       ) : (
-        <PlayButton onClick={handlePlay} />
+        <PlayButton onClick={handlePlayClick} />
       )}
       <TrackDetails
         displayName={user.displayName}
@@ -82,14 +87,21 @@ const AudioPlayer = ({ track }) => {
         // src={testSrc}
         // src={prefixCORS(track.trackUrl)}
         // src={track.trackUrl}
+        id={`track-${track.id}`}
         src={prefixCORS(testSrc)}
         crossOrigin="true"
         ref={audio}
         onTimeUpdate={handleTimeUpdate}
         onLoadedMetadata={handleLoadedMetadata}
+        onPlay={handlePlay}
       />
       {/* <AudioElement trackUrl={track.trackUrl} ref={audio} /> */}
-      <ProgressBar duration={duration} currentTime={currentTime} />
+      <ProgressBar
+        duration={duration}
+        currentTime={currentTime}
+        onChange={handleTimeUpdate}
+        onSeeking={handleSeeking}
+      />
       <TrackButtons
         sessionId={sessionUser.id}
         userId={user.id}

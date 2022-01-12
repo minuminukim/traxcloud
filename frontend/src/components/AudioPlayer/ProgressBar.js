@@ -1,13 +1,13 @@
-import "./ProgressBar.css";
+import './ProgressBar.css';
 
-const ProgressBar = ({ duration, currentTime }) => {
+const ProgressBar = ({ duration, currentTime, onSeeking }) => {
   const formatTime = (time) => {
     const minutes = Math.floor(time / 60)
       .toString()
-      .padStart(2, "0");
+      .padStart(2, '0');
     const seconds = Math.floor(time - minutes * 60)
       .toString()
-      .padStart(2, "0");
+      .padStart(2, '0');
 
     return `${minutes}:${seconds}`;
   };
@@ -24,6 +24,7 @@ const ProgressBar = ({ duration, currentTime }) => {
         min="1"
         max={duration || duration.toString()}
         value={currentTime}
+        onChange={(e) => onSeeking(e.target.value)}
       />
       <div className="duration-container">
         <p className="duration-text">{formatTime(duration)}</p>
