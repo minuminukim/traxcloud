@@ -78,8 +78,9 @@ const AudioPlayer = ({ track }) => {
         <PlayButton onClick={handlePlayClick} />
       )}
       <TrackDetails
-        displayName={user.displayName}
-        userId={user.id}
+        //TODO figure out how to get reference to track.User after submitting edit form
+        // displayName={user.displayName}
+        userId={track.userId}
         title={track.title}
         trackId={track.id}
       />
@@ -104,7 +105,7 @@ const AudioPlayer = ({ track }) => {
       />
       <TrackButtons
         sessionId={sessionUser.id}
-        userId={user.id}
+        userId={track.userId}
         handleEdit={handleEdit}
         track={track}
         handleDelete={handleDelete}
