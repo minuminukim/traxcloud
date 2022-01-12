@@ -56,7 +56,7 @@ router.get(
 router.post(
   '/',
   requireAuth,
-  singleMulterUpload('trackFile'),
+  // singleMulterUpload('trackFile'),
   validateTrack,
   asyncHandler(async (req, res, next) => {
     const userId = parseInt(req.body.userId, 10);
@@ -70,6 +70,12 @@ router.post(
       dataLimitError.errors = { trackFile: `${dataLimitError.message}` };
       return next(dataLimitError);
     }
+
+    singleMulterUpload(req, res, (error) => {
+      if (error) {
+        return res.send(error);
+      }
+    });
 
     await currentUser.setDataSpent(req.file.size, 'post');
     const trackUrl = await singlePublicFileUpload(req.file);

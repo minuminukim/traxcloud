@@ -89,14 +89,36 @@ const storage = multer.memoryStorage({
   },
 });
 
-const singleMulterUpload = (nameOfKey) => {
-  return multer({
-    storage: storage,
-    limits: {
-      fileSize: 10485760,
-    },
-  }).single(nameOfKey);
+const fileFilter = (req, file, cb) => {
+  if (file.mimetype === 'audio/mp3' || file.mimetype === 'audio/mpeg') {
+    cb(null, true);
+  } else {
+    cb(
+      {
+        message: 'Unsupported File Format',
+      },
+      false
+    );
+  }
 };
+
+// const singleMulterUpload = (nameOfKey) => {
+//   return multer({
+//     storage: storage,
+//     limits: {
+//       fileSize: 10485760,
+//     },
+//   }).single(nameOfKey);
+// };
+
+const singleMulterUpload = multer({
+  storage,
+  limits: {
+    fileSize: 10 * 1024 * 1024,
+  },
+  fileFilter,
+}).single('audio');
+
 
 const multipleMulterUpload = (nameOfKey) =>
   multer({ storage: storage }).array(nameOfKey);
