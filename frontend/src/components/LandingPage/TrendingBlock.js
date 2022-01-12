@@ -7,8 +7,12 @@ const TrendingBlock = ({ track }) => {
   const safeTitle = sanitizeString(track.title);
   return (
     <div className="trending-block">
-      <img className="trending-art" src={track.artworkUrl}/>
-      <a href={`/${safeUser}/${safeTitle}`} className="trending-title">
+      <img className="trending-art" src={track.artworkUrl} />
+      <a
+        href={`/${safeUser}/${safeTitle}`}
+        className="trending-title"
+        // crossOrigin="true"
+      >
         {track.title}
       </a>
       <a href={`/${safeUser}`} className="trending-artist">
