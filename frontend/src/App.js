@@ -5,7 +5,7 @@ import { restoreUser } from './store/sessionReducer';
 import Navigation from './components/Navigation';
 import LandingPage from './components/LandingPage';
 import TrackUploadForm from './components/TrackUploadForm';
-import SingleTrack from './components/SingleTrack'
+import SingleTrackPage from './components/SingleTrackPage';
 import Stream from './components/Stream';
 
 function App() {
@@ -28,11 +28,11 @@ function App() {
           <Route exact path="/upload">
             <TrackUploadForm sessionUser={sessionUser} />
           </Route>
-          <Route path="/tracks/:trackId/edit">
-            <TrackUploadForm />
-          </Route>
           <Route path="/tracks/:trackId">
-            <SingleTrack />
+            <SingleTrackPage />
+            <Route path="/tracks/:trackId/edit">
+              <TrackUploadForm />
+            </Route>
           </Route>
         </Switch>
       )}

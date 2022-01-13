@@ -1,8 +1,10 @@
-const TrackArtwork = ({ className, src, title }) => {
+import './TrackArtwork.css';
+
+const TrackArtwork = ({ className, source, title }) => {
   return (
     <img
       className={className}
-      src={src}
+      src={source}
       alt={`${title} artwork`}
       crossOrigin="true"
     />

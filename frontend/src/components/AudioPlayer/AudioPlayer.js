@@ -1,23 +1,22 @@
 import { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import { deleteTrack, editTrack } from '../../store/trackReducer';
 import prefixCORS from '../../utils/prefixCORS';
 import TrackUploadForm from '../TrackUploadForm';
 import PlayButton from './PlayButton';
 import PauseButton from './PauseButton';
-import AudioElement from './AudioElement';
 import TrackDetails from './TrackDetails';
-import TrackArtwork from './TrackArtwork';
+import TrackArtwork from '../common/TrackArtwork/';
 import ProgressBar from './ProgressBar';
 import TrackButtons from './TrackButtons';
 import './AudioPlayer.css';
 import source from '../../assets/images/14. Chuck Person - Lightening Strikes.mp3';
 
-const AudioPlayer = ({ track }) => {
+const AudioPlayer = ({ track, size, withArtwork = true }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [duration, setDuration] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
-  const [seekTime, setSeekTime] = useState(0);
   const [trackId, setTrackId] = useState(0);
   const audio = useRef(null);
 
@@ -29,14 +28,6 @@ const AudioPlayer = ({ track }) => {
     }
   }, [isPlaying]);
 
-  // useEffect(() => {
-  //   setDuration(audio.current.duration);
-  // }, [audio]);
-
-  // useEffect(() => {
-  //   setCurrentTime(audio.current.currentTime);
-  // }, [audio.current.currentTime]);
-  // console.log('track', track);
   const user = track.User;
   const sessionUser = useSelector((state) => state.session.user);
   const dispatch = useDispatch();
@@ -54,37 +45,38 @@ const AudioPlayer = ({ track }) => {
     console.log('stateId', trackId);
   };
 
+  const handleEdit = () => <TrackUploadForm formState={track} />;
   const handleDelete = () =>
     dispatch(deleteTrack(track.id, sessionUser.id)).catch(async (response) => {
       const data = await response.json();
       return data;
     });
 
-  const handleEdit = () => <TrackUploadForm formState={track} />;
-
   let testSrc =
     'https://traxcloud-react-project.s3.amazonaws.com/14.+Chuck+Person+-+Lightening+Strikes.mp3';
   // console.log('audio', audio);
   return (
-    <div className={`music-player track-${track.id}`}>
-      <TrackArtwork
-        className="track-artwork artwork-large"
-        src={prefixCORS(track.artworkUrl)}
-        title={track.title}
-      />
+    <div className={`music-player track-${track.id} player-${size}`}>
+      {withArtwork && (
+        <TrackArtwork
+          className={`track-artwork artwork-${size}`}
+          source={prefixCORS(track.artworkUrl)}
+          title={track.title}
+        />
+      )}
       <div className="music-player-main">
         <div className="music-player-main-top">
           {isPlaying ? (
-            <PauseButton onClick={handlePauseClick} />
+            <PauseButton onClick={handlePauseClick} size={size} />
           ) : (
-            <PlayButton onClick={handlePlayClick} />
+            <PlayButton onClick={handlePlayClick} size={size} />
           )}
           <TrackDetails
-            //TODO figure out how to get reference to track.User after submitting edit form
             displayName={user.displayName}
             userId={track.userId}
             title={track.title}
             trackId={track.id}
+            size={size}
           />
         </div>
         <audio
@@ -99,7 +91,6 @@ const AudioPlayer = ({ track }) => {
           onLoadedMetadata={handleLoadedMetadata}
           onPlay={handlePlay}
         />
-        {/* <AudioElement trackUrl={track.trackUrl} ref={audio} /> */}
         <ProgressBar
           duration={duration}
           currentTime={currentTime}

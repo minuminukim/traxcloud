@@ -51,6 +51,12 @@ li {
   list-style: none;
 }
 
+.heading-light {
+  font-weight: 300;
+  color: #999;
+  font-size: 18px;
+}
+
 .link-light,
 .link-light:visited {
   color: #999;

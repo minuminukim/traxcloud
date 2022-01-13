@@ -17,7 +17,9 @@ router.get(
   '/:trackId(\\d+)',
   asyncHandler(async (req, res, next) => {
     const trackId = +req.params.trackId;
-    const track = await Track.getTrackById(trackId);
+    // const track = await Track.getTrackById(trackId);
+    const track = await Track.getSingleTrackWithUser(trackId);
+
 
     if (!track) {
       const trackError = new Error('Track not found.');
@@ -40,19 +42,11 @@ router.get(
 router.get(
   '/',
   asyncHandler(async (req, res) => {
-    // const tracks = await Track.getTracksByMostRecent();
     const tracks = await Track.getAllTracks();
     return res.json({ tracks });
   })
 );
 
-router.get(
-  '/trending',
-  asyncHandler(async (req, res) => {
-    const tracks = await Track.getTracksByMostPlays();
-    return res.json({ tracks });
-  })
-);
 
 router.post(
   '/',

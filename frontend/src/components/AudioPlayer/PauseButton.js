@@ -1,9 +1,9 @@
-import "./PlayButton.css";
+import './PlayButton.css';
 
-const PauseButton = ({ isPlaying, onClick }) => {
+const PauseButton = ({ size, onClick }) => {
   return (
     <button
-      className="media-button pause-button small-button"
+      className={`media-button pause-button ${size}-button`}
       onClick={onClick}
     />
   );

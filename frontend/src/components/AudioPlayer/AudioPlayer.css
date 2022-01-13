@@ -1,8 +1,20 @@
 .music-player {
   display: grid;
+  /* width: 580px;
+  grid-template-columns: 160px 420px; */
+  border: 1px solid green;
+}
+
+.player-medium {
   width: 580px;
   grid-template-columns: 160px 420px;
-  border: 1px solid green;
+}
+
+.player-large {
+  /* grid-template-columns: 340px 470px; */
+  width: 100%;
+  height: auto;
+  /* padding: 30px 20px 20px 20px; */
 }
 
 .music-player-main-top {

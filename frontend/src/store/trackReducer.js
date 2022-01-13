@@ -80,7 +80,6 @@ export const editTrack = (track) => async (dispatch) => {
   });
 
   const { updatedTrack } = await response.json();
-  console.log('updatedTrack@@@@@@@@', updatedTrack);
   dispatch(updateTrack(updatedTrack));
   return response;
 };
@@ -97,6 +96,11 @@ export const deleteTrack = (trackId, userId) => async (dispatch) => {
 
 const trackReducer = (state = {}, action) => {
   switch (action.type) {
+    // case LOAD_TRACK:
+    //   return {
+    //     ...state,
+
+    //   }
     case LOAD_TRACKS:
       const tracksObject = action.tracks.reduce((acc, track) => {
         acc[track.id] = track;

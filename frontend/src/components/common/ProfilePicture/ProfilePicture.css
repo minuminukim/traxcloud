@@ -1,0 +1,9 @@
+.profile-picture {
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.profile-picture-medium {
+  width: 120px;
+  height: 120px;
+}

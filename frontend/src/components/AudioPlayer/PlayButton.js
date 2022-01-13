@@ -1,9 +1,9 @@
 import './PlayButton.css';
 
-const PlayButton = ({ isPlaying, onClick }) => {
+const PlayButton = ({ size, onClick }) => {
   return (
     <button
-      className="media-button play-button small-button"
+      className={`media-button play-button ${size}-button`}
       onClick={onClick}
     />
   );
