@@ -1,4 +1,5 @@
 import { NavLink } from 'react-router-dom';
+import { FaSoundcloud } from 'react-icons/fa';
 import ProfileButton from './ProfileButton';
 import ModalWrapper from '../ModalWrapper';
 import LoginForm from '../LoginForm';
@@ -9,7 +10,7 @@ const Navigation = ({ isLoaded, sessionUser }) => {
   const sessionLinks = sessionUser ? (
     <>
       <li className="nav-item">
-        <NavLink exact to="/upload">
+        <NavLink exact to="/upload" activeClassName="selected">
           Upload
         </NavLink>
       </li>
@@ -37,19 +38,29 @@ const Navigation = ({ isLoaded, sessionUser }) => {
   );
 
   return (
-    <nav className="nav-bar">
+    <nav className={`nav-bar ${sessionUser ? `nav-main` : `nav-transparent`}`}>
       <ul className="nav-left">
-        <li className="nav-item nav-logo">
-          <NavLink exact to="/">
-            TRAXCLOUD
+        <li className="nav-item">
+          <NavLink exact to="/" activeClassName="selected">
+            {sessionUser ? (
+              <div className="nav-logo">
+                <FaSoundcloud />
+              </div>
+            ) : (
+              'TRAXCLOUD'
+            )}
           </NavLink>
         </li>
         {sessionUser && (
-          <li className="nav-item">
-            <NavLink exact to="/">
-              Home
-            </NavLink>
-          </li>
+          <>
+            <li className="nav-item">
+              <NavLink exact to="/" activeClassName="selected">
+                Home
+              </NavLink>
+            </li>
+            <li className="nav-item">Stream</li>
+            <li className="nav-item">Library</li>
+          </>
         )}
       </ul>
       <ul className="nav-right">{isLoaded && sessionLinks}</ul>
