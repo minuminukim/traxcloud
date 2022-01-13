@@ -1,6 +1,12 @@
 .stream {
   display: flex;
   flex-direction: column;
+  border-right: 1px solid #f2f2f2;
+}
+
+.stream-row {
+  width: 580px;
+  margin-right: 0;
 }
 
 .stream .music-player {

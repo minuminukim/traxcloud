@@ -90,6 +90,7 @@ const AudioPlayer = ({ track, size, withArtwork = false }) => {
           onTimeUpdate={handleTimeUpdate}
           onLoadedMetadata={handleLoadedMetadata}
           onPlay={handlePlay}
+          onPause
         />
         <ProgressBar
           duration={duration}

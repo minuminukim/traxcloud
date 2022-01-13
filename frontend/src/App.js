@@ -7,6 +7,7 @@ import LandingPage from './components/LandingPage';
 import TrackUploadForm from './components/TrackUploadForm';
 import SingleTrackPage from './components/SingleTrackPage';
 import Stream from './components/Stream';
+import Main from './components/Main';
 
 function App() {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -23,7 +24,7 @@ function App() {
       {isLoaded && (
         <Switch>
           <Route exact path="/">
-            {sessionUser ? <Stream /> : <LandingPage />}
+            {sessionUser ? <Main /> : <LandingPage />}
           </Route>
           <Route exact path="/upload">
             <TrackUploadForm sessionUser={sessionUser} />

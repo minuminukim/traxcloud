@@ -1,14 +1,12 @@
 .music-player {
   display: grid;
-  /* width: 580px;
-  grid-template-columns: 160px 420px; */
-  border: 1px solid green;
 }
 
 .player-medium {
   width: 580px;
   grid-template-columns: 160px 420px;
   grid-template-rows: auto auto;
+  margin-right: 0;
 }
 
 .track-header {
@@ -25,14 +23,13 @@
 .music-player-main-top {
   display: flex;
   align-items: center;
-  border: 1px solid pink;
 }
 
 .music-player-main {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  border: 1px solid blue;
+  margin: 0 15px;
   height: 100%;
   width: 100%;
 }

@@ -4,7 +4,6 @@ import { getAllTracks } from '../../store/trackReducer';
 import toArray from '../../utils/toArray';
 import { byMostRecent } from '../../utils/byMostRecent';
 import AudioPlayer from '../AudioPlayer';
-import AudioPlayerFooter from '../AudioPlayerFooter';
 import TrackHeader from '../AudioPlayer/TrackHeader';
 import './Stream.css';
 
