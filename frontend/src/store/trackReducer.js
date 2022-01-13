@@ -1,7 +1,7 @@
 import { csrfFetch } from './csrf';
 
 const LOAD_TRACKS = 'track/loadTracks';
-const LOAD_TRACK = 'track/loadTrack';
+// const LOAD_TRACK = 'track/loadTrack';
 const ADD_TRACK = 'track/addTrack';
 const UPDATE_TRACK = 'track/updateTrack';
 const REMOVE_TRACK = 'track/removeTrack';
@@ -9,11 +9,6 @@ const REMOVE_TRACK = 'track/removeTrack';
 const loadTracks = (tracks) => ({
   type: LOAD_TRACKS,
   tracks,
-});
-
-const loadTrack = (trackId) => ({
-  type: LOAD_TRACK,
-  trackId,
 });
 
 const addTrack = (track) => ({
@@ -42,7 +37,8 @@ export const getAllTracks = () => async (dispatch) => {
 export const getSingleTrack = (trackId) => async (dispatch) => {
   const response = await csrfFetch(`/api/tracks/${trackId}`);
   const { track } = await response.json();
-  dispatch(loadTrack(track));
+  dispatch(addTrack(track));
+  return track;
 };
 
 export const postTrack = (track) => async (dispatch) => {
@@ -96,11 +92,6 @@ export const deleteTrack = (trackId, userId) => async (dispatch) => {
 
 const trackReducer = (state = {}, action) => {
   switch (action.type) {
-    // case LOAD_TRACK:
-    //   return {
-    //     ...state,
-
-    //   }
     case LOAD_TRACKS:
       const tracksObject = action.tracks.reduce((acc, track) => {
         acc[track.id] = track;
@@ -113,11 +104,9 @@ const trackReducer = (state = {}, action) => {
     case ADD_TRACK:
       return {
         ...state,
-        ...state.tracks,
         [action.track.id]: action.track,
       };
-      case UPDATE_TRACK:
-      console.log('action@@@@@@@@@@@@@@', action.track);
+    case UPDATE_TRACK:
       return {
         ...state,
         [action.track.id]: action.track,

@@ -15,6 +15,7 @@ export const restoreUser = () => async (dispatch) => {
   const data = await response.json();
   const user = 'user' in data ? data.user : null;
   dispatch(setUser(user));
+  
   return user;
 };
 

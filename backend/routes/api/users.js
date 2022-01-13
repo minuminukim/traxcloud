@@ -19,11 +19,43 @@ router.post(
       password,
     });
 
-    await setTokenCookie(res, user);
+    setTokenCookie(res, user);
 
     return res.json({
       user,
     });
+  })
+);
+
+router.get(
+  '/:id(\\d+)',
+  asyncHandler(async (req, res, next) => {
+    const id = +req.params.id;
+
+    const user = await User.findbyPk(id);
+
+    if (!user) {
+      const userError = new Error('User not found.');
+      userError.status = 404;
+      userError.title = 'User not found.';
+      userError.errors = {
+        userId: `The requested user could not be found.`,
+      };
+
+      return next(userError);
+    }
+
+    return res.json({
+      user,
+    });
+  })
+);
+
+router.get(
+  '/',
+  asyncHandler(async (req, res) => {
+    const users = await User.findAll();
+    return res.json({ users });
   })
 );
 
