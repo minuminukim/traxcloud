@@ -24,27 +24,9 @@ if (!isProduction) {
 app.use(
   helmet({
     contentSecurityPolicy: false,
-    // crossOriginEmbedderPolicy: true,
     crossOriginResourcePolicy: { policy: 'cross-origin' },
-    // referrerPolicy: { policy: 'strict-origin' },
   })
 );
-
-// app.use((req, res, next) => {
-//   const allowedOrigins = [
-//     'http://localhost:3000',
-//     'https://traxcloud.herokuapp.com/',
-//   ];
-//   const origin = req.headers.origin;
-//   if (allowedOrigins.includes(origin)) {
-//     res.setHeader('Access-Control-Allow-Origin', origin);
-//   }
-
-//   res.header('Access-Control-Allow-Methods', 'GET, OPTIONS');
-//   res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-//   res.header('Access-Control-Allow-Credentials', true);
-//   return next();
-// });
 
 app.use(
   csurf({
