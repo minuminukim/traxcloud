@@ -1,0 +1,25 @@
+.track-header {
+  display: flex;
+  align-items: center;
+}
+
+.track-header-text {
+  padding-left: 8px;
+}
+
+.track-header a {
+  font-size: 13px;
+  font-weight: 300;
+  color: #333;
+}
+
+.track-header a:hover {
+  color: #000;
+}
+
+.track-header span {
+  font-size: 13px;
+  font-weight: 300;
+  padding-left: 4px;
+  color: #999;
+}

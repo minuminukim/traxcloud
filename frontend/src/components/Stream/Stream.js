@@ -5,6 +5,7 @@ import toArray from '../../utils/toArray';
 import { byMostRecent } from '../../utils/byMostRecent';
 import AudioPlayer from '../AudioPlayer';
 import AudioPlayerFooter from '../AudioPlayerFooter';
+import TrackHeader from '../AudioPlayer/TrackHeader';
 import './Stream.css';
 
 const Stream = () => {
@@ -17,7 +18,7 @@ const Stream = () => {
   useEffect(() => {
     return dispatch(getAllTracks())
       .then(() => setIsLoading(false))
-      .catch(async (response) => await response.json());
+      .catch((response) => response);
   }, [dispatch]);
 
   return (
@@ -27,12 +28,15 @@ const Stream = () => {
           Hear the latest posts from our creators:
         </h1>
         {sorted.map((track) => (
-          <AudioPlayer
-            key={track.id}
-            track={track}
-            withArtwork={true}
-            size={'medium'}
-          />
+          <div className="stream-row" key={`row-${track.id}`}>
+            <TrackHeader track={track} />
+            <AudioPlayer
+              key={track.id}
+              track={track}
+              withArtwork={true}
+              size={'medium'}
+            />
+          </div>
         ))}
       </div>
     )

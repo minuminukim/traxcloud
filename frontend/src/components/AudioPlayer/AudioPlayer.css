@@ -8,6 +8,11 @@
 .player-medium {
   width: 580px;
   grid-template-columns: 160px 420px;
+  grid-template-rows: auto auto;
+}
+
+.track-header {
+  grid-row: 1 / 2;
 }
 
 .player-large {

@@ -1,9 +1,19 @@
 .profile-picture {
   border-radius: 50%;
   object-fit: cover;
+  border: 1px solid #999;
+}
+
+.profile-picture-small {
+  width: 30px;
+  height: 30px;
 }
 
 .profile-picture-medium {
   width: 120px;
   height: 120px;
+}
+
+.profile-picture:hover {
+  border-color: #333;
 }

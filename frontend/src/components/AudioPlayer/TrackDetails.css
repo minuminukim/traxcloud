@@ -18,6 +18,32 @@
   font-size: 14px;
 }
 
+.link-user-medium {
+  font-size: 13px;
+}
+
+.link-user-medium,
+.link-user-medium:visited {
+  color: #999;
+  font-weight: 200;
+}
+
+.link-user-medium:hover {
+  filter: brightness(70%);
+  color: #666;
+}
+
+.link-title-medium,
+.link-title-medium:visited {
+  color: #333;
+  font-weight: 300;
+}
+
+.link-title-medium:hover {
+  color: #000;
+  filter: brightness(70%);
+}
+
 .track-links-large {
   display: flex;
   flex-direction: column-reverse;
@@ -35,29 +61,4 @@ a.link-user-large {
   font-size: 16px;
   font-weight: 300;
   background-color: #000;
-}
-
-.link-user-medium {
-  font-size: 13px;
-}
-.link-user-medium,
-.link-user-medium:visited {
-  color: #999;
-  font-weight: 200;
-}
-
-.link-user-medium:hover {
-  filter: brightness(70%);
-}
-
-.link-title-medium:hover {
-  color: #000;
-  filter: brightness(30%)
-}
-
-.link-title-medium,
-.link-title-medium:visited {
-  color: #333;
-  font-size: 15;
-  font-weight: 300;
 }
