@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useLocation } from 'react-router-dom';
 import { deleteTrack, editTrack } from '../../store/trackReducer';
 import prefixCORS from '../../utils/prefixCORS';
 import TrackUploadForm from '../TrackUploadForm';

@@ -1,13 +1,16 @@
 .media-button {
-  background-image: url(../../assets/images/play-button.png);
   background-color: #f50;
   background-size: cover;
   background-position: center;
   height: 50px;
   width: 50px;
+  overflow: auto;
   border-radius: 50%;
   cursor: pointer;
   border: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .media-button:hover {
@@ -16,10 +19,16 @@
 
 .play-button {
   background-image: url(../../assets/images/play-button.png);
+  background-size: 40%;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .pause-button {
   background-image: url(../../assets/images/pause-button.png);
+  background-size: 80%;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 .small-button {

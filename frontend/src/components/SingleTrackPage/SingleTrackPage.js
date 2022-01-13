@@ -5,10 +5,11 @@ import { getSingleTrack, getAllTracks } from '../../store/trackReducer';
 import AudioPlayer from '../AudioPlayer';
 import TrackArtwork from '../common/TrackArtwork';
 import ProfilePicture from '../common/ProfilePicture';
+import UserCard from '../common/UserCard/UserCard';
+import toArray from '../../utils/toArray';
 import './SingleTrackPage.css';
 
 const SingleTrackPage = () => {
-  const [isPlaying, setIsPlaying] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const { trackId } = useParams();
   const dispatch = useDispatch();
@@ -44,7 +45,8 @@ const SingleTrackPage = () => {
             title={track.title}
           />
         </div>
-        <ProfilePicture user={user} size="medium" />
+        <UserCard user={user} size="medium" />
+        {/* <ProfilePicture user={user} size="medium" /> */}
       </div>
     )
   );

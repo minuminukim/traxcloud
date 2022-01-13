@@ -5,7 +5,7 @@ const PauseButton = ({ size, onClick }) => {
     <button
       className={`media-button pause-button ${size}-button`}
       onClick={onClick}
-    />
+    ></button>
   );
 };
 

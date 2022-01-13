@@ -37,20 +37,27 @@ a.link-user-large {
   background-color: #000;
 }
 
+.link-user-medium {
+  font-size: 13px;
+}
 .link-user-medium,
 .link-user-medium:visited {
   color: #999;
   font-weight: 200;
 }
 
-.link-user-medium:hover,
 .link-user-medium:hover {
-  filter: brightness(50%);
+  filter: brightness(70%);
+}
+
+.link-title-medium:hover {
+  color: #000;
+  filter: brightness(30%)
 }
 
 .link-title-medium,
 .link-title-medium:visited {
-  color: #000;
+  color: #333;
   font-size: 15;
   font-weight: 300;
 }

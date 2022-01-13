@@ -5,7 +5,7 @@ const PlayButton = ({ size, onClick }) => {
     <button
       className={`media-button play-button ${size}-button`}
       onClick={onClick}
-    />
+    ></button>
   );
 };
 
