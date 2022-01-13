@@ -11,7 +11,17 @@ label {
   margin-bottom: 6px;
 }
 
-input {
+.form-row-medium input {
+  height: 30px;
+}
+
+.form-row-medium label {
+  font-size: 14px;
+  font-weight: 300;
+}
+
+input,
+textarea {
   border: 1px solid #ccc;
   border-radius: 4px;
   padding: 7px 8px;
@@ -20,14 +30,15 @@ input {
   font-weight: 300;
 }
 
-input,
-::placeholder {
-  font-size: 18px;
+input::placeholder,
+textarea::placeholder {
+  font-size: 14px;
   line-height: 24px;
   font-weight: 300;
 }
 
-input:focus {
+input:focus,
+textarea:focus {
   outline: none;
 }
 

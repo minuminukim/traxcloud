@@ -2,8 +2,6 @@
   background-color: #f50;
   background-size: cover;
   background-position: center;
-  height: 50px;
-  width: 50px;
   overflow: auto;
   border-radius: 50%;
   cursor: pointer;
@@ -31,17 +29,17 @@
   background-position: center;
 }
 
-.small-button {
+.media-button.small-button {
   height: 36px;
   width: 36px;
 }
 
-.medium-button {
+.media-button.medium-button {
   height: 36px;
   width: 36px;
 }
 
-.large-button {
+.media-button.large-button {
   height: 60px;
   width: 60px;
 }

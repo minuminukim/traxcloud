@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import InputField from '../common/InputField';
+import Textarea from '../common/Textarea';
 import Button from '../common/Button';
 import { editTrack } from '../../store/trackReducer';
 
@@ -28,8 +29,8 @@ const TrackEditForm = ({ track }) => {
 
     return dispatch(editTrack(updatedTrack))
       .then((response) => response.json())
-      .catch((data) => {
-        // const data = await res.json();
+      .catch(async (res) => {
+        const data = await res.json();
         if (data && data.errors) {
           setErrors(data.errors);
         }
@@ -44,13 +45,6 @@ const TrackEditForm = ({ track }) => {
     <form onSubmit={handleSubmit}>
       <h2>Edit</h2>
       <InputField
-        label="Artwork"
-        id="artworkUrl"
-        value={artworkUrl}
-        onChange={updateArtworkUrl}
-        error={errors.artworkUrl}
-      />
-      <InputField
         label="Title"
         id="title"
         value={title}
@@ -58,10 +52,18 @@ const TrackEditForm = ({ track }) => {
         error={errors.title}
       />
       <InputField
+        label="Artwork"
+        id="artworkUrl"
+        value={artworkUrl}
+        onChange={updateArtworkUrl}
+        error={errors.artworkUrl}
+      />
+      <Textarea
         label="Description"
+        placeholder="Describe your track (optional)."
         id="description"
-        placeholder="Describe your track (optional)"
-        value={description || ''}
+        size="medium"
+        value={description}
         onChange={updateDescription}
         error={errors.description}
       />

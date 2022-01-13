@@ -1,19 +1,20 @@
-import './InputField.css';
+import './Textarea.css';
 
-const InputField = ({
+const Textarea = ({
   label,
   type,
   id,
-  size,
   placeholder,
+  rows,
+  size,
   value,
   onChange,
   error,
 }) => {
   return (
-    <div className={`form-row form-row-${size}`}>
+    <div className={`form-row-${size}`}>
       <label className="form-label">{label}</label>
-      <input
+      <textarea
         type={type}
         name={id}
         id={id}
@@ -21,17 +22,19 @@ const InputField = ({
         value={value}
         onChange={onChange}
         className={error ? 'error-field' : null}
+        rows={rows}
       />
       {error && <p className="validation-error">{error}</p>}
     </div>
   );
 };
 
-InputField.defaultProps = {
+Textarea.defaultProps = {
   label: null,
   type: 'text',
   placeholder: null,
   error: null,
+  rows: '3',
 };
 
-export default InputField;
+export default Textarea;

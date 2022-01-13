@@ -20,3 +20,9 @@ form {
 form button {
   margin-top: 7px;
 }
+
+.form-requirement {
+  margin-top: 15px;
+  font-size: 14px;
+  align-self: flex-start;
+}
