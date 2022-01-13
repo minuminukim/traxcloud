@@ -28,11 +28,10 @@ router.post(
 );
 
 router.get(
-  '/:id(\\d+)',
+  '/:userId(\\d+)',
   asyncHandler(async (req, res, next) => {
-    const id = +req.params.id;
-
-    const user = await User.findbyPk(id);
+    const userId = +req.params.userId;
+    const user = await User.getSingleUserById(userId);
 
     if (!user) {
       const userError = new Error('User not found.');
