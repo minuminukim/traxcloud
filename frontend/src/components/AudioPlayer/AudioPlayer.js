@@ -80,12 +80,12 @@ const AudioPlayer = ({ track, size, withArtwork = false }) => {
           />
         </div>
         <audio
-          // src={testSrc}
+          src={testSrc}
           // src={prefixCORS(track.trackUrl)}
           // src={track.trackUrl}
           id={`track-${track.id}`}
-          src={prefixCORS(testSrc)}
-          crossOrigin="true"
+          // src={prefixCORS(testSrc)}
+          crossOrigin="anonymous"
           ref={audio}
           onTimeUpdate={handleTimeUpdate}
           onLoadedMetadata={handleLoadedMetadata}
