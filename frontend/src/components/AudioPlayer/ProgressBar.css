@@ -3,16 +3,53 @@
   flex-direction: column;
 }
 
-input.timeline {
+.progress-bar {
+  -webkit-appearance: none;
   cursor: pointer;
-  width: 100%;
-  background: transparent;
+  width: 400px;
   color: transparent;
+  border: 0;
+  height: 0;
+  overflow: hidden;
+  height: 1px;
+  /* background-color: #9a905d; */
+}
+
+.progress-bar::-webkit-slider-runnable-track {
+  /* background-color: var(--track-background, #f50); */
+  /* --webkit-appearance: none; */
+  /* height: 10px; */
+  /* background-color: #f50; */
+  background-color: #999;
+  height: 1px;
+  display: flex;
+  border: none;
+  /* overflow: hidden; */
+  /* overflow: hidden; */
+  /* overflow-y: hidden; */
+}
+
+.progress-bar::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  color: #999;
+  background-color: #f50;
+  border-radius: 50%;
+  height: 10px;
+  width: 10px;
+  position: relative;
+  bottom: 4px;
+  /* box-shadow: -400px 0 0 400px #f50; */
+  /* margin-bottom: -10px; */
+  /* overflow: visible; */
+}
+
+.progress-bar:focus {
+  outline: none;
 }
 
 .timers-container {
   display: flex;
-  justify-content: space-between;;
+  justify-content: space-between;
   align-items: center;
   height: 12px;
 }
