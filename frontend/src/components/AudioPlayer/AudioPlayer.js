@@ -53,7 +53,7 @@ const AudioPlayer = ({ track, size, withArtwork = false }) => {
     });
 
   let testSrc =
-    'https://traxcloud-react-project.s3.amazonaws.com/14.+Chuck+Person+-+Lightening+Strikes.mp3';
+    'https://traxcloud-react-project.s3.amazonaws.com/traxcloud/S.O.N.S/7.mp3';
   // console.log('audio', audio);
   return (
     <div className={`music-player track-${track.id} player-${size}`}>
@@ -80,9 +80,9 @@ const AudioPlayer = ({ track, size, withArtwork = false }) => {
           />
         </div>
         <audio
-          src={testSrc}
+          // src={testSrc}
           // src={prefixCORS(track.trackUrl)}
-          // src={track.trackUrl}
+          src={track.trackUrl}
           id={`track-${track.id}`}
           // src={prefixCORS(testSrc)}
           crossOrigin="anonymous"
