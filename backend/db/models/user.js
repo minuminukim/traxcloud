@@ -80,7 +80,7 @@ module.exports = (sequelize, DataTypes) => {
 
   User.getSingleUserById = async function (id) {
     return await User.scope('defaultScope').findByPk(id);
-  }
+  };
 
   User.login = async function ({ credential, password }) {
     const user = await User.scope('loginUser').findOne({
@@ -121,8 +121,8 @@ module.exports = (sequelize, DataTypes) => {
 
   // Instance methods
   User.prototype.toSafeObject = function () {
-    const { id, username, email, profilePictureUrl } = this;
-    return { id, username, email, profilePictureUrl };
+    const { id, username, email, profilePictureUrl, displayName } = this;
+    return { id, username, email, profilePictureUrl, displayName };
   };
 
   User.prototype.validatePassword = function (password) {

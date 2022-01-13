@@ -1,0 +1,30 @@
+.error-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 50px;
+}
+
+.error-icon {
+  display: flex;
+  justify-content: center;
+  font-size: 400px;
+  color: #999;
+  padding-top: 40px;
+}
+
+.error-page.bottom {
+  text-align: center;
+  padding: 0 140px;
+}
+
+.heading-error {
+  font-size: 56px;
+  font-weight: 500;
+}
+
+.heading-caption {
+  font-size: 40px;
+  font-weight: 200;
+  margin-top: 0;
+}
