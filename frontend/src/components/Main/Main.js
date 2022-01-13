@@ -7,7 +7,7 @@ const Main = () => {
   return (
     <div className="page-container main">
       <Stream />
-      <AudioPlayerFooter />
+      {/* <AudioPlayerFooter /> */}
     </div>
   );
 };

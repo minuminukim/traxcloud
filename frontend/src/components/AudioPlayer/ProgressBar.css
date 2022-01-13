@@ -1,32 +1,28 @@
 .player-timeline-container {
   display: flex;
   flex-direction: column;
+  padding: 10px 0;
 }
 
 .progress-bar {
   -webkit-appearance: none;
   cursor: pointer;
-  width: 400px;
+  width: 100%;
   color: transparent;
   border: 0;
   height: 0;
   overflow: hidden;
   height: 1px;
+  /* padding: 20px 40px 20px 20px; */
   /* background-color: #9a905d; */
 }
 
 .progress-bar::-webkit-slider-runnable-track {
-  /* background-color: var(--track-background, #f50); */
-  /* --webkit-appearance: none; */
-  /* height: 10px; */
-  /* background-color: #f50; */
   background-color: #999;
   height: 1px;
+  width: 100%;
   display: flex;
   border: none;
-  /* overflow: hidden; */
-  /* overflow: hidden; */
-  /* overflow-y: hidden; */
 }
 
 .progress-bar::-webkit-slider-thumb {
@@ -38,9 +34,6 @@
   width: 10px;
   position: relative;
   bottom: 4px;
-  /* box-shadow: -400px 0 0 400px #f50; */
-  /* margin-bottom: -10px; */
-  /* overflow: visible; */
 }
 
 .progress-bar:focus {

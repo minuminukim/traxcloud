@@ -14,9 +14,10 @@
 
 .nav-transparent {
   background-color: transparent;
+  padding: 8px 30px;
 }
 
-/* .nav-main {
+.nav-main {
   display: flex;
   background-color: #333;
   height: 46px;
@@ -31,7 +32,7 @@
   justify-content: center;
   align-items: center;
   width: 70px;
-  height: 100%;
+  height: 46px;
   background-color: #f50;
   font-size: 30px;
   overflow: hidden;
@@ -42,36 +43,44 @@
   display: flex;
   align-items: center;
   width: 110px;
+  margin: 0;
+  height: 100%;
 }
 
-.nav-main a,
-.nav-main li {
+.nav-main a.nav-item,
+.nav-main li.nav-item {
   display: flex;
   justify-content: center;
+  align-items: center;
+  text-align: center;
   color: #ccc;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 200;
   display: block;
-  height: 46px;
+  height: 100%;
   width: 110px;
   overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis
+}
+
+.nav-main li > a {
+  align-self: center;
 }
 
 .nav-main .nav-left,
 .nav-main .nav-right {
   display: flex;
+  align-items: center;
   padding: 0;
-}
-
-.nav-right {
-  display: flex;
+  margin: 0;
 }
 
 .nav-button.transparent {
   margin-right: 10px;
 }
 
-.nav-logo {
+div.nav-logo {
   color: #fff;
   font-size: 20px;
   font-weight: 600;
@@ -82,4 +91,8 @@
 .selected {
   color: #fff;
   background-color: #000;
-} */
+}
+
+.nav-username {
+  text-overflow: ellipsis;
+}
