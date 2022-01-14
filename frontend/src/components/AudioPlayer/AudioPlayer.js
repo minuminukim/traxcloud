@@ -65,7 +65,7 @@ const AudioPlayer = ({ track, size, withArtwork = false }) => {
             <PlayButton onClick={handlePlayClick} size={size} />
           )}
           <TrackDetails
-            displayName={user.displayName}
+            displayName={user.username}
             userId={track.userId}
             title={track.title}
             trackId={track.id}

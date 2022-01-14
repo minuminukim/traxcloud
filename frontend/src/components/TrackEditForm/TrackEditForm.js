@@ -7,7 +7,7 @@ import { editTrack } from '../../store/trackReducer';
 
 const TrackEditForm = ({ track }) => {
   const [title, setTitle] = useState(track.title);
-  const [description, setDescription] = useState(track.description);
+  const [description, setDescription] = useState(track.description || "");
   const [artworkUrl, setArtworkUrl] = useState(track.artworkUrl);
   const [errors, setErrors] = useState({});
 
@@ -28,7 +28,8 @@ const TrackEditForm = ({ track }) => {
 
     return dispatch(editTrack(updatedTrack))
       .then((response) => response.json())
-      .catch((data) => {
+      .catch(async (res) => {
+        const data = await res.json();
         if (data && data.errors) {
           setErrors(data.errors);
         }
