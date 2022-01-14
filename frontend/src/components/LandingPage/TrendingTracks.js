@@ -3,7 +3,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getAllTracks } from '../../store/trackReducer';
 import toArray from '../../utils/toArray';
 import TrendingBlock from './TrendingBlock';
-import Button from '../common/Button';
+import SignupForm from '../SignupForm';
+import ModalWrapper from '../ModalWrapper';
 import './TrendingTracks.css';
 
 const TrendingTracks = () => {
@@ -25,7 +26,11 @@ const TrendingTracks = () => {
           <TrendingBlock key={track.id} track={track} />
         ))}
       </div>
-      <Button label="Explore trending tracks" className="large-button" />
+      <ModalWrapper
+        children={<SignupForm />}
+        label="Explore trending tracks"
+        className="large-button"
+      />
     </div>
   );
 };

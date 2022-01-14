@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
 import { login } from '../../store/sessionReducer';
 import InputField from '../common/InputField';
 import Button from '../common/Button';
@@ -11,7 +10,6 @@ const LoginForm = () => {
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({});
   const dispatch = useDispatch();
-  const history = useHistory();
 
   const updateCredential = (e) => setCredential(e.target.value);
   const updatePassword = (e) => setPassword(e.target.value);

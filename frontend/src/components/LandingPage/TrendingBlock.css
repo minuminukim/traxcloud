@@ -11,12 +11,13 @@
   width: 150px;
 }
 
-.trending-title {
+span.trending-title {
+  padding-top: 10px;
   font-size: 14px;
   color: #666;
 }
 
-a.trending-artist {
+span.trending-artist {
   color: #999;
   font-size: 13px;
 }

@@ -12,12 +12,12 @@ const TrendingBlock = ({ track }) => {
         crossOrigin="true"
         onError={onImageError}
       />
-      <a href={`/tracks/${track.id}`} className="trending-title">
+      <span href={`/tracks/${track.id}`} className="trending-title">
         {track.title}
-      </a>
-      <a href={`/users/${User.id}`} className="trending-artist">
+      </span>
+      <span href={`/users/${User.id}`} className="trending-artist">
         {User.displayName}
-      </a>
+      </span>
     </div>
   );
 };
