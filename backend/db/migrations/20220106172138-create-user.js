@@ -25,7 +25,7 @@ module.exports = {
       profilePictureUrl: {
         type: Sequelize.STRING(255),
         allowNull: false,
-        defaultValue: 'https://i.ibb.co/DLX6f0b/default-profile-photo.png',
+        defaultValue: `https://traxcloud-react-project.s3.amazonaws.com/def.jpeg`,
       },
       bio: {
         type: Sequelize.STRING(160),

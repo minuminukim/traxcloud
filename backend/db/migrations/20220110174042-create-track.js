@@ -20,6 +20,7 @@ module.exports = {
       },
       artworkUrl: {
         type: Sequelize.STRING(255),
+        defaultValue: `https://traxcloud-react-project.s3.amazonaws.com/def.jpeg`,
       },
       title: {
         type: Sequelize.STRING(100),

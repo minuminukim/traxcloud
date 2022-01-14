@@ -29,8 +29,8 @@ const TrackEditForm = ({ track }) => {
 
     return dispatch(editTrack(updatedTrack))
       .then((response) => response.json())
-      .catch(async (res) => {
-        const data = await res.json();
+      .catch((data) => {
+        // const data = await res.json();
         if (data && data.errors) {
           setErrors(data.errors);
         }

@@ -8,10 +8,17 @@ module.exports = {
       'Users',
       [
         {
+          email: 'hello@world.com',
+          username: 'demoworld',
+          displayName: 'demoworld',
+          hashedPassword: bcrypt.hashSync(passwords.demo),
+          profilePictureUrl: `https://traxcloud-react-project.s3.amazonaws.com/IMG_1458.JPG`
+        },
+        {
           email: 'moodymann@traxcloud.com',
           username: 'moodymann',
           displayName: 'Moodymann',
-          hashedPassword: bcrypt.hashSync(passwords.demo),
+          hashedPassword: bcrypt.hashSync(passwords.seed),
           profilePictureUrl: `https://i.ibb.co/Q6BXsT1/moodymann.jpg`
         },
         {
@@ -38,7 +45,7 @@ module.exports = {
     return queryInterface.bulkDelete(
       'Users',
       {
-        username: { [Op.in]: ['howdy_world', 'FakeUser1', 'FakeUser2'] },
+        username: { [Op.in]: ['demoworld', 'moodymann', 'chuck-person', 'sons'] },
       },
       {}
     );
