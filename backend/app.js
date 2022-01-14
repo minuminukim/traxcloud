@@ -72,7 +72,7 @@ app.use((error, _req, res, next) => {
 // Error formatter
 app.use((error, _req, res, _next) => {
   res.status(error.status || 500);
-  console.error(error);
+  // console.error(error);
   res.json({
     title: error.title || 'Server Error',
     message: error.message,

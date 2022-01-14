@@ -7,16 +7,13 @@
 
 .trending-art {
   background-color: lightblue;
-  min-height: 136px;
-  min-width: 136px;
-  max-height: 150px;
-  max-width: 150px;
-  /* height: 100%;
-  width: 100%; */
+  height: 150px;
+  width: 150px;
 }
 
 .trending-title {
   font-size: 14px;
+  color: #666;
 }
 
 a.trending-artist {

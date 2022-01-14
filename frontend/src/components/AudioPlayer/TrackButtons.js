@@ -17,9 +17,6 @@ const TrackButtons = (props) => {
             children={<TrackEditForm track={track} />}
             className={'edit-button'}
           />
-          {/* <Link to={`/tracks/${track.id}/edit`} state={{ track }}>
-          <MusicPlayerButton type="Edit" handleClick={handleEdit} />
-        </Link> */}
           <EditDeleteButton
             type="Delete"
             trackId={track.id}

@@ -17,7 +17,6 @@ router.get(
   '/:trackId(\\d+)',
   asyncHandler(async (req, res, next) => {
     const trackId = +req.params.trackId;
-    // const track = await Track.getTrackById(trackId);
     const track = await Track.getSingleTrackWithUser(trackId);
 
 
@@ -65,12 +64,6 @@ router.post(
       dataLimitError.errors = { trackFile: `${dataLimitError.message}` };
       return next(dataLimitError);
     }
-
-    // singleMulterUpload(req, res, (error) => {
-    //   if (error) {
-    //     return res.send(error);
-    //   }
-    // });
 
     await currentUser.setDataSpent(req.file.size, 'post');
     const trackUrl = await singlePublicFileUpload(req.file);

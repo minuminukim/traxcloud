@@ -5,9 +5,10 @@ form {
   justify-content: center;
   min-width: 450px;
   min-height: 550px;
-  width: 100%;
+  max-width: 700px;
   height: auto;
   padding: 25px;
+  border: 1px solid green;
 }
 
 .form-header {
@@ -25,4 +26,13 @@ form button {
   margin-top: 15px;
   font-size: 14px;
   align-self: flex-start;
+}
+
+textarea {
+  width: 400px;
+  height: 200px;
+}
+
+.upload-form {
+  margin-top: 100px;
 }

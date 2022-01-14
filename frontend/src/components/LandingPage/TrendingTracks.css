@@ -16,9 +16,9 @@
 }
 
 .tracks-container {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  grid-auto-rows: 1fr;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
   width: 100%;
   margin-bottom: 20px;
 }

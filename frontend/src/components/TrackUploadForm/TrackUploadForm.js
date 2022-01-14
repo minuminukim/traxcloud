@@ -72,9 +72,8 @@ const TrackUploadForm = ({ sessionUser }) => {
   const updateArtworkUrl = (e) => setArtworkUrl(e.target.value);
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>Upload</h2>
-      <FileUploader handleFile={handleTrackFile} />
+    <form onSubmit={handleSubmit} className="upload-form">
+      <h2>Upload A Track</h2>
       <InputField
         label="Artwork"
         id="artworkUrl"
@@ -102,7 +101,8 @@ const TrackUploadForm = ({ sessionUser }) => {
         error={errors.description}
         rows="10"
       />
-      <Button label="Submit" className="large-button" type="submit" />
+      <FileUploader handleFile={handleTrackFile} />
+      <Button label="Submit" className="large-button upload-submit" type="submit" />
       <div className="form-requirement">
         <p className="form-requirement">Please provide an MP3 under 10MB.</p>
         <p>

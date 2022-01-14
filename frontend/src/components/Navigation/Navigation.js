@@ -8,18 +8,23 @@ import './Navigation.css';
 
 const Navigation = ({ isLoaded, sessionUser }) => {
   const sessionLinks = sessionUser ? (
-    <>
+    <div className="main-nav-right">
       <li className="nav-item">
-        <NavLink exact to="/upload" activeClassName="selected">
+        <NavLink
+          className="nav-link"
+          exact
+          to="/upload"
+          activeClassName="selected"
+        >
           Upload
         </NavLink>
       </li>
       <li className="nav-item">
         <ProfileButton user={sessionUser} />
       </li>
-    </>
+    </div>
   ) : (
-    <>
+    <div className="right">
       <li className="nav-item">
         <ModalWrapper
           children={<LoginForm />}
@@ -34,20 +39,23 @@ const Navigation = ({ isLoaded, sessionUser }) => {
           className="nav-button"
         />
       </li>
-    </>
+    </div>
   );
 
   return (
     <nav className={`nav-bar ${sessionUser ? `nav-main` : `nav-transparent`}`}>
       <ul className="nav-left">
         <li className="nav-item">
-          <NavLink exact to="/" activeClassName="selected">
+          <NavLink exact to="/" className="nav-link" activeClassName="selected">
             {sessionUser ? (
               <div className="nav-logo">
                 <FaSoundcloud />
               </div>
             ) : (
-              'TRAXCLOUD'
+              <div className="nav-logo transparent">
+                <FaSoundcloud className="logo-transparent" />
+                <h1 className="landing-title">TRAXCLOUD</h1>
+              </div>
             )}
           </NavLink>
         </li>

@@ -9,12 +9,10 @@ import './TrendingTracks.css';
 const TrendingTracks = () => {
   const dispatch = useDispatch();
   const tracksObject = useSelector((state) => state.tracks);
-  const tracks = toArray(tracksObject);
-  console.log('tracks', tracks);
-  console.log('tracksObject', tracksObject);
+  const tracks = toArray(tracksObject).slice(0, 6);
 
   useEffect(() => {
-    dispatch(getAllTracks('trending'));
+    dispatch(getAllTracks());
   }, [dispatch]);
 
   return (
@@ -26,18 +24,6 @@ const TrendingTracks = () => {
         {tracks.map((track) => (
           <TrendingBlock key={track.id} track={track} />
         ))}
-        {/* <TrendingBlock />
-        <TrendingBlock />
-        <TrendingBlock />
-        <TrendingBlock />
-        <TrendingBlock />
-        <TrendingBlock />
-        <TrendingBlock />
-        <TrendingBlock />
-        <TrendingBlock />
-        <TrendingBlock />
-        <TrendingBlock />
-        <TrendingBlock /> */}
       </div>
       <Button label="Explore trending tracks" className="large-button" />
     </div>

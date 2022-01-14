@@ -9,6 +9,7 @@ import './Stream.css';
 
 const Stream = () => {
   const [isLoading, setIsLoading] = useState(true);
+  const [currentTrack, setCurrentTrack] = useState(null);
   const dispatch = useDispatch();
   const tracksObject = useSelector((state) => state.tracks);
   const tracks = toArray(tracksObject);
@@ -34,6 +35,8 @@ const Stream = () => {
               track={track}
               withArtwork={true}
               size={'medium'}
+              currentTrack={currentTrack}
+              setCurrentTrack={setCurrentTrack}
             />
           </div>
         ))}
