@@ -1,5 +1,8 @@
 # TraxCloud
-[TraxCloud](https://traxcloud.herokuapp.com/), is a full-stack clone of the popular music sharing platform SoundCloud, built on React, a backend powered by Node.js and Express, and a PostgreSQL database.
+[TraxCloud](https://traxcloud.herokuapp.com/), is a full-stack clone of the popular music sharing platform SoundCloud, built in React, a backend powered by Node.js and Express, and a PostgreSQL database.
+
+## Live Site
+[TraxCloud](https://traxcloud.herokuapp.com/)
 
 ## Get Started
 **Prerequisites**
@@ -24,8 +27,8 @@
     - Navigate to ( https://console.aws.amazon.com/iam/home?#/users) to creae a user with `Programmatic access`.
     - Set up a security policy for your user: 'Attach existing policies directly' => 'Create Policy'
     - Click the `JSON` tab and set a policy:
-    ```
-    {
+ ```
+ {
   "Version": "2012-10-17",
   "Statement": [
     {
@@ -36,6 +39,21 @@
     }
   ]
 }
+```
+- Now update your .env with your `Access Key ID`, `Secret Access Key`, and the name of your bucket
+- Finally, run `npm start` in `backend` and once again in `frontend`
 
+## Features
+- User registration and JWT authentication
+- Users are able to upload mp3 files and generate audio players in the browser
+
+## Technologies
+- React
+- Redux
+- Node.js
+- Express
+- PostgreSQL
+- Sequelize
+- AWS SDK
 
      
