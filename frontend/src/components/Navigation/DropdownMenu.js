@@ -19,20 +19,20 @@ const DropdownMenu = ({ user }) => {
   return (
     <ul className="dropdown">
       <li className="dropdown-item">
-        <NavLink className="dropdown-item" to={`/users/${user.id}`}>
+        {/* <NavLink className="dropdown-item" to={`/users/${user.id}`}> */}
           <FaUser className="nav-icon" />
           Profile
-        </NavLink>
+        {/* </NavLink> */}
       </li>
       <li className="dropdown-item">
-        <NavLink
+        {/* <NavLink
           className="dropdown-item"
           exact
           to={`/users/${user.id}/tracks`}
-        >
+        > */}
           <BsSoundwave className="nav-icon" />
           Tracks
-        </NavLink>
+        {/* </NavLink> */}
       </li>
       <li className="dropdown-item">Likes</li>
       <li className="dropdown-item">Stations</li>

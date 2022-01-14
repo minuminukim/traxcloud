@@ -1,7 +1,7 @@
 import { csrfFetch } from './csrf';
 
 export const LOAD_TRACKS = 'track/loadTracks';
-// const LOAD_TRACK = 'track/loadTrack';
+
 const ADD_TRACK = 'track/addTrack';
 const UPDATE_TRACK = 'track/updateTrack';
 const REMOVE_TRACK = 'track/removeTrack';

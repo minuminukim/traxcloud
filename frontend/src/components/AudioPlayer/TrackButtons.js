@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import { FaPlay } from 'react-icons/fa';
 import TrackEditForm from '../TrackEditForm';
 import ModalWrapper from '../ModalWrapper';
@@ -7,8 +6,9 @@ import belongsTo from '../../utils/belongsTo';
 import './TrackButtons.css';
 
 const TrackButtons = (props) => {
-  const { sessionId, userId, handleEdit, track, handleDelete } = props;
+  const { sessionId, userId, track, handleDelete } = props;
   const belongsToSessionUser = belongsTo(sessionId, userId);
+
   return (
     belongsToSessionUser && (
       <div className="track-buttons">
@@ -25,12 +25,12 @@ const TrackButtons = (props) => {
             className="delete-button"
           />
         </div>
-        <div className="track-buttons-right">
+        {/* <div className="track-buttons-right">
           <div className="play-icon">
             <FaPlay />
           </div>
           <span className="play-count">{track.playCount}</span>
-        </div>
+        </div> */}
       </div>
     )
   );

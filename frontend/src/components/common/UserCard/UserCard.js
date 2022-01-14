@@ -26,16 +26,16 @@ const UserCard = ({ user, size }) => {
     <div className={`user-card user-card-${size}`}>
       <ProfilePicture user={user} size="medium" />
       <div className={`user-card-body-${size}`}>
-        <Link className="user-card-link" to={`/users/${user.id}`}>
+        {/* <Link className="user-card-link" to={`/users/${user.id}`}> */}
           <h3 className={`user-card-name`}>{user.displayName}</h3>
-        </Link>
+        {/* </Link> */}
         <div className={`user-card-stats`}>
           <div className="icon-wrap">
             <BsSoundwave className="icon-sound" />
           </div>
-          <Link className="track-count" to={`/users/${user.id}/tracks`}>
-            {userTracks.length}
-          </Link>
+          {/* <Link className="track-count" to={`/users/${user.id}/tracks`}> */}
+           <span className="track-count">{userTracks.length}</span>
+          {/* </Link> */}
         </div>
       </div>
     </div>

@@ -1,10 +1,9 @@
 .music-player {
   display: grid;
-  min-width:
+  min-width: 600px;
 }
 
 .player-medium {
-  border: 1px solid blue;
   width: 100%;
   grid-template-columns: 160px 1fr;
   margin-right: 0;
