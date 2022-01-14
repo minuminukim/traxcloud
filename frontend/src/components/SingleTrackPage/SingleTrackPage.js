@@ -13,23 +13,15 @@ const SingleTrackPage = () => {
   const dispatch = useDispatch();
   const tracks = useSelector((state) => state.tracks);
   const track = tracks[+trackId];
-  console.log('track', track);
-  // console.log('tracks', tracks);
-  // const user = track?.User;
 
   useEffect(() => {
     return (
       dispatch(getAllTracks())
-        // .then((res) => res.json())
         .then(() => setIsLoading(false))
-        .catch((err) => console.log('SingleTrack', err))
+        .catch((err) => ('SingleTrack', err))
     );
   }, [dispatch]);
 
-  // const filtered = filterTracksByUser(tracks, user.id);
-  // console.log(filtered);
-
-  // console.log('track', track, typeof track.id);
   return (
     !isLoading && (
       <div className="page-container">
@@ -42,7 +34,6 @@ const SingleTrackPage = () => {
           />
         </div>
         <UserCard user={track?.User} size="medium" />
-
       </div>
     )
   );
