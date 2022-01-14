@@ -1,6 +1,6 @@
 const express = require('express');
 const asyncHandler = require('express-async-handler');
-const { User } = require('../../db/models');
+const { User, Track } = require('../../db/models');
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
 const validateSignup = require('../../validations/validateSignup');
 
@@ -27,6 +27,17 @@ router.post(
   })
 );
 
+const userNotFoundError = () => {
+  const userError = new Error('User not found.');
+  userError.status = 404;
+  userError.title = 'User not found.';
+  userError.errors = {
+    userId: `The requested user could not be found.`,
+  };
+
+  return userError;
+};
+
 router.get(
   '/:userId(\\d+)',
   asyncHandler(async (req, res, next) => {
@@ -34,14 +45,7 @@ router.get(
     const user = await User.getSingleUserById(userId);
 
     if (!user) {
-      const userError = new Error('User not found.');
-      userError.status = 404;
-      userError.title = 'User not found.';
-      userError.errors = {
-        userId: `The requested user could not be found.`,
-      };
-
-      return next(userError);
+      next(userNotFoundError());
     }
 
     return res.json({
@@ -55,6 +59,22 @@ router.get(
   asyncHandler(async (req, res) => {
     const users = await User.findAll();
     return res.json({ users });
+  })
+);
+
+router.get(
+  '/:userId(\\d+)/tracks',
+  asyncHandler(async (req, res, next) => {
+    const userId = +req.params.userId;
+    const user = await User.findByPk(userId, { include: Track });
+
+    if (!user) {
+      next(userNotFoundError());
+    }
+
+    return res.json({
+      user,
+    });
   })
 );
 

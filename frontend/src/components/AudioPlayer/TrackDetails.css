@@ -4,8 +4,10 @@
 }
 
 .track-details-large {
+  justify-content: space-between;
   width: 100%;
   padding: 30px;
+  padding-left: 0;
 }
 
 .track-links-medium {
@@ -55,6 +57,8 @@ a.link-title-large {
   font-size: 32px;
   font-weight: 300;
   background-color: #000;
+  margin-bottom: 10px;
+  text-align: center;
 }
 
 a.link-user-large {
@@ -62,4 +66,13 @@ a.link-user-large {
   font-size: 16px;
   font-weight: 300;
   background-color: #000;
+  padding: 3px;
+}
+
+.time-since {
+  color: #fff;
+  font-size: 18px;
+  font-weight: 200;
+  align-self: flex-start;
+  padding-top: 10px;
 }

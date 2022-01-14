@@ -1,10 +1,17 @@
 import { csrfFetch } from './csrf';
+import { LOAD_TRACKS } from './trackReducer';
 
-const ADD_USER = 'track/loadUser';
-const LOAD_USERS = 'track/loadUsers';
+const ADD_USER = 'user/loadUser';
+const LOAD_USERS = 'user/loadUsers';
 
-const addUser = (userId) => ({
+const addUser = (user) => ({
   type: ADD_USER,
+  user,
+});
+
+const loadTracks = (userId, tracks) => ({
+  type: LOAD_TRACKS,
+  tracks,
   userId,
 });
 
@@ -17,6 +24,15 @@ export const getSingleUser = (userId) => async (dispatch) => {
   const response = await csrfFetch(`/api/users/${userId}`);
   const { user } = await response.json();
   dispatch(addUser(user));
+
+  return user;
+};
+
+export const getUserWithTracks = (userId) => async (dispatch) => {
+  const response = await csrfFetch(`/api/users/${userId}/tracks`);
+  const { user } = await response.json();
+  const tracks = user?.Tracks;
+  dispatch(loadTracks(user.id, tracks));
 
   return user;
 };
@@ -43,8 +59,19 @@ const userReducer = (state = {}, action) => {
     case ADD_USER:
       return {
         ...state,
-        [action.user.id]: action.user,
+        [action.user.id]: {
+          ...action.user,
+          ...state[action.user.id],
+        },
       };
+    // case LOAD_TRACKS:
+    //   return {
+    //     ...state,
+    //     [action.userId]: {
+    //       ...state[action.userId],
+    //       tracks: action.tracks,
+    //     },
+    //   };
     default:
       return state;
   }

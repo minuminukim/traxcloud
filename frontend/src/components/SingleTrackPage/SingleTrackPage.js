@@ -1,12 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { getSingleTrack, getAllTracks } from '../../store/trackReducer';
+import { getTracksThroughUser, getAllTracks } from '../../store/trackReducer';
 import AudioPlayer from '../AudioPlayer';
 import TrackArtwork from '../common/TrackArtwork';
-import ProfilePicture from '../common/ProfilePicture';
 import UserCard from '../common/UserCard/UserCard';
-import toArray from '../../utils/toArray';
 import './SingleTrackPage.css';
 
 const SingleTrackPage = () => {
@@ -15,16 +13,11 @@ const SingleTrackPage = () => {
   const dispatch = useDispatch();
   const tracks = useSelector((state) => state.tracks);
   const track = tracks[+trackId];
-  const user = track?.User;
-  console.log('user', user);
-  // const track = tracks[+trackId];
-  // console.log('track', track.User)
-  // const user = track.User;
+  console.log('track', track);
+  // console.log('tracks', tracks);
+  // const user = track?.User;
 
   useEffect(() => {
-    // dispatch(getSingleTrack(+trackId))
-    //   .then((response) => response.json())
-    //   .catch((err) => console.log(err));
     return (
       dispatch(getAllTracks())
         // .then((res) => res.json())
@@ -32,6 +25,9 @@ const SingleTrackPage = () => {
         .catch((err) => console.log('SingleTrack', err))
     );
   }, [dispatch]);
+
+  // const filtered = filterTracksByUser(tracks, user.id);
+  // console.log(filtered);
 
   // console.log('track', track, typeof track.id);
   return (
@@ -45,8 +41,8 @@ const SingleTrackPage = () => {
             title={track.title}
           />
         </div>
-        <UserCard user={user} size="medium" />
-        {/* <ProfilePicture user={user} size="medium" /> */}
+        <UserCard user={track?.User} size="medium" />
+
       </div>
     )
   );

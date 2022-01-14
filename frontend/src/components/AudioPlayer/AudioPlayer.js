@@ -1,17 +1,15 @@
 import { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { deleteTrack, editTrack } from '../../store/trackReducer';
+import { deleteTrack } from '../../store/trackReducer';
 import prefixCORS from '../../utils/prefixCORS';
 import TrackUploadForm from '../TrackUploadForm';
 import PlayButton from './PlayButton';
 import PauseButton from './PauseButton';
 import TrackDetails from './TrackDetails';
 import TrackArtwork from '../common/TrackArtwork/';
-import TrackHeader from './TrackHeader';
 import ProgressBar from './ProgressBar';
 import TrackButtons from './TrackButtons';
 import './AudioPlayer.css';
-import source from '../../assets/images/14. Chuck Person - Lightening Strikes.mp3';
 
 const AudioPlayer = ({ track, size, withArtwork = false }) => {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -40,9 +38,7 @@ const AudioPlayer = ({ track, size, withArtwork = false }) => {
 
   const handlePlay = (e) => {
     const id = +e.target.id.split('-')[1];
-    console.log('id', id);
     setTrackId(id);
-    console.log('stateId', trackId);
   };
 
   const handleEdit = () => <TrackUploadForm formState={track} />;
@@ -74,6 +70,7 @@ const AudioPlayer = ({ track, size, withArtwork = false }) => {
             title={track.title}
             trackId={track.id}
             size={size}
+            time={track.createdAt}
           />
         </div>
         <audio

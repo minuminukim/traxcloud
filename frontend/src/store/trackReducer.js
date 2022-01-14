@@ -1,6 +1,6 @@
 import { csrfFetch } from './csrf';
 
-const LOAD_TRACKS = 'track/loadTracks';
+export const LOAD_TRACKS = 'track/loadTracks';
 // const LOAD_TRACK = 'track/loadTrack';
 const ADD_TRACK = 'track/addTrack';
 const UPDATE_TRACK = 'track/updateTrack';
@@ -38,11 +38,11 @@ export const getSingleTrack = (trackId) => async (dispatch) => {
   const response = await csrfFetch(`/api/tracks/${trackId}`);
   const { track } = await response.json();
   dispatch(addTrack(track));
+
   return track;
 };
 
 export const postTrack = (track) => async (dispatch) => {
-  console.log('track', track);
   const formData = new FormData();
   formData.append('title', track.title);
   formData.append('description', track.description);
@@ -74,9 +74,9 @@ export const editTrack = (track) => async (dispatch) => {
     method: 'PUT',
     body: JSON.stringify({ ...rest }),
   });
-
   const { updatedTrack } = await response.json();
   dispatch(updateTrack(updatedTrack));
+
   return response;
 };
 

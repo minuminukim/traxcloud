@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import ProfilePicture from '../common/ProfilePicture';
-import calculateTimeSincePost from '../../calculateTimeSincePost';
+import calculateTimeSincePost from '../../utils/calculateTimeSincePost';
 import './TrackHeader.css';
 
 const TrackHeader = ({ track }) => {
