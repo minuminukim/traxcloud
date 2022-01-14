@@ -5,7 +5,6 @@
 }
 
 .stream-row {
-  /* border: 1px solid yellow; */
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -16,4 +15,3 @@
 .stream .music-player {
   padding: 0;
 }
-

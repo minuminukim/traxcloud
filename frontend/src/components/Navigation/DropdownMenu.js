@@ -1,4 +1,3 @@
-import { NavLink } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { BsSoundwave } from 'react-icons/bs';
@@ -13,26 +12,17 @@ const DropdownMenu = ({ user }) => {
   const handleLogout = (e) => {
     e.preventDefault();
     dispatch(logout());
-    history.push("/")
+    history.push('/');
   };
 
   return (
     <ul className="dropdown">
       <li className="dropdown-item">
-        {/* <NavLink className="dropdown-item" to={`/users/${user.id}`}> */}
-          <FaUser className="nav-icon" />
-          Profile
-        {/* </NavLink> */}
+        <FaUser className="nav-icon" />
+        Profile
       </li>
       <li className="dropdown-item">
-        {/* <NavLink
-          className="dropdown-item"
-          exact
-          to={`/users/${user.id}/tracks`}
-        > */}
-          <BsSoundwave className="nav-icon" />
-          Tracks
-        {/* </NavLink> */}
+        <BsSoundwave className="nav-icon" />
       </li>
       <li className="dropdown-item">Likes</li>
       <li className="dropdown-item">Stations</li>

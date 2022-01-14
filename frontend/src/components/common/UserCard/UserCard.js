@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { getAllTracks } from '../../../store/trackReducer';
 import { BsSoundwave } from 'react-icons/bs';
 import ProfilePicture from '../ProfilePicture';
@@ -20,22 +20,20 @@ const UserCard = ({ user, size }) => {
         history.push('/error-not-found');
       }
     });
-  }, [dispatch]);
+  }, [dispatch, history]);
 
   return (
     <div className={`user-card user-card-${size}`}>
       <ProfilePicture user={user} size="medium" />
       <div className={`user-card-body-${size}`}>
-        {/* <Link className="user-card-link" to={`/users/${user.id}`}> */}
-          <h3 className={`user-card-name`}>{user.displayName}</h3>
-        {/* </Link> */}
+        <h3 className={`user-card-name`}>{user.displayName}</h3>
+
         <div className={`user-card-stats`}>
           <div className="icon-wrap">
             <BsSoundwave className="icon-sound" />
           </div>
-          {/* <Link className="track-count" to={`/users/${user.id}/tracks`}> */}
-           <span className="track-count">{userTracks.length}</span>
-          {/* </Link> */}
+
+          <span className="track-count">{userTracks.length}</span>
         </div>
       </div>
     </div>
