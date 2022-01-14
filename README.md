@@ -1,5 +1,5 @@
 # TraxCloud
-[TraxCloud](https://traxcloud.herokuapp.com/), is a full-stack clone of the popular music sharing platform SoundCloud, built in React, a backend powered by Node.js and Express, and a PostgreSQL database.
+[TraxCloud](https://traxcloud.herokuapp.com/), is a full-stack clone of the popular music sharing platform SoundCloud, composed in React, a RESTful API built on Node.js and Express, and a PostgreSQL database.
 
 ## Live Site
 [TraxCloud](https://traxcloud.herokuapp.com/)
