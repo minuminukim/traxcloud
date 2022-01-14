@@ -1,5 +1,6 @@
 import { NavLink } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { BsSoundwave } from 'react-icons/bs';
 import { FaUser } from 'react-icons/fa';
 import { logout } from '../../store/sessionReducer';
@@ -7,10 +8,12 @@ import './DropdownMenu.css';
 
 const DropdownMenu = ({ user }) => {
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const handleLogout = (e) => {
     e.preventDefault();
-    return dispatch(logout());
+    dispatch(logout());
+    history.push("/")
   };
 
   return (

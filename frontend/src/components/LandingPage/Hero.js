@@ -1,6 +1,7 @@
 import Button from '../common/Button';
 import ModalWrapper from '../ModalWrapper';
 import SignupForm from '../SignupForm';
+import LoginForm from '../LoginForm';
 import './Hero.css';
 
 const Hero = () => {
@@ -15,7 +16,11 @@ const Hero = () => {
           space to create, find your fans, and connect with other artists.
         </h3>
         <div className="hero-buttons">
-          <Button label="Try Demo" className="large-button transparent" />
+          <ModalWrapper
+            children={<LoginForm />}
+            label="Try Demo"
+            className="large-button transparent"
+          />
           <ModalWrapper
             children={<SignupForm />}
             label="Start uploading today"

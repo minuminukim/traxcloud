@@ -25,6 +25,11 @@ const LoginForm = () => {
     });
   };
 
+  const signDemo = (e) => {
+    e.preventDefault();
+    return dispatch(login({ credential: 'demoworld', password: 'newPass!' }));
+  };
+
   return (
     <form onSubmit={handleSubmit}>
       <InputField
@@ -45,6 +50,12 @@ const LoginForm = () => {
       <Button
         label="Sign In"
         className="large-button form-button"
+        type="submit"
+      />
+      <Button
+        label="Sign In As Demo"
+        className="large-button form-button"
+        onClick={signDemo}
         type="submit"
       />
     </form>
