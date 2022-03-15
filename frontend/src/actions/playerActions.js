@@ -1,11 +1,13 @@
-const METADATA_LOADED = 'player/metadataLoaded';
-const PLAYLIST_LOADED = 'player/playlistLoaded';
-const TRACK_SET = 'player/trackStarted';
-const TRACK_PLAYED = 'player/trackPlayed';
-const TRACK_PAUSED = 'player/trackPaused';
-const TIME_UPDATED = 'player/timeUpdated';
-const VOLUME_UPDATED = 'player/volumeUpdated';
+/* ----- ACTION TYPES ----- */
+export const METADATA_LOADED = 'player/metadataLoaded';
+export const PLAYLIST_LOADED = 'player/playlistLoaded';
+export const TRACK_SET = 'player/trackStarted';
+export const TRACK_PLAYED = 'player/trackPlayed';
+export const TRACK_PAUSED = 'player/trackPaused';
+export const TIME_UPDATED = 'player/timeUpdated';
+export const VOLUME_UPDATED = 'player/volumeUpdated';
 
+/* ----- ACTIONS ----- */
 export const loadMetadata = (duration) => ({
   type: METADATA_LOADED,
   duration,
@@ -34,8 +36,8 @@ export const updateTime = (currentTime) => ({
   currentTime,
 });
 
-export const updateVolume = (muted, volume) => ({
+export const updateVolume = (isMuted, volume) => ({
   type: VOLUME_UPDATED,
-  muted,
+  isMuted,
   volume,
 });
