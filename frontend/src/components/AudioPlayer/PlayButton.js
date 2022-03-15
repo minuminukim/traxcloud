@@ -1,14 +1,20 @@
 import { useDispatch } from 'react-redux';
-import { playTrack } from '../../actions/playerActions';
+import { playTrack, setTrack } from '../../actions/playerActions';
 import './PlayButton.css';
 
-const PlayButton = ({ size }) => {
+const PlayButton = ({ size, trackID }) => {
   const dispatch = useDispatch();
-  const handleClick = () => dispatch(playTrack());
+
+  const handleClick = (e) => {
+    e.stopPropagation();
+    dispatch(setTrack(+trackID));
+    dispatch(playTrack());
+  };
 
   return (
     <button
       className={`media-button play-button ${size}-button`}
+      id={`play-${trackID}`}
       onClick={handleClick}
     ></button>
   );

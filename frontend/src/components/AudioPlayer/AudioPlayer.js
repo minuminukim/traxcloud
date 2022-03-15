@@ -18,8 +18,6 @@ import './AudioPlayer.css';
 const AudioPlayer = ({ trackID, size, index, withArtwork = false }) => {
   const track = useSelector((state) => state.tracks[trackID]);
   const isPlaying = useSelector((state) => state.player.isPlaying);
-
-  const user = track.User;
   const sessionUser = useSelector((state) => state.session.user);
   const dispatch = useDispatch();
 
@@ -41,7 +39,11 @@ const AudioPlayer = ({ trackID, size, index, withArtwork = false }) => {
       )}
       <div className="music-player-main">
         <div className="music-player-main-top">
-          {isPlaying ? <PauseButton size={size} /> : <PlayButton size={size} />}
+          {isPlaying ? (
+            <PauseButton size={size} />
+          ) : (
+            <PlayButton size={size} trackID={trackID} />
+          )}
           <TrackDetails trackID={track.id} size={size} />
         </div>
         <Audio trackID={trackID} />
