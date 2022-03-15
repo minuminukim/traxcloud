@@ -1,9 +1,12 @@
-.volume {
+.volume-container {
   display: flex;
   flex-direction: column-reverse;
+  /* position: relative; */
+  /* overflow: visible; */
 }
 
 .volume-slider {
-  display: flex;
-  flex-direction: column;
+  /* position: absolute; */
+  transform: rotate(270deg);
+  /* height: 200px; */
 }

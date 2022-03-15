@@ -31,7 +31,7 @@ const Volume = () => {
 
   return (
     <div
-      className="volume"
+      className="volume-container"
       onMouseEnter={toggleSlider}
       onMouseLeave={toggleSlider}
     >
