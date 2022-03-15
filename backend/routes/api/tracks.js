@@ -17,8 +17,7 @@ router.get(
   '/:trackId(\\d+)',
   asyncHandler(async (req, res, next) => {
     const trackId = +req.params.trackId;
-    const track = await Track.getSingleTrackWithUser(trackId);
-
+    const track = await Track.fetchSingleTrackWithUser(trackId);
 
     if (!track) {
       const trackError = new Error('Track not found.');
@@ -41,11 +40,10 @@ router.get(
 router.get(
   '/',
   asyncHandler(async (req, res) => {
-    const tracks = await Track.getAllTracks();
+    const tracks = await Track.fetchTracks();
     return res.json({ tracks });
   })
 );
-
 
 router.post(
   '/',
@@ -68,7 +66,7 @@ router.post(
     await currentUser.setDataSpent(req.file.size, 'post');
     const trackUrl = await singlePublicFileUpload(req.file);
     const track = await Track.create({ ...req.body, trackUrl });
-    const newTrack = await Track.getSingleTrackWithUser(track.id);
+    const newTrack = await Track.fetchSingleTrackWithUser(track.id);
     return res.json({ newTrack });
   })
 );
@@ -85,7 +83,7 @@ router.put(
       const pairs = Object.entries(req.body);
       pairs.forEach(([key, value]) => track.set(key, value));
       await track.save();
-      const updatedTrack = await Track.getSingleTrackWithUser(track.id);
+      const updatedTrack = await Track.fetchSingleTrackWithUser(track.id);
       res.status(200).json({ updatedTrack });
     } else {
       res

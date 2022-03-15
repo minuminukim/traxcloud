@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getAllTracks } from '../../store/trackReducer';
+import { fetchTracks } from '../../store/trackReducer';
 import toArray from '../../utils/toArray';
 import TrendingBlock from './TrendingBlock';
 import SignupForm from '../SignupForm';
@@ -13,7 +13,7 @@ const TrendingTracks = () => {
   const tracks = toArray(tracksObject).slice(0, 6);
 
   useEffect(() => {
-    dispatch(getAllTracks());
+    dispatch(fetchTracks());
   }, [dispatch]);
 
   return (

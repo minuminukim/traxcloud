@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { getAllTracks } from '../../../store/trackReducer';
+import { fetchTracks } from '../../../store/trackReducer';
 import { BsSoundwave } from 'react-icons/bs';
 import ProfilePicture from '../ProfilePicture';
 import './UserCard.css';
@@ -15,7 +15,7 @@ const UserCard = ({ user, size }) => {
   });
 
   useEffect(() => {
-    return dispatch(getAllTracks()).catch((data) => {
+    return dispatch(fetchTracks()).catch((data) => {
       if (data && data.errors) {
         history.push('/error-not-found');
       }

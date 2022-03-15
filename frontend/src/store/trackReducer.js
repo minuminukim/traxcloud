@@ -26,7 +26,7 @@ const removeTrack = (trackId) => ({
   trackId,
 });
 
-export const getAllTracks = () => async (dispatch) => {
+export const fetchTracks = () => async (dispatch) => {
   const response = await csrfFetch(`/api/tracks`);
   const { tracks } = await response.json();
   dispatch(loadTracks(tracks));
@@ -34,7 +34,7 @@ export const getAllTracks = () => async (dispatch) => {
   return tracks;
 };
 
-export const getSingleTrack = (trackId) => async (dispatch) => {
+export const fetchSingleTrack = (trackId) => async (dispatch) => {
   const response = await csrfFetch(`/api/tracks/${trackId}`);
   const { track } = await response.json();
   dispatch(addTrack(track));

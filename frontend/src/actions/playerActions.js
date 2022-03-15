@@ -18,7 +18,7 @@ export const setTrack = (trackID) => ({
   trackID,
 });
 
-export const loadPlaylist = (tracks) => ({
+export const setPlaylist = (tracks) => ({
   type: PLAYLIST_LOADED,
   tracks,
 });

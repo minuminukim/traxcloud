@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import {getAllTracks } from '../../store/trackReducer';
+import { fetchTracks } from '../../store/trackReducer';
 import AudioPlayer from '../AudioPlayer';
 import TrackArtwork from '../TrackArtwork';
 import UserCard from '../common/UserCard/UserCard';
@@ -15,11 +15,9 @@ const SingleTrackPage = () => {
   const track = tracks[+trackId];
 
   useEffect(() => {
-    return (
-      dispatch(getAllTracks())
-        .then(() => setIsLoading(false))
-        .catch((err) => err)
-    );
+    return dispatch(fetchTracks())
+      .then(() => setIsLoading(false))
+      .catch((err) => err);
   }, [dispatch]);
 
   return (
