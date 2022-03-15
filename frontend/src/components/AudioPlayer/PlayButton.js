@@ -1,10 +1,15 @@
+import { useDispatch } from 'react-redux';
+import { playTrack } from '../../actions/playerActions';
 import './PlayButton.css';
 
-const PlayButton = ({ size, onClick }) => {
+const PlayButton = ({ size }) => {
+  const dispatch = useDispatch();
+  const handleClick = () => dispatch(playTrack());
+
   return (
     <button
       className={`media-button play-button ${size}-button`}
-      onClick={onClick}
+      onClick={handleClick}
     ></button>
   );
 };

@@ -1,6 +1,12 @@
+import { useDispatch, useSelector } from 'react-redux';
+import { updateTime } from '../../actions/playerActions';
 import './ProgressBar.css';
 
-const ProgressBar = ({ duration, currentTime, onSeeking }) => {
+const ProgressBar = ({ trackID }) => {
+  const { currentTime } = useSelector((state) => state.player);
+  const { duration } = useSelector((state) => state.tracks[trackID]);
+  const dispatch = useDispatch();
+
   const formatTime = (time) => {
     const minutes = Math.floor(time / 60).toString();
     const seconds = Math.floor(time - minutes * 60)
@@ -9,6 +15,7 @@ const ProgressBar = ({ duration, currentTime, onSeeking }) => {
 
     return `${minutes}:${seconds}`;
   };
+  const handleSeeking = (e) => dispatch(updateTime(e.target.value));
 
   return (
     <div className="player-timeline-container">
@@ -23,7 +30,7 @@ const ProgressBar = ({ duration, currentTime, onSeeking }) => {
         min="1"
         max={duration || duration.toString()}
         value={currentTime}
-        onChange={(e) => onSeeking(e.target.value)}
+        onChange={handleSeeking}
       />
     </div>
   );

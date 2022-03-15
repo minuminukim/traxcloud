@@ -28,7 +28,7 @@ const Stream = () => {
         <h1 className="heading-light">
           Hear the latest posts from our creators:
         </h1>
-        {trackIDs.map((id) => (
+        {trackIDs.map((id, i) => (
           <div className="stream-row" key={`row-${id}`}>
             <TrackHeader trackID={id} />
             <AudioPlayer
@@ -36,6 +36,7 @@ const Stream = () => {
               trackID={id}
               withArtwork={true}
               size={'medium'}
+              index={i}
             />
           </div>
         ))}

@@ -1,7 +1,7 @@
 /* ----- ACTION TYPES ----- */
 export const METADATA_LOADED = 'player/metadataLoaded';
 export const PLAYLIST_LOADED = 'player/playlistLoaded';
-export const TRACK_SET = 'player/trackStarted';
+export const TRACK_SET = 'player/trackSet';
 export const TRACK_PLAYED = 'player/trackPlayed';
 export const TRACK_PAUSED = 'player/trackPaused';
 export const TIME_UPDATED = 'player/timeUpdated';

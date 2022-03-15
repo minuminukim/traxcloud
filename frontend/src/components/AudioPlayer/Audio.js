@@ -1,16 +1,24 @@
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { updateTime, setMetadata, setTrack } from '../../actions/playerActions';
+import { setMetadata, setTrack, updateTime } from '../../actions/playerActions';
 
-function Audio(trackID) {
+function Audio({ trackID }) {
   const track = useSelector((state) => state.tracks[trackID]);
-  const isPlaying = useSelector((state) => state.player.isPlaying);
+  const { isPlaying, currentTime, currentTrackID } = useSelector(
+    (state) => state.player
+  );
+
   const dispatch = useDispatch();
   const audioRef = useRef(null);
 
   useEffect(() => {
+    dispatch(setTrack(trackID));
     isPlaying ? audioRef.current.play() : audioRef.current.pause();
   }, [isPlaying]);
+
+  useEffect(() => {
+    audioRef.current.currentTime = currentTime;
+  }, [currentTime]);
 
   const handleTimeUpdate = () =>
     dispatch(updateTime(audioRef?.current.currentTime));
@@ -18,7 +26,11 @@ function Audio(trackID) {
   const handleLoadedMetaData = () =>
     dispatch(setMetadata(audioRef?.current.duration));
 
-  const handlePlay = () => setTrack(track?.id);
+  const handlePlay = (e) => {
+    e.stopPropagation();
+    const id = e.target.id.split('-')[1];
+    dispatch(setTrack(+id));
+  };
 
   return (
     <audio
