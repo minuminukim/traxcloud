@@ -2,7 +2,7 @@ import { useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   setMetadata,
-  setReference,
+  setAudio,
   updateTime,
 } from '../../actions/playerActions';
 
@@ -18,7 +18,7 @@ function Audio({ trackID }) {
       ? audioRef.current.play()
       : audioRef.current.pause();
 
-    dispatch(setReference(audioRef));
+    dispatch(setAudio(audioRef));
   }, [isPlaying, currentTrackID, dispatch]);
 
   const handleTimeUpdate = () =>

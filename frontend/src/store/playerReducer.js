@@ -2,7 +2,7 @@ import {
   METADATA_LOADED,
   PLAYLIST_LOADED,
   TRACK_SET,
-  REFERENCE_SET,
+  AUDIO_SET,
   TRACK_PLAYED,
   TRACK_PAUSED,
   TIME_UPDATED,
@@ -43,7 +43,7 @@ function playerReducer(state = initialState, action) {
         currentTrackID: action.trackID,
       };
 
-    case REFERENCE_SET:
+    case AUDIO_SET:
       return {
         ...state,
         currentRef: action.ref,

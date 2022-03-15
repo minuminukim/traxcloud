@@ -7,6 +7,7 @@ import LandingPage from './components/LandingPage';
 import TrackUploadForm from './components/TrackUploadForm';
 import TrackEditForm from './components/TrackEditForm';
 import SingleTrackPage from './components/SingleTrackPage';
+import AudioPlayerFooter from './components/AudioPlayerFooter';
 import Main from './components/Main';
 import PageNotFound from './components/PageNotFound';
 
@@ -22,25 +23,28 @@ function App() {
   return (
     <>
       <Navigation isLoaded={isLoaded} sessionUser={sessionUser} />
-      {isLoaded && (
-        <Switch>
-          <Route exact path="/">
-            {sessionUser ? <Main /> : <LandingPage />}
-          </Route>
-          <Route exact path="/upload">
-            <TrackUploadForm sessionUser={sessionUser} />
-          </Route>
-          <Route path="/tracks/:trackID">
-            <SingleTrackPage />
-          </Route>
-          <Route exact path="/tracks/:trackID/edit">
-            <TrackEditForm />
-          </Route>
-          <Route>
-            <PageNotFound />
-          </Route>
-        </Switch>
-      )}
+      <div id="content">
+        {isLoaded && (
+          <Switch>
+            <Route exact path="/">
+              {sessionUser ? <Main /> : <LandingPage />}
+            </Route>
+            <Route exact path="/upload">
+              <TrackUploadForm sessionUser={sessionUser} />
+            </Route>
+            <Route path="/tracks/:trackID">
+              <SingleTrackPage />
+            </Route>
+            <Route exact path="/tracks/:trackID/edit">
+              <TrackEditForm />
+            </Route>
+            <Route>
+              <PageNotFound />
+            </Route>
+          </Switch>
+        )}
+      </div>
+      <AudioPlayerFooter />
     </>
   );
 }
