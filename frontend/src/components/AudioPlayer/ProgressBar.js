@@ -27,12 +27,6 @@ const ProgressBar = ({ trackID }) => {
     }
     dispatch(setSeeking(newTime));
   };
-  // const handleSeeking = (e) => {
-  //   const newTime = e.target.value;
-  //   // audio.current.currentTime = isCurrent ? newTime : 0;
-  //   dispatch(updateTime(newTime));
-  //   audio.current.currentTime = currentTime;
-  // };
 
   return (
     <div className="player-timeline-container">
@@ -47,8 +41,6 @@ const ProgressBar = ({ trackID }) => {
         min="1"
         max={duration || duration.toString()}
         value={isCurrent ? currentTime : 0}
-        // value={currentTime}
-        // onChange={handleSeeking}
         onChange={onChange}
       />
     </div>

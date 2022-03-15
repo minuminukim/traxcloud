@@ -3,7 +3,7 @@ import { playTrack, setTrack, pauseTrack } from '../../actions/playerActions';
 import { FaPlay, FaPause } from 'react-icons/fa';
 import './PlayButton.css';
 
-const PlaybackButton = ({ size, trackID }) => {
+const PlaybackButton = ({ size, trackID, withBackground = true }) => {
   const dispatch = useDispatch();
   const { isPlaying, audio, currentTrackID } = useSelector(
     (state) => state.player
@@ -28,7 +28,9 @@ const PlaybackButton = ({ size, trackID }) => {
 
   return (
     <button
-      className={`media-button play-button ${size}-button`}
+      className={`media-button play-button ${size}-button ${
+        withBackground ? '' : 'transparent'
+      }`}
       id={`play-${trackID}`}
       onClick={isPlaying && isCurrent ? onPause : onPlay}
     >

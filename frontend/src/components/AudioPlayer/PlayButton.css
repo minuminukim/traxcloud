@@ -11,6 +11,11 @@
   align-items: center;
 }
 
+.media-button.transparent {
+  background-color: transparent;
+  color: #000;
+}
+
 .media-button:hover {
   filter: brightness(95%);
 }

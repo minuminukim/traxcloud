@@ -1,17 +1,26 @@
-.player-footer {
+.footer-container {
   display: flex;
   align-items: center;
+  justify-content: center;
   position: fixed;
   bottom: 0;
   left: 0;
-  width: 100%;
+  width: 100vw;
   background-color: #f2f2f2;
   height: 48px;
   border-top: 1px solid #999;
 }
 
-.footer-progress-bar {
+.footer-player {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
+  max-width: 1240px;
+}
+
+.footer-container .player-timeline-container {
+  width: 632px;
 }
 
 .player-controls {
@@ -22,4 +31,18 @@
 .player-control {
   cursor: pointer;
   font-size: 20px;
+}
+
+.soundbadge {
+  display: flex;
+  align-items: center;
+}
+
+.soundbadge-links {
+  display: flex;
+  flex-direction: column;
+}
+
+.soundbadge-links a {
+  font-size: 14px;
 }
