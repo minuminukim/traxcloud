@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { PlaybackButton } from '../AudioPlayer';
+import { PlaybackButton, Audio } from '../AudioPlayer';
 import { IoPlaySkipForward, IoPlaySkipBack } from 'react-icons/io5';
 import { Volume, SoundBadge } from '.';
 import ProgressBar from '../AudioPlayer/ProgressBar';
@@ -11,6 +11,7 @@ const AudioPlayerFooter = () => {
     currentTrackID && (
       <footer className="footer-container">
         <div className="footer-player">
+          <Audio trackID={currentTrackID} />
           <div className="player-controls">
             <IoPlaySkipBack className="player-control" />
             <PlaybackButton
@@ -20,6 +21,7 @@ const AudioPlayerFooter = () => {
             />
             <IoPlaySkipForward className="player-control" />
           </div>
+
           <ProgressBar trackID={currentTrackID} />
           <Volume />
           <SoundBadge />
