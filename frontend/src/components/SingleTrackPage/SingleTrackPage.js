@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import {getAllTracks } from '../../store/trackReducer';
 import AudioPlayer from '../AudioPlayer';
-import TrackArtwork from '../common/TrackArtwork';
+import TrackArtwork from '../TrackArtwork';
 import UserCard from '../common/UserCard/UserCard';
 import './SingleTrackPage.css';
 

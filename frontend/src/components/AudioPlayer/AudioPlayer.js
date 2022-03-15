@@ -11,7 +11,7 @@ import {
   ProgressBar,
 } from '.';
 
-import TrackArtwork from '../common/TrackArtwork/';
+import TrackArtwork from '../TrackArtwork';
 import './AudioPlayer.css';
 
 const AudioPlayer = ({ track, size, withArtwork = false }) => {
