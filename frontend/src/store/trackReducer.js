@@ -21,9 +21,9 @@ const updateTrack = (track) => ({
   track,
 });
 
-const removeTrack = (trackId) => ({
+const removeTrack = (trackID) => ({
   type: REMOVE_TRACK,
-  trackId,
+  trackID,
 });
 
 export const fetchTracks = () => async (dispatch) => {
@@ -34,8 +34,8 @@ export const fetchTracks = () => async (dispatch) => {
   return tracks;
 };
 
-export const fetchSingleTrack = (trackId) => async (dispatch) => {
-  const response = await csrfFetch(`/api/tracks/${trackId}`);
+export const fetchSingleTrack = (trackID) => async (dispatch) => {
+  const response = await csrfFetch(`/api/tracks/${trackID}`);
   const { track } = await response.json();
   dispatch(addTrack(track));
 
@@ -80,13 +80,13 @@ export const editTrack = (track) => async (dispatch) => {
   return response;
 };
 
-export const deleteTrack = (trackId, userId) => async (dispatch) => {
-  const response = await csrfFetch(`/api/tracks/${trackId}`, {
+export const deleteTrack = (trackID, userId) => async (dispatch) => {
+  const response = await csrfFetch(`/api/tracks/${trackID}`, {
     method: 'DELETE',
-    body: JSON.stringify({ userId, trackId }),
+    body: JSON.stringify({ userId, trackID }),
   });
 
-  dispatch(removeTrack(trackId));
+  dispatch(removeTrack(trackID));
   return response;
 };
 
@@ -113,7 +113,7 @@ const trackReducer = (state = {}, action) => {
       };
     case REMOVE_TRACK:
       const newState = { ...state };
-      delete newState[action.trackId];
+      delete newState[action.trackID];
       return newState;
     default:
       return state;

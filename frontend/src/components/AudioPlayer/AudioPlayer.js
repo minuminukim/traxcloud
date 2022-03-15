@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { deleteTrack } from '../../store/trackReducer';
+import { playTrack, pauseTrack, updateTime } from '../../actions/playerActions';
 import prefixCORS from '../../utils/prefixCORS';
 import TrackUploadForm from '../TrackUploadForm';
 import {
@@ -9,31 +10,32 @@ import {
   TrackActions,
   TrackDetails,
   ProgressBar,
+  Audio,
 } from '.';
 
 import TrackArtwork from '../TrackArtwork';
 import './AudioPlayer.css';
 
-const AudioPlayer = ({ track, size, withArtwork = false }) => {
+const AudioPlayer = ({ trackID, size, withArtwork = false }) => {
+  const track = useSelector((state) => state.tracks[trackID]);
   const [isPlaying, setIsPlaying] = useState(false);
   const [duration, setDuration] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
   const [trackId, setTrackId] = useState(0);
   const audio = useRef(null);
 
-  useEffect(() => {
-    if (isPlaying) {
-      audio.current.play();
-    } else {
-      audio.current.pause();
-    }
-  }, [isPlaying]);
+  // useEffect(() => {
+  //   if (isPlaying) {
+  //     audio.current.play();
+  //   } else {
+  //     audio.current.pause();
+  //   }
+  // }, [isPlaying]);
 
   const user = track.User;
   const sessionUser = useSelector((state) => state.session.user);
   const dispatch = useDispatch();
 
-  const handleLoadedMetadata = () => setDuration(audio.current.duration);
   const handlePlayClick = () => setIsPlaying(true);
   const handlePauseClick = () => setIsPlaying(false);
   const handleTimeUpdate = () => setCurrentTime(audio.current.currentTime);
@@ -71,12 +73,13 @@ const AudioPlayer = ({ track, size, withArtwork = false }) => {
             displayName={user.username}
             userId={track.userId}
             title={track.title}
-            trackId={track.id}
+            trackID={track.id}
             size={size}
             time={track.createdAt}
           />
         </div>
-        <audio
+        <Audio trackID={trackID} />
+        {/* <audio
           src={track.trackUrl}
           id={`track-${track.id}`}
           crossOrigin="anonymous"
@@ -84,7 +87,7 @@ const AudioPlayer = ({ track, size, withArtwork = false }) => {
           onTimeUpdate={handleTimeUpdate}
           onLoadedMetadata={handleLoadedMetadata}
           onPlay={handlePlay}
-        />
+        /> */}
         <ProgressBar
           duration={duration}
           currentTime={currentTime}

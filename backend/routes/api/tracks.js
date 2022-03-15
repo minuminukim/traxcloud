@@ -14,17 +14,17 @@ const {
 const router = express.Router();
 
 router.get(
-  '/:trackId(\\d+)',
+  '/:trackID(\\d+)',
   asyncHandler(async (req, res, next) => {
-    const trackId = +req.params.trackId;
-    const track = await Track.fetchSingleTrackWithUser(trackId);
+    const trackID = +req.params.trackID;
+    const track = await Track.fetchSingleTrackWithUser(trackID);
 
     if (!track) {
       const trackError = new Error('Track not found.');
       trackError.status = 404;
       trackError.title = 'Track not found.';
       trackError.errors = {
-        trackId: `The requested track could not be found.`,
+        trackID: `The requested track could not be found.`,
       };
 
       return next(trackError);
@@ -72,12 +72,12 @@ router.post(
 );
 
 router.put(
-  '/:trackId(\\d+)',
+  '/:trackID(\\d+)',
   requireAuth,
   validateTrackPUT,
   asyncHandler(async (req, res, next) => {
-    const trackId = +req.params.trackId;
-    const track = await Track.getTrackById(trackId);
+    const trackID = +req.params.trackID;
+    const track = await Track.getTrackById(trackID);
 
     if (track) {
       const pairs = Object.entries(req.body);
@@ -94,11 +94,11 @@ router.put(
 );
 
 router.delete(
-  '/:trackId(\\d+)',
+  '/:trackID(\\d+)',
   requireAuth,
   asyncHandler(async (req, res) => {
-    const trackId = +req.params.trackId;
-    const track = await Track.getTrackById(trackId);
+    const trackID = +req.params.trackID;
+    const track = await Track.getTrackById(trackID);
 
     if (track) {
       const key = getObjectKey(track.trackUrl);

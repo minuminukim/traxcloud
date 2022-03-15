@@ -19,7 +19,7 @@ const TrackActions = (props) => {
           />
           <EditDeleteButton
             type="Delete"
-            trackId={track.id}
+            trackID={track.id}
             userId={sessionId}
             handleClick={handleDelete}
             className="delete-button"

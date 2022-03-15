@@ -6,6 +6,7 @@ import ProgressBar from './ProgressBar';
 import TrackActions from './TrackActions';
 import TrackDetails from './TrackDetails';
 import TrackHeader from './TrackHeader';
+import Audio from './Audio';
 
 export {
   EditDeleteButton,
@@ -15,6 +16,7 @@ export {
   TrackActions,
   TrackDetails,
   TrackHeader,
+  Audio,
 };
 
 export default AudioPlayer;

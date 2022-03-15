@@ -30,10 +30,10 @@ function App() {
           <Route exact path="/upload">
             <TrackUploadForm sessionUser={sessionUser} />
           </Route>
-          <Route path="/tracks/:trackId">
+          <Route path="/tracks/:trackID">
             <SingleTrackPage />
           </Route>
-          <Route exact path="/tracks/:trackId/edit">
+          <Route exact path="/tracks/:trackID/edit">
             <TrackEditForm />
           </Route>
           <Route>

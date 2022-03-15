@@ -39,8 +39,6 @@ function playerReducer(state = initialState, action) {
       return {
         ...state,
         currentTrackID: action.trackID,
-        currentTime: 0,
-        duration: 0,
       };
 
     case TRACK_PLAYED:

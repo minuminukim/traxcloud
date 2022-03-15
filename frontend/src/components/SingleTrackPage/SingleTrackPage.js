@@ -9,10 +9,10 @@ import './SingleTrackPage.css';
 
 const SingleTrackPage = () => {
   const [isLoading, setIsLoading] = useState(true);
-  const { trackId } = useParams();
+  const { trackID } = useParams();
   const dispatch = useDispatch();
   const tracks = useSelector((state) => state.tracks);
-  const track = tracks[+trackId];
+  const track = tracks[+trackID];
 
   useEffect(() => {
     return dispatch(fetchTracks())
