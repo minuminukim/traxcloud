@@ -1,11 +1,15 @@
+import { useSelector } from 'react-redux';
+import { onImageError } from '../../utils';
+import { prefixCORS } from '../../utils';
 import './TrackArtwork.css';
-import { onImageError } from '../../utils/onImageError';
 
-const TrackArtwork = ({ className, source, title }) => {
+const TrackArtwork = ({ className, trackID }) => {
+  const { artworkUrl, title } = useSelector((state) => state.tracks[trackID]);
+
   return (
     <img
       className={className}
-      src={source}
+      src={prefixCORS(artworkUrl)}
       alt={`${title} artwork`}
       crossOrigin="true"
       onError={onImageError}

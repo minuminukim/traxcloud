@@ -1,6 +1,12 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { playTrack, setTrack, pauseTrack } from '../../actions/playerActions';
+import {
+  playTrack,
+  setTrack,
+  pauseTrack,
+  updateTime,
+} from '../../actions/playerActions';
 import { FaPlay, FaPause } from 'react-icons/fa';
+import { isCurrentTrack } from '../../utils';
 import './PlayButton.css';
 
 const PlaybackButton = ({ size, trackID }) => {
@@ -14,7 +20,8 @@ const PlaybackButton = ({ size, trackID }) => {
       dispatch(pauseTrack());
 
       // if a new track has been selected..
-      if (+trackID !== currentTrackID) {
+      if (!isCurrentTrack(+trackID, currentTrackID)) {
+        dispatch(updateTime(0));
         dispatch(setTrack(+trackID));
         dispatch(playTrack());
       }

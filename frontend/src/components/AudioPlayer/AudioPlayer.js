@@ -4,7 +4,6 @@ import { deleteTrack } from '../../store/trackReducer';
 import prefixCORS from '../../utils/prefixCORS';
 import TrackUploadForm from '../TrackUploadForm';
 import {
-  PauseButton,
   PlaybackButton,
   TrackActions,
   TrackDetails,
@@ -17,7 +16,6 @@ import './AudioPlayer.css';
 
 const AudioPlayer = ({ trackID, size, withArtwork = false }) => {
   const track = useSelector((state) => state.tracks[trackID]);
-  const { isPlaying, currentTrackID } = useSelector((state) => state.player);
   const sessionUser = useSelector((state) => state.session.user);
   const dispatch = useDispatch();
 
@@ -33,18 +31,12 @@ const AudioPlayer = ({ trackID, size, withArtwork = false }) => {
       {withArtwork && (
         <TrackArtwork
           className={`track-artwork artwork-${size}`}
-          source={prefixCORS(track.artworkUrl)}
-          title={track.title}
+          trackID={trackID}
         />
       )}
       <div className="music-player-main">
         <div className="music-player-main-top">
           <PlaybackButton size={size} trackID={trackID} />
-          {/* {isPlaying && currentTrackID === +trackID ? (
-            <PauseButton size={size} />
-          ) : (
-            <PlayButton size={size} trackID={trackID} />
-          )} */}
           <TrackDetails trackID={track.id} size={size} />
         </div>
         <Audio trackID={trackID} />

@@ -1,26 +1,27 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { updateTime } from '../../actions/playerActions';
+import { isCurrentTrack, formatTime } from '../../utils';
 import './ProgressBar.css';
 
 const ProgressBar = ({ trackID }) => {
-  const { currentTime } = useSelector((state) => state.player);
+  const { currentTime, currentTrackID, currentRef } = useSelector(
+    (state) => state.player
+  );
+
   const { duration } = useSelector((state) => state.tracks[trackID]);
+  const isActive = isCurrentTrack(+trackID, currentTrackID);
   const dispatch = useDispatch();
 
-  const formatTime = (time) => {
-    const minutes = Math.floor(time / 60).toString();
-    const seconds = Math.floor(time - minutes * 60)
-      .toString()
-      .padStart(2, '0');
-
-    return `${minutes}:${seconds}`;
+  const handleSeeking = (e) => {
+    const newTime = e.target.value;
+    currentRef.current.currentTime = newTime;
+    dispatch(updateTime(newTime));
   };
-  const handleSeeking = (e) => dispatch(updateTime(e.target.value));
 
   return (
     <div className="player-timeline-container">
       <div className="timers-container">
-        <p className="timer-text">{formatTime(currentTime)}</p>
+        {isActive && <p className="timer-text">{formatTime(currentTime)}</p>}
         <p className="duration-text">{formatTime(duration)}</p>
       </div>
       <input
@@ -29,7 +30,7 @@ const ProgressBar = ({ trackID }) => {
         step="1"
         min="1"
         max={duration || duration.toString()}
-        value={currentTime}
+        value={isActive ? currentTime : 0}
         onChange={handleSeeking}
       />
     </div>
