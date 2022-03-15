@@ -1,18 +1,19 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateVolume } from '../../actions/playerActions';
+import { Slider } from '.';
 import { IoMdVolumeHigh } from 'react-icons/io';
 import './Volume.css';
 
 const Volume = () => {
   const dispatch = useDispatch();
-  const [volume, setVolume] = useState(1);
-  const [isMuted, setMuted] = useState(false);
+  const { volume, isMuted, audio } = useSelector((state) => state.player);
   const [showSlider, setShowSlider] = useState(false);
   const toggleSlider = () => setShowSlider(!showSlider);
-  const updateVolume = (e) => {
-    console.log('@@@@@', e);
-    setVolume(+e.target);
+  const onChange = (e) => {
+    const newVolume = e.target.value;
+    dispatch(updateVolume(e.target.value, false));
+    audio.current.volume = newVolume;
   };
 
   return (
@@ -23,13 +24,13 @@ const Volume = () => {
     >
       <IoMdVolumeHigh className="player-control" />
       {showSlider && (
-        <input
-          type="range"
-          min={0}
-          max={1}
-          step={0.02}
+        <Slider
+          min="0"
+          max="1"
+          step="0.02"
+          color="orange"
           value={volume}
-          onChange={updateVolume}
+          onChange={onChange}
         />
       )}
     </div>

@@ -4,7 +4,7 @@ import { isCurrentTrack, formatTime } from '../../utils';
 import './ProgressBar.css';
 
 const ProgressBar = ({ trackID }) => {
-  const { currentTime, currentTrackID, currentRef } = useSelector(
+  const { currentTime, currentTrackID, audio } = useSelector(
     (state) => state.player
   );
 
@@ -14,7 +14,7 @@ const ProgressBar = ({ trackID }) => {
 
   const handleSeeking = (e) => {
     const newTime = e.target.value;
-    currentRef.current.currentTime = newTime;
+    audio.current.currentTime = newTime;
     dispatch(updateTime(newTime));
   };
 

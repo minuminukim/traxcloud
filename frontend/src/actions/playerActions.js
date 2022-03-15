@@ -9,7 +9,7 @@ export const TIME_UPDATED = 'player/timeUpdated';
 export const VOLUME_UPDATED = 'player/volumeUpdated';
 
 /* ----- ACTIONS ----- */
-export const setMetadata = (duration) => ({
+export const setDuration = (duration) => ({
   type: METADATA_LOADED,
   duration,
 });
@@ -42,7 +42,7 @@ export const updateTime = (currentTime) => ({
   currentTime,
 });
 
-export const updateVolume = (isMuted, volume) => ({
+export const updateVolume = (volume, isMuted) => ({
   type: VOLUME_UPDATED,
   isMuted,
   volume,

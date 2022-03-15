@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { deleteTrack } from '../../store/trackReducer';
+import { setAudio } from '../../actions/playerActions';
 import prefixCORS from '../../utils/prefixCORS';
 import TrackUploadForm from '../TrackUploadForm';
 import {
@@ -15,9 +16,10 @@ import TrackArtwork from '../TrackArtwork';
 import './AudioPlayer.css';
 
 const AudioPlayer = ({ trackID, size, withArtwork = false }) => {
+  const dispatch = useDispatch();
   const track = useSelector((state) => state.tracks[trackID]);
   const sessionUser = useSelector((state) => state.session.user);
-  const dispatch = useDispatch();
+// const [seeking]
 
   const handleEdit = () => <TrackUploadForm formState={track} />;
   const handleDelete = () =>

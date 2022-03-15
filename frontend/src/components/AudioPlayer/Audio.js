@@ -1,32 +1,36 @@
 import { useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import {
-  setMetadata,
-  setAudio,
-  updateTime,
-} from '../../actions/playerActions';
+import { setDuration, setAudio, updateTime } from '../../actions/playerActions';
 
 function Audio({ trackID }) {
   const track = useSelector((state) => state.tracks[trackID]);
-  const { isPlaying, currentTrackID } = useSelector((state) => state.player);
+  const { isPlaying, currentTrackID, volume, audio } = useSelector(
+    (state) => state.player
+  );
 
   const dispatch = useDispatch();
-  const audioRef = useRef(null);
+  const audioRef = useRef(audio);
 
   useEffect(() => {
     isPlaying && currentTrackID === +trackID
       ? audioRef.current.play()
       : audioRef.current.pause();
 
-    dispatch(setAudio(audioRef));
+    // dispatch(setAudio(audioRef));
   }, [isPlaying, currentTrackID, dispatch]);
 
+  useEffect(() => {
+    audioRef.current.volume = volume;
+  }, [volume]);
+
   const handleTimeUpdate = () =>
-    // dispatch(updateTime(audioRef.current.currentTime));
-    dispatch(updateTime(audioRef.current.currentTime));
+    dispatch(updateTime(audio.current.currentTime));
+  // dispatch(updateTime(audioRef.current.currentTime));
+  // dispatch(updateTime(audioRef.current.currentTime));
 
   const handleLoadedMetaData = () =>
-    dispatch(setMetadata(audioRef.current.duration));
+    // dispatch(setDuration(ref.current.duration));
+    dispatch(setDuration(audioRef.current.duration));
 
   return (
     <audio
@@ -36,6 +40,7 @@ function Audio({ trackID }) {
       ref={audioRef}
       onTimeUpdate={handleTimeUpdate}
       onLoadedMetadata={handleLoadedMetaData}
+      onPlay={() => dispatch(setAudio(audioRef))}
     />
   );
 }

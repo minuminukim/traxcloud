@@ -7,6 +7,7 @@ import {
   TRACK_PAUSED,
   TIME_UPDATED,
   VOLUME_UPDATED,
+  SEEKING_SET,
 } from '../actions/playerActions';
 
 const initialState = {
@@ -14,7 +15,7 @@ const initialState = {
   playlist: [],
   duration: 0,
   currentTime: 0,
-  currentRef: null,
+  audio: null,
   isPlaying: false,
   isMuted: false,
   volume: 1,
@@ -46,7 +47,7 @@ function playerReducer(state = initialState, action) {
     case AUDIO_SET:
       return {
         ...state,
-        currentRef: action.ref,
+        audio: action.ref,
       };
 
     case TRACK_PLAYED:
