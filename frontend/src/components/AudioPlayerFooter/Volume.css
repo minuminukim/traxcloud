@@ -2,3 +2,8 @@
   display: flex;
   flex-direction: column-reverse;
 }
+
+.volume-slider {
+  display: flex;
+  flex-direction: column;
+}

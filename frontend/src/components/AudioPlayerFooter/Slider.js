@@ -1,7 +1,7 @@
-const Slider = ({ color, min, max, step, value, onChange }) => {
+const Slider = ({ color, min, max, step, value, onChange, className }) => {
   return (
     <input
-      className={`slider ${color}`}
+      className={`${color} ${className}`}
       type="range"
       min={min}
       max={max}
