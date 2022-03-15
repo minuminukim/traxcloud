@@ -15,10 +15,11 @@ export const setDuration = (duration) => ({
   duration,
 });
 
-export const setTrack = (trackID, currentTime = 0) => ({
+export const setTrack = (trackID, index = 0, currentTime = 0) => ({
   type: TRACK_SET,
   trackID,
   currentTime,
+  index,
 });
 
 export const setReference = (ref) => ({
@@ -54,3 +55,21 @@ export const setSeeking = (currentTime) => ({
   type: SEEKING_UPDATED,
   currentTime,
 });
+
+export const playNext = () => (dispatch, getState) => {
+  const state = getState();
+  const { playlist, currentIndex } = state.player;
+  const nextIndex = currentIndex + 1 >= playlist.length ? 0 : currentIndex + 1;
+  const nextID = playlist[nextIndex];
+  dispatch(setTrack(nextID, nextIndex));
+  dispatch(playTrack());
+};
+
+export const playPrevious = () => (dispatch, getState) => {
+  const state = getState();
+  const { playlist, currentIndex } = state.player;
+  const nextIndex = currentIndex === 0 ? playlist.length - 1 : currentIndex - 1;
+  const nextID = playlist[nextIndex];
+  dispatch(setTrack(nextID, nextIndex));
+  dispatch(playTrack());
+};

@@ -14,11 +14,12 @@ function Audio({ trackID }) {
   );
 
   const audioRef = useRef(audio);
-  const isCurrent = currentTrackID === +trackID;
 
   useEffect(() => {
-    isPlaying && isCurrent ? audioRef.current.play() : audioRef.current.pause();
-  }, [isPlaying, isCurrent, dispatch]);
+    isPlaying && currentTrackID === +trackID
+      ? audioRef.current.play()
+      : audioRef.current.pause();
+  }, [isPlaying, currentTrackID, trackID, dispatch]);
 
   useEffect(() => {
     audioRef.current.currentTime = seekingTime;

@@ -13,6 +13,7 @@ import {
 const initialState = {
   currentTrackID: null,
   playlist: [],
+  currentIndex: 0,
   duration: 0,
   currentTime: 0,
   seekingTime: 0,
@@ -40,11 +41,15 @@ function playerReducer(state = initialState, action) {
       };
 
     case TRACK_SET:
+      const findIndex = (id) => state.playlist.indexOf(id);
+      const index = action.index ? action.index : findIndex(action.trackID);
+
       return {
         ...state,
         currentTrackID: action.trackID,
         currentTime: action.currentTime,
         seekingTime: action.currentTime,
+        currentIndex: index,
       };
 
     case REFERENCE_UPDATED:
