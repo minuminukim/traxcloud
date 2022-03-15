@@ -2,9 +2,9 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchTracks } from '../../store/trackReducer';
-import AudioPlayer from '../AudioPlayer';
-import TrackArtwork from '../TrackArtwork';
-import UserCard from '../common/UserCard/UserCard';
+import AudioPlayer from '../../components/AudioPlayer';
+import TrackArtwork from '../../components/TrackArtwork';
+import UserCard from '../../components/common/UserCard/UserCard';
 import './SingleTrackPage.css';
 
 const SingleTrackPage = () => {

@@ -3,8 +3,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { fetchTracks } from '../../store/trackReducer';
 import toArray from '../../utils/toArray';
 import TrendingBlock from './TrendingBlock';
-import SignupForm from '../SignupForm';
-import ModalWrapper from '../ModalWrapper';
+import SignupForm from '../../components/SignupForm';
+import ModalWrapper from '../../components/ModalWrapper';
 import './TrendingTracks.css';
 
 const TrendingTracks = () => {

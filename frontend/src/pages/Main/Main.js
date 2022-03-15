@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
-import Stream from '../Stream';
-import AudioPlayerFooter from '../AudioPlayerFooter';
+import Stream from '../../components/Stream';
 import './Main.css';
 
 const Main = () => {

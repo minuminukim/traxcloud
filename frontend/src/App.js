@@ -3,13 +3,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Switch, Route } from 'react-router-dom';
 import { restoreUser } from './store/sessionReducer';
 import Navigation from './components/Navigation';
-import LandingPage from './components/LandingPage';
-import TrackUploadForm from './components/TrackUploadForm';
-import TrackEditForm from './components/TrackEditForm';
-import SingleTrackPage from './components/SingleTrackPage';
 import AudioPlayerFooter from './components/AudioPlayerFooter';
-import Main from './components/Main';
-import PageNotFound from './components/PageNotFound';
+import TrackEditForm from './components/TrackEditForm';
+import {
+  LandingPage,
+  Main,
+  PageNotFound,
+  SingleTrackPage,
+  TrackUploadForm,
+} from './pages';
 
 function App() {
   const [isLoaded, setIsLoaded] = useState(false);

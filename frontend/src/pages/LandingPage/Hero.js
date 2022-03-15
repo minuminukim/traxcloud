@@ -1,7 +1,7 @@
-import Button from '../common/Button';
-import ModalWrapper from '../ModalWrapper';
-import SignupForm from '../SignupForm';
-import LoginForm from '../LoginForm';
+import Button from '../../components/common/Button';
+import ModalWrapper from '../../components/ModalWrapper';
+import SignupForm from '../../components/SignupForm';
+import LoginForm from '../../components/LoginForm';
 import './Hero.css';
 
 const Hero = () => {

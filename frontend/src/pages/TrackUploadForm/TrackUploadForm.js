@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import InputField from '../common/InputField';
-import Button from '../common/Button';
+import InputField from '../../components/common/InputField';
+import Button from '../../components/common/Button';
 import FileUploader from './FileUploader';
-import Textarea from '../common/Textarea';
+import Textarea from '../../components/common/Textarea';
 import { postTrack } from '../../store/trackReducer';
 
 const TrackUploadForm = ({ sessionUser }) => {
@@ -102,7 +102,11 @@ const TrackUploadForm = ({ sessionUser }) => {
         rows="10"
       />
       <FileUploader handleFile={handleTrackFile} />
-      <Button label="Submit" className="large-button upload-submit" type="submit" />
+      <Button
+        label="Submit"
+        className="large-button upload-submit"
+        type="submit"
+      />
       <div className="form-requirement">
         <p className="form-requirement">Please provide an MP3 under 10MB.</p>
         <p>
