@@ -3,12 +3,15 @@ import { useSelector, useDispatch } from 'react-redux';
 import { deleteTrack } from '../../store/trackReducer';
 import prefixCORS from '../../utils/prefixCORS';
 import TrackUploadForm from '../TrackUploadForm';
-import PlayButton from './PlayButton';
-import PauseButton from './PauseButton';
-import TrackDetails from './TrackDetails';
+import {
+  PauseButton,
+  PlayButton,
+  TrackActions,
+  TrackDetails,
+  ProgressBar,
+} from '.';
+
 import TrackArtwork from '../common/TrackArtwork/';
-import ProgressBar from './ProgressBar';
-import TrackButtons from './TrackButtons';
 import './AudioPlayer.css';
 
 const AudioPlayer = ({ track, size, withArtwork = false }) => {
@@ -88,7 +91,7 @@ const AudioPlayer = ({ track, size, withArtwork = false }) => {
           onChange={handleTimeUpdate}
           onSeeking={handleSeeking}
         />
-        <TrackButtons
+        <TrackActions
           sessionId={sessionUser.id}
           userId={track.userId}
           handleEdit={handleEdit}

@@ -3,9 +3,9 @@ import TrackEditForm from '../TrackEditForm';
 import ModalWrapper from '../ModalWrapper';
 import EditDeleteButton from './EditDeleteButton';
 import belongsTo from '../../utils/belongsTo';
-import './TrackButtons.css';
+import './TrackActions.css';
 
-const TrackButtons = (props) => {
+const TrackActions = (props) => {
   const { sessionId, userId, track, handleDelete } = props;
   const belongsToSessionUser = belongsTo(sessionId, userId);
 
@@ -36,4 +36,4 @@ const TrackButtons = (props) => {
   );
 };
 
-export default TrackButtons;
+export default TrackActions;
