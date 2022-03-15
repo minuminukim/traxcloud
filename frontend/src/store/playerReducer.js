@@ -7,6 +7,7 @@ import {
   TRACK_PAUSED,
   TIME_UPDATED,
   VOLUME_UPDATED,
+  SEEKING_UPDATED,
 } from '../actions/playerActions';
 
 const initialState = {
@@ -14,6 +15,7 @@ const initialState = {
   playlist: [],
   duration: 0,
   currentTime: 0,
+  seekingTime: 0,
   audio: null,
   isPlaying: false,
   isMuted: false,
@@ -42,6 +44,7 @@ function playerReducer(state = initialState, action) {
         ...state,
         currentTrackID: action.trackID,
         currentTime: action.currentTime,
+        seekingTime: action.currentTime,
       };
 
     case REFERENCE_UPDATED:
@@ -73,6 +76,13 @@ function playerReducer(state = initialState, action) {
         ...state,
         volume: action.volume,
         isMuted: action.isMuted,
+      };
+
+    case SEEKING_UPDATED:
+      return {
+        ...state,
+        currentTime: action.currentTime,
+        seekingTime: action.currentTime,
       };
 
     default:

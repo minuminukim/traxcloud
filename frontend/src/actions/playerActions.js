@@ -7,6 +7,7 @@ export const TRACK_PLAYED = 'player/trackPlayed';
 export const TRACK_PAUSED = 'player/trackPaused';
 export const TIME_UPDATED = 'player/timeUpdated';
 export const VOLUME_UPDATED = 'player/volumeUpdated';
+export const SEEKING_UPDATED = 'player/seekingSet';
 
 /* ----- ACTIONS ----- */
 export const setDuration = (duration) => ({
@@ -47,4 +48,9 @@ export const updateVolume = (volume, isMuted) => ({
   type: VOLUME_UPDATED,
   isMuted,
   volume,
+});
+
+export const setSeeking = (currentTime) => ({
+  type: SEEKING_UPDATED,
+  currentTime,
 });

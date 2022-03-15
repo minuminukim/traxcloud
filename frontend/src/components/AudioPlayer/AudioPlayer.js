@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { isCurrentTrack } from '../../utils';
-import { pauseTrack, setReference } from '../../actions/playerActions';
+import { setTrack, updateTime } from '../../actions/playerActions';
 import {
   PlaybackButton,
   TrackActions,
@@ -16,12 +16,9 @@ import './AudioPlayer.css';
 const AudioPlayer = ({ trackID, size, withArtwork = false }) => {
   const dispatch = useDispatch();
   const track = useSelector((state) => state.tracks[trackID]);
-  const { audio, currentTrackID } = useSelector((state) => state.player);
-
-  const togglePlay = (e) => {
-    e.stopPropagation();
-    
-  };
+  const { currentTrackID, audio } = useSelector((state) => state.player);
+  const [seekingTime, setSeekingTime] = useState(0);
+  const isCurrent = isCurrentTrack(+trackID, currentTrackID);
 
   return (
     <div className={`music-player track-${track.id} player-${size}`}>
@@ -33,11 +30,15 @@ const AudioPlayer = ({ trackID, size, withArtwork = false }) => {
       )}
       <div className="music-player-main">
         <div className="music-player-main-top">
-          <PlaybackButton size={size} trackID={trackID} />
+          <PlaybackButton size={size} trackID={trackID} isCurrent={isCurrent} />
           <TrackDetails trackID={track.id} size={size} />
         </div>
-        <Audio trackID={trackID} />
-        <ProgressBar trackID={trackID} />
+        <Audio
+          trackID={trackID}
+          seekingTime={seekingTime}
+          isCurrent={isCurrent}
+        />
+        <ProgressBar trackID={trackID} isCurrent={isCurrent} />
         <TrackActions trackID={trackID} />
       </div>
     </div>

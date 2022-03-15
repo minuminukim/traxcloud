@@ -1,20 +1,15 @@
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  playTrack,
-  setTrack,
-  pauseTrack,
-  updateTime,
-} from '../../actions/playerActions';
+import { playTrack, setTrack, pauseTrack } from '../../actions/playerActions';
 import { FaPlay, FaPause } from 'react-icons/fa';
-import { isCurrentTrack } from '../../utils';
 import './PlayButton.css';
 
 const PlaybackButton = ({ size, trackID }) => {
   const dispatch = useDispatch();
-  const { currentTrackID, isPlaying, audio } = useSelector(
+  const { isPlaying, audio, currentTrackID } = useSelector(
     (state) => state.player
   );
-  const isCurrent = isCurrentTrack(+trackID, currentTrackID);
+  const isCurrent = +trackID === currentTrackID;
+
   const onPause = () => dispatch(pauseTrack());
 
   const onPlay = () => {

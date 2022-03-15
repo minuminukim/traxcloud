@@ -6,9 +6,9 @@ import {
   updateTime,
 } from '../../actions/playerActions';
 
-function Audio({ trackID }) {
+function Audio({ trackID, isCurrent }) {
   const track = useSelector((state) => state.tracks[trackID]);
-  const { isPlaying, currentTrackID, volume, audio } = useSelector(
+  const { isPlaying, currentTrackID, seekingTime, audio } = useSelector(
     (state) => state.player
   );
 
@@ -19,9 +19,11 @@ function Audio({ trackID }) {
     isPlaying && currentTrackID === +trackID
       ? audioRef.current.play()
       : audioRef.current.pause();
+  }, [isPlaying, isCurrent, dispatch]);
 
-    // dispatch(setReference(audioRef));
-  }, [isPlaying, currentTrackID, dispatch]);
+  useEffect(() => {
+    audioRef.current.currentTime = seekingTime;
+  }, [seekingTime]);
 
   // useEffect(() => {
   //   audioRef.current.volume = volume;
