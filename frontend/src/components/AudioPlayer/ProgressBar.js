@@ -1,16 +1,16 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { updateTime } from '../../actions/playerActions';
+import { pauseTrack, setTrack, updateTime } from '../../actions/playerActions';
 import { isCurrentTrack, formatTime } from '../../utils';
 import './ProgressBar.css';
 
 const ProgressBar = ({ trackID }) => {
+  const dispatch = useDispatch();
+  const { duration } = useSelector((state) => state.tracks[trackID]);
   const { currentTime, currentTrackID, audio } = useSelector(
     (state) => state.player
   );
 
-  const { duration } = useSelector((state) => state.tracks[trackID]);
   const isActive = isCurrentTrack(+trackID, currentTrackID);
-  const dispatch = useDispatch();
 
   const handleSeeking = (e) => {
     const newTime = e.target.value;

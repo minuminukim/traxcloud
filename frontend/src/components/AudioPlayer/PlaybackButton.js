@@ -11,36 +11,33 @@ import './PlayButton.css';
 
 const PlaybackButton = ({ size, trackID }) => {
   const dispatch = useDispatch();
-  const { currentTrackID, isPlaying } = useSelector((state) => state.player);
+  const { currentTrackID, isPlaying, audio } = useSelector(
+    (state) => state.player
+  );
+  const isCurrent = isCurrentTrack(+trackID, currentTrackID);
+  const onPause = () => dispatch(pauseTrack());
 
-  const handleClick = (e) => {
-    e.stopPropagation();
-
-    if (isPlaying) {
-      dispatch(pauseTrack());
-
-      // if a new track has been selected..
-      if (!isCurrentTrack(+trackID, currentTrackID)) {
-        dispatch(updateTime(0));
-        dispatch(setTrack(+trackID));
-        dispatch(playTrack());
+  const onPlay = () => {
+    // if a new track has been selected..
+    if (!isCurrent) {
+      // reset previous ref to 0
+      if (audio) {
+        audio.current.currentTime = 0;
       }
-    } else {
-      dispatch(setTrack(+trackID));
-      dispatch(playTrack());
-    }
-  };
 
-  const Icon =
-    isPlaying && currentTrackID === +trackID ? <FaPause /> : <FaPlay />;
+      dispatch(setTrack(+trackID));
+    }
+
+    dispatch(playTrack());
+  };
 
   return (
     <button
       className={`media-button play-button ${size}-button`}
       id={`play-${trackID}`}
-      onClick={handleClick}
+      onClick={isPlaying && isCurrent ? onPause : onPlay}
     >
-      {Icon}
+      {isPlaying && isCurrent ? <FaPause /> : <FaPlay />}
     </button>
   );
 };

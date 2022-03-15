@@ -2,7 +2,7 @@
 export const METADATA_LOADED = 'player/metadataLoaded';
 export const PLAYLIST_LOADED = 'player/playlistLoaded';
 export const TRACK_SET = 'player/trackSet';
-export const AUDIO_SET = 'player/referenceSet';
+export const REFERENCE_UPDATED = 'player/referenceSet';
 export const TRACK_PLAYED = 'player/trackPlayed';
 export const TRACK_PAUSED = 'player/trackPaused';
 export const TIME_UPDATED = 'player/timeUpdated';
@@ -14,13 +14,14 @@ export const setDuration = (duration) => ({
   duration,
 });
 
-export const setTrack = (trackID) => ({
+export const setTrack = (trackID, currentTime = 0) => ({
   type: TRACK_SET,
   trackID,
+  currentTime,
 });
 
-export const setAudio = (ref) => ({
-  type: AUDIO_SET,
+export const setReference = (ref) => ({
+  type: REFERENCE_UPDATED,
   ref,
 });
 

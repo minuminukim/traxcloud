@@ -2,12 +2,11 @@ import {
   METADATA_LOADED,
   PLAYLIST_LOADED,
   TRACK_SET,
-  AUDIO_SET,
+  REFERENCE_UPDATED,
   TRACK_PLAYED,
   TRACK_PAUSED,
   TIME_UPDATED,
   VOLUME_UPDATED,
-  SEEKING_SET,
 } from '../actions/playerActions';
 
 const initialState = {
@@ -42,9 +41,10 @@ function playerReducer(state = initialState, action) {
       return {
         ...state,
         currentTrackID: action.trackID,
+        currentTime: action.currentTime,
       };
 
-    case AUDIO_SET:
+    case REFERENCE_UPDATED:
       return {
         ...state,
         audio: action.ref,

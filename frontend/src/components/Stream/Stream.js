@@ -9,18 +9,29 @@ import './Stream.css';
 const Stream = () => {
   const [isLoading, setIsLoading] = useState(true);
   const dispatch = useDispatch();
+  const { playlist } = useSelector((state) => state.player);
   const tracksObject = useSelector((state) => state.tracks);
   const trackIDs = Object.keys(tracksObject).sort((a, b) => +a - +b);
 
   useEffect(() => {
-    return dispatch(fetchTracks())
-      .then(() => setIsLoading(false))
-      .catch((response) => response);
+    (async () => {
+      try {
+        const tracks = await dispatch(fetchTracks());
+        dispatch(setPlaylist(tracks.map(({ id }) => id)));
+        console.log('tracks', tracks);
+        setIsLoading(false);
+      } catch (res) {
+        console.log('error fetching tracks in Stream', res);
+      }
+    })();
+    // return dispatch(fetchTracks())
+    //   .then(() => setIsLoading(false))
+    //   .catch((response) => response);
   }, [dispatch]);
 
-  useEffect(() => {
-    dispatch(setPlaylist(trackIDs));
-  }, [dispatch, trackIDs]);
+  // useEffect(() => {
+  //   dispatch(setPlaylist(trackIDs));
+  // }, [dispatch, trackIDs]);
 
   return (
     !isLoading && (
@@ -28,7 +39,7 @@ const Stream = () => {
         <h1 className="heading-light">
           Hear the latest posts from our creators:
         </h1>
-        {trackIDs.map((id, i) => (
+        {playlist.map((id, i) => (
           <div className="stream-row" key={`row-${id}`}>
             <TrackHeader trackID={id} />
             <AudioPlayer

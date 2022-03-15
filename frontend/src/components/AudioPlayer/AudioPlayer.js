@@ -1,9 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { deleteTrack } from '../../store/trackReducer';
-import { setAudio } from '../../actions/playerActions';
-import prefixCORS from '../../utils/prefixCORS';
-import TrackUploadForm from '../TrackUploadForm';
+import { isCurrentTrack } from '../../utils';
+import { pauseTrack, setReference } from '../../actions/playerActions';
 import {
   PlaybackButton,
   TrackActions,
@@ -18,15 +16,12 @@ import './AudioPlayer.css';
 const AudioPlayer = ({ trackID, size, withArtwork = false }) => {
   const dispatch = useDispatch();
   const track = useSelector((state) => state.tracks[trackID]);
-  const sessionUser = useSelector((state) => state.session.user);
-// const [seeking]
+  const { audio, currentTrackID } = useSelector((state) => state.player);
 
-  const handleEdit = () => <TrackUploadForm formState={track} />;
-  const handleDelete = () =>
-    dispatch(deleteTrack(track.id, sessionUser.id)).catch(async (response) => {
-      const data = await response.json();
-      return data;
-    });
+  const togglePlay = (e) => {
+    e.stopPropagation();
+    
+  };
 
   return (
     <div className={`music-player track-${track.id} player-${size}`}>
@@ -43,13 +38,7 @@ const AudioPlayer = ({ trackID, size, withArtwork = false }) => {
         </div>
         <Audio trackID={trackID} />
         <ProgressBar trackID={trackID} />
-        <TrackActions
-          sessionId={sessionUser.id}
-          userId={track.userId}
-          handleEdit={handleEdit}
-          track={track}
-          handleDelete={handleDelete}
-        />
+        <TrackActions trackID={trackID} />
       </div>
     </div>
   );
