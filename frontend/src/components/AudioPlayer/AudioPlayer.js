@@ -5,7 +5,7 @@ import prefixCORS from '../../utils/prefixCORS';
 import TrackUploadForm from '../TrackUploadForm';
 import {
   PauseButton,
-  PlayButton,
+  PlaybackButton,
   TrackActions,
   TrackDetails,
   ProgressBar,
@@ -15,9 +15,9 @@ import {
 import TrackArtwork from '../TrackArtwork';
 import './AudioPlayer.css';
 
-const AudioPlayer = ({ trackID, size, index, withArtwork = false }) => {
+const AudioPlayer = ({ trackID, size, withArtwork = false }) => {
   const track = useSelector((state) => state.tracks[trackID]);
-  const isPlaying = useSelector((state) => state.player.isPlaying);
+  const { isPlaying, currentTrackID } = useSelector((state) => state.player);
   const sessionUser = useSelector((state) => state.session.user);
   const dispatch = useDispatch();
 
@@ -39,11 +39,12 @@ const AudioPlayer = ({ trackID, size, index, withArtwork = false }) => {
       )}
       <div className="music-player-main">
         <div className="music-player-main-top">
-          {isPlaying ? (
+          <PlaybackButton size={size} trackID={trackID} />
+          {/* {isPlaying && currentTrackID === +trackID ? (
             <PauseButton size={size} />
           ) : (
             <PlayButton size={size} trackID={trackID} />
-          )}
+          )} */}
           <TrackDetails trackID={track.id} size={size} />
         </div>
         <Audio trackID={trackID} />
