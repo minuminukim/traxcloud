@@ -1,16 +1,19 @@
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import calculateTimeSincePost from '../../utils/calculateTimeSincePost';
 import './TrackDetails.css';
 
-const TrackDetails = ({ displayName, title, trackID, size, time }) => {
-  const timeSince = calculateTimeSincePost(time);
+const TrackDetails = ({ trackID, size }) => {
+  const track = useSelector((state) => state.tracks[trackID]);
+  const user = track.User;
+  const timeSince = calculateTimeSincePost(track.createdAt);
 
   return (
     <div className={`track-details track-details-${size}`}>
       <div className={`track-links track-links-${size}`}>
-        <p className={`link-user-${size}`}>{displayName}</p>
+        <p className={`link-user-${size}`}>{user.username}</p>
         <Link className={`link-title-${size}`} to={`/tracks/${trackID}`}>
-          {title}
+          {track.title}
         </Link>
       </div>
       {size === 'large' && <div className="time-since">{timeSince}</div>}

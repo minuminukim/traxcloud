@@ -28,8 +28,7 @@ function Audio({ trackID }) {
 
   const handlePlay = (e) => {
     e.stopPropagation();
-    const id = e.target.id.split('-')[1];
-    dispatch(setTrack(+id));
+    dispatch(setTrack(+trackID));
   };
 
   return (

@@ -42,14 +42,7 @@ const AudioPlayer = ({ trackID, size, index, withArtwork = false }) => {
       <div className="music-player-main">
         <div className="music-player-main-top">
           {isPlaying ? <PauseButton size={size} /> : <PlayButton size={size} />}
-          <TrackDetails
-            displayName={user.username}
-            userId={track.userId}
-            title={track.title}
-            trackID={track.id}
-            size={size}
-            time={track.createdAt}
-          />
+          <TrackDetails trackID={track.id} size={size} />
         </div>
         <Audio trackID={trackID} />
         <ProgressBar trackID={trackID} />
