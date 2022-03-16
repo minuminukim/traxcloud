@@ -4,7 +4,7 @@ import './LandingPage.css';
 
 const LandingPage = () => {
   return (
-    <div className="page-container">
+    <div className="page-container landing-page">
       <Hero />
       <TrendingTracks />
     </div>

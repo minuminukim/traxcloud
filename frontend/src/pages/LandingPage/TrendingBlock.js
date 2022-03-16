@@ -1,20 +1,16 @@
-import prefixCORS from '../../utils/prefixCORS';
-import { onImageError } from '../../utils/onImageError';
+import { Link } from 'react-router-dom';
+import TrackArtwork from '../../components/TrackArtwork';
 import './TrendingBlock.css';
 
 const TrendingBlock = ({ track }) => {
   const { User } = track;
   return (
     <div className="trending-block">
-      <img
-        className="trending-art"
-        src={prefixCORS(track.artworkUrl)}
-        crossOrigin="true"
-        onError={onImageError}
-      />
-      <span href={`/tracks/${track.id}`} className="trending-title">
+      <TrackArtwork className="trending-art" trackID={track.id} />
+      <Link className="trending-title" to={`/tracks/${track.id}`}>
         {track.title}
-      </span>
+      </Link>
+      <span href={`/tracks/${track.id}`} className="trending-title"></span>
       <span href={`/users/${User.id}`} className="trending-artist">
         {User.displayName}
       </span>
