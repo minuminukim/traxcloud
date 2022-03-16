@@ -10,9 +10,9 @@
   height: fit-content;
 }
 
+.track-buttons-left,
 .track-buttons-right {
   display: flex;
-  justify-content: space-between;
   align-items: center;
 }
 

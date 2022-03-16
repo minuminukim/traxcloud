@@ -33,14 +33,13 @@ function App() {
               {sessionUser ? <Main /> : <LandingPage />}
             </Route>
             <Route exact path="/upload">
-              {/* {sessionUser ? <TrackUploadForm /> : <LoginForm />} */}
-              <TrackUploadForm />
+              <TrackUploadForm isUpload />
             </Route>
-            <Route path="/tracks/:trackID">
+            <Route exact path="/tracks/:trackID">
               <SingleTrackPage />
             </Route>
             <Route exact path="/tracks/:trackID/edit">
-              <TrackUploadForm />
+              <TrackUploadForm isUpload={false} />
             </Route>
             <Route>
               <PageNotFound />

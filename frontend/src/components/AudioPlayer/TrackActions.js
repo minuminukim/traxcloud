@@ -1,7 +1,8 @@
 // import { FaPlay } from 'react-icons/fa';
 import { useSelector, useDispatch } from 'react-redux';
-import TrackEditForm from '../TrackEditForm';
-import ModalWrapper from '../ModalWrapper';
+import { useHistory } from 'react-router-dom';
+// import TrackEditForm from '../TrackEditForm';
+// import ModalWrapper from '../ModalWrapper';
 import EditDeleteButton from './EditDeleteButton';
 import belongsTo from '../../utils/belongsTo';
 import { deleteTrack } from '../../store/trackReducer';
@@ -9,10 +10,10 @@ import './TrackActions.css';
 
 const TrackActions = ({ trackID }) => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const track = useSelector((state) => state.tracks[trackID]);
   const sessionUser = useSelector((state) => state.session.user);
 
-  // const { sessionId, userId, track, handleDelete } = props;
   const belongsToSessionUser = belongsTo(sessionUser.id, track.userId);
 
   const handleDelete = async () => {
@@ -23,19 +24,24 @@ const TrackActions = ({ trackID }) => {
     }
   };
 
+  const onEditClick = () => history.push(`/tracks/${trackID}/edit`);
+
   return (
     belongsToSessionUser && (
       <div className="track-buttons">
         <div className="track-buttons-left">
-          <ModalWrapper
+          {/* <ModalWrapper
             children={<TrackEditForm track={track} />}
             className={'edit-button'}
+          /> */}
+          <EditDeleteButton
+            isEdit
+            onClick={onEditClick}
+            className="edit-button"
           />
           <EditDeleteButton
-            type="Delete"
-            trackID={track.id}
-            userId={sessionUser.id}
-            handleClick={handleDelete}
+            isEdit={false}
+            onClick={handleDelete}
             className="delete-button"
           />
         </div>
