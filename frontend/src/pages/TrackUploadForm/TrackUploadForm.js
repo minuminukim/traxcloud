@@ -131,11 +131,18 @@ const TrackUploadForm = ({ sessionUser }) => {
               <span className="validation-error">*</span>
               Required fields
             </p>
-            <Button
-              label="Save"
-              className="small-button submit-button"
-              type="submit"
-            />
+            <div className="form-buttons">
+              <Button
+                className="small-button cancel transparent"
+                label="Cancel"
+                onClick={history.goBack}
+              />
+              <Button
+                label="Save"
+                className="small-button submit-button"
+                type="submit"
+              />
+            </div>
           </div>
         </form>
       </div>

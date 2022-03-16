@@ -102,3 +102,22 @@
   width: 100%;
   border-top: 1px solid #ccc;
 }
+
+.validation-error-list.upload {
+  padding: 0;
+  margin: 0;
+}
+
+.upload-form .form-buttons {
+  display: flex;
+  align-items: center;
+}
+
+.upload-form .small-button {
+  margin-top: 0;
+}
+
+.upload-form .large-button {
+  margin-top: 0;
+  margin-bottom: 7px;
+}

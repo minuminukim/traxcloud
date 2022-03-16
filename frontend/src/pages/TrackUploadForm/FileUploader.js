@@ -1,9 +1,19 @@
 import { useRef, useState } from 'react';
 import Button from '../../components/common/Button';
+import AlertList from '../../components/Alert/AlertList';
 
 const FileUploader = ({ handleFile }) => {
   const hiddenInput = useRef(null);
   const [fileErrors, setFileErrors] = useState([]);
+  /** TODO: Improve validation error handling..
+   *
+   * Currently a bit of weird behavior:
+   *
+   * 1. After an alert expires (through click event or timeout),
+   * if the same error is triggered in succession, the message
+   * does not render. Appears it could be related to parent form
+   * state.
+   */
 
   const handleClick = () => hiddenInput.current.click();
   const handleChange = async (e) => {
@@ -36,15 +46,7 @@ const FileUploader = ({ handleFile }) => {
         ref={hiddenInput}
         onChange={handleChange}
       />
-      {fileErrors.length > 0 && (
-        <ul>
-          {fileErrors.map((error) => (
-            <li key={error} className="validation-error">
-              {error}
-            </li>
-          ))}
-        </ul>
-      )}
+      {fileErrors.length > 0 && <AlertList messages={fileErrors} />}
     </>
   );
 };
