@@ -16,22 +16,21 @@ const AudioPlayerFooter = () => {
         <div className="footer-player">
           <Audio trackID={currentTrackID} />
           <div className="player-controls">
-            <IoPlaySkipBack
-              className="player-control"
-              onClick={() => dispatch(playPrevious())}
-            />
+            <button className="player-control">
+              <IoPlaySkipBack onClick={() => dispatch(playPrevious())} />
+            </button>
             <PlaybackButton
+              className="player-control"
               size="small"
               trackID={currentTrackID}
               withBackground={false}
             />
-            <IoPlaySkipForward
-              className="player-control"
-              onClick={() => dispatch(playNext())}
-            />
+            <button className="player-control">
+              <IoPlaySkipForward onClick={() => dispatch(playNext())} />
+            </button>
           </div>
 
-          <ProgressBar trackID={currentTrackID} />
+          <ProgressBar trackID={currentTrackID} transparent />
           <Volume />
           <SoundBadge />
         </div>

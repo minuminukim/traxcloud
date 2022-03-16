@@ -9,7 +9,7 @@ import {
 import { isCurrentTrack, formatTime } from '../../utils';
 import './ProgressBar.css';
 
-const ProgressBar = ({ trackID }) => {
+const ProgressBar = ({ trackID, transparent = false }) => {
   const dispatch = useDispatch();
   const { duration } = useSelector((state) => state.tracks[trackID]);
   const { currentTime, currentTrackID, audio } = useSelector(
@@ -30,9 +30,19 @@ const ProgressBar = ({ trackID }) => {
 
   return (
     <div className="player-timeline-container">
-      <div className={`timers-container ${isCurrent ? 'between' : 'end'}`}>
-        {isCurrent && <p className="timer-text">{formatTime(currentTime)}</p>}
-        <p className="duration-text">{formatTime(duration)}</p>
+      <div
+        className={`timers-container ${isCurrent ? 'between' : 'end'} ${
+          transparent && 'transparent'
+        }`}
+      >
+        {isCurrent && (
+          <p className={`timer-text ${transparent && 'transparent'}`}>
+            {formatTime(currentTime)}
+          </p>
+        )}
+        <p className={`duration-text ${transparent && 'transparent'}`}>
+          {formatTime(duration)}
+        </p>
       </div>
       <input
         className="progress-bar"

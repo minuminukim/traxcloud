@@ -36,7 +36,7 @@ const Volume = () => {
       onMouseLeave={toggleSlider}
     >
       <VolumeButton onClick={toggleMute} />
-      {showSlider && (
+      {/* {showSlider && ( */}
         <Slider
           className="volume-slider"
           min="0"
@@ -46,7 +46,7 @@ const Volume = () => {
           value={volume}
           onChange={onSlide}
         />
-      )}
+      {/* )} */}
     </div>
   );
 };

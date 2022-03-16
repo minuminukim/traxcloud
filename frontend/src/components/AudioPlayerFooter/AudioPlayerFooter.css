@@ -5,7 +5,7 @@
   position: fixed;
   bottom: 0;
   left: 0;
-  width: 100vw;
+  right: 0;
   background-color: #f2f2f2;
   height: 48px;
   border-top: 1px solid #999;
@@ -14,7 +14,7 @@
 .footer-player {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   width: 100%;
   max-width: 1240px;
 }
@@ -29,8 +29,21 @@
 }
 
 .player-control {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
-  font-size: 20px;
+  font-size: 16px;
+  background-color: transparent;
+  margin-left: 12px;
+  width: 24px;
+  height: 48px;
+  border: 0;
+  padding: 0;
+}
+
+.player-control:first-child {
+  margin-left: 0;
 }
 
 .soundbadge {
@@ -41,6 +54,13 @@
 .soundbadge-links {
   display: flex;
   flex-direction: column;
+  max-width: 223px;
+}
+
+.soundbadge-links a {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .soundbadge-links a {
