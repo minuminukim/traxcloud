@@ -11,6 +11,17 @@
   font-weight: 200;
 }
 
+.small-button {
+  background-color: #f50;
+  border: 0;
+  border-radius: 4px;
+  font-size: 13px;
+  color: #fff;
+  width: 53px;
+  height: 26px;
+  padding: 2px 11px;
+}
+
 .form-button {
   width: 100%;
 }

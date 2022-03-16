@@ -6,6 +6,7 @@ import Button from '../../components/common/Button';
 import FileUploader from './FileUploader';
 import Textarea from '../../components/common/Textarea';
 import { postTrack } from '../../store/trackReducer';
+import './TrackUploadForm.css';
 
 const TrackUploadForm = ({ sessionUser }) => {
   const [title, setTitle] = useState('');
@@ -64,6 +65,8 @@ const TrackUploadForm = ({ sessionUser }) => {
       setTrackDuration(Math.ceil(duration));
       setFileSize(Math.ceil(file.size));
       setTrackFile(file);
+      console.log('@@@@@@@@', file);
+      setTitle(file.name);
     }
   };
 
@@ -72,49 +75,71 @@ const TrackUploadForm = ({ sessionUser }) => {
   const updateArtworkUrl = (e) => setArtworkUrl(e.target.value);
 
   return (
-    <form onSubmit={handleSubmit} className="upload-form">
-      <h2>Upload A Track</h2>
-      <InputField
-        label="Artwork"
-        id="artworkUrl"
-        size="medium"
-        value={artworkUrl}
-        onChange={updateArtworkUrl}
-        error={errors.artworkUrl}
-        placeholder="Please provide a valid URL."
-      />
-      <InputField
-        label="Title"
-        id="title"
-        size="medium"
-        value={title}
-        onChange={updateTitle}
-        error={errors.title}
-      />
-      <Textarea
-        label="Description"
-        placeholder="Describe your track (optional)."
-        id="description"
-        size="medium"
-        value={description}
-        onChange={updateDescription}
-        error={errors.description}
-        rows="10"
-      />
-      <FileUploader handleFile={handleTrackFile} />
-      <Button
-        label="Submit"
-        className="large-button upload-submit"
-        type="submit"
-      />
-      <div className="form-requirement">
-        <p className="form-requirement">Please provide an MP3 under 10MB.</p>
-        <p>
-          <span className="validation-error">*</span>
-          Required fields
-        </p>
+    <div className="page-container upload-page">
+      <div className="content-wrap upload">
+        <h1>Upload A Track</h1>
+        <div className="form-note">
+          <span className="form-requirement">
+            Please provide an MP3 file no larger than 10MB.
+          </span>
+        </div>
+        <form onSubmit={handleSubmit} className="upload-form">
+          <div className="form-header">
+            <h2 className="form-heading">Basic Info</h2>
+          </div>
+          <div className="form-body upload">
+            <div className="form-section">
+              <div className="form-image-preview">
+                {artworkUrl && <img src={artworkUrl} alt="Cover art preview" />}
+              </div>
+            </div>
+            <div className="form-section form-fields">
+              <InputField
+                label="Title"
+                id="title"
+                size="medium"
+                value={title}
+                onChange={updateTitle}
+                error={errors.title}
+                required
+              />
+              <InputField
+                label="Artwork"
+                id="artworkUrl"
+                size="medium"
+                value={artworkUrl}
+                onChange={updateArtworkUrl}
+                error={errors.artworkUrl}
+                placeholder="Please provide a valid URL."
+                required
+              />
+              <Textarea
+                label="Description"
+                placeholder="Describe your track (optional)"
+                id="description"
+                size="medium"
+                value={description}
+                onChange={updateDescription}
+                error={errors.description}
+                rows="10"
+              />
+              <FileUploader handleFile={handleTrackFile} />
+            </div>
+          </div>
+          <div className="form-submit-row">
+            <p className="form-requirement">
+              <span className="validation-error">*</span>
+              Required fields
+            </p>
+            <Button
+              label="Save"
+              className="small-button submit-button"
+              type="submit"
+            />
+          </div>
+        </form>
       </div>
-    </form>
+    </div>
   );
 };
 

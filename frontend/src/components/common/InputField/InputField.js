@@ -9,10 +9,13 @@ const InputField = ({
   value,
   onChange,
   error,
+  required = false,
 }) => {
   return (
     <div className={`form-row form-row-${size}`}>
-      <label className="form-label">{label}</label>
+      <label className="form-label">
+        {label} {required && <span className="validation-error">*</span>}
+      </label>
       <input
         type={type}
         name={id}
