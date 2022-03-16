@@ -37,7 +37,7 @@ function playerReducer(state = initialState, action) {
     case PLAYLIST_LOADED:
       return {
         ...state,
-        playlist: action.tracks,
+        playlist: action.tracks.sort((a, b) => b - a),
       };
 
     case TRACK_SET:

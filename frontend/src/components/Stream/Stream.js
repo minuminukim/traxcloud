@@ -15,20 +15,13 @@ const Stream = () => {
     (async () => {
       try {
         const tracks = await dispatch(fetchTracks());
-        dispatch(setPlaylist(tracks.map(({ id }) => id).sort((a, b) => b - a)));
+        dispatch(setPlaylist(tracks.map(({ id }) => id)));
         setIsLoading(false);
       } catch (res) {
         console.log('error fetching tracks in Stream', res);
       }
     })();
-    // return dispatch(fetchTracks())
-    //   .then(() => setIsLoading(false))
-    //   .catch((response) => response);
   }, [dispatch]);
-
-  // useEffect(() => {
-  //   dispatch(setPlaylist(trackIDs));
-  // }, [dispatch, trackIDs]);
 
   return (
     !isLoading && (

@@ -14,7 +14,7 @@ const TrackActions = ({ trackID }) => {
   const track = useSelector((state) => state.tracks[trackID]);
   const sessionUser = useSelector((state) => state.session.user);
 
-  const belongsToSessionUser = belongsTo(sessionUser.id, track.userId);
+  const belongsToSessionUser = belongsTo(sessionUser?.id, track.userId);
 
   const handleDelete = async () => {
     try {
@@ -27,6 +27,7 @@ const TrackActions = ({ trackID }) => {
   const onEditClick = () => history.push(`/tracks/${trackID}/edit`);
 
   return (
+    sessionUser &&
     belongsToSessionUser && (
       <div className="track-buttons">
         <div className="track-buttons-left">
