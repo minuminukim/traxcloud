@@ -4,6 +4,7 @@ import {
   setDuration,
   setReference,
   updateTime,
+  playNext,
 } from '../../actions/playerActions';
 
 function Audio({ trackID }) {
@@ -46,6 +47,7 @@ function Audio({ trackID }) {
       onTimeUpdate={handleTimeUpdate}
       onLoadedMetadata={handleLoadedMetaData}
       onPlay={() => dispatch(setReference(audioRef))}
+      onEnded={() => dispatch(playNext())}
     />
   );
 }
