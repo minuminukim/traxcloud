@@ -14,9 +14,16 @@ const TrackDetails = ({ trackID, size }) => {
         <Link className={`link-user-${size}`} to="#">
           {user.username}
         </Link>
-        <Link className={`link-title-${size}`} to={`/tracks/${trackID}`}>
-          {track.title}
-        </Link>
+        {size === 'large' ? (
+          <h1 className={`link-title-${size}`}>
+            {' '}
+            <span>{track.title}</span>
+          </h1>
+        ) : (
+          <Link className={`link-title-${size}`} to={`/tracks/${trackID}`}>
+            {track.title}
+          </Link>
+        )}
       </div>
       {size === 'large' && <div className="time-since">{timeSince}</div>}
     </div>

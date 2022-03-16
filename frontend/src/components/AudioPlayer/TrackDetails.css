@@ -51,15 +51,25 @@
   flex-direction: column-reverse;
 }
 
-a.link-title-large {
+h1.link-title-large {
+  display: inline;
   color: white;
   font-size: 30px;
   font-weight: 300;
-  background-color: #000;
+  line-height: 1.5;
   margin-bottom: 3px;
-  text-align: center;
+  /* text-align: center; */
+  /* width: fit-content; */
+  margin-top: 0;
   max-width: 433px;
+  /* padding: 4px 7px; */
+}
+
+.link-title-large span {
+  background-color: #000;
   padding: 4px 7px;
+
+  line-height: 1;
 }
 
 a.link-user-large {
