@@ -1,3 +1,5 @@
+import { useDispatch } from 'react-redux';
+import { login } from '../../store/sessionReducer';
 import Button from '../../components/common/Button';
 import ModalWrapper from '../../components/ModalWrapper';
 import SignupForm from '../../components/SignupForm';
@@ -5,6 +7,10 @@ import LoginForm from '../../components/LoginForm';
 import './Hero.css';
 
 const Hero = () => {
+  const dispatch = useDispatch();
+  const loginDemoUser = () => {
+    return dispatch(login({ credential: 'demoworld', password: 'newPass!' }));
+  };
   return (
     <div className="hero-container">
       <div className="hero-content">
@@ -16,10 +22,10 @@ const Hero = () => {
           space to create, find your fans, and connect with other artists.
         </h3>
         <div className="hero-buttons">
-          <ModalWrapper
-            children={<LoginForm />}
+          <Button
+            className="large-button transparent demo-button"
             label="Try Demo"
-            className="large-button transparent"
+            onClick={loginDemoUser}
           />
           <ModalWrapper
             children={<SignupForm />}
