@@ -40,10 +40,18 @@
 
 .timers-container {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   height: 12px;
-  padding-bottom: 10px;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.timers-container.between {
+  justify-content: space-between;
+}
+
+.timers-container.end {
+  justify-content: flex-end;
 }
 
 .timer-text,
@@ -53,6 +61,11 @@
   padding: 2px;
   background-color: #000;
   width: fit-content;
+  margin: 0;
+}
+
+.duration-text {
+  justify-self: flex-end;
 }
 
 .timer-text {
@@ -62,4 +75,3 @@
 .duration-text {
   color: #999;
 }
-

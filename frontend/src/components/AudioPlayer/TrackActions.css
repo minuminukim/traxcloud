@@ -1,7 +1,13 @@
 .track-buttons {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-end;
+  height: 100%;
+  padding-bottom: 7px;
+}
+
+.player-large .track-buttons {
+  height: fit-content;
 }
 
 .track-buttons-right {

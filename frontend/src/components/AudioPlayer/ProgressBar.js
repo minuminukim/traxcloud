@@ -30,7 +30,7 @@ const ProgressBar = ({ trackID }) => {
 
   return (
     <div className="player-timeline-container">
-      <div className="timers-container">
+      <div className={`timers-container ${isCurrent ? 'between' : 'end'}`}>
         {isCurrent && <p className="timer-text">{formatTime(currentTime)}</p>}
         <p className="duration-text">{formatTime(duration)}</p>
       </div>

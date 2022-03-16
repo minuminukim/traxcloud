@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchTracks } from '../../store/trackReducer';
 import { setPlaylist } from '../../actions/playerActions';
 import AudioPlayer from '../AudioPlayer';
-import TrackHeader from '../AudioPlayer/TrackHeader';
 import './Stream.css';
 
 const Stream = () => {
@@ -11,14 +10,12 @@ const Stream = () => {
   const dispatch = useDispatch();
   const { playlist } = useSelector((state) => state.player);
   const tracksObject = useSelector((state) => state.tracks);
-  const trackIDs = Object.keys(tracksObject).sort((a, b) => +a - +b);
 
   useEffect(() => {
     (async () => {
       try {
         const tracks = await dispatch(fetchTracks());
         dispatch(setPlaylist(tracks.map(({ id }) => id)));
-        console.log('tracks', tracks);
         setIsLoading(false);
       } catch (res) {
         console.log('error fetching tracks in Stream', res);
@@ -41,11 +38,11 @@ const Stream = () => {
         </h1>
         {playlist.map((id, i) => (
           <div className="stream-row" key={`row-${id}`}>
-            <TrackHeader trackID={id} />
             <AudioPlayer
               key={id}
               trackID={id}
-              withArtwork={true}
+              withHeader
+              withArtwork
               size={'medium'}
               index={i}
             />

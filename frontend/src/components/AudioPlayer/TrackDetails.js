@@ -11,7 +11,9 @@ const TrackDetails = ({ trackID, size }) => {
   return (
     <div className={`track-details track-details-${size}`}>
       <div className={`track-links track-links-${size}`}>
-        <p className={`link-user-${size}`}>{user.username}</p>
+        <Link className={`link-user-${size}`} to="#">
+          {user.username}
+        </Link>
         <Link className={`link-title-${size}`} to={`/tracks/${trackID}`}>
           {track.title}
         </Link>

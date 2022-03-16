@@ -11,40 +11,27 @@
   align-items: center;
 }
 
+.media-button:hover {
+  background-color: #ff3300;
+}
+
 .media-button.transparent {
   background-color: transparent;
   color: #000;
 }
 
-.media-button:hover {
-  filter: brightness(95%);
-}
-
-.play-button {
-  background-image: url(../../assets/images/play-button.png);
-  background-size: 40%;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-
-.pause-button {
-  background-image: url(../../assets/images/pause-button.png);
-  background-size: 80%;
-  background-repeat: no-repeat;
-  background-position: center;
-}
-
-.media-button.small-button {
-  height: 36px;
-  width: 36px;
-}
-
 .media-button.medium-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   height: 36px;
   width: 36px;
+  color: #fff;
 }
 
 .media-button.large-button {
   height: 60px;
   width: 60px;
+  font-size: 30px;
+  margin-right: 7px !important;
 }

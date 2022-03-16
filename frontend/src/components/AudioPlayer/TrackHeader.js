@@ -1,7 +1,7 @@
 // import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ProfilePicture from '../common/ProfilePicture';
-import calculateTimeSincePost from '../../utils/calculateTimeSincePost';
+import { calculateTimeSincePost } from '../../utils/';
 import './TrackHeader.css';
 
 const TrackHeader = ({ trackID }) => {
@@ -13,8 +13,10 @@ const TrackHeader = ({ trackID }) => {
     <div className="track-header">
       <ProfilePicture user={user} size="small" />
       <div className="track-header-text">
-        <p>{user.username}</p>
-        <span>{`posted a track ${timeSince}`}</span>
+        <p>
+          {user.username}
+          <span>{`posted a track ${timeSince}`}</span>{' '}
+        </p>
       </div>
     </div>
   );

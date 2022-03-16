@@ -1,39 +1,47 @@
 import { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { isCurrentTrack } from '../../utils';
-import { setTrack, updateTime } from '../../actions/playerActions';
 import {
   PlaybackButton,
   TrackActions,
   TrackDetails,
+  TrackHeader,
   ProgressBar,
-  Audio,
 } from '.';
 
 import TrackArtwork from '../TrackArtwork';
 import './AudioPlayer.css';
 
-const AudioPlayer = ({ trackID, size, withArtwork = false }) => {
+const AudioPlayer = ({
+  trackID,
+  size,
+  withArtwork = false,
+  withHeader = false,
+}) => {
   const track = useSelector((state) => state.tracks[trackID]);
-  const { currentTrackID, audio } = useSelector((state) => state.player);
+  const { currentTrackID } = useSelector((state) => state.player);
   const isCurrent = isCurrentTrack(+trackID, currentTrackID);
 
   return (
-    <div className={`music-player track-${track.id} player-${size}`}>
-      {withArtwork && (
-        <TrackArtwork
-          className={`track-artwork artwork-${size}`}
-          trackID={trackID}
-        />
-      )}
-      <div className="music-player-main">
-        <div className="music-player-main-top">
-          <PlaybackButton size={size} trackID={trackID} isCurrent={isCurrent} />
-          <TrackDetails trackID={track.id} size={size} />
+    <div className={`player track-${track.id} player-${size}`}>
+      {withHeader && <TrackHeader trackID={trackID} />}
+      <div className="player-main">
+        {withArtwork && (
+          <div className="player-artwork">
+            <TrackArtwork
+              className={`track-artwork artwork-${size}`}
+              trackID={trackID}
+            />
+          </div>
+        )}
+        <div className="player-content">
+          <div className="player-header">
+            <PlaybackButton size={size} trackID={trackID} />
+            <TrackDetails trackID={track.id} size={size} />
+          </div>
+          <ProgressBar trackID={trackID} isCurrent={isCurrent} />
+          <TrackActions trackID={trackID} />
         </div>
-        {/* <Audio trackID={trackID} /> */}
-        <ProgressBar trackID={trackID} isCurrent={isCurrent} />
-        <TrackActions trackID={trackID} />
       </div>
     </div>
   );
