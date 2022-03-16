@@ -15,10 +15,19 @@
   right: 0;
   left: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.7);
+  /* background-color: rgba(0, 0, 0, 0.7); */
+  background-color: hsla(0, 0%, 94.9%, 0.9);
 }
 
 #modal-content {
   position: absolute;
   background-color: #fff;
+}
+
+.modal-close {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  color: #333;
+  font-size: 26px;
 }

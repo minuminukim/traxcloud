@@ -31,7 +31,7 @@ const LoginForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className="login-form" onSubmit={handleSubmit}>
       <InputField
         id="login-credential"
         placeholder="Your email address or username"

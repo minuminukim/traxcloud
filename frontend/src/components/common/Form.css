@@ -32,6 +32,7 @@ textarea {
   height: 200px;
 }
 
-.upload-form {
-  margin-top: 100px;
+.login-form {
+  background-color: #fff;
+  border: 1px solid #ccc;
 }

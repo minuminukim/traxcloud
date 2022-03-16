@@ -12,6 +12,7 @@ import {
   SingleTrackPage,
   TrackUploadForm,
 } from './pages';
+import LoginForm from './components/LoginForm';
 
 function App() {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -32,13 +33,14 @@ function App() {
               {sessionUser ? <Main /> : <LandingPage />}
             </Route>
             <Route exact path="/upload">
-              <TrackUploadForm sessionUser={sessionUser} />
+              {/* {sessionUser ? <TrackUploadForm /> : <LoginForm />} */}
+              <TrackUploadForm />
             </Route>
             <Route path="/tracks/:trackID">
               <SingleTrackPage />
             </Route>
             <Route exact path="/tracks/:trackID/edit">
-              <TrackEditForm />
+              <TrackUploadForm />
             </Route>
             <Route>
               <PageNotFound />
