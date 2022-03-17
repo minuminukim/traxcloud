@@ -16,34 +16,29 @@ const SingleTrackPage = () => {
   const { trackId } = useParams();
   const { playlist } = useSelector((state) => state.player);
   const track = useSelector((state) => state.tracks[trackId]);
-  const allComments = useSelector((state) => state.comments);
   const sessionUser = useSelector((state) => state.session.user);
   const [isLoading, setLoading] = useState(true);
-  const commentIds = track?.commentIds;
 
   useEffect(() => {
-    if (track && commentIds) {
-      setLoading(false);
-      return;
-    }
-
     (async () => {
       try {
-        const [fetchedTrack, _comments] = await Promise.all([
-          dispatch(fetchSingleTrack(+trackId)),
-          dispatch(fetchCommentsByTrackId(+trackId)),
-        ]);
+        // const [fetchedTrack, _comments] = await Promise.all([
+        //   dispatch(fetchSingleTrack(+trackId)),
+        //   dispatch(fetchCommentsByTrackId(+trackId)),
+        // ]);
+        const fetchedTrack = await dispatch(fetchSingleTrack(+trackId));
 
         if (!playlist.length) {
           dispatch(setPlaylist([fetchedTrack.id]));
         }
 
         setLoading(false);
+        // return () => setLoading(true);
       } catch (err) {
         console.log('error fetching tracks', err);
       }
     })();
-  }, [dispatch, trackId, commentIds]);
+  }, [dispatch, trackId, playlist.length]);
 
   return (
     !isLoading && (

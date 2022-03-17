@@ -26,7 +26,8 @@
 
 .comment-list-item-center {
   min-width: 230px;
-  max-width: 480px;
+  flex: 1 0;
+  /* max-width: 480px; */
   width: 100%;
   word-wrap: break-word;
 }

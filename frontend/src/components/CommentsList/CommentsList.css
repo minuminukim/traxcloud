@@ -1,4 +1,7 @@
 .track-comments-list {
+  width: 100%;
+  width: 650px;
+  flex: 1 0;
   padding-left: 0;
   margin-top: 0;
 }

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getSingleUser } from '../../store/userReducer';
 import { deleteComment } from '../../actions/commentActions';
@@ -14,26 +14,33 @@ const CommentListItem = ({ commentId }) => {
   const sessionUser = useSelector((state) => state.session.user);
   const [isLoading, setLoading] = useState(true);
   const [showActions, setShowActions] = useState(false);
+  const createdAt = useMemo(
+    () => calculateTimeSincePost(comment?.createdAt),
+    [comment]
+  );
+
+  // console.log('comment', comment);
 
   useEffect(() => {
-    setLoading(true);
     if (user) {
       setLoading(false);
       return;
     }
 
-    return dispatch(getSingleUser(comment.userId))
-      .then(() => setLoading(true))
+    dispatch(getSingleUser(comment.userId))
+      .then(() => setLoading(false))
       .catch((error) => console.log('error fetching user', error));
-  }, [user, dispatch]);
+  }, [comment.userId, dispatch, user]);
 
   const belongsToCurrentUser = sessionUser?.id === comment.userId;
 
   const toggleActions = () => setShowActions(!showActions);
   const onDelete = () => {
     if (!belongsToCurrentUser) return;
-    return dispatch(deleteComment(commentId, comment.trackId)).catch((error) =>
-      console.log('error deleting comment', error)
+    return (
+      dispatch(deleteComment(commentId, comment.trackId))
+        // .then(() => toggleActions())
+        .catch((error) => console.log('error deleting comment', error))
     );
   };
 
@@ -41,8 +48,8 @@ const CommentListItem = ({ commentId }) => {
     !isLoading && (
       <li
         className="comment-list-item"
-        onMouseEnter={toggleActions}
-        onMouseLeave={toggleActions}
+        onMouseOver={() => setShowActions(true)}
+        onMouseLeave={() => setShowActions(false)}
       >
         <div className="comment-list-item-left">
           <ProfilePicture user={user} size="medium" />
@@ -55,7 +62,7 @@ const CommentListItem = ({ commentId }) => {
           <p>{comment.body}</p>
         </div>
         <div className="comment-list-item-right">
-          <p>{calculateTimeSincePost(comment.createdAt)}</p>
+          <p>{createdAt}</p>
           {belongsToCurrentUser && showActions && (
             <div className="comment-list-item-actions">
               <EditDeleteButton
