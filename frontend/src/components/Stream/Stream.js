@@ -15,7 +15,7 @@ const Stream = () => {
     (async () => {
       try {
         const tracks = await dispatch(fetchTracks());
-        dispatch(setPlaylist(tracks.map(({ id }) => id)));
+        dispatch(setPlaylist(tracks.map(({ id }) => id).sort((a, b) => b - a)));
         setIsLoading(false);
       } catch (res) {
         console.log('error fetching tracks in Stream', res);

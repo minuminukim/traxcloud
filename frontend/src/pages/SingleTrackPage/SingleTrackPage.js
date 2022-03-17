@@ -6,6 +6,7 @@ import { setPlaylist } from '../../actions/playerActions';
 import AudioPlayer from '../../components/AudioPlayer';
 import TrackArtwork from '../../components/TrackArtwork';
 import UserCard from '../../components/UserCard';
+import CommentListItem from '../../components/CommentListItem';
 import { fetchCommentsByTrackId } from '../../actions/commentActions';
 
 const SingleTrackPage = () => {
@@ -17,6 +18,7 @@ const SingleTrackPage = () => {
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
+    setLoading(true);
     (async () => {
       try {
         const [track, _comments] = await Promise.all([
@@ -24,14 +26,19 @@ const SingleTrackPage = () => {
           // dispatch(fetchTracks()),
           dispatch(fetchCommentsByTrackId(+trackId)),
         ]);
-        dispatch(setPlaylist([track.id, ...playlist]));
+        console.log('playlist', playlist, 'trackId', trackId);
+        if (!playlist.length) {
+          dispatch(setPlaylist([track.id]));
+        }
         // dispatch(setPlaylist(tracks.map(({ id }) => id)));
         setLoading(false);
       } catch (err) {
         console.log('error fetching tracks', err);
       }
     })();
-  }, [dispatch]);
+  }, [dispatch, trackId]);
+
+  const commentIds = track?.commentIds;
 
   return (
     !isLoading && (
@@ -41,7 +48,10 @@ const SingleTrackPage = () => {
           <TrackArtwork className="artwork-large" trackId={trackId} />
         </div>
         {/* <UserCard user={track?.User} size="medium" /> */}
-        {/* {track?.commentIds.map((id) => allComments[id].body)} */}
+        {commentIds &&
+          [...commentIds]
+            .sort((a, b) => b - a)
+            .map((id) => <CommentListItem key={id} commentId={id} />)}
       </div>
     )
   );
