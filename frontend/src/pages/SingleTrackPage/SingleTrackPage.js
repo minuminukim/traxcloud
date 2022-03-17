@@ -12,7 +12,7 @@ const SingleTrackPage = () => {
   const dispatch = useDispatch();
   const { trackId } = useParams();
   const { playlist } = useSelector((state) => state.player);
-  const commentIds = useSelector((state) => state.tracks[trackId]?.commentIds);
+  const track = useSelector((state) => state.tracks[trackId]);
   const allComments = useSelector((state) => state.comments);
   const [isLoading, setLoading] = useState(true);
 
@@ -41,7 +41,7 @@ const SingleTrackPage = () => {
           <TrackArtwork className="artwork-large" trackId={trackId} />
         </div>
         {/* <UserCard user={track?.User} size="medium" /> */}
-        {commentIds.map((id) => allComments[id].body)}
+        {/* {track?.commentIds.map((id) => allComments[id].body)} */}
       </div>
     )
   );
