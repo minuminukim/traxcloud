@@ -1,11 +1,14 @@
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { AiOutlineDown } from 'react-icons/ai';
 import DropdownMenu from './DropdownMenu';
-import './ProfileButton.css';
 import prefixCORS from '../../utils/prefixCORS';
+import './ProfileButton.css';
 
-const ProfileButton = ({ user }) => {
+const ProfileButton = () => {
+  const { user } = useSelector((state) => state.session);
   const [showMenu, setShowMenu] = useState(false);
-  const { profilePictureUrl } = user;
+  const { profilePictureUrl, username } = user;
 
   useEffect(() => {
     if (!showMenu) return;
@@ -18,13 +21,15 @@ const ProfileButton = ({ user }) => {
 
   return (
     <>
-      <div className="profile-button" onClick={toggleMenu}>
+      <div className="profile-button pointer" onClick={toggleMenu}>
         <img
           src={prefixCORS(profilePictureUrl)}
           alt="Profile photo"
-          className="profile-button"
+          className="profile-button-avatar"
           crossOrigin="true"
         />
+        <span className="profile-button-username">{username}</span>
+        <AiOutlineDown />
       </div>
       {showMenu && <DropdownMenu user={user} />}
     </>

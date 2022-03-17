@@ -52,7 +52,6 @@ function App() {
               <PageNotFound />
             </Route>
           </Switch>
-          )
         </main>
         <AudioPlayerFooter />
       </>

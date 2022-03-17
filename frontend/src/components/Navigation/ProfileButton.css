@@ -1,8 +1,32 @@
+.nav-item-dropdown {
+  width: 133px;
+  padding: 0 10px;
+}
+
 .profile-button {
-  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #ccc;
+  font-size: 15px;
+  font-weight: 300;
+  width: 100%;
+}
+
+.profile-button-avatar {
   border-radius: 50%;
-  width: 30px;
   height: 30px;
-  object-fit: cover;
-  margin-left: 10px;
+  width: 30px;
+  margin-right: 4px;
+}
+
+.profile-button:hover {
+  color: #fff;
+}
+
+.profile-button-username {
+  width: 70px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }

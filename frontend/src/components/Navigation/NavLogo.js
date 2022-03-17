@@ -7,12 +7,10 @@ const NavLogo = () => {
   const link = sessionUser ? '/home' : '/';
 
   return (
-    <li className="nav-item">
-      <NavLink to={link} className="nav-link">
-        {/* <button className={`nav-logo ${sessionUser && 'transparent'}`}> */}
-        <FaSoundcloud />
-        {!sessionUser && <span>TRAXCLOUD</span>}
-        {/* </button> */}
+    <li className="nav-item logo">
+      <NavLink to={link} className="nav-link logo">
+        <FaSoundcloud className="nav-logo" />
+        <span className="nav-logo-text">TRAXCLOUD</span>
       </NavLink>
     </li>
   );
