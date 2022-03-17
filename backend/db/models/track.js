@@ -58,6 +58,7 @@ module.exports = (sequelize, DataTypes) => {
 
   Track.associate = function (models) {
     Track.belongsTo(models.User, { foreignKey: 'userId' });
+    Track.hasMany(models.Comment, { foreignKey: 'commentId' });
   };
 
   Track.getTrackById = async function (id) {

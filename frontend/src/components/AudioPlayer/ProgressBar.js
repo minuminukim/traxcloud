@@ -9,21 +9,21 @@ import {
 import { isCurrentTrack, formatTime } from '../../utils';
 import './ProgressBar.css';
 
-const ProgressBar = ({ trackID, transparent = false }) => {
+const ProgressBar = ({ trackId, transparent = false }) => {
   const dispatch = useDispatch();
-  const { duration } = useSelector((state) => state.tracks[trackID]);
-  const { currentTime, currentTrackID, audio } = useSelector(
+  const { duration } = useSelector((state) => state.tracks[trackId]);
+  const { currentTime, currentTrackId, audio } = useSelector(
     (state) => state.player
   );
 
-  const isCurrent = isCurrentTrack(+trackID, currentTrackID);
+  const isCurrent = isCurrentTrack(+trackId, currentTrackId);
   const onChange = (e) => {
     const newTime = e.target.value;
     if (!isCurrent) {
       if (audio) {
         audio.current.currentTime = 0;
       }
-      dispatch(setTrack(+trackID, newTime));
+      dispatch(setTrack(+trackId, newTime));
     }
     dispatch(setSeeking(newTime));
   };

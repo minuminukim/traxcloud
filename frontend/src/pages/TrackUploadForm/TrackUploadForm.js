@@ -11,7 +11,7 @@ import LoginForm from '../../components/LoginForm';
 import './TrackUploadForm.css';
 
 const TrackUploadForm = ({ isUpload }) => {
-  const { trackID } = useParams();
+  const { trackId } = useParams();
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -33,7 +33,7 @@ const TrackUploadForm = ({ isUpload }) => {
 
     (async () => {
       try {
-        const track = await dispatch(fetchSingleTrack(+trackID));
+        const track = await dispatch(fetchSingleTrack(+trackId));
         if (track.userId !== sessionUser.id) {
           throw Error('Unauthorized');
         }
@@ -78,7 +78,7 @@ const TrackUploadForm = ({ isUpload }) => {
     setErrors({});
 
     const updatedTrack = {
-      id: trackID,
+      id: trackId,
       title,
       description,
       artworkUrl,
@@ -86,7 +86,7 @@ const TrackUploadForm = ({ isUpload }) => {
     };
 
     return dispatch(editTrack(updatedTrack))
-      .then(() => history.push(`/tracks/${trackID}`))
+      .then(() => history.push(`/tracks/${trackId}`))
       .catch(async (res) => {
         const data = await res.json();
         if (data && data.errors) {

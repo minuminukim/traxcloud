@@ -42,10 +42,10 @@ function App() {
             <Route exact path="/upload">
               <TrackUploadForm isUpload />
             </Route>
-            <Route exact path="/tracks/:trackID">
+            <Route exact path="/tracks/:trackId">
               <SingleTrackPage />
             </Route>
-            <Route exact path="/tracks/:trackID/edit">
+            <Route exact path="/tracks/:trackId/edit">
               <TrackUploadForm isUpload={false} />
             </Route>
             <Route>

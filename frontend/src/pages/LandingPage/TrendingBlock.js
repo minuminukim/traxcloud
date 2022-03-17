@@ -6,7 +6,7 @@ const TrendingBlock = ({ track }) => {
   const { User } = track;
   return (
     <div className="trending-block">
-      <TrackArtwork className="trending-art" trackID={track.id} />
+      <TrackArtwork className="trending-art" trackId={track.id} />
       <Link className="trending-title" to={`/tracks/${track.id}`}>
         {track.title}
       </Link>

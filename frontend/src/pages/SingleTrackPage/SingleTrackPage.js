@@ -9,8 +9,8 @@ import UserCard from '../../components/common/UserCard/UserCard';
 
 const SingleTrackPage = () => {
   const dispatch = useDispatch();
-  const { trackID } = useParams();
-  const track = useSelector((state) => state.tracks[trackID]);
+  const { trackId } = useParams();
+  const track = useSelector((state) => state.tracks[trackId]);
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -32,8 +32,8 @@ const SingleTrackPage = () => {
     !isLoading && (
       <div className="page-container">
         <div className="single-track-container">
-          <AudioPlayer trackID={trackID} size="large" withArtwork={false} />
-          <TrackArtwork className="artwork-large" trackID={trackID} />
+          <AudioPlayer trackId={trackId} size="large" withArtwork={false} />
+          <TrackArtwork className="artwork-large" trackId={trackId} />
         </div>
         <UserCard user={track?.User} size="medium" />
       </div>

@@ -15,9 +15,9 @@ export const setDuration = (duration) => ({
   duration,
 });
 
-export const setTrack = (trackID, index = 0, currentTime = 0) => ({
+export const setTrack = (trackId, index = 0, currentTime = 0) => ({
   type: TRACK_SET,
-  trackID,
+  trackId,
   currentTime,
   index,
 });
@@ -60,8 +60,8 @@ export const playNext = () => (dispatch, getState) => {
   const state = getState();
   const { playlist, currentIndex } = state.player;
   const nextIndex = currentIndex + 1 >= playlist.length ? 0 : currentIndex + 1;
-  const nextID = playlist[nextIndex];
-  dispatch(setTrack(nextID, nextIndex));
+  const nextId = playlist[nextIndex];
+  dispatch(setTrack(nextId, nextIndex));
   dispatch(playTrack());
 };
 
@@ -69,7 +69,7 @@ export const playPrevious = () => (dispatch, getState) => {
   const state = getState();
   const { playlist, currentIndex } = state.player;
   const nextIndex = currentIndex === 0 ? playlist.length - 1 : currentIndex - 1;
-  const nextID = playlist[nextIndex];
-  dispatch(setTrack(nextID, nextIndex));
+  const nextId = playlist[nextIndex];
+  dispatch(setTrack(nextId, nextIndex));
   dispatch(playTrack());
 };

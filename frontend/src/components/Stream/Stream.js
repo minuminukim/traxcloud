@@ -33,7 +33,7 @@ const Stream = () => {
           <div className="stream-row" key={`row-${id}`}>
             <AudioPlayer
               key={id}
-              trackID={id}
+              trackId={id}
               withHeader
               withArtwork
               size={'medium'}

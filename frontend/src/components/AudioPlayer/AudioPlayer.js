@@ -13,34 +13,34 @@ import TrackArtwork from '../TrackArtwork';
 import './AudioPlayer.css';
 
 const AudioPlayer = ({
-  trackID,
+  trackId,
   size,
   withArtwork = false,
   withHeader = false,
 }) => {
-  const track = useSelector((state) => state.tracks[trackID]);
-  const { currentTrackID } = useSelector((state) => state.player);
-  const isCurrent = isCurrentTrack(+trackID, currentTrackID);
+  const track = useSelector((state) => state.tracks[trackId]);
+  const { currentTrackId } = useSelector((state) => state.player);
+  const isCurrent = isCurrentTrack(+trackId, currentTrackId);
 
   return (
     <div className={`player track-${track.id} player-${size}`}>
-      {withHeader && <TrackHeader trackID={trackID} />}
+      {withHeader && <TrackHeader trackId={trackId} />}
       <div className="player-main">
         {withArtwork && (
           <div className="player-artwork">
             <TrackArtwork
               className={`track-artwork artwork-${size}`}
-              trackID={trackID}
+              trackId={trackId}
             />
           </div>
         )}
         <div className="player-content">
           <div className="player-header">
-            <PlaybackButton size={size} trackID={trackID} />
-            <TrackDetails trackID={track.id} size={size} />
+            <PlaybackButton size={size} trackId={trackId} />
+            <TrackDetails trackId={track.id} size={size} />
           </div>
-          <ProgressBar trackID={trackID} isCurrent={isCurrent} />
-          <TrackActions trackID={trackID} />
+          <ProgressBar trackId={trackId} isCurrent={isCurrent} />
+          <TrackActions trackId={trackId} />
         </div>
       </div>
     </div>

@@ -3,8 +3,8 @@ import { onImageError } from '../../utils';
 import { prefixCORS } from '../../utils';
 import './TrackArtwork.css';
 
-const TrackArtwork = ({ className, trackID, ...rest }) => {
-  const { artworkUrl, title } = useSelector((state) => state.tracks[trackID]);
+const TrackArtwork = ({ className, trackId, ...rest }) => {
+  const { artworkUrl, title } = useSelector((state) => state.tracks[trackId]);
 
   return (
     <img

@@ -6,14 +6,14 @@ import './PlayButton.css';
 const PlaybackButton = ({
   className,
   size,
-  trackID,
+  trackId,
   withBackground = true,
 }) => {
   const dispatch = useDispatch();
-  const { isPlaying, audio, currentTrackID } = useSelector(
+  const { isPlaying, audio, currentTrackId } = useSelector(
     (state) => state.player
   );
-  const isCurrent = +trackID === currentTrackID;
+  const isCurrent = +trackId === currentTrackId;
 
   const onPause = () => dispatch(pauseTrack());
 
@@ -25,7 +25,7 @@ const PlaybackButton = ({
         audio.current.currentTime = 0;
       }
 
-      dispatch(setTrack(+trackID));
+      dispatch(setTrack(+trackId));
     }
 
     dispatch(playTrack());
@@ -36,7 +36,7 @@ const PlaybackButton = ({
       className={`media-button play-button ${className} ${size}-button ${
         withBackground ? '' : 'transparent'
       }`}
-      id={`play-${trackID}`}
+      id={`play-${trackId}`}
       onClick={isPlaying && isCurrent ? onPause : onPlay}
     >
       {isPlaying && isCurrent ? <FaPause /> : <FaPlay />}

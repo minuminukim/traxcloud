@@ -8,10 +8,10 @@ import belongsTo from '../../utils/belongsTo';
 import { deleteTrack } from '../../store/trackReducer';
 import './TrackActions.css';
 
-const TrackActions = ({ trackID }) => {
+const TrackActions = ({ trackId }) => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const track = useSelector((state) => state.tracks[trackID]);
+  const track = useSelector((state) => state.tracks[trackId]);
   const sessionUser = useSelector((state) => state.session.user);
 
   const belongsToSessionUser = belongsTo(sessionUser?.id, track.userId);
@@ -24,7 +24,7 @@ const TrackActions = ({ trackID }) => {
     }
   };
 
-  const onEditClick = () => history.push(`/tracks/${trackID}/edit`);
+  const onEditClick = () => history.push(`/tracks/${trackId}/edit`);
 
   return (
     sessionUser &&

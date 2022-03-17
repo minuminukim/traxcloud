@@ -4,8 +4,8 @@ import ProfilePicture from '../common/ProfilePicture';
 import { calculateTimeSincePost } from '../../utils/';
 import './TrackHeader.css';
 
-const TrackHeader = ({ trackID }) => {
-  const track = useSelector((state) => state.tracks[trackID]);
+const TrackHeader = ({ trackId }) => {
+  const track = useSelector((state) => state.tracks[trackId]);
   const user = track.User;
   const timeSince = calculateTimeSincePost(track.createdAt);
 

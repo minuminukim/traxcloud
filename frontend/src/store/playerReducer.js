@@ -11,7 +11,7 @@ import {
 } from '../actions/playerActions';
 
 const initialState = {
-  currentTrackID: null,
+  currentTrackId: null,
   playlist: [],
   currentIndex: 0,
   duration: 0,
@@ -24,7 +24,7 @@ const initialState = {
 };
 
 /* ----- SELECTORS ----- */
-export const getCurrentTrack = (trackID) => (state) => state.tracks[trackID];
+export const getCurrentTrack = (trackId) => (state) => state.tracks[trackId];
 
 function playerReducer(state = initialState, action) {
   switch (action.type) {
@@ -42,11 +42,11 @@ function playerReducer(state = initialState, action) {
 
     case TRACK_SET:
       const findIndex = (id) => state.playlist.indexOf(id);
-      const index = action.index ? action.index : findIndex(action.trackID);
+      const index = action.index ? action.index : findIndex(action.trackId);
 
       return {
         ...state,
-        currentTrackID: action.trackID,
+        currentTrackId: action.trackId,
         currentTime: action.currentTime,
         seekingTime: action.currentTime,
         currentIndex: index,

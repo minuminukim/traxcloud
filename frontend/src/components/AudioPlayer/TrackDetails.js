@@ -3,8 +3,8 @@ import { useSelector } from 'react-redux';
 import calculateTimeSincePost from '../../utils/calculateTimeSincePost';
 import './TrackDetails.css';
 
-const TrackDetails = ({ trackID, size }) => {
-  const track = useSelector((state) => state.tracks[trackID]);
+const TrackDetails = ({ trackId, size }) => {
+  const track = useSelector((state) => state.tracks[trackId]);
   const user = track.User;
   const timeSince = calculateTimeSincePost(track.createdAt);
 
@@ -20,7 +20,7 @@ const TrackDetails = ({ trackID, size }) => {
             <span>{track.title}</span>
           </h1>
         ) : (
-          <Link className={`link-title-${size}`} to={`/tracks/${trackID}`}>
+          <Link className={`link-title-${size}`} to={`/tracks/${trackId}`}>
             {track.title}
           </Link>
         )}
