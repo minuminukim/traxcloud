@@ -19,7 +19,6 @@ const CommentField = ({ duration }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('howdy');
     if (!body.length) return;
 
     const commentData = {
@@ -39,6 +38,7 @@ const CommentField = ({ duration }) => {
     e.stopPropagation();
     // Enter key
     if (e.keyCode === 13) {
+      e.target.blur();
       formRef.current.click();
     }
   };
@@ -48,9 +48,8 @@ const CommentField = ({ duration }) => {
   return (
     <form
       className="comment-field"
-      ref={formRef}
+      // ref={formRef}
       onSubmit={handleSubmit}
-      // onKeyUp={handleKeyUp}
     >
       <ProfilePicture user={user} size="medium" shape="square" />
       <InputField
