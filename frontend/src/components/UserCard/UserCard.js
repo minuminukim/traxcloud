@@ -6,10 +6,10 @@ import { BsSoundwave } from 'react-icons/bs';
 import ProfilePicture from '../common/ProfilePicture';
 import './UserCard.css';
 
-const UserCard = ({ user, size }) => {
+const UserCard = ({ user, size, avatarSize }) => {
   const dispatch = useDispatch();
-  const tracks = useSelector((state) => state.tracks);
   const history = useHistory();
+  const tracks = useSelector((state) => state.tracks);
   const userTracks = Object.values(tracks).filter((track) => {
     return track.userId === user.id;
   });
@@ -23,7 +23,7 @@ const UserCard = ({ user, size }) => {
   }, [dispatch, history]);
 
   return (
-    <div className={`user-card user-card-${size}`}>
+    <div className={`user-card user-card-${avatarSize}`}>
       <ProfilePicture user={user} size="medium" />
       <div className={`user-card-body-${size}`}>
         <h3 className={`user-card-name`}>{user.displayName}</h3>

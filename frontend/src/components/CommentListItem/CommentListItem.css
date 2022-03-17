@@ -1,0 +1,32 @@
+.comment-list-item {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  background-color: #f2f2f2;
+  max-width: 680px;
+  width: 100%;
+  min-height: 60px;
+  padding: 10px;
+}
+
+.comment-list-item-left {
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+}
+
+.comment-list-item-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  width: 95px;
+  height: 40px;
+}
+
+.comment-list-item-center {
+  width: 100%;
+}
+
+.comment-list-item p {
+  margin: 0;
+}

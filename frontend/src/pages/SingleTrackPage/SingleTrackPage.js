@@ -16,19 +16,24 @@ const SingleTrackPage = () => {
   const track = useSelector((state) => state.tracks[trackId]);
   const allComments = useSelector((state) => state.comments);
   const [isLoading, setLoading] = useState(true);
+  const commentIds = track?.commentIds;
 
   useEffect(() => {
-    setLoading(true);
+    if (track && commentIds) {
+      setLoading(false);
+      return;
+    }
+
     (async () => {
       try {
-        const [track, _comments] = await Promise.all([
+        const [fetchedTrack, _comments] = await Promise.all([
           dispatch(fetchSingleTrack(+trackId)),
           // dispatch(fetchTracks()),
           dispatch(fetchCommentsByTrackId(+trackId)),
         ]);
         console.log('playlist', playlist, 'trackId', trackId);
         if (!playlist.length) {
-          dispatch(setPlaylist([track.id]));
+          dispatch(setPlaylist([fetchedTrack.id]));
         }
         // dispatch(setPlaylist(tracks.map(({ id }) => id)));
         setLoading(false);
@@ -36,9 +41,7 @@ const SingleTrackPage = () => {
         console.log('error fetching tracks', err);
       }
     })();
-  }, [dispatch, trackId]);
-
-  const commentIds = track?.commentIds;
+  }, [dispatch, trackId, commentIds]);
 
   return (
     !isLoading && (
@@ -47,11 +50,13 @@ const SingleTrackPage = () => {
           <AudioPlayer trackId={trackId} size="large" withArtwork={false} />
           <TrackArtwork className="artwork-large" trackId={trackId} />
         </div>
-        {/* <UserCard user={track?.User} size="medium" /> */}
-        {commentIds &&
-          [...commentIds]
-            .sort((a, b) => b - a)
-            .map((id) => <CommentListItem key={id} commentId={id} />)}
+        {/* <UserCard user={track?.User} size="medium" avatarSize="large" /> */}
+        <ul className="track-comments-list">
+          {commentIds &&
+            [...commentIds]
+              .sort((a, b) => b - a)
+              .map((id) => <CommentListItem key={id} commentId={id} />)}
+        </ul>
       </div>
     )
   );

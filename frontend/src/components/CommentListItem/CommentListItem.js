@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getSingleUser } from '../../store/userReducer';
 import ProfilePicture from '../common/ProfilePicture';
 import { formatTime, calculateTimeSincePost } from '../../utils';
+import './CommentListItem.css';
 
 const CommentListItem = ({ commentId }) => {
   const dispatch = useDispatch();
@@ -25,10 +26,19 @@ const CommentListItem = ({ commentId }) => {
   return (
     !isLoading && (
       <li className="comment-list-item">
-        <ProfilePicture user={user} size="medium" />
-        <p>{user.username} <span>at</span> <span>{formatTime(comment.timePosted)}</span></p>
-        <p>{comment.body}</p>
-        <p>{calculateTimeSincePost(comment.createdAt)}</p>
+        <div className="comment-list-item-left">
+          <ProfilePicture user={user} size="medium" />
+        </div>
+        <div className="comment-list-item-center">
+          <p>
+            {user.username} <span>at</span>{' '}
+            <span>{formatTime(comment.timePosted)}</span>
+          </p>
+          <p>{comment.body}</p>
+        </div>
+        <div className="comment-list-item-right">
+          <p>{calculateTimeSincePost(comment.createdAt)}</p>
+        </div>
       </li>
     )
   );

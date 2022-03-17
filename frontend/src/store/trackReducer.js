@@ -40,6 +40,14 @@ export const fetchTracks = () => async (dispatch) => {
   return tracks;
 };
 
+export const fetchUserTracks = (userId) => async (dispatch) => {
+  const response = await csrfFetch(`/api/users/${userId}tracks`);
+  const { tracks } = await response.json();
+  dispatch(loadTracks(tracks));
+
+  return tracks;
+};
+
 export const fetchSingleTrack = (trackId) => async (dispatch) => {
   const response = await csrfFetch(`/api/tracks/${trackId}`);
   const { track } = await response.json();
@@ -110,15 +118,10 @@ const trackReducer = (state = {}, action) => {
       };
 
     case ADD_TRACK:
-      return {
-        ...state,
-        [action.track.id]: action.track,
-      };
-
     case UPDATE_TRACK:
       return {
         ...state,
-        [action.track.id]: action.track,
+        [action.track.id]: { ...state.track?.id, ...action.track },
       };
 
     case REMOVE_TRACK:
