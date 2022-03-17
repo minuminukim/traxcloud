@@ -142,6 +142,17 @@ const trackReducer = (state = {}, action) => {
         },
       };
 
+    case COMMENT_ADDED:
+      const prevCommentIds = state[action.comment.trackId].commentIds;
+
+      return {
+        ...state,
+        [action.comment.trackId]: {
+          ...state[action.comment.trackId],
+          commentIds: [...prevCommentIds, action.comment.id],
+        },
+      };
+
     default:
       return state;
   }

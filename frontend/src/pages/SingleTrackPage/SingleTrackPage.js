@@ -30,14 +30,13 @@ const SingleTrackPage = () => {
       try {
         const [fetchedTrack, _comments] = await Promise.all([
           dispatch(fetchSingleTrack(+trackId)),
-          // dispatch(fetchTracks()),
           dispatch(fetchCommentsByTrackId(+trackId)),
         ]);
-        console.log('playlist', playlist, 'trackId', trackId);
+
         if (!playlist.length) {
           dispatch(setPlaylist([fetchedTrack.id]));
         }
-        // dispatch(setPlaylist(tracks.map(({ id }) => id)));
+        
         setLoading(false);
       } catch (err) {
         console.log('error fetching tracks', err);
@@ -53,7 +52,7 @@ const SingleTrackPage = () => {
           <TrackArtwork className="artwork-large" trackId={trackId} />
         </div>
         {sessionUser && <CommentField duration={track.duration} />}
-        {/* <UserCard user={track?.User} size="medium" avatarSize="large" /> */}
+        <UserCard user={track?.User} size="medium" avatarSize="large" />
         <ul className="track-comments-list">
           {commentIds &&
             [...commentIds]

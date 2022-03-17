@@ -9,32 +9,32 @@ import './UserCard.css';
 const UserCard = ({ user, size, avatarSize }) => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const tracks = useSelector((state) => state.tracks);
-  const userTracks = Object.values(tracks).filter((track) => {
-    return track.userId === user.id;
-  });
+  // const tracks = useSelector((state) => state.tracks);
+  // const userTracks = Object.values(tracks).filter((track) => {
+  //   return track.userId === user.id;
+  // });
 
-  useEffect(() => {
-    return dispatch(fetchTracks()).catch((data) => {
-      if (data && data.errors) {
-        history.push('/error-not-found');
-      }
-    });
-  }, [dispatch, history]);
+  // useEffect(() => {
+  //   return dispatch(fetchTracks()).catch((data) => {
+  //     if (data && data.errors) {
+  //       history.push('/error-not-found');
+  //     }
+  //   });
+  // }, [dispatch, history]);
 
   return (
-    <div className={`user-card user-card-${avatarSize}`}>
-      <ProfilePicture user={user} size="medium" />
+    <div className={`user-card user-card-${size}`}>
+      <ProfilePicture user={user} size={avatarSize} />
       <div className={`user-card-body-${size}`}>
         <h3 className={`user-card-name`}>{user.displayName}</h3>
-
+        {/*
         <div className={`user-card-stats`}>
           <div className="icon-wrap">
             <BsSoundwave className="icon-sound" />
           </div>
 
           <span className="track-count">{userTracks.length}</span>
-        </div>
+        </div> */}
       </div>
     </div>
   );
