@@ -10,6 +10,7 @@ const InputField = ({
   onChange,
   error,
   required = false,
+  ...rest
 }) => {
   return (
     <div className={`form-row form-row-${size}`}>
@@ -24,6 +25,7 @@ const InputField = ({
         value={value}
         onChange={onChange}
         className={error ? 'error-field' : null}
+        {...rest}
       />
       {error && <p className="validation-error">{error}</p>}
     </div>

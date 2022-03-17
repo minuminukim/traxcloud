@@ -10,7 +10,8 @@ const calculateTimeSincePost = (timeString) => {
 
   const then = +new Date(timeString);
   const seconds = Math.floor((+new Date() - then) / 1000);
-  if (!seconds || seconds < 600) return 'less than 10 minutes ago'
+  if (!seconds) return 'Just now';
+  // if (!seconds || seconds < 600) return 'less than 10 minutes ago'
   const interval = intervals.find((i) => i.seconds < seconds);
   const count = Math.floor(seconds / interval.seconds);
 

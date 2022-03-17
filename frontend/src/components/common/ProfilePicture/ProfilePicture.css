@@ -1,12 +1,10 @@
 .profile-picture {
-  /* border-radius: 50%; */
   object-fit: cover;
   border: 1px solid #999;
 }
 
 .profile-picture-round {
   border-radius: 50%;
-  object-fit: cover;
 }
 
 .profile-picture-small {

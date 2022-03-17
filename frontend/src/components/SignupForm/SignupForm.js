@@ -35,7 +35,7 @@ const SignupForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="signup-form">
       <h2 className="form-header">Create your TraxCloud account</h2>
       <InputField
         label="Enter your email"

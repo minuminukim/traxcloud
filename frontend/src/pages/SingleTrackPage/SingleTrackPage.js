@@ -7,6 +7,7 @@ import AudioPlayer from '../../components/AudioPlayer';
 import TrackArtwork from '../../components/TrackArtwork';
 import UserCard from '../../components/UserCard';
 import CommentListItem from '../../components/CommentListItem';
+import CommentField from '../../components/CommentField';
 import { fetchCommentsByTrackId } from '../../actions/commentActions';
 
 const SingleTrackPage = () => {
@@ -15,6 +16,7 @@ const SingleTrackPage = () => {
   const { playlist } = useSelector((state) => state.player);
   const track = useSelector((state) => state.tracks[trackId]);
   const allComments = useSelector((state) => state.comments);
+  const sessionUser = useSelector((state) => state.session.user);
   const [isLoading, setLoading] = useState(true);
   const commentIds = track?.commentIds;
 
@@ -50,6 +52,7 @@ const SingleTrackPage = () => {
           <AudioPlayer trackId={trackId} size="large" withArtwork={false} />
           <TrackArtwork className="artwork-large" trackId={trackId} />
         </div>
+        {sessionUser && <CommentField duration={track.duration} />}
         {/* <UserCard user={track?.User} size="medium" avatarSize="large" /> */}
         <ul className="track-comments-list">
           {commentIds &&

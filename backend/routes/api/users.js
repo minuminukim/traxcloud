@@ -66,14 +66,19 @@ router.get(
   '/:userId(\\d+)/tracks',
   asyncHandler(async (req, res, next) => {
     const userId = +req.params.userId;
-    const user = await User.findByPk(userId, { include: Track });
+    const user = await User.findOne({
+      where: { id: userId },
+      include: { model: Track, as: 'tracks' },
+    });
 
     if (!user) {
       next(userNotFoundError());
     }
 
+    const { tracks } = user;
+
     return res.json({
-      user,
+      tracks,
     });
   })
 );
