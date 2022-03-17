@@ -1,6 +1,7 @@
-import { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { isCurrentTrack } from '../../utils';
+import Waveform from '../Waveform';
+import TrackArtwork from '../TrackArtwork';
 import {
   PlaybackButton,
   TrackActions,
@@ -9,7 +10,6 @@ import {
   ProgressBar,
 } from '.';
 
-import TrackArtwork from '../TrackArtwork';
 import './AudioPlayer.css';
 
 const AudioPlayer = ({
@@ -39,6 +39,7 @@ const AudioPlayer = ({
             <PlaybackButton size={size} trackId={trackId} />
             <TrackDetails trackId={track.id} size={size} />
           </div>
+          <Waveform audio={track.trackUrl}/>
           <ProgressBar trackId={trackId} isCurrent={isCurrent} />
           <TrackActions trackId={trackId} />
         </div>
