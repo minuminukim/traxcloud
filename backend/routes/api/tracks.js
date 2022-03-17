@@ -1,6 +1,6 @@
 const express = require('express');
 const asyncHandler = require('express-async-handler');
-const { User, Track } = require('../../db/models');
+const { User, Track, Comment } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth');
 const validateTrack = require('../../validations/validateTrack');
 const validateTrackPUT = require('../../validations/validateTrackPUT');
@@ -13,6 +13,17 @@ const {
 
 const router = express.Router();
 
+const trackNotFoundError = () => {
+  const trackError = new Error('Track not found.');
+  trackError.status = 404;
+  trackError.title = 'Track not found.';
+  trackError.errors = {
+    trackId: `The requested track could not be found.`,
+  };
+
+  return trackError;
+};
+
 router.get(
   '/:trackId(\\d+)',
   asyncHandler(async (req, res, next) => {
@@ -20,14 +31,7 @@ router.get(
     const track = await Track.fetchSingleTrackWithUser(trackId);
 
     if (!track) {
-      const trackError = new Error('Track not found.');
-      trackError.status = 404;
-      trackError.title = 'Track not found.';
-      trackError.errors = {
-        trackId: `The requested track could not be found.`,
-      };
-
-      return next(trackError);
+      return next(trackNotFoundError());
     }
 
     return res.json({
@@ -111,6 +115,27 @@ router.delete(
     } else {
       res.status(404).json({ message: 'Track does not exist.' });
     }
+  })
+);
+
+router.get(
+  '/:trackId(\\d+)/comments',
+  asyncHandler(async (req, res, next) => {
+    const trackId = +req.params.trackId;
+    const track = await Track.findOne({
+      where: { id: trackId },
+      include: { model: Comment, as: 'comments' },
+    });
+
+    if (!track) {
+      return next(trackNotFoundError());
+    }
+
+    const { comments } = track;
+
+    return res.json({
+      comments,
+    });
   })
 );
 

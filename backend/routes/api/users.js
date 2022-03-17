@@ -1,6 +1,6 @@
 const express = require('express');
 const asyncHandler = require('express-async-handler');
-const { User, Track } = require('../../db/models');
+const { User, Comment, Track } = require('../../db/models');
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
 const validateSignup = require('../../validations/validateSignup');
 
@@ -74,6 +74,27 @@ router.get(
 
     return res.json({
       user,
+    });
+  })
+);
+
+router.get(
+  '/:userId(\\d+)/comments',
+  asyncHandler(async (req, res, next) => {
+    const userId = +req.params.userId;
+    const user = await User.findOne({
+      where: { id: userId },
+      include: { model: Comment, as: 'comments' },
+    });
+
+    if (!user) {
+      next(userNotFoundError());
+    }
+
+    const { comments } = user;
+
+    return res.json({
+      comments,
     });
   })
 );
