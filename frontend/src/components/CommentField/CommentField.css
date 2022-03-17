@@ -1,0 +1,7 @@
+form.comment-field {
+  display: flex;
+  align-items: center;
+  max-width: 817px;
+  width: 100%;
+  height: 40px !important;
+}
