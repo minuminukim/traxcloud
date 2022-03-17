@@ -4,12 +4,14 @@ import sessionReducer from './sessionReducer';
 import trackReducer from './trackReducer';
 import userReducer from './userReducer';
 import playerReducer from './playerReducer';
+import commentReducer from './commentReducer';
 
 const rootReducer = combineReducers({
   session: sessionReducer,
   tracks: trackReducer,
   users: userReducer,
   player: playerReducer,
+  comments: commentReducer,
 });
 
 let enhancer;
