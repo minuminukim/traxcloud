@@ -3,12 +3,13 @@ import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchSingleTrack } from '../../store/trackReducer';
 import { setPlaylist } from '../../actions/playerActions';
+import { fetchCommentsByTrackId } from '../../actions/commentActions';
 import AudioPlayer from '../../components/AudioPlayer';
 import TrackArtwork from '../../components/TrackArtwork';
 import UserCard from '../../components/UserCard';
-import CommentListItem from '../../components/CommentListItem';
 import CommentField from '../../components/CommentField';
-import { fetchCommentsByTrackId } from '../../actions/commentActions';
+import CommentsList from '../../components/CommentsList';
+import './SingleTrackPage.css';
 
 const SingleTrackPage = () => {
   const dispatch = useDispatch();
@@ -36,7 +37,7 @@ const SingleTrackPage = () => {
         if (!playlist.length) {
           dispatch(setPlaylist([fetchedTrack.id]));
         }
-        
+
         setLoading(false);
       } catch (err) {
         console.log('error fetching tracks', err);
@@ -46,19 +47,18 @@ const SingleTrackPage = () => {
 
   return (
     !isLoading && (
-      <div className="page-container">
+      <div className="page-container single-track-page">
         <div className="single-track-container">
           <AudioPlayer trackId={trackId} size="large" withArtwork={false} />
           <TrackArtwork className="artwork-large" trackId={trackId} />
         </div>
-        {sessionUser && <CommentField duration={track.duration} />}
-        <UserCard user={track?.User} size="medium" avatarSize="large" />
-        <ul className="track-comments-list">
-          {commentIds &&
-            [...commentIds]
-              .sort((a, b) => b - a)
-              .map((id) => <CommentListItem key={id} commentId={id} />)}
-        </ul>
+        <div className="single-track-page-main">
+          {sessionUser && <CommentField duration={track.duration} />}
+          <div className="single-track-page-main-row">
+            <UserCard user={track?.User} size="medium" avatarSize="large" />
+            <CommentsList />
+          </div>
+        </div>
       </div>
     )
   );

@@ -14,9 +14,11 @@ const InputField = ({
 }) => {
   return (
     <div className={`form-row form-row-${size}`}>
-      <label className="form-label">
-        {label} {required && <span className="validation-error">*</span>}
-      </label>
+      {label && (
+        <label className="form-label">
+          {label} {required && <span className="validation-error">*</span>}
+        </label>
+      )}
       <input
         type={type}
         name={id}
