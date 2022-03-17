@@ -1,4 +1,10 @@
 import { csrfFetch } from './csrf';
+import {
+  COMMENTS_LOADED,
+  COMMENT_ADDED,
+  COMMENT_UPDATED,
+  COMMENT_REMOVED,
+} from '../actions/commentActions';
 
 export const LOAD_TRACKS = 'track/loadTracks';
 
@@ -97,24 +103,42 @@ const trackReducer = (state = {}, action) => {
         acc[track.id] = track;
         return acc;
       }, {});
+
       return {
         ...state,
         ...tracksObject,
       };
+
     case ADD_TRACK:
       return {
         ...state,
         [action.track.id]: action.track,
       };
+
     case UPDATE_TRACK:
       return {
         ...state,
         [action.track.id]: action.track,
       };
+
     case REMOVE_TRACK:
       const newState = { ...state };
       delete newState[action.trackId];
       return newState;
+
+    case COMMENTS_LOADED:
+      const commentIds = action.comments
+        .filter((comment) => comment.trackId === action.trackId)
+        .map(({ id }) => id);
+
+      return {
+        ...state,
+        [action.trackId]: {
+          ...state[action.trackId],
+          commentIds,
+        },
+      };
+
     default:
       return state;
   }

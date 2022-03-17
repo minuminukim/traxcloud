@@ -15,7 +15,7 @@ const commentReducer = (state = {}, action) => {
 
       return {
         ...state,
-        comments,
+        ...comments,
       };
 
     case COMMENT_ADDED:

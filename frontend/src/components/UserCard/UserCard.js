@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { fetchTracks } from '../../../store/trackReducer';
+import { fetchTracks } from '../../store/trackReducer';
 import { BsSoundwave } from 'react-icons/bs';
-import ProfilePicture from '../ProfilePicture';
+import ProfilePicture from '../common/ProfilePicture';
 import './UserCard.css';
 
 const UserCard = ({ user, size }) => {

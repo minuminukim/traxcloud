@@ -7,9 +7,10 @@ export const COMMENT_UPDATED = 'comments/commentUpdated';
 export const COMMENT_REMOVED = 'comments/commentRemoved';
 
 /* ----- ACTIONS ----- */
-const loadComments = (comments) => ({
+const loadComments = (comments, trackId) => ({
   type: COMMENTS_LOADED,
   comments,
+  trackId,
 });
 
 const addComment = (comment) => ({
@@ -32,6 +33,14 @@ export const fetchComments = () => async (dispatch) => {
   const response = await csrfFetch('/api/comments');
   const { comments } = await response.json();
   dispatch(loadComments(comments));
+
+  return comments;
+};
+
+export const fetchCommentsByTrackId = (trackId) => async (dispatch) => {
+  const response = await csrfFetch(`/api/tracks/${trackId}/comments`);
+  const { comments } = await response.json();
+  dispatch(loadComments(comments, trackId));
 
   return comments;
 };
