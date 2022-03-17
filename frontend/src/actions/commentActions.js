@@ -23,9 +23,10 @@ const updateComment = (comment) => ({
   comment,
 });
 
-const removeComment = (commentId) => ({
+const removeComment = (commentId, trackId) => ({
   type: COMMENT_REMOVED,
   commentId,
+  trackId,
 });
 
 /* ----- THUNKS ----- */
@@ -67,10 +68,10 @@ export const editComment = (comment) => async (dispatch) => {
   return data.comment;
 };
 
-export const deleteComment = (commentId) => async (dispatch) => {
+export const deleteComment = (commentId, trackId) => async (dispatch) => {
   const response = await csrfFetch(`/api/comments/${commentId}`, {
     method: 'DELETE',
   });
-  dispatch(removeComment(commentId));
+  dispatch(removeComment(commentId, trackId));
   return response;
 };

@@ -48,7 +48,6 @@ const CommentField = ({ duration }) => {
   return (
     <form
       className="comment-field"
-      // ref={formRef}
       onSubmit={handleSubmit}
     >
       <ProfilePicture user={user} size="medium" shape="square" />

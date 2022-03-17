@@ -153,6 +153,18 @@ const trackReducer = (state = {}, action) => {
         },
       };
 
+    case COMMENT_REMOVED:
+      console.log('state', state[action.trackId]);
+      return {
+        ...state,
+        [action.trackId]: {
+          ...state[action.trackId],
+          commentIds: state[action.trackId].commentIds.filter(
+            (id) => id !== action.commentId
+          ),
+        },
+      };
+
     default:
       return state;
   }

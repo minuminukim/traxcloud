@@ -1,3 +1,16 @@
 .track-comments-list {
   padding-left: 0;
+  margin-top: 0;
+}
+
+.track-comments-list-title {
+  font-weight: 400;
+  font-size: 15px;
+  color: #999;
+  margin: 7px 0;
+  padding-left: 10px;
+}
+
+.comment-icon {
+  padding-right: 6px;
 }
