@@ -3,13 +3,12 @@ import { isCurrentTrack } from '../../utils';
 import {
   PlaybackButton,
   ProgressBar,
-  TrackActions,
   TrackDetails,
   TrackHeader,
-  TrackStats,
+  PlayerFooter,
 } from '.';
 
-import Ministat from '../Ministat';
+import CommentField from '../CommentField';
 import TrackArtwork from '../TrackArtwork';
 import './AudioPlayer.css';
 
@@ -18,6 +17,8 @@ const AudioPlayer = ({
   size,
   withArtwork = false,
   withHeader = false,
+  withFooter = false,
+  withCommentField = false,
 }) => {
   const track = useSelector((state) => state.tracks[trackId]);
   const { currentTrackId } = useSelector((state) => state.player);
@@ -41,10 +42,14 @@ const AudioPlayer = ({
             <TrackDetails trackId={track.id} size={size} />
           </div>
           <ProgressBar trackId={trackId} isCurrent={isCurrent} />
-          <div className="player-footer">
-            <TrackActions trackId={trackId} />
-            <TrackStats trackId={trackId} />
-          </div>
+          {withCommentField && (
+            <CommentField
+              trackId={trackId}
+              duration={track.duration}
+              height={32}
+            />
+          )}
+          {withFooter && <PlayerFooter trackId={trackId} />}
         </div>
       </div>
     </div>

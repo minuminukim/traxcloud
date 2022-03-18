@@ -5,6 +5,10 @@
   padding-bottom: 7px;
 }
 
+.track-actions .edit-button {
+  margin-left: 0;
+}
+
 .player-large .track-actions {
   height: fit-content;
 }
