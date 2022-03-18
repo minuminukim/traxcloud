@@ -11,37 +11,35 @@
 .progress-bar {
   -webkit-appearance: none;
   cursor: pointer;
-  width: 100%;
-  color: transparent;
+  background-color: transparent;
   border: 0;
-  height: 0;
+  height: 12px;
+  width: 100%;
+  padding: 0;
   overflow: hidden;
-  height: 1px;
 }
 
 .footer-player .progress-bar {
   position: relative;
   bottom: 10px;
-  background-color: transparent;
 }
 
 .progress-bar::-webkit-slider-runnable-track {
   background-color: #999;
   height: 1px;
   width: 100%;
-  display: flex;
   border: none;
 }
 
 .progress-bar::-webkit-slider-thumb {
   -webkit-appearance: none;
-  color: #999;
   background-color: #f50;
   border-radius: 50%;
   height: 10px;
   width: 10px;
-  position: relative;
-  bottom: 4px;
+  /* bottom: 4px; */
+  /* box-shadow: -80px 0 0 80px#f50; */
+  margin-top: -3px;
 }
 
 .progress-bar:focus {

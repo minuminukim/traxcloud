@@ -17,6 +17,7 @@ const ProgressBar = ({ trackId, transparent = false }) => {
   );
 
   const isCurrent = isCurrentTrack(+trackId, currentTrackId);
+  
   const onChange = (e) => {
     const newTime = e.target.value;
     if (!isCurrent) {
@@ -25,6 +26,7 @@ const ProgressBar = ({ trackId, transparent = false }) => {
       }
       dispatch(setTrack(+trackId, newTime));
     }
+
     dispatch(setSeeking(newTime));
   };
 

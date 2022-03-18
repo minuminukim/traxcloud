@@ -12,15 +12,20 @@ const Volume = () => {
   const toggleSlider = () => setShowSlider(!showSlider);
 
   const onSlide = (e) => {
-    const newVolume = e.target.value;
-    dispatch(updateVolume(e.target.value, false));
+    // Grab value from input and update volume in store
+    const input = e.target;
+    const newVolume = input.value;
+    dispatch(updateVolume(input.value, false));
+
+    // Update audio ref's volume
     audio.current.volume = newVolume;
   };
 
   const toggleMute = () => {
     const nextVolume = isMuted ? previousVolume : 0;
 
-    // save current volume in state, so we can use it on next toggle
+    // save current volume in state,
+    // so we can revert back to it on next toggle
     if (!isMuted) {
       setPreviousVolume(volume);
     }
@@ -35,18 +40,19 @@ const Volume = () => {
       onMouseEnter={toggleSlider}
       onMouseLeave={toggleSlider}
     >
-      <VolumeButton onClick={toggleMute} />
-      {/* {showSlider && ( */}
-        <Slider
-          className="volume-slider"
-          min="0"
-          max="1"
-          step="0.02"
-          color="orange"
-          value={volume}
-          onChange={onSlide}
-        />
-      {/* )} */}
+      <VolumeButton onClick={toggleMute}>
+        {showSlider && (
+          <Slider
+            className="volume-slider"
+            min="0"
+            max="1"
+            step="0.02"
+            color="orange"
+            value={volume}
+            onChange={onSlide}
+          />
+        )}
+      </VolumeButton>
     </div>
   );
 };

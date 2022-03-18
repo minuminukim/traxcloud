@@ -1,26 +1,28 @@
 import { useSelector } from 'react-redux';
 import { FaVolumeDown, FaVolumeMute, FaVolumeUp } from 'react-icons/fa';
 
-const VolumeButton = ({ onClick }) => {
+const VolumeButton = ({ onClick, children }) => {
   const { volume } = useSelector((state) => state.player);
+
   const iconReducer = () => {
     switch (true) {
       case volume >= 0.5:
-        return <FaVolumeUp />;
+        return <FaVolumeUp onClick={onClick} />;
       case volume > 0 && volume < 0.5:
-        return <FaVolumeDown />;
+        return <FaVolumeDown onClick={onClick} />;
       case volume === 0:
-        return <FaVolumeMute />;
+        return <FaVolumeMute onClick={onClick} />;
       default:
-        return <FaVolumeMute />;
+        return <FaVolumeMute onClick={onClick} />;
     }
   };
 
   const Icon = iconReducer();
 
   return (
-    <div className="player-control volume-button" onClick={onClick}>
+    <div className="player-control volume-button">
       {Icon}
+      {children}
     </div>
   );
 };
