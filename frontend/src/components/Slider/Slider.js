@@ -1,6 +1,6 @@
-const Slider = ({ color, min, max, step, value, onChange, className }) => {
-  // Calculate % of range based off input, so we can use it
-  // to set the background
+import './Slider.css';
+
+const Slider = ({ min, max, step, value, onChange, className }) => {
   const percentFilled = ((value - min) / (max - min)) * 100;
   const style = {
     background:
@@ -12,9 +12,9 @@ const Slider = ({ color, min, max, step, value, onChange, className }) => {
   };
 
   return (
-    <div className="slider-container">
+    <div className={`slider-container ${className}`}>
       <input
-        className={`${color} ${className}`}
+        className={`slider ${className}`}
         type="range"
         min={min}
         max={max}

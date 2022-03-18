@@ -1,0 +1,51 @@
+/* range input */
+.slider {
+  -webkit-appearance: none;
+  cursor: pointer;
+  border: 0;
+  padding: 0;
+}
+
+.slider.volume {
+  height: 2.5px;
+  width: 100px;
+}
+
+.slider.progress-bar {
+  height: 1px;
+  width: 100%;
+}
+
+.slider:focus {
+  outline: none;
+}
+
+/* Chrome */
+/* slider track */
+.slider::-webkit-slider-runnable-track {
+  border: none;
+  background: transparent;
+}
+
+/* slider thumb */
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  background-color: #f50;
+  border-radius: 50%;
+  height: 8px;
+  width: 8px;
+}
+
+.slider-container.volume {
+  position: absolute;
+  bottom: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: rotate(-90deg);
+  z-index: 3;
+  background-color: #f2f2f2;
+  border: 1px solid #ccc;
+  width: 120px;
+  height: 32px;
+}

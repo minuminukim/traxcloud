@@ -8,7 +8,7 @@ const SoundBadge = () => {
   const { username } = track.User;
   return (
     <div className="soundbadge">
-      <div>
+      <div className="soundbadge-image">
         <TrackArtwork trackId={currentTrackId} height="30" width="30" />
       </div>
       <div className="soundbadge-links">

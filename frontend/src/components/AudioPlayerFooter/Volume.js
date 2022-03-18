@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateVolume } from '../../actions/playerActions';
-import { Slider, VolumeButton } from '.';
+import { VolumeButton } from '.';
+import Slider from '../Slider';
 import './Volume.css';
 
 const Volume = () => {
@@ -11,7 +12,7 @@ const Volume = () => {
   const [previousVolume, setPreviousVolume] = useState(1);
   const toggleSlider = () => setShowSlider(!showSlider);
 
-  const onSlide = (e) => {
+  const onScrub = (e) => {
     // Grab value from input and update volume in store
     const input = e.target;
     const newVolume = input.value;
@@ -43,13 +44,12 @@ const Volume = () => {
       <VolumeButton onClick={toggleMute}>
         {showSlider && (
           <Slider
-            className="volume-slider"
+            className="volume"
             min="0"
             max="1"
             step="0.02"
-            color="orange"
             value={volume}
-            onChange={onSlide}
+            onChange={onScrub}
           />
         )}
       </VolumeButton>

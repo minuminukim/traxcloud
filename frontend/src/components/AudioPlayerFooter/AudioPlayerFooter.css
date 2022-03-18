@@ -14,18 +14,15 @@
 .footer-player {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   width: 100%;
   max-width: 1240px;
-}
-
-.footer-container .player-timeline-container {
-  width: 632px;
+  padding: 0 12px;
 }
 
 .player-controls {
   display: flex;
   align-items: center;
+  margin-right: 35px;
 }
 
 .player-control {
@@ -46,14 +43,45 @@
   margin-left: 0;
 }
 
+.footer-player .player-timeline-container {
+  align-items: center;
+  width: 632px;
+}
+
+.footer-player .progress-bar {
+  position: relative;
+  bottom: 4px;
+  width: 512px;
+  margin: 0;
+}
+
+.footer-player .timers-container {
+  position: relative;
+  top: 10px;
+  margin: 0;
+  padding: 0 15px;
+}
+
+p.transparent {
+  background-color: transparent;
+  font-size: 14px;
+  border: 0;
+}
+
 .soundbadge {
   display: flex;
   align-items: center;
 }
 
+.soundbadge-image {
+  height: 30px;
+  margin-right: 7px;
+}
+
 .soundbadge-links {
   display: flex;
   flex-direction: column;
+  width: 223px;
   max-width: 223px;
 }
 
