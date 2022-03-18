@@ -116,10 +116,20 @@ const trackReducer = (state = {}, action) => {
       };
 
     case ADD_TRACK:
-    case UPDATE_TRACK:
       return {
         ...state,
         [action.track.id]: { ...state.track?.id, ...action.track },
+      };
+
+    case UPDATE_TRACK:
+      const previousCommentIds = state[action.track.id]?.commentIds || [];
+      return {
+        ...state,
+        [action.track.id]: {
+          ...state.track?.id,
+          ...action.track,
+          commentIds: previousCommentIds,
+        },
       };
 
     case REMOVE_TRACK:
