@@ -26,13 +26,22 @@ const TrackArtwork = ({
   ...rest
 }) => {
   const { artworkUrl, title } = useSelector((state) => state.tracks[trackId]);
+  const { isPlaying, currentTrackId } = useSelector((state) => state.player);
   const [showOverlay, setShowOverlay] = useState(false);
 
+  // TODO: figure out overlay state. if player is active, overlay
+  // should be visible, but only  for the current track
   return (
     <div
       className={`${className} ${withPlayback && 'artwork-playback'}`}
       onMouseEnter={() => setShowOverlay(true)}
-      onMouseLeave={() => setShowOverlay(false)}
+      onMouseLeave={() => {
+        const isCurrent = isPlaying && currentTrackId === trackId;
+
+        if (!isCurrent || !isPlaying) {
+          setShowOverlay(false);
+        }
+      }}
     >
       {withPlayback && showOverlay && (
         <ArtworkOverlay
@@ -49,28 +58,6 @@ const TrackArtwork = ({
         onError={onImageError}
         {...rest}
       />
-    </div>
-  );
-};
-
-const TrackArtworkWithPlayback = ({
-  className,
-  playbackClass,
-  playbackSize,
-  trackId,
-  children,
-}) => {
-  return (
-    <div className={`artwork-with-playback ${className}`}>
-      <span className="artwork-overlay">
-        <PlaybackButton
-          className={playbackClass}
-          size={playbackSize}
-          trackId={trackId}
-        />
-      </span>
-      {/* <TrackArtwork /> */}
-      {children}
     </div>
   );
 };
