@@ -10,6 +10,7 @@ module.exports = {
         title: 'Heaven',
         duration: 286,
         fileSize: 10380902,
+        commentCount: 3,
       },
       {
         userId: 1,
@@ -18,6 +19,7 @@ module.exports = {
         title: 'Lake Shore Drive',
         duration: 366,
         fileSize: 14784921,
+        commentCount: 1,
       },
       {
         userId: 2,
@@ -34,6 +36,7 @@ module.exports = {
         title: 'January',
         duration: 359,
         fileSize: 14365491,
+        commentCount: 4,
       },
       {
         userId: 2,
@@ -42,6 +45,7 @@ module.exports = {
         title: 'The Answering Machine',
         duration: 320,
         fileSize: 13526630,
+        commentCount: 2,
       },
       {
         userId: 3,
@@ -66,6 +70,7 @@ module.exports = {
         title: 'That Dream We Call Reality',
         duration: 291,
         fileSize: 11639193,
+        commentCount: 3,
       },
       {
         userId: 4,
@@ -74,6 +79,7 @@ module.exports = {
         title: 'City of Fear',
         duration: 392,
         fileSize: 15728640,
+        commentCount: 2,
       },
     ]);
   },

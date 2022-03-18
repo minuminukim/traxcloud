@@ -2,7 +2,6 @@ import { csrfFetch } from './csrf';
 import {
   COMMENTS_LOADED,
   COMMENT_ADDED,
-  COMMENT_UPDATED,
   COMMENT_REMOVED,
 } from '../actions/commentActions';
 
@@ -149,19 +148,21 @@ const trackReducer = (state = {}, action) => {
         ...state,
         [action.comment.trackId]: {
           ...state[action.comment.trackId],
+          commentCount: prevCommentIds.length + 1,
           commentIds: [...prevCommentIds, action.comment.id],
         },
       };
 
     case COMMENT_REMOVED:
-      console.log('state', state[action.trackId]);
+      const prevComments = state[action.trackId].commentIds;
+      const filtered = prevComments.filter((id) => id !== action.commentId);
+
       return {
         ...state,
         [action.trackId]: {
           ...state[action.trackId],
-          commentIds: state[action.trackId].commentIds.filter(
-            (id) => id !== action.commentId
-          ),
+          commentIds: filtered,
+          commentCount: filtered.length,
         },
       };
 

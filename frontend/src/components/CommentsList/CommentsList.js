@@ -18,8 +18,8 @@ const CommentsList = () => {
       .catch((error) => console.log('error fetching comments', error));
   }, [dispatch, trackId]);
 
-  const count = track?.commentIds?.length || 0;
-  const titleText = track?.commentIds?.length === 1 ? 'comment' : 'comments';
+  const count = track?.commentCount || 0;
+  const titleText = track?.commentCount === 1 ? 'comment' : 'comments';
 
   return (
     !isLoading && (
