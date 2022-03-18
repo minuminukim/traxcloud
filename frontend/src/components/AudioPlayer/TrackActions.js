@@ -1,4 +1,3 @@
-// import { FaPlay } from 'react-icons/fa';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 // import TrackEditForm from '../TrackEditForm';
@@ -6,7 +5,6 @@ import { useHistory } from 'react-router-dom';
 import EditDeleteButton from './EditDeleteButton';
 import belongsTo from '../../utils/belongsTo';
 import { deleteTrack } from '../../store/trackReducer';
-import Ministat from '../Ministat';
 import './TrackActions.css';
 
 const TrackActions = ({ trackId }) => {
@@ -30,19 +28,17 @@ const TrackActions = ({ trackId }) => {
   return (
     sessionUser &&
     belongsToSessionUser && (
-      <div className="track-buttons">
-        <div className="track-buttons-left">
-          <EditDeleteButton
-            isEdit
-            onClick={onEditClick}
-            className="edit-button"
-          />
-          <EditDeleteButton
-            isEdit={false}
-            onClick={handleDelete}
-            className="delete-button"
-          />
-        </div>
+      <div className="track-actions">
+        <EditDeleteButton
+          isEdit
+          onClick={onEditClick}
+          className="edit-button"
+        />
+        <EditDeleteButton
+          isEdit={false}
+          onClick={handleDelete}
+          className="delete-button"
+        />
       </div>
     )
   );

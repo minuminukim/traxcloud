@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { playTrack, setTrack, pauseTrack } from '../../actions/playerActions';
 import { FaPlay, FaPause } from 'react-icons/fa';
 import './PlayButton.css';
+import { editTrack } from '../../store/trackReducer';
 
 const PlaybackButton = ({
   className,
@@ -10,16 +11,18 @@ const PlaybackButton = ({
   withBackground = true,
 }) => {
   const dispatch = useDispatch();
+  const sessionUser = useSelector((state) => state.session.user);
+  const track = useSelector((state) => state.tracks[trackId]);
   const { isPlaying, audio, currentTrackId } = useSelector(
     (state) => state.player
   );
-  const isCurrent = +trackId === currentTrackId;
+
+  const isCurrentlyPlaying = +trackId === currentTrackId;
 
   const onPause = () => dispatch(pauseTrack());
-
   const onPlay = () => {
     // if a new track has been selected..
-    if (!isCurrent) {
+    if (!isCurrentlyPlaying) {
       // reset previous ref to 0
       if (audio) {
         audio.current.currentTime = 0;
@@ -27,8 +30,14 @@ const PlaybackButton = ({
 
       dispatch(setTrack(+trackId));
     }
-
     dispatch(playTrack());
+
+    // if track doesn't belong to current user, or it's currently playing we
+    // dispatch to update playcount
+    if (sessionUser?.id === track.userId || isCurrentlyPlaying) return;
+    const { playCount } = track;
+    const updated = { ...track, playCount: playCount + 1 };
+    dispatch(editTrack(updated));
   };
 
   return (
@@ -37,9 +46,9 @@ const PlaybackButton = ({
         withBackground ? '' : 'transparent'
       }`}
       id={`play-${trackId}`}
-      onClick={isPlaying && isCurrent ? onPause : onPlay}
+      onClick={isPlaying && isCurrentlyPlaying ? onPause : onPlay}
     >
-      {isPlaying && isCurrent ? <FaPause /> : <FaPlay />}
+      {isPlaying && isCurrentlyPlaying ? <FaPause /> : <FaPlay />}
     </button>
   );
 };

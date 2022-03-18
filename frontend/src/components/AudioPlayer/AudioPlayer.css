@@ -79,3 +79,9 @@
 .link-user {
   font-size: 13px;
 }
+
+.player-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

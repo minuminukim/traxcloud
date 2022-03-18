@@ -6,7 +6,6 @@ import {
 } from '../actions/commentActions';
 
 export const LOAD_TRACKS = 'track/loadTracks';
-
 const ADD_TRACK = 'track/addTrack';
 const UPDATE_TRACK = 'track/updateTrack';
 const REMOVE_TRACK = 'track/removeTrack';

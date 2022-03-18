@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { FaCommentAlt } from 'react-icons/fa';
+import { FaCommentAlt, FaPlay } from 'react-icons/fa';
 import './Ministat.css';
 
 const Ministat = ({ type, count, trackId }) => {
@@ -9,6 +9,15 @@ const Ministat = ({ type, count, trackId }) => {
         <FaCommentAlt className="ministat-icon" />
         <span className="ministat-count">{count}</span>
       </Link>
+    );
+  }
+
+  if (type === 'play') {
+    return (
+      <span className="ministat">
+        <FaPlay className="ministat-icon" />
+        <span className="ministat-count">{count}</span>
+      </span>
     );
   }
 };

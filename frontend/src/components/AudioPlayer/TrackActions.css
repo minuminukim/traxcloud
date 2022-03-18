@@ -1,29 +1,10 @@
-.track-buttons {
+.track-actions {
   display: flex;
-  justify-content: space-between;
   align-items: flex-end;
   height: 100%;
   padding-bottom: 7px;
 }
 
-.player-large .track-buttons {
+.player-large .track-actions {
   height: fit-content;
-}
-
-.track-buttons-left,
-.track-buttons-right {
-  display: flex;
-  align-items: center;
-}
-
-.play-icon {
-  color: #999;
-  font-size: 10px;
-}
-
-.play-count {
-  color: #999;
-  font-size: 14px;
-  font-weight: 200;
-  padding: 0 10px 0 5px;
 }

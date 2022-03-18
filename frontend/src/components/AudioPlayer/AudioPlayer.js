@@ -2,10 +2,11 @@ import { useSelector } from 'react-redux';
 import { isCurrentTrack } from '../../utils';
 import {
   PlaybackButton,
+  ProgressBar,
   TrackActions,
   TrackDetails,
   TrackHeader,
-  ProgressBar,
+  TrackStats,
 } from '.';
 
 import Ministat from '../Ministat';
@@ -40,12 +41,10 @@ const AudioPlayer = ({
             <TrackDetails trackId={track.id} size={size} />
           </div>
           <ProgressBar trackId={trackId} isCurrent={isCurrent} />
-          <TrackActions trackId={trackId} />
-          <Ministat
-            type="comment"
-            count={track.commentCount}
-            trackId={trackId}
-          />
+          <div className="player-footer">
+            <TrackActions trackId={trackId} />
+            <TrackStats trackId={trackId} />
+          </div>
         </div>
       </div>
     </div>
