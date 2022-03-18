@@ -1,5 +1,6 @@
 import { useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import Waveform from '../Waveform';
 import {
   setDuration,
   setReference,
