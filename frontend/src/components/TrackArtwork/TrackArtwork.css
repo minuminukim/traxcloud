@@ -7,3 +7,17 @@
   height: 340px;
   width: 340px;
 }
+
+.artwork-playback {
+  position: relative;
+}
+
+.artwork-overlay {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+}

@@ -21,6 +21,7 @@ const AudioPlayer = ({
   withCommentField = false,
 }) => {
   const track = useSelector((state) => state.tracks[trackId]);
+  const sessionUser = useSelector((state) => state.session.user);
   const { currentTrackId } = useSelector((state) => state.player);
   const isCurrent = isCurrentTrack(+trackId, currentTrackId);
 
@@ -29,12 +30,10 @@ const AudioPlayer = ({
       {withHeader && <TrackHeader trackId={trackId} />}
       <div className="player-main">
         {withArtwork && (
-          <div className="player-artwork">
-            <TrackArtwork
-              className={`track-artwork artwork-${size}`}
-              trackId={trackId}
-            />
-          </div>
+          <TrackArtwork
+            className={`track-artwork artwork-${size}`}
+            trackId={trackId}
+          />
         )}
         <div className="player-content">
           <div className="player-header">
@@ -42,7 +41,7 @@ const AudioPlayer = ({
             <TrackDetails trackId={track.id} size={size} />
           </div>
           <ProgressBar trackId={trackId} isCurrent={isCurrent} />
-          {withCommentField && (
+          {withCommentField && sessionUser && (
             <CommentField
               trackId={trackId}
               duration={track.duration}

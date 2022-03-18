@@ -55,7 +55,7 @@ const SingleTrackPage = () => {
               height={40}
             />
           )}
-          {<PlayerFooter trackId={trackId} />}
+          <PlayerFooter trackId={trackId} />
           <div className="single-track-page-main-row">
             <UserCard user={track?.User} size="medium" avatarSize="large" />
             <CommentsList />
