@@ -1,4 +1,5 @@
 /* ----- ACTION TYPES ----- */
+export const PLAYER_LOADED = 'player/playerLoaded';
 export const METADATA_LOADED = 'player/metadataLoaded';
 export const PLAYLIST_LOADED = 'player/playlistLoaded';
 export const TRACK_SET = 'player/trackSet';

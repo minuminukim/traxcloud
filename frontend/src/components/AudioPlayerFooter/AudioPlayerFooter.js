@@ -14,7 +14,7 @@ const AudioPlayerFooter = () => {
     currentTrackId && (
       <footer className="footer-container">
         <div className="footer-player">
-          <Audio trackId={currentTrackId} />
+          {/* <Audio trackId={currentTrackId} /> */}
           <div className="player-controls">
             <button className="player-control">
               <IoPlaySkipBack onClick={() => dispatch(playPrevious())} />
