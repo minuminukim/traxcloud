@@ -1,10 +1,11 @@
 .volume-container {
   display: flex;
   flex-wrap: nowrap;
-  padding-left: 35px;
-  /* flex-direction: column; */
-  /* position: relative; */
-  /* width: 24px; */
-  /* height: 46px; */
-  /* overflow: visible; */
+  padding-left: 0;
+  margin-right: 35px;
+}
+
+.volume-button {
+  position: relative;
+  font-size: 20px;
 }

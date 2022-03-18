@@ -29,8 +29,11 @@ const AudioPlayerFooter = () => {
               <IoPlaySkipForward onClick={() => dispatch(playNext())} />
             </button>
           </div>
-
-          <ProgressBar trackId={currentTrackId} transparent />
+          <ProgressBar
+            trackId={currentTrackId}
+            transparent
+            withTimers={false}
+          />
           <Volume />
           <SoundBadge />
         </div>

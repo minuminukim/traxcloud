@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateVolume } from '../../actions/playerActions';
-import { Slider, VolumeButton } from '.';
+import { VolumeButton } from '.';
+import Slider from '../Slider';
 import './Volume.css';
 
 const Volume = () => {
@@ -11,16 +12,21 @@ const Volume = () => {
   const [previousVolume, setPreviousVolume] = useState(1);
   const toggleSlider = () => setShowSlider(!showSlider);
 
-  const onSlide = (e) => {
-    const newVolume = e.target.value;
-    dispatch(updateVolume(e.target.value, false));
+  const onScrub = (e) => {
+    // Grab value from input and update volume in store
+    const input = e.target;
+    const newVolume = input.value;
+    dispatch(updateVolume(input.value, false));
+
+    // Update audio ref's volume
     audio.current.volume = newVolume;
   };
 
   const toggleMute = () => {
     const nextVolume = isMuted ? previousVolume : 0;
 
-    // save current volume in state, so we can use it on next toggle
+    // save current volume in state,
+    // so we can revert back to it on next toggle
     if (!isMuted) {
       setPreviousVolume(volume);
     }
@@ -35,18 +41,18 @@ const Volume = () => {
       onMouseEnter={toggleSlider}
       onMouseLeave={toggleSlider}
     >
-      <VolumeButton onClick={toggleMute} />
-      {/* {showSlider && ( */}
-        <Slider
-          className="volume-slider"
-          min="0"
-          max="1"
-          step="0.02"
-          color="orange"
-          value={volume}
-          onChange={onSlide}
-        />
-      {/* )} */}
+      <VolumeButton onClick={toggleMute}>
+        {showSlider && (
+          <Slider
+            className="volume"
+            min="0"
+            max="1"
+            step="0.02"
+            value={volume}
+            onChange={onScrub}
+          />
+        )}
+      </VolumeButton>
     </div>
   );
 };

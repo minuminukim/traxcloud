@@ -1,12 +1,8 @@
-import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  pauseTrack,
-  setTrack,
-  updateTime,
-  setSeeking,
-} from '../../actions/playerActions';
-import { isCurrentTrack, formatTime } from '../../utils';
+import { setTrack, setSeeking } from '../../actions/playerActions';
+import { formatTime } from '../../utils';
+import PlaybackTime from './PlaybackTime';
+import Slider from '../Slider';
 import './ProgressBar.css';
 
 const ProgressBar = ({ trackId, transparent = false }) => {
@@ -16,7 +12,8 @@ const ProgressBar = ({ trackId, transparent = false }) => {
     (state) => state.player
   );
 
-  const isCurrent = isCurrentTrack(+trackId, currentTrackId);
+  const isCurrent = +trackId === currentTrackId;
+
   const onChange = (e) => {
     const newTime = e.target.value;
     if (!isCurrent) {
@@ -25,31 +22,31 @@ const ProgressBar = ({ trackId, transparent = false }) => {
       }
       dispatch(setTrack(+trackId, newTime));
     }
+
     dispatch(setSeeking(newTime));
   };
 
   return (
     <div className="player-timeline-container">
-      <div
-        className={`timers-container ${isCurrent ? 'between' : 'end'} ${
-          transparent && 'transparent'
-        }`}
-      >
+      <div className={`timers-container ${isCurrent ? 'between' : 'end'}`}>
         {isCurrent && (
-          <p className={`timer-text ${transparent && 'transparent'}`}>
-            {formatTime(currentTime)}
-          </p>
+          <PlaybackTime
+            className="timer"
+            transparent={transparent}
+            time={currentTime}
+          />
         )}
-        <p className={`duration-text ${transparent && 'transparent'}`}>
-          {formatTime(duration)}
-        </p>
+        <PlaybackTime
+          className="duration"
+          transparent={transparent}
+          time={duration}
+        />
       </div>
-      <input
+      <Slider
         className="progress-bar"
-        type="range"
-        step="1"
         min="1"
         max={duration || duration.toString()}
+        step="1"
         value={isCurrent ? currentTime : 0}
         onChange={onChange}
       />

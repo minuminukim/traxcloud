@@ -10,6 +10,10 @@
   margin-right: 0;
 }
 
+.player-medium .player-timeline-container {
+  margin-top: 30px;
+}
+
 .single-track-container {
   display: grid;
   width: 100%;
@@ -20,11 +24,6 @@
     rgba(255, 255, 255, 1) 0%,
     rgba(18, 23, 19, 0.7466591282894737) 100%
   );
-  /* -webkit-filter: blur(50px);
-  -moz-filter: blur(50px);
-  -o-filter: blur(50px);
-  -ms-filter: blur(50px);
-  filter: blur(50px); */
 }
 
 .player-large {
