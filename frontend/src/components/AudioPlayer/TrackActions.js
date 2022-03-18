@@ -6,6 +6,7 @@ import { useHistory } from 'react-router-dom';
 import EditDeleteButton from './EditDeleteButton';
 import belongsTo from '../../utils/belongsTo';
 import { deleteTrack } from '../../store/trackReducer';
+import Ministat from '../Ministat';
 import './TrackActions.css';
 
 const TrackActions = ({ trackId }) => {
@@ -31,10 +32,6 @@ const TrackActions = ({ trackId }) => {
     belongsToSessionUser && (
       <div className="track-buttons">
         <div className="track-buttons-left">
-          {/* <ModalWrapper
-            children={<TrackEditForm track={track} />}
-            className={'edit-button'}
-          /> */}
           <EditDeleteButton
             isEdit
             onClick={onEditClick}
@@ -46,12 +43,6 @@ const TrackActions = ({ trackId }) => {
             className="delete-button"
           />
         </div>
-        {/* <div className="track-buttons-right">
-          <div className="play-icon">
-            <FaPlay />
-          </div>
-          <span className="play-count">{track.playCount}</span>
-        </div> */}
       </div>
     )
   );

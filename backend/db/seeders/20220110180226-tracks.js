@@ -28,6 +28,7 @@ module.exports = {
         title: 'Amerika',
         duration: 349,
         fileSize: 13946060,
+        commentCount: 0,
       },
       {
         userId: 2,
@@ -54,6 +55,7 @@ module.exports = {
         title: 'Angel',
         duration: 234,
         fileSize: 9646899,
+        commentCount: 0,
       },
       {
         userId: 3,
@@ -62,6 +64,7 @@ module.exports = {
         title: 'Dreams',
         duration: 190,
         fileSize: 7864320,
+        commentCount: 0,
       },
       {
         userId: 4,

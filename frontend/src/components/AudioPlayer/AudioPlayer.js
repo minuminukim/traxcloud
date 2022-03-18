@@ -1,5 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { isCurrentTrack } from '../../utils';
 import {
   PlaybackButton,
@@ -9,6 +8,7 @@ import {
   ProgressBar,
 } from '.';
 
+import Ministat from '../Ministat';
 import TrackArtwork from '../TrackArtwork';
 import './AudioPlayer.css';
 
@@ -41,6 +41,11 @@ const AudioPlayer = ({
           </div>
           <ProgressBar trackId={trackId} isCurrent={isCurrent} />
           <TrackActions trackId={trackId} />
+          <Ministat
+            type="comment"
+            count={track.commentCount}
+            trackId={trackId}
+          />
         </div>
       </div>
     </div>
