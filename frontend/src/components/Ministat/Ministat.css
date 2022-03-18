@@ -1,0 +1,15 @@
+.ministat {
+  display: flex;
+}
+
+.ministat,
+.ministat-icon,
+.ministat-count {
+  font-size: 13px;
+  color: #999;
+}
+
+.ministat-icon {
+  padding: 1px;
+  margin-right: 3px;
+}
