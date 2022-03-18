@@ -28,7 +28,8 @@ const ProgressBar = ({ trackId, transparent = false }) => {
 
     // if track doesn't belong to current user, or it's currently playing we
     // dispatch to update playcount
-    if (sessionUser?.id === track.userId || isCurrentTrack) return;
+    if ((sessionUser && sessionUser.id === track.userId) || isCurrentTrack)
+      return;
     const { playCount } = track;
     const updated = { ...track, playCount: playCount + 1 };
     dispatch(editTrack(updated));
