@@ -16,18 +16,15 @@ const PlaybackButton = ({
   const isCurrent = +trackId === currentTrackId;
 
   const onPause = () => dispatch(pauseTrack());
-
   const onPlay = () => {
     // if a new track has been selected..
     if (!isCurrent) {
-      // reset previous ref to 0
+      // ...and a ref exists, reset previous ref to 0
       if (audio) {
         audio.current.currentTime = 0;
       }
-
       dispatch(setTrack(+trackId));
     }
-
     dispatch(playTrack());
   };
 

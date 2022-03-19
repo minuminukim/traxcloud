@@ -56,7 +56,7 @@ const CommentListItem = ({ commentId }) => {
         </div>
         <div className="comment-list-item-center">
           <p>
-            {user.username} <span>at</span>{' '}
+            {user.displayName} <span>at</span>{' '}
             <span>{formatTime(comment.timePosted)}</span>
           </p>
           <p>{comment.body}</p>

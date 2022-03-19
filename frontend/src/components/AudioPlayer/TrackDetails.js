@@ -12,7 +12,7 @@ const TrackDetails = ({ trackId, size }) => {
     <div className={`track-details track-details-${size}`}>
       <div className={`track-links track-links-${size}`}>
         <Link className={`link-user-${size}`} to="#">
-          {user.username}
+          {user.displayName}
         </Link>
         {size === 'large' ? (
           <h1 className={`link-title-${size}`}>

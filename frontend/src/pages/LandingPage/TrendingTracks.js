@@ -26,11 +26,9 @@ const TrendingTracks = () => {
           <TrendingBlock key={track.id} track={track} />
         ))}
       </div>
-      <ModalWrapper
-        children={<SignupForm />}
-        label="Explore trending tracks"
-        className="large-button"
-      />
+      <ModalWrapper label="Explore trending tracks" className="large-button">
+        <SignupForm />
+      </ModalWrapper>
     </div>
   );
 };

@@ -14,7 +14,7 @@ const TrackHeader = ({ trackId }) => {
       <ProfilePicture user={user} size="small" />
       <div className="track-header-text">
         <p>
-          {user.username}
+          {user.displayName}
           <span>{`posted a track ${timeSince}`}</span>{' '}
         </p>
       </div>

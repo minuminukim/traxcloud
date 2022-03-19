@@ -8,7 +8,7 @@ import './ProfileButton.css';
 const ProfileButton = () => {
   const { user } = useSelector((state) => state.session);
   const [showMenu, setShowMenu] = useState(false);
-  const { profilePictureUrl, username } = user;
+  const { profilePictureUrl, displayName } = user;
 
   useEffect(() => {
     if (!showMenu) return;
@@ -28,7 +28,7 @@ const ProfileButton = () => {
           className="profile-button-avatar"
           crossOrigin="true"
         />
-        <span className="profile-button-username">{username}</span>
+        <span className="profile-button-username">{displayName}</span>
         <AiOutlineDown />
       </div>
       {showMenu && <DropdownMenu user={user} />}

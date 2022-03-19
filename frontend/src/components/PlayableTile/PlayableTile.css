@@ -1,0 +1,13 @@
+.playable-tile-art {
+  position: relative;
+}
+
+.artwork-overlay {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+}
