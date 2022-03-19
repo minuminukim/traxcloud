@@ -1,64 +1,72 @@
 import { useEffect, useRef, useMemo, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { setDuration, setTrack } from '../../actions/playerActions';
+import { setReference, updateTime } from '../../actions/playerActions';
+import usePlay from '../../hooks/usePlay';
 import WaveSurfer from 'wavesurfer.js';
 
-const Waveform = ({ trackId }) => {
+const Waveform = ({ trackId, children }) => {
   const dispatch = useDispatch();
   const track = useSelector((state) => state.tracks[trackId]);
-  const waveformRef = useRef();
+  const waveformRef = useRef(null);
   const wavesurfer = useRef(null);
-  const { isPlaying, currentTrackId, seekingTime } = useSelector(
+  const { isPlaying, volume, reference, seekingTime } = useSelector(
     (state) => state.player
   );
-  const [isCurrent, setIsCurrent] = useState(false);
-
-  // const { audio } = useSelector((state) => state.player);
-  // const memoizedAudio = useMemo(() => audio, [audio]);
+  const { selectTrack, isSelected, setPlay } = usePlay(trackId);
 
   useEffect(() => {
     wavesurfer.current = WaveSurfer.create({
       container: waveformRef.current,
       progressColor: '#f50',
-      // backend: 'MediaElement',
+      backend: 'MediaElement',
       responsive: true,
     });
-
     wavesurfer.current.load(track.trackUrl);
-    wavesurfer.current.on('ready', () => {
-      // wavesurfer.current.toggleInteraction();
-      // dispatch(setDuration(wavesurfer.current.getDuration()));
-      // console.log('image', wavesurfer.current.exportImage());
-      // wavesurfer.current.play();
-      onReady()
-    });
 
-    wavesurfer.current.on('interaction', () => {
-      console.log('current', wavesurfer.current.getCurrentTime());
-    });
     return () => wavesurfer.current.destroy();
   }, [track.trackUrl]);
 
-  const onReady = () => {
-    if (!isPlaying) return;
-    if (currentTrackId === trackId) {
-      setIsCurrent(true);
-    }
-  };
+  useEffect(() => {
+    isSelected && isPlaying
+      ? wavesurfer.current.play()
+      : wavesurfer.current.pause();
+  }, [isSelected, isPlaying, dispatch]);
 
-  const onClick = () => {
-    if (!isCurrent) {
-      console.log('current', wavesurfer.current.getCurrentTime())
-      dispatch(setTrack(trackId));
-    }
-  };
+  useEffect(() => {
+    wavesurfer.current.setVolume(volume);
+  }, [volume]);
+
+  useEffect(() => {
+    const onAudioProcess = () =>
+      dispatch(updateTime(wavesurfer.current.getCurrentTime()));
+
+    const onPlay = () => {
+      if (reference === null || reference !== wavesurfer) {
+        dispatch(setReference(wavesurfer));
+      }
+    };
+
+    wavesurfer.current.on('audioprocess', onAudioProcess);
+    wavesurfer.current.on('play', onPlay);
+
+    return () => wavesurfer.current.unAll();
+    // return () => wavesurfer.current.un('audioprocess', onAudioProcess);
+  }, [reference, wavesurfer]);
+
+  useEffect(() => {
+    wavesurfer.current.seekTo(seekingTime);
+  }, [seekingTime]);
+
+  const updateCurrentTrack = () => selectTrack();
 
   return (
     <div
       className="waveform-container"
       ref={waveformRef}
-      onClick={onClick}
-    ></div>
+      onClick={updateCurrentTrack}
+    >
+      {children}
+    </div>
   );
 };
 

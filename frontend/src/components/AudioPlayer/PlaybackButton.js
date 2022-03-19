@@ -12,8 +12,9 @@ const PlaybackButton = ({
 }) => {
   const dispatch = useDispatch();
   const { isPlaying } = useSelector((state) => state.player);
-  const { incrementPlayCount, isCurrentlyPlaying, selectTrack, setPlay } =
-    usePlay(+trackId);
+  const { incrementPlayCount, isSelected, selectTrack, setPlay } = usePlay(
+    +trackId
+  );
 
   const onPause = () => dispatch(pauseTrack());
 
@@ -29,9 +30,9 @@ const PlaybackButton = ({
         !withBackground && 'transparent'
       }`}
       id={`play-${trackId}`}
-      onClick={isPlaying && isCurrentlyPlaying ? onPause : onPlay}
+      onClick={isPlaying && isSelected ? onPause : onPlay}
     >
-      {isPlaying && isCurrentlyPlaying ? <FaPause /> : <FaPlay />}
+      {isPlaying && isSelected ? <FaPause /> : <FaPlay />}
     </button>
   );
 };

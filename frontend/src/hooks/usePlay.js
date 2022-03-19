@@ -9,7 +9,7 @@ const usePlay = (trackId) => {
   const track = useSelector((state) => state.tracks[trackId]);
   const { queue } = useSelector((state) => state.queue);
 
-  const isCurrentlyPlaying = trackId === currentTrackId;
+  const isSelected = trackId === currentTrackId;
   const trackBelongsToUser = sessionUser?.id === track?.userId;
 
   const setPlay = () => {
@@ -19,13 +19,13 @@ const usePlay = (trackId) => {
 
   const selectTrack = () => {
     // If a new track has been selected
-    if (!isCurrentlyPlaying) {
+    if (!isSelected) {
       dispatch(setTrack(trackId));
     }
   };
 
   const incrementPlayCount = () => {
-    if (trackBelongsToUser || isCurrentlyPlaying) {
+    if (trackBelongsToUser || isSelected) {
       return;
     }
 
@@ -37,7 +37,7 @@ const usePlay = (trackId) => {
     dispatch(editTrack(updatedTrack));
   };
 
-  return { incrementPlayCount, isCurrentlyPlaying, selectTrack, setPlay };
+  return { incrementPlayCount, isSelected, selectTrack, setPlay };
 };
 
 export default usePlay;

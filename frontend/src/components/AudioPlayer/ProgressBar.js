@@ -1,4 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
+import { useState } from 'react';
 import usePlay from '../../hooks/usePlay';
 import { setSeeking } from '../../actions/playerActions';
 import PlaybackTime from './PlaybackTime';
@@ -8,23 +9,27 @@ import './ProgressBar.css';
 const ProgressBar = ({ trackId, transparent = false }) => {
   const dispatch = useDispatch();
   const track = useSelector((state) => state.tracks[trackId]);
-  const { currentTime } = useSelector((state) => state.player);
-  const { incrementPlayCount, isCurrentlyPlaying, selectTrack, setPlay } =
-    usePlay(+trackId);
+  const { currentTime, seekingTime } = useSelector((state) => state.player);
+  const { incrementPlayCount, isSelected, selectTrack, setPlay } = usePlay(
+    +trackId
+  );
+
+  // TODO: convert currentTime into a seek.position between 0-1 for the waveform
 
   const onScrub = (e) => {
     selectTrack();
-    dispatch(setSeeking(e.target.value));
+    const position = +e.target.value / track.duration;
+    // setSeekingValue(e.target.value)
+    dispatch(setSeeking(position));
+    // dispatch(setSeeking(e.target.value));
     setPlay();
     incrementPlayCount();
   };
 
   return (
     <div className="player-timeline-container">
-      <div
-        className={`timers-container ${isCurrentlyPlaying ? 'between' : 'end'}`}
-      >
-        {isCurrentlyPlaying && (
+      <div className={`timers-container ${isSelected ? 'between' : 'end'}`}>
+        {isSelected && (
           <PlaybackTime
             className="timer"
             transparent={transparent}
@@ -42,7 +47,11 @@ const ProgressBar = ({ trackId, transparent = false }) => {
         min="1"
         max={track.duration || track.duration.toString()}
         step="1"
-        value={isCurrentlyPlaying ? currentTime : 0}
+        value={isSelected ? currentTime : 0}
+        // min="0"
+        // max="1"
+        // step="0.02"
+        // value={isSelected ? seekingTime : 0}
         onChange={onScrub}
       />
     </div>

@@ -27,6 +27,7 @@ const AudioPlayer = ({
   const isCurrent = isCurrentTrack(+trackId, currentTrackId);
 
   return (
+    // <Waveform trackId={trackId}>
     <div className={`player track-${track.id} player-${size}`}>
       {withHeader && <TrackHeader trackId={trackId} />}
       <div className="player-main">
@@ -41,7 +42,7 @@ const AudioPlayer = ({
             <PlaybackButton size={size} trackId={trackId} />
             <TrackDetails trackId={track.id} size={size} />
           </div>
-          <Waveform audio={track.trackUrl} trackId={trackId}/>
+          <Waveform trackId={trackId} />
           <ProgressBar trackId={trackId} isCurrent={isCurrent} />
           {withCommentField && sessionUser && (
             <CommentField
@@ -54,6 +55,7 @@ const AudioPlayer = ({
         </div>
       </div>
     </div>
+    // </Waveform>
   );
 };
 

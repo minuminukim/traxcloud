@@ -1,4 +1,5 @@
 import {
+  ON_LOAD,
   SET_TRACK,
   SET_REFERENCE,
   PLAY_TRACK,
@@ -10,6 +11,7 @@ import {
 } from '../actions/playerActions';
 
 const initialState = {
+  duration: null,
   currentTrackId: null,
   currentTime: 0,
   seekingTime: 0,
@@ -65,8 +67,7 @@ function playerReducer(state = initialState, action) {
     case SET_SEEKING:
       return {
         ...state,
-        currentTime: action.currentTime,
-        seekingTime: action.currentTime,
+        seekingTime: action.position,
       };
 
     case END_PLAYBACK:
