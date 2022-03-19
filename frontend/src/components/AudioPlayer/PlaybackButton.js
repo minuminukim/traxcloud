@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { playTrack, setTrack, pauseTrack } from '../../actions/playerActions';
-import { editTrack } from '../../actions/trackActions';
+import { playTrack, pauseTrack } from '../../actions/playerActions';
+import usePlay from '../../hooks/usePlay';
 import { FaPlay, FaPause } from 'react-icons/fa';
 import './PlayButton.css';
 
@@ -11,30 +11,19 @@ const PlaybackButton = ({
   withBackground = true,
 }) => {
   const dispatch = useDispatch();
-  const sessionUser = useSelector((state) => state.session.user);
-  const track = useSelector((state) => state.tracks[trackId]);
   const { queue } = useSelector((state) => state.queue);
-  const { isPlaying, reference, currentTrackId } = useSelector(
-    (state) => state.player
+  const { isPlaying } = useSelector((state) => state.player);
+  const { incrementPlayCount, isCurrentlyPlaying, selectTrack } = usePlay(
+    +trackId
   );
-  const isCurrentlyPlaying = +trackId === currentTrackId;
 
   const onPause = () => dispatch(pauseTrack());
   const onPlay = () => {
-    // if a new track has been selected..
-    if (!isCurrentlyPlaying) {
-      dispatch(setTrack(+trackId));
-    }
-    
+    selectTrack();
+
     const trackIndex = queue.indexOf(+trackId);
     dispatch(playTrack(+trackId, trackIndex));
-
-    // if track doesn't belong to current user, or it's currently playing we
-    // dispatch to update playcount
-    if (sessionUser?.id === track.userId || isCurrentlyPlaying) return;
-    const { playCount } = track;
-    const updated = { ...track, playCount: playCount + 1 };
-    dispatch(editTrack(updated));
+    incrementPlayCount();
   };
 
   return (
