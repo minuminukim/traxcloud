@@ -2,6 +2,7 @@
 export const LOAD_QUEUE = 'player/loadQueue';
 export const SET_TRACK = 'player/setQueue';
 export const SET_REFERENCE = 'player/setReference';
+export const TOGGLE_PLAYPAUSE = 'player/togglePlay';
 export const PLAY_TRACK = 'player/playTrack';
 export const PAUSE_TRACK = 'player/pauseTrack';
 export const UPDATE_TIME = 'player/updateTime';
@@ -26,8 +27,9 @@ export const setQueue = (tracks) => ({
   tracks,
 });
 
-export const playTrack = () => ({
+export const playTrack = (index) => ({
   type: PLAY_TRACK,
+  index,
 });
 
 export const pauseTrack = () => ({

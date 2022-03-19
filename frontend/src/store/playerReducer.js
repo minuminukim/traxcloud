@@ -13,7 +13,6 @@ const initialState = {
   currentTrackId: null,
   queue: [],
   currentIndex: 0,
-  duration: 0,
   currentTime: 0,
   seekingTime: 0,
   audio: null,
