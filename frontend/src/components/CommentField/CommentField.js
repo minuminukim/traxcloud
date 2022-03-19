@@ -14,10 +14,11 @@ const CommentField = ({ trackId, duration, height }) => {
   const formRef = useRef(null);
   const { user } = useSelector((state) => state.session);
   const [body, setBody] = useState('');
+  const [inProgress, setInProgress] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!body.length) return;
+    if (!body.length || inProgress) return;
 
     const commentData = {
       userId: user.id,
@@ -26,10 +27,17 @@ const CommentField = ({ trackId, duration, height }) => {
       body,
     };
 
-    return dispatch(postComment(commentData))
-      .then((comment) => console.log('comment', comment))
-      .then(() => setBody(''))
-      .catch((error) => console.log('error posting comment', error));
+    (async () => {
+      try {
+        setInProgress(true);
+        await dispatch(postComment(commentData));
+      } catch (error) {
+        console.log('error posting comment', error);
+      } finally {
+        setBody('');
+        setInProgress(false);
+      }
+    })();
   };
 
   const handleKeyUp = (e) => {
