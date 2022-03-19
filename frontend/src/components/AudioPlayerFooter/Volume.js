@@ -7,7 +7,7 @@ import './Volume.css';
 
 const Volume = () => {
   const dispatch = useDispatch();
-  const { volume, isMuted, audio } = useSelector((state) => state.player);
+  const { volume, isMuted, reference } = useSelector((state) => state.player);
   const [showSlider, setShowSlider] = useState(false);
   const [previousVolume, setPreviousVolume] = useState(1);
   const toggleSlider = () => setShowSlider(!showSlider);
@@ -18,8 +18,8 @@ const Volume = () => {
     const newVolume = input.value;
     dispatch(updateVolume(input.value, false));
 
-    // Update audio ref's volume
-    audio.current.volume = newVolume;
+    // Update reference ref's volume
+    reference.current.volume = newVolume;
   };
 
   const toggleMute = () => {
@@ -32,7 +32,7 @@ const Volume = () => {
     }
 
     dispatch(updateVolume(nextVolume, !isMuted));
-    audio.current.volume = nextVolume;
+    reference.current.volume = nextVolume;
   };
 
   return (

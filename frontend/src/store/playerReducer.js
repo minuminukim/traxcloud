@@ -6,13 +6,14 @@ import {
   UPDATE_TIME,
   UPDATE_VOLUME,
   SET_SEEKING,
+  END_PLAYBACK,
 } from '../actions/playerActions';
 
 const initialState = {
   currentTrackId: null,
   currentTime: 0,
   seekingTime: 0,
-  audio: null,
+  reference: null,
   isPlaying: false,
   isMuted: false,
   volume: 1,
@@ -34,13 +35,14 @@ function playerReducer(state = initialState, action) {
     case SET_REFERENCE:
       return {
         ...state,
-        audio: action.ref,
+        reference: action.ref,
       };
 
     case PLAY_TRACK:
       return {
         ...state,
         isPlaying: true,
+        // currentTrackId: action.trackId,
       };
 
     case PAUSE_TRACK:
@@ -65,8 +67,17 @@ function playerReducer(state = initialState, action) {
     case SET_SEEKING:
       return {
         ...state,
+        isPlaying: true,
         currentTime: action.currentTime,
         seekingTime: action.currentTime,
+      };
+
+    case END_PLAYBACK:
+      return {
+        ...state,
+        isPlaying: false,
+        currentTime: 0,
+        seekingTime: 0,
       };
 
     default:

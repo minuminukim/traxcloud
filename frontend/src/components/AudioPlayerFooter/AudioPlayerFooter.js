@@ -9,6 +9,19 @@ import './AudioPlayerFooter.css';
 const AudioPlayerFooter = () => {
   const dispatch = useDispatch();
   const { currentTrackId } = useSelector((state) => state.player);
+  const { previousIndex, nextIndex, queue } = useSelector(
+    (state) => state.queue
+  );
+
+  const onPlayNext = () => {
+    const nextTrackId = queue[nextIndex];
+    dispatch(playNext(nextTrackId, nextIndex));
+  };
+
+  const onPlayPrevious = () => {
+    const previousTrackId = queue[previousIndex];
+    dispatch(playPrevious(previousTrackId, previousIndex));
+  };
 
   return (
     currentTrackId && (
@@ -17,7 +30,7 @@ const AudioPlayerFooter = () => {
           <Audio trackId={currentTrackId} />
           <div className="player-controls">
             <button className="player-control">
-              <IoPlaySkipBack onClick={() => dispatch(playPrevious())} />
+              <IoPlaySkipBack onClick={onPlayPrevious} />
             </button>
             <PlaybackButton
               className="player-control"
@@ -26,7 +39,7 @@ const AudioPlayerFooter = () => {
               withBackground={false}
             />
             <button className="player-control">
-              <IoPlaySkipForward onClick={() => dispatch(playNext())} />
+              <IoPlaySkipForward onClick={onPlayNext} />
             </button>
           </div>
           <ProgressBar

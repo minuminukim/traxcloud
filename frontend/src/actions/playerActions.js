@@ -1,11 +1,12 @@
 /* ----- ACTION TYPES ----- */
-export const SET_TRACK = 'player/setQueue';
+export const SET_TRACK = 'player/setTrack';
 export const SET_REFERENCE = 'player/setReference';
 export const TOGGLE_PLAYPAUSE = 'player/togglePlay';
 export const PLAY_TRACK = 'player/playTrack';
 export const PAUSE_TRACK = 'player/pauseTrack';
 export const UPDATE_TIME = 'player/updateTime';
 export const UPDATE_VOLUME = 'player/updateVolume';
+export const END_PLAYBACK = 'player/endPlayback';
 export const SET_SEEKING = 'player/setSeeking';
 
 /* ----- ACTIONS ----- */
@@ -21,13 +22,19 @@ export const setReference = (ref) => ({
   ref,
 });
 
-export const playTrack = (index) => ({
+export const playTrack = (trackId, index, currentTime = 0) => ({
   type: PLAY_TRACK,
+  trackId,
   index,
+  currentTime,
 });
 
 export const pauseTrack = () => ({
   type: PAUSE_TRACK,
+});
+
+export const endPlayback = () => ({
+  type: END_PLAYBACK,
 });
 
 export const updateTime = (currentTime) => ({
@@ -46,20 +53,20 @@ export const setSeeking = (currentTime) => ({
   currentTime,
 });
 
-export const playNext = () => (dispatch, getState) => {
-  const state = getState();
-  const { queue, currentIndex } = state.queue;
-  const nextIndex = currentIndex + 1 >= queue.length ? 0 : currentIndex + 1;
-  const nextId = queue[nextIndex];
-  dispatch(setTrack(nextId, nextIndex));
-  dispatch(playTrack());
+// export const playTrack = (trackId, index, currentTime = 0) => ({
+
+// })
+
+export const playNext = (nextTrackId, nextIndex) => (dispatch) => {
+  if (nextIndex !== null) {
+    dispatch(setTrack(nextTrackId, nextIndex));
+    dispatch(playTrack(nextTrackId, nextIndex));
+  }
 };
 
-export const playPrevious = () => (dispatch, getState) => {
-  const state = getState();
-  const { queue, currentIndex } = state.queue;
-  const nextIndex = currentIndex === 0 ? queue.length - 1 : currentIndex - 1;
-  const nextId = queue[nextIndex];
-  dispatch(setTrack(nextId, nextIndex));
-  dispatch(playTrack());
+export const playPrevious = (previousId, previousIndex) => (dispatch) => {
+  if (previousIndex !== null) {
+    dispatch(setTrack(previousId, previousIndex));
+    dispatch(playTrack(previousId, previousIndex));
+  }
 };

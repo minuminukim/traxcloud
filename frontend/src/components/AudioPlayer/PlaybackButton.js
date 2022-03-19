@@ -13,7 +13,8 @@ const PlaybackButton = ({
   const dispatch = useDispatch();
   const sessionUser = useSelector((state) => state.session.user);
   const track = useSelector((state) => state.tracks[trackId]);
-  const { isPlaying, audio, currentTrackId } = useSelector(
+  const { queue } = useSelector((state) => state.queue);
+  const { isPlaying, reference, currentTrackId } = useSelector(
     (state) => state.player
   );
   const isCurrentlyPlaying = +trackId === currentTrackId;
@@ -22,13 +23,15 @@ const PlaybackButton = ({
   const onPlay = () => {
     // if a new track has been selected..
     if (!isCurrentlyPlaying) {
-      // ...and a ref exists, reset previous ref to 0
-      if (audio) {
-        audio.current.currentTime = 0;
-      }
+      // if a ref exists, reset previous ref to 0
+      // if (reference) {
+      //   reference.current.currentTime = 0;
+      // }
+
       dispatch(setTrack(+trackId));
     }
-    dispatch(playTrack());
+    const trackIndex = queue.indexOf(+trackId);
+    dispatch(playTrack(+trackId, trackIndex));
 
     // if track doesn't belong to current user, or it's currently playing we
     // dispatch to update playcount

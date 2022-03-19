@@ -19,7 +19,8 @@ const queueReducer = (state = initialState, action) => {
   switch (action.type) {
     case LOAD_QUEUE:
       return {
-        queue: action.tracks,
+        // spread in case it's a queue of one
+        queue: [...action.tracks],
         previousIndex: null,
         currentIndex: 0,
         nextIndex: action.tracks[1] ? 1 : null,

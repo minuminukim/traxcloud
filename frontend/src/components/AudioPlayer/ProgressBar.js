@@ -9,7 +9,7 @@ const ProgressBar = ({ trackId, transparent = false }) => {
   const dispatch = useDispatch();
   const track = useSelector((state) => state.tracks[trackId]);
   const sessionUser = useSelector((state) => state.session.user);
-  const { currentTime, currentTrackId, audio } = useSelector(
+  const { currentTime, currentTrackId, reference } = useSelector(
     (state) => state.player
   );
 
@@ -18,8 +18,8 @@ const ProgressBar = ({ trackId, transparent = false }) => {
   const onChange = (e) => {
     const newTime = e.target.value;
     if (!isCurrentTrack) {
-      if (audio) {
-        audio.current.currentTime = 0;
+      if (reference) {
+        reference.current.currentTime = 0;
       }
       dispatch(setTrack(+trackId, newTime));
     }
