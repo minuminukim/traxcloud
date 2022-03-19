@@ -1,0 +1,32 @@
+.ministat {
+  display: flex;
+}
+
+.ministat,
+.ministat-icon,
+.ministat-count {
+  font-size: 13px;
+  color: #999;
+}
+
+.ministat-icon {
+  padding-top: 2px;
+  margin-right: 3px;
+}
+
+.player-ministats {
+  display: flex;
+}
+
+.player-ministats:only-child {
+  margin-left: auto;
+}
+
+/* Comment count is a link */
+.ministat:last-child:hover .ministat-count {
+  color: #333;
+}
+
+.ministat:not(:last-child) {
+  margin-right: 5px;
+}

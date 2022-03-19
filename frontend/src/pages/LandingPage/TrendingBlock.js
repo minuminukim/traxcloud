@@ -1,12 +1,16 @@
 import { Link } from 'react-router-dom';
-import TrackArtwork from '../../components/TrackArtwork';
+import PlayableTile from '../../components/PlayableTile';
 import './TrendingBlock.css';
 
 const TrendingBlock = ({ track }) => {
   const { User } = track;
   return (
     <div className="trending-block">
-      <TrackArtwork className="trending-art" trackId={track.id} />
+      <PlayableTile
+        className="trending-art"
+        trackId={track.id}
+        playbackSize="large"
+      />
       <Link className="trending-title" to={`/tracks/${track.id}`}>
         {track.title}
       </Link>

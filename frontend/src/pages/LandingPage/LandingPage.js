@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { Hero, TrendingTracks, LandingNavigation } from '.';
+import { Hero, TrendingTracks } from '.';
 import './LandingPage.css';
 
 const LandingPage = () => {
@@ -13,6 +13,7 @@ const LandingPage = () => {
       history.push('/home');
     }
   }, [sessionUser]);
+
   return (
     <div className="page-container landing-page">
       <Hero />

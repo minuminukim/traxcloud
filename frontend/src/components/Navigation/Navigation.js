@@ -20,7 +20,7 @@ const Navigation = () => {
   );
 
   return (
-    <header className="header">
+    <header className="header header-main">
       <nav className="nav-bar nav-main">
         <ul className="nav-main-left">
           <NavLogo />

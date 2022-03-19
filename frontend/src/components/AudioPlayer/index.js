@@ -6,6 +6,8 @@ import PlaybackTime from './PlaybackTime';
 import TrackActions from './TrackActions';
 import TrackDetails from './TrackDetails';
 import TrackHeader from './TrackHeader';
+import TrackStats from './TrackStats';
+import PlayerFooter from './PlayerFooter';
 import Audio from './Audio';
 
 export {
@@ -16,6 +18,8 @@ export {
   TrackActions,
   TrackDetails,
   TrackHeader,
+  TrackStats,
+  PlayerFooter,
   Audio,
 };
 

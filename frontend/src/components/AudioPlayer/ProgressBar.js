@@ -1,22 +1,23 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { setTrack, setSeeking } from '../../actions/playerActions';
-import { formatTime } from '../../utils';
+import { editTrack } from '../../store/trackReducer';
 import PlaybackTime from './PlaybackTime';
 import Slider from '../Slider';
 import './ProgressBar.css';
 
 const ProgressBar = ({ trackId, transparent = false }) => {
   const dispatch = useDispatch();
-  const { duration } = useSelector((state) => state.tracks[trackId]);
+  const track = useSelector((state) => state.tracks[trackId]);
+  const sessionUser = useSelector((state) => state.session.user);
   const { currentTime, currentTrackId, audio } = useSelector(
     (state) => state.player
   );
 
-  const isCurrent = +trackId === currentTrackId;
+  const isCurrentTrack = +trackId === currentTrackId;
 
   const onChange = (e) => {
     const newTime = e.target.value;
-    if (!isCurrent) {
+    if (!isCurrentTrack) {
       if (audio) {
         audio.current.currentTime = 0;
       }
@@ -24,12 +25,20 @@ const ProgressBar = ({ trackId, transparent = false }) => {
     }
 
     dispatch(setSeeking(newTime));
+
+    // if track doesn't belong to current user, or it's currently playing we
+    // dispatch to update playcount
+    if ((sessionUser && sessionUser.id === track.userId) || isCurrentTrack)
+      return;
+    const { playCount } = track;
+    const updated = { ...track, playCount: playCount + 1 };
+    dispatch(editTrack(updated));
   };
 
   return (
     <div className="player-timeline-container">
-      <div className={`timers-container ${isCurrent ? 'between' : 'end'}`}>
-        {isCurrent && (
+      <div className={`timers-container ${isCurrentTrack ? 'between' : 'end'}`}>
+        {isCurrentTrack && (
           <PlaybackTime
             className="timer"
             transparent={transparent}
@@ -39,15 +48,15 @@ const ProgressBar = ({ trackId, transparent = false }) => {
         <PlaybackTime
           className="duration"
           transparent={transparent}
-          time={duration}
+          time={track.duration}
         />
       </div>
       <Slider
         className="progress-bar"
         min="1"
-        max={duration || duration.toString()}
+        max={track.duration || track.duration.toString()}
         step="1"
-        value={isCurrent ? currentTime : 0}
+        value={isCurrentTrack ? currentTime : 0}
         onChange={onChange}
       />
     </div>

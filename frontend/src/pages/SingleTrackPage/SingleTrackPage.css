@@ -2,6 +2,12 @@
   padding-top: 46px;
 }
 
+.single-track-container {
+  position: relative;
+  background-size: 1px;
+  /* background-color: transparent; */
+}
+
 .single-track-page-main {
   display: flex;
   flex-direction: column;
@@ -10,8 +16,11 @@
   padding: 20px 30px 0px 30px;
 }
 
+.single-track-page .comment-field {
+  margin-bottom: 20px;
+}
+
 .single-track-page-main-row {
   display: flex;
-  /* justify-content: space-between; */
   width: 100%;
 }

@@ -48,9 +48,11 @@ module.exports = (sequelize, DataTypes) => {
       },
       commentCount: {
         type: DataTypes.INTEGER,
+        defaultValue: 0,
       },
       playCount: {
         type: DataTypes.INTEGER,
+        defaultValue: 0,
       },
     },
     {}

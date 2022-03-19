@@ -1,4 +1,3 @@
-// import { FaPlay } from 'react-icons/fa';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 // import TrackEditForm from '../TrackEditForm';
@@ -29,29 +28,17 @@ const TrackActions = ({ trackId }) => {
   return (
     sessionUser &&
     belongsToSessionUser && (
-      <div className="track-buttons">
-        <div className="track-buttons-left">
-          {/* <ModalWrapper
-            children={<TrackEditForm track={track} />}
-            className={'edit-button'}
-          /> */}
-          <EditDeleteButton
-            isEdit
-            onClick={onEditClick}
-            className="edit-button"
-          />
-          <EditDeleteButton
-            isEdit={false}
-            onClick={handleDelete}
-            className="delete-button"
-          />
-        </div>
-        {/* <div className="track-buttons-right">
-          <div className="play-icon">
-            <FaPlay />
-          </div>
-          <span className="play-count">{track.playCount}</span>
-        </div> */}
+      <div className="track-actions">
+        <EditDeleteButton
+          isEdit
+          onClick={onEditClick}
+          className="edit-button"
+        />
+        <EditDeleteButton
+          isEdit={false}
+          onClick={handleDelete}
+          className="delete-button"
+        />
       </div>
     )
   );

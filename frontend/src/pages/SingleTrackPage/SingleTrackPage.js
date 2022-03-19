@@ -3,8 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchSingleTrack } from '../../store/trackReducer';
 import { setPlaylist } from '../../actions/playerActions';
-import { fetchCommentsByTrackId } from '../../actions/commentActions';
-import AudioPlayer from '../../components/AudioPlayer';
+import AudioPlayer, { PlayerFooter } from '../../components/AudioPlayer';
 import TrackArtwork from '../../components/TrackArtwork';
 import UserCard from '../../components/UserCard';
 import CommentField from '../../components/CommentField';
@@ -22,10 +21,6 @@ const SingleTrackPage = () => {
   useEffect(() => {
     (async () => {
       try {
-        // const [fetchedTrack, _comments] = await Promise.all([
-        //   dispatch(fetchSingleTrack(+trackId)),
-        //   dispatch(fetchCommentsByTrackId(+trackId)),
-        // ]);
         const fetchedTrack = await dispatch(fetchSingleTrack(+trackId));
 
         if (!playlist.length) {
@@ -33,7 +28,6 @@ const SingleTrackPage = () => {
         }
 
         setLoading(false);
-        // return () => setLoading(true);
       } catch (err) {
         console.log('error fetching tracks', err);
       }
@@ -43,12 +37,25 @@ const SingleTrackPage = () => {
   return (
     !isLoading && (
       <div className="page-container single-track-page">
-        <div className="single-track-container">
-          <AudioPlayer trackId={trackId} size="large" withArtwork={false} />
+        <div className="single-track-container" style={{backgroundImage: `url(${track.artworkUrl})`}}>
+          <AudioPlayer
+            trackId={trackId}
+            size="large"
+            withArtwork={false}
+            withFooter={false}
+            withCommentField={false}
+          />
           <TrackArtwork className="artwork-large" trackId={trackId} />
         </div>
         <div className="single-track-page-main">
-          {sessionUser && <CommentField duration={track.duration} />}
+          {sessionUser && (
+            <CommentField
+              trackId={trackId}
+              duration={track.duration}
+              height={40}
+            />
+          )}
+          <PlayerFooter trackId={trackId} />
           <div className="single-track-page-main-row">
             <UserCard user={track?.User} size="medium" avatarSize="large" />
             <CommentsList />

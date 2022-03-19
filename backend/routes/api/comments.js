@@ -1,6 +1,6 @@
 const express = require('express');
 const asyncHandler = require('express-async-handler');
-const { Comment } = require('../../db/models');
+const { Comment, Track } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth');
 const validateComment = require('../../validations/validateComment');
 
@@ -29,14 +29,25 @@ router.post(
   '/',
   requireAuth,
   validateComment,
-  asyncHandler(async (req, res) => {
+  asyncHandler(async (req, res, next) => {
     const { userId, trackId, body, timePosted } = req.body;
+    const track = await Track.findByPk(trackId);
+
+    if (!track) {
+      return next();
+    }
+
     const comment = await Comment.create({
       userId,
       trackId,
       body,
       timePosted,
     });
+
+    const { commentCount } = track;
+
+    // increment track.commentCount
+    await track.update({ commentCount: commentCount + 1 });
 
     return res.json({
       comment,
@@ -81,14 +92,17 @@ router.delete(
     if (!comment) {
       return next();
     }
-    // if (comment.userId !== req.user.id) {
-    //   return next(unauthorizedError());
-    // }
-    if (comment.userId !== req.body.userId) {
+
+    if (comment.userId !== req.user.id) {
       return next(unauthorizedError());
     }
 
+    // Delete comment, then decrement track.commentCount
+    const { trackId } = comment;
     await comment.destroy();
+    const track = await Track.findByPk(trackId);
+    const { commentCount } = track;
+    await track.update({ commentCount: commentCount - 1 });
 
     return res.status(204).json({});
   })

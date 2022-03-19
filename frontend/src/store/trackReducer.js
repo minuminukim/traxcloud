@@ -2,12 +2,10 @@ import { csrfFetch } from './csrf';
 import {
   COMMENTS_LOADED,
   COMMENT_ADDED,
-  COMMENT_UPDATED,
   COMMENT_REMOVED,
 } from '../actions/commentActions';
 
 export const LOAD_TRACKS = 'track/loadTracks';
-
 const ADD_TRACK = 'track/addTrack';
 const UPDATE_TRACK = 'track/updateTrack';
 const REMOVE_TRACK = 'track/removeTrack';
@@ -118,10 +116,20 @@ const trackReducer = (state = {}, action) => {
       };
 
     case ADD_TRACK:
-    case UPDATE_TRACK:
       return {
         ...state,
         [action.track.id]: { ...state.track?.id, ...action.track },
+      };
+
+    case UPDATE_TRACK:
+      const previousCommentIds = state[action.track.id]?.commentIds || [];
+      return {
+        ...state,
+        [action.track.id]: {
+          ...state.track?.id,
+          ...action.track,
+          commentIds: previousCommentIds,
+        },
       };
 
     case REMOVE_TRACK:
@@ -149,19 +157,21 @@ const trackReducer = (state = {}, action) => {
         ...state,
         [action.comment.trackId]: {
           ...state[action.comment.trackId],
+          commentCount: prevCommentIds.length + 1,
           commentIds: [...prevCommentIds, action.comment.id],
         },
       };
 
     case COMMENT_REMOVED:
-      console.log('state', state[action.trackId]);
+      const prevComments = state[action.trackId].commentIds;
+      const filtered = prevComments.filter((id) => id !== action.commentId);
+
       return {
         ...state,
         [action.trackId]: {
           ...state[action.trackId],
-          commentIds: state[action.trackId].commentIds.filter(
-            (id) => id !== action.commentId
-          ),
+          commentIds: filtered,
+          commentCount: filtered.length,
         },
       };
 

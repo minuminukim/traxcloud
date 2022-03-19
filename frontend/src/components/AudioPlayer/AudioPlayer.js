@@ -1,15 +1,21 @@
+<<<<<<< HEAD
 import { useSelector, useDispatch } from 'react-redux';
+=======
+import { useSelector } from 'react-redux';
+>>>>>>> main
 import { isCurrentTrack } from '../../utils';
 import Waveform from '../Waveform';
 import TrackArtwork from '../TrackArtwork';
 import {
   PlaybackButton,
-  TrackActions,
+  ProgressBar,
   TrackDetails,
   TrackHeader,
-  ProgressBar,
+  PlayerFooter,
 } from '.';
 
+import CommentField from '../CommentField';
+import TrackArtwork from '../TrackArtwork';
 import './AudioPlayer.css';
 
 const AudioPlayer = ({
@@ -17,8 +23,11 @@ const AudioPlayer = ({
   size,
   withArtwork = false,
   withHeader = false,
+  withFooter = false,
+  withCommentField = false,
 }) => {
   const track = useSelector((state) => state.tracks[trackId]);
+  const sessionUser = useSelector((state) => state.session.user);
   const { currentTrackId } = useSelector((state) => state.player);
   const isCurrent = isCurrentTrack(+trackId, currentTrackId);
 
@@ -27,12 +36,10 @@ const AudioPlayer = ({
       {withHeader && <TrackHeader trackId={trackId} />}
       <div className="player-main">
         {withArtwork && (
-          <div className="player-artwork">
-            <TrackArtwork
-              className={`track-artwork artwork-${size}`}
-              trackId={trackId}
-            />
-          </div>
+          <TrackArtwork
+            className={`track-artwork artwork-${size}`}
+            trackId={trackId}
+          />
         )}
         <div className="player-content">
           <div className="player-header">
@@ -41,7 +48,14 @@ const AudioPlayer = ({
           </div>
           <Waveform audio={track.trackUrl} trackId={trackId}/>
           <ProgressBar trackId={trackId} isCurrent={isCurrent} />
-          <TrackActions trackId={trackId} />
+          {withCommentField && sessionUser && (
+            <CommentField
+              trackId={trackId}
+              duration={track.duration}
+              height={32}
+            />
+          )}
+          {withFooter && <PlayerFooter trackId={trackId} />}
         </div>
       </div>
     </div>

@@ -2,4 +2,5 @@
   display: grid;
   grid-template-columns: 4fr 1fr;
   padding: 0;
+  padding-bottom: 76px;
 }

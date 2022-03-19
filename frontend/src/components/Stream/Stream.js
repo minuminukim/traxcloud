@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchTracks } from '../../store/trackReducer';
+import { fetchCommentsByTrackId } from '../../actions/commentActions';
 import { setPlaylist } from '../../actions/playerActions';
 import AudioPlayer from '../AudioPlayer';
 import './Stream.css';
@@ -16,6 +17,11 @@ const Stream = () => {
       try {
         const tracks = await dispatch(fetchTracks());
         dispatch(setPlaylist(tracks.map(({ id }) => id).sort((a, b) => b - a)));
+        await Promise.all(
+          tracks.map(
+            async ({ id }) => await dispatch(fetchCommentsByTrackId(id))
+          )
+        );
         setIsLoading(false);
       } catch (res) {
         console.log('error fetching tracks in Stream', res);
@@ -36,6 +42,8 @@ const Stream = () => {
               trackId={id}
               withHeader
               withArtwork
+              withCommentField
+              withFooter
               size={'medium'}
               index={i}
             />

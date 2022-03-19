@@ -1,6 +1,5 @@
 import { useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
 import { postComment } from '../../actions/commentActions';
 import ProfilePicture from '../common/ProfilePicture';
 import InputField from '../common/InputField';
@@ -10,10 +9,9 @@ const generateRandomInt = (max) => {
   return Math.floor(Math.random() * max);
 };
 
-const CommentField = ({ duration }) => {
+const CommentField = ({ trackId, duration, height }) => {
   const dispatch = useDispatch();
   const formRef = useRef(null);
-  const { trackId } = useParams();
   const { user } = useSelector((state) => state.session);
   const [body, setBody] = useState('');
 
@@ -47,7 +45,7 @@ const CommentField = ({ duration }) => {
 
   return (
     <form
-      className="comment-field"
+      className={`comment-field comment-field-${height}`}
       onSubmit={handleSubmit}
     >
       <ProfilePicture user={user} size="medium" shape="square" />

@@ -42,7 +42,7 @@
   width: 100%;
 }
 
-.player-medium .player-artwork {
+.player-medium .track-artwork {
   margin-right: 15px;
 }
 
@@ -78,4 +78,10 @@
 
 .link-user {
   font-size: 13px;
+}
+
+.player-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }

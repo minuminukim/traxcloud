@@ -5,7 +5,6 @@ import './TrackArtwork.css';
 
 const TrackArtwork = ({ className, trackId, ...rest }) => {
   const { artworkUrl, title } = useSelector((state) => state.tracks[trackId]);
-
   return (
     <img
       className={className}
@@ -16,6 +15,10 @@ const TrackArtwork = ({ className, trackId, ...rest }) => {
       {...rest}
     />
   );
+};
+
+export const Overlay = ({ children }) => {
+  return <span className="artwork-overlay">{children}</span>;
 };
 
 export default TrackArtwork;
