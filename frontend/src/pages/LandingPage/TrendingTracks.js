@@ -1,8 +1,7 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchTracks } from '../../store/trackReducer';
-import toArray from '../../utils/toArray';
-import TrendingBlock from './TrendingBlock';
+import { fetchTracks } from '../../actions/trackActions';
+import { setQueue } from '../../actions/queueActions';
 import PlayableTile from '../../components/PlayableTile';
 import SignupForm from '../../components/SignupForm';
 import ModalWrapper from '../../components/ModalWrapper';
@@ -10,11 +9,19 @@ import './TrendingTracks.css';
 
 const TrendingTracks = () => {
   const dispatch = useDispatch();
-  const tracksObject = useSelector((state) => state.tracks);
-  const tracks = toArray(tracksObject).slice(0, 6);
+  const { queue } = useSelector((state) => state.queue);
+  const [isFetching, setFetching] = useState(true);
 
   useEffect(() => {
-    dispatch(fetchTracks());
+    (async () => {
+      try {
+        const tracks = await dispatch(fetchTracks());
+        dispatch(setQueue(tracks.slice(0, 6).map(({ id }) => id)));
+        setFetching(false);
+      } catch (error) {
+        console.log('error fetching tracks', error);
+      }
+    })();
   }, [dispatch]);
 
   return (
@@ -23,13 +30,15 @@ const TrendingTracks = () => {
         Hear what's trending for free in the TraxCloud community
       </h3>
       <div className="tracks-container">
-        {tracks.map((track) => (
-          <PlayableTile
-            className="trending"
-            trackId={track.id}
-            playbackSize="large"
-          />
-        ))}
+        {!isFetching &&
+          queue.map((id) => (
+            <PlayableTile
+              key={id}
+              className="trending"
+              trackId={id}
+              playbackSize="large"
+            />
+          ))}
       </div>
       <ModalWrapper label="Explore trending tracks" className="large-button">
         <SignupForm />

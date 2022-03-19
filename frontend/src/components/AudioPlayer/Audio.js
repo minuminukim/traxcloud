@@ -2,23 +2,23 @@ import { useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Waveform from '../Waveform';
 import {
-  setDuration,
   setReference,
   updateTime,
   playNext,
+  endPlayback,
 } from '../../actions/playerActions';
 
 function Audio({ trackId }) {
   const dispatch = useDispatch();
   const track = useSelector((state) => state.tracks[trackId]);
-  const { isPlaying, currentTrackId, seekingTime, audio } = useSelector(
-    (state) => state.player
-  );
+  const { queue, nextIndex } = useSelector((state) => state.queue);
+  const { isPlaying, currentTrackId, seekingTime, reference, volume } =
+    useSelector((state) => state.player);
 
-  const audioRef = useRef(audio);
+  const audioRef = useRef(null);
 
   useEffect(() => {
-    isPlaying && currentTrackId === +trackId
+    isPlaying && currentTrackId === trackId
       ? audioRef.current.play()
       : audioRef.current.pause();
   }, [isPlaying, currentTrackId, trackId, dispatch]);
@@ -27,17 +27,28 @@ function Audio({ trackId }) {
     audioRef.current.currentTime = seekingTime;
   }, [seekingTime]);
 
-  // useEffect(() => {
-  //   audioRef.current.volume = volume;
-  // }, [volume]);
+  useEffect(() => {
+    audioRef.current.volume = volume;
+  }, [volume]);
 
-  const handleTimeUpdate = () =>
-    // dispatch(updateTime(audio.current.currentTime));
+  const onTimeUpdate = () => {
     dispatch(updateTime(audioRef.current.currentTime));
+  };
 
-  const handleLoadedMetaData = () =>
-    dispatch(setDuration(audioRef.current.duration));
-  // dispatch(setDuration(audio.current.duration));
+  const onEnded = () => {
+    if (nextIndex === null) {
+      dispatch(endPlayback());
+    }
+
+    const nextId = queue[nextIndex];
+    dispatch(playNext(nextId, nextIndex));
+  };
+
+  const onPlay = () => {
+    if (audioRef === null || audioRef !== reference) {
+      dispatch(setReference(audioRef));
+    }
+  };
 
   return (
     <audio
@@ -45,10 +56,9 @@ function Audio({ trackId }) {
       id={`track-${track?.id}`}
       crossOrigin="anonymous"
       ref={audioRef}
-      onTimeUpdate={handleTimeUpdate}
-      onLoadedMetadata={handleLoadedMetaData}
-      onPlay={() => dispatch(setReference(audioRef))}
-      onEnded={() => dispatch(playNext())}
+      onTimeUpdate={onTimeUpdate}
+      onPlay={onPlay}
+      onEnded={onEnded}
     />
   );
 }

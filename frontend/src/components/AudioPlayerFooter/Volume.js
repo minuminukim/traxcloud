@@ -7,32 +7,25 @@ import './Volume.css';
 
 const Volume = () => {
   const dispatch = useDispatch();
-  const { volume, isMuted, audio } = useSelector((state) => state.player);
+  const { volume, isMuted } = useSelector((state) => state.player);
   const [showSlider, setShowSlider] = useState(false);
   const [previousVolume, setPreviousVolume] = useState(1);
   const toggleSlider = () => setShowSlider(!showSlider);
 
   const onScrub = (e) => {
     // Grab value from input and update volume in store
-    const input = e.target;
-    const newVolume = input.value;
-    dispatch(updateVolume(input.value, false));
-
-    // Update audio ref's volume
-    audio.current.volume = newVolume;
+    dispatch(updateVolume(e.target.value, false));
   };
 
   const toggleMute = () => {
     const nextVolume = isMuted ? previousVolume : 0;
 
-    // save current volume in state,
-    // so we can revert back to it on next toggle
+    // save current volume in state, so we can revert back to it on next toggle
     if (!isMuted) {
       setPreviousVolume(volume);
     }
 
     dispatch(updateVolume(nextVolume, !isMuted));
-    audio.current.volume = nextVolume;
   };
 
   return (

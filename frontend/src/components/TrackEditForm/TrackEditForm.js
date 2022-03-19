@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import InputField from '../common/InputField';
 import Textarea from '../common/Textarea';
 import Button from '../common/Button';
-import { editTrack } from '../../store/trackReducer';
+import { editTrack } from '../../actions/trackActions';
 
 const TrackEditForm = ({ track }) => {
   const [title, setTitle] = useState(track.title);

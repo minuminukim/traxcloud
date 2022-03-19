@@ -1,23 +1,19 @@
 import {
-  METADATA_LOADED,
-  PLAYLIST_LOADED,
-  TRACK_SET,
-  REFERENCE_UPDATED,
-  TRACK_PLAYED,
-  TRACK_PAUSED,
-  TIME_UPDATED,
-  VOLUME_UPDATED,
-  SEEKING_UPDATED,
+  SET_TRACK,
+  SET_REFERENCE,
+  PLAY_TRACK,
+  PAUSE_TRACK,
+  UPDATE_TIME,
+  UPDATE_VOLUME,
+  SET_SEEKING,
+  END_PLAYBACK,
 } from '../actions/playerActions';
 
 const initialState = {
   currentTrackId: null,
-  playlist: [],
-  currentIndex: 0,
-  duration: 0,
   currentTime: 0,
   seekingTime: 0,
-  audio: null,
+  reference: null,
   isPlaying: false,
   isMuted: false,
   volume: 1,
@@ -28,66 +24,57 @@ export const getCurrentTrack = (trackId) => (state) => state.tracks[trackId];
 
 function playerReducer(state = initialState, action) {
   switch (action.type) {
-    case METADATA_LOADED:
-      return {
-        ...state,
-        duration: action.duration,
-      };
-
-    case PLAYLIST_LOADED:
-      return {
-        ...state,
-        playlist: action.tracks,
-      };
-
-    case TRACK_SET:
-      const findIndex = (id) => state.playlist.indexOf(id);
-      const index = action.index ? action.index : findIndex(action.trackId);
-
+    case SET_TRACK:
+      // dispatched by onPlay and onSeek events
       return {
         ...state,
         currentTrackId: action.trackId,
-        currentTime: action.currentTime,
-        seekingTime: action.currentTime,
-        currentIndex: index,
       };
 
-    case REFERENCE_UPDATED:
+    case SET_REFERENCE:
       return {
         ...state,
-        audio: action.ref,
+        reference: action.ref,
       };
 
-    case TRACK_PLAYED:
+    case PLAY_TRACK:
       return {
         ...state,
         isPlaying: true,
       };
 
-    case TRACK_PAUSED:
+    case PAUSE_TRACK:
       return {
         ...state,
         isPlaying: false,
       };
 
-    case TIME_UPDATED:
+    case UPDATE_TIME:
       return {
         ...state,
         currentTime: action.currentTime,
       };
 
-    case VOLUME_UPDATED:
+    case UPDATE_VOLUME:
       return {
         ...state,
         volume: action.volume,
         isMuted: action.isMuted,
       };
 
-    case SEEKING_UPDATED:
+    case SET_SEEKING:
       return {
         ...state,
         currentTime: action.currentTime,
         seekingTime: action.currentTime,
+      };
+
+    case END_PLAYBACK:
+      return {
+        ...state,
+        isPlaying: false,
+        currentTime: 0,
+        seekingTime: 0,
       };
 
     default:

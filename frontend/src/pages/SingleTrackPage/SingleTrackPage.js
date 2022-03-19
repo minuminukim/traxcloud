@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchSingleTrack } from '../../store/trackReducer';
-import { setPlaylist } from '../../actions/playerActions';
+import { fetchSingleTrack } from '../../actions/trackActions';
+import { setQueue } from '../../actions/queueActions';
 import AudioPlayer, { PlayerFooter } from '../../components/AudioPlayer';
 import TrackArtwork from '../../components/TrackArtwork';
 import UserCard from '../../components/UserCard';
@@ -13,7 +13,7 @@ import './SingleTrackPage.css';
 const SingleTrackPage = () => {
   const dispatch = useDispatch();
   const { trackId } = useParams();
-  const { playlist } = useSelector((state) => state.player);
+  const { queue } = useSelector((state) => state.queue);
   const track = useSelector((state) => state.tracks[trackId]);
   const sessionUser = useSelector((state) => state.session.user);
   const [isLoading, setLoading] = useState(true);
@@ -23,8 +23,8 @@ const SingleTrackPage = () => {
       try {
         const fetchedTrack = await dispatch(fetchSingleTrack(+trackId));
 
-        if (!playlist.length) {
-          dispatch(setPlaylist([fetchedTrack.id]));
+        if (!queue.length) {
+          dispatch(setQueue([fetchedTrack.id]));
         }
 
         setLoading(false);
@@ -32,30 +32,33 @@ const SingleTrackPage = () => {
         console.log('error fetching tracks', err);
       }
     })();
-  }, [dispatch, trackId, playlist.length]);
+  }, [dispatch, trackId, queue.length]);
 
   return (
     !isLoading && (
       <div className="page-container single-track-page">
-        <div className="single-track-container" style={{backgroundImage: `url(${track.artworkUrl})`}}>
+        <div
+          className="single-track-container"
+          style={{ backgroundImage: `url(${track.artworkUrl})` }}
+        >
           <AudioPlayer
-            trackId={trackId}
+            trackId={+trackId}
             size="large"
             withArtwork={false}
             withFooter={false}
             withCommentField={false}
           />
-          <TrackArtwork className="artwork-large" trackId={trackId} />
+          <TrackArtwork className="artwork-large" trackId={+trackId} />
         </div>
         <div className="single-track-page-main">
           {sessionUser && (
             <CommentField
-              trackId={trackId}
+              trackId={+trackId}
               duration={track.duration}
               height={40}
             />
           )}
-          <PlayerFooter trackId={trackId} />
+          <PlayerFooter trackId={+trackId} />
           <div className="single-track-page-main-row">
             <UserCard user={track?.User} size="medium" avatarSize="large" />
             <CommentsList />

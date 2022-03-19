@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 // import ModalWrapper from '../ModalWrapper';
 import EditDeleteButton from './EditDeleteButton';
 import belongsTo from '../../utils/belongsTo';
-import { deleteTrack } from '../../store/trackReducer';
+import { deleteTrack } from '../../actions/trackActions';
 import './TrackActions.css';
 
 const TrackActions = ({ trackId }) => {

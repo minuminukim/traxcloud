@@ -76,6 +76,10 @@
   width: 184px;
 }
 
+.transparent .logo {
+  background-color: transparent;
+}
+
 .nav-link.logo {
   justify-content: center;
 }

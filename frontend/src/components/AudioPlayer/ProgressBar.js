@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { setTrack, setSeeking } from '../../actions/playerActions';
-import { editTrack } from '../../store/trackReducer';
+import usePlay from '../../hooks/usePlay';
+import { setSeeking } from '../../actions/playerActions';
 import PlaybackTime from './PlaybackTime';
 import Slider from '../Slider';
 import './ProgressBar.css';
@@ -8,37 +8,23 @@ import './ProgressBar.css';
 const ProgressBar = ({ trackId, transparent = false }) => {
   const dispatch = useDispatch();
   const track = useSelector((state) => state.tracks[trackId]);
-  const sessionUser = useSelector((state) => state.session.user);
-  const { currentTime, currentTrackId, audio } = useSelector(
-    (state) => state.player
-  );
+  const { currentTime } = useSelector((state) => state.player);
+  const { incrementPlayCount, isCurrentlyPlaying, selectTrack, setPlay } =
+    usePlay(+trackId);
 
-  const isCurrentTrack = +trackId === currentTrackId;
-
-  const onChange = (e) => {
-    const newTime = e.target.value;
-    if (!isCurrentTrack) {
-      if (audio) {
-        audio.current.currentTime = 0;
-      }
-      dispatch(setTrack(+trackId, newTime));
-    }
-
-    dispatch(setSeeking(newTime));
-
-    // if track doesn't belong to current user, or it's currently playing we
-    // dispatch to update playcount
-    if ((sessionUser && sessionUser.id === track.userId) || isCurrentTrack)
-      return;
-    const { playCount } = track;
-    const updated = { ...track, playCount: playCount + 1 };
-    dispatch(editTrack(updated));
+  const onScrub = (e) => {
+    selectTrack();
+    dispatch(setSeeking(e.target.value));
+    setPlay();
+    incrementPlayCount();
   };
 
   return (
     <div className="player-timeline-container">
-      <div className={`timers-container ${isCurrentTrack ? 'between' : 'end'}`}>
-        {isCurrentTrack && (
+      <div
+        className={`timers-container ${isCurrentlyPlaying ? 'between' : 'end'}`}
+      >
+        {isCurrentlyPlaying && (
           <PlaybackTime
             className="timer"
             transparent={transparent}
@@ -56,8 +42,8 @@ const ProgressBar = ({ trackId, transparent = false }) => {
         min="1"
         max={track.duration || track.duration.toString()}
         step="1"
-        value={isCurrentTrack ? currentTime : 0}
-        onChange={onChange}
+        value={isCurrentlyPlaying ? currentTime : 0}
+        onChange={onScrub}
       />
     </div>
   );
