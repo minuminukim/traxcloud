@@ -2,21 +2,21 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchTracks } from '../../actions/trackActions';
 import { fetchCommentsByTrackId } from '../../actions/commentActions';
-import { setPlaylist } from '../../actions/playerActions';
+import { setQueue } from '../../actions/playerActions';
 import AudioPlayer from '../AudioPlayer';
 import './Stream.css';
 
 const Stream = () => {
   const [isLoading, setIsLoading] = useState(true);
   const dispatch = useDispatch();
-  const { playlist } = useSelector((state) => state.player);
+  const { queue } = useSelector((state) => state.player);
   const tracksObject = useSelector((state) => state.tracks);
 
   useEffect(() => {
     (async () => {
       try {
         const tracks = await dispatch(fetchTracks());
-        dispatch(setPlaylist(tracks.map(({ id }) => id).sort((a, b) => b - a)));
+        dispatch(setQueue(tracks.map(({ id }) => id).sort((a, b) => b - a)));
         await Promise.all(
           tracks.map(
             async ({ id }) => await dispatch(fetchCommentsByTrackId(id))
@@ -35,7 +35,7 @@ const Stream = () => {
         <h1 className="heading-light">
           Hear the latest posts from our creators:
         </h1>
-        {playlist.map((id, i) => (
+        {queue.map((id, i) => (
           <div className="stream-row" key={`row-${id}`}>
             <AudioPlayer
               key={id}

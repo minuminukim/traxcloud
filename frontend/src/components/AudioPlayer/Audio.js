@@ -1,7 +1,6 @@
 import { useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
-  setDuration,
   setReference,
   updateTime,
   playNext,
@@ -34,10 +33,6 @@ function Audio({ trackId }) {
     // dispatch(updateTime(audio.current.currentTime));
     dispatch(updateTime(audioRef.current.currentTime));
 
-  const handleLoadedMetaData = () =>
-    dispatch(setDuration(audioRef.current.duration));
-  // dispatch(setDuration(audio.current.duration));
-
   return (
     <audio
       src={track?.trackUrl}
@@ -45,7 +40,6 @@ function Audio({ trackId }) {
       crossOrigin="anonymous"
       ref={audioRef}
       onTimeUpdate={handleTimeUpdate}
-      onLoadedMetadata={handleLoadedMetaData}
       onPlay={() => dispatch(setReference(audioRef))}
       onEnded={() => dispatch(playNext())}
     />

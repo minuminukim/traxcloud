@@ -1,18 +1,17 @@
 import {
-  METADATA_LOADED,
-  PLAYLIST_LOADED,
-  TRACK_SET,
-  REFERENCE_UPDATED,
-  TRACK_PLAYED,
-  TRACK_PAUSED,
-  TIME_UPDATED,
-  VOLUME_UPDATED,
-  SEEKING_UPDATED,
+  LOAD_QUEUE,
+  SET_TRACK,
+  SET_REFERENCE,
+  PLAY_TRACK,
+  PAUSE_TRACK,
+  UPDATE_TIME,
+  UPDATE_VOLUME,
+  SET_SEEKING,
 } from '../actions/playerActions';
 
 const initialState = {
   currentTrackId: null,
-  playlist: [],
+  queue: [],
   currentIndex: 0,
   duration: 0,
   currentTime: 0,
@@ -28,20 +27,14 @@ export const getCurrentTrack = (trackId) => (state) => state.tracks[trackId];
 
 function playerReducer(state = initialState, action) {
   switch (action.type) {
-    case METADATA_LOADED:
+    case LOAD_QUEUE:
       return {
         ...state,
-        duration: action.duration,
+        queue: action.tracks,
       };
 
-    case PLAYLIST_LOADED:
-      return {
-        ...state,
-        playlist: action.tracks,
-      };
-
-    case TRACK_SET:
-      const findIndex = (id) => state.playlist.indexOf(id);
+    case SET_TRACK:
+      const findIndex = (id) => state.queue.indexOf(id);
       const index = action.index ? action.index : findIndex(action.trackId);
 
       return {
@@ -52,38 +45,38 @@ function playerReducer(state = initialState, action) {
         currentIndex: index,
       };
 
-    case REFERENCE_UPDATED:
+    case SET_REFERENCE:
       return {
         ...state,
         audio: action.ref,
       };
 
-    case TRACK_PLAYED:
+    case PLAY_TRACK:
       return {
         ...state,
         isPlaying: true,
       };
 
-    case TRACK_PAUSED:
+    case PAUSE_TRACK:
       return {
         ...state,
         isPlaying: false,
       };
 
-    case TIME_UPDATED:
+    case UPDATE_TIME:
       return {
         ...state,
         currentTime: action.currentTime,
       };
 
-    case VOLUME_UPDATED:
+    case UPDATE_VOLUME:
       return {
         ...state,
         volume: action.volume,
         isMuted: action.isMuted,
       };
 
-    case SEEKING_UPDATED:
+    case SET_SEEKING:
       return {
         ...state,
         currentTime: action.currentTime,

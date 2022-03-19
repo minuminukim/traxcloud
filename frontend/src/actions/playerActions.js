@@ -1,75 +1,69 @@
 /* ----- ACTION TYPES ----- */
-export const METADATA_LOADED = 'player/metadataLoaded';
-export const PLAYLIST_LOADED = 'player/playlistLoaded';
-export const TRACK_SET = 'player/trackSet';
-export const REFERENCE_UPDATED = 'player/referenceSet';
-export const TRACK_PLAYED = 'player/trackPlayed';
-export const TRACK_PAUSED = 'player/trackPaused';
-export const TIME_UPDATED = 'player/timeUpdated';
-export const VOLUME_UPDATED = 'player/volumeUpdated';
-export const SEEKING_UPDATED = 'player/seekingSet';
+export const LOAD_QUEUE = 'player/loadQueue';
+export const SET_TRACK = 'player/setQueue';
+export const SET_REFERENCE = 'player/setReference';
+export const PLAY_TRACK = 'player/playTrack';
+export const PAUSE_TRACK = 'player/pauseTrack';
+export const UPDATE_TIME = 'player/updateTime';
+export const UPDATE_VOLUME = 'player/updateVolume';
+export const SET_SEEKING = 'player/setSeeking';
 
 /* ----- ACTIONS ----- */
-export const setDuration = (duration) => ({
-  type: METADATA_LOADED,
-  duration,
-});
-
 export const setTrack = (trackId, index = 0, currentTime = 0) => ({
-  type: TRACK_SET,
+  type: SET_TRACK,
   trackId,
   currentTime,
   index,
 });
 
 export const setReference = (ref) => ({
-  type: REFERENCE_UPDATED,
+  type: SET_REFERENCE,
   ref,
 });
 
-export const setPlaylist = (tracks) => ({
-  type: PLAYLIST_LOADED,
+export const setQueue = (tracks) => ({
+  type: LOAD_QUEUE,
   tracks,
 });
 
 export const playTrack = () => ({
-  type: TRACK_PLAYED,
+  type: PLAY_TRACK,
 });
 
 export const pauseTrack = () => ({
-  type: TRACK_PAUSED,
+  type: PAUSE_TRACK,
 });
 
 export const updateTime = (currentTime) => ({
-  type: TIME_UPDATED,
+  type: UPDATE_TIME,
   currentTime,
 });
 
 export const updateVolume = (volume, isMuted) => ({
-  type: VOLUME_UPDATED,
+  type: UPDATE_VOLUME,
   isMuted,
   volume,
 });
 
 export const setSeeking = (currentTime) => ({
-  type: SEEKING_UPDATED,
+  type: SET_SEEKING,
   currentTime,
 });
 
 export const playNext = () => (dispatch, getState) => {
   const state = getState();
-  const { playlist, currentIndex } = state.player;
-  const nextIndex = currentIndex + 1 >= playlist.length ? 0 : currentIndex + 1;
-  const nextId = playlist[nextIndex];
+  const { queue, currentIndex } = state.player;
+  const nextIndex = currentIndex + 1 >= queue.length ? 0 : currentIndex + 1;
+  const nextId = queue[nextIndex];
   dispatch(setTrack(nextId, nextIndex));
   dispatch(playTrack());
 };
 
 export const playPrevious = () => (dispatch, getState) => {
   const state = getState();
-  const { playlist, currentIndex } = state.player;
-  const nextIndex = currentIndex === 0 ? playlist.length - 1 : currentIndex - 1;
-  const nextId = playlist[nextIndex];
+  const { queue, currentIndex } = state.player;
+  const nextIndex = currentIndex === 0 ? queue.length - 1 : currentIndex - 1;
+  const nextId = queue[nextIndex];
   dispatch(setTrack(nextId, nextIndex));
   dispatch(playTrack());
 };
