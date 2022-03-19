@@ -5,6 +5,7 @@ import trackReducer from './trackReducer';
 import userReducer from './userReducer';
 import playerReducer from './playerReducer';
 import commentReducer from './commentReducer';
+import queueReducer from './queueReducer';
 
 const rootReducer = combineReducers({
   session: sessionReducer,
@@ -12,6 +13,7 @@ const rootReducer = combineReducers({
   users: userReducer,
   player: playerReducer,
   comments: commentReducer,
+  queue: queueReducer,
 });
 
 let enhancer;

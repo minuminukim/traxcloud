@@ -2,15 +2,14 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchTracks } from '../../actions/trackActions';
 import { fetchCommentsByTrackId } from '../../actions/commentActions';
-import { setQueue } from '../../actions/playerActions';
+import { setQueue } from '../../actions/queueActions';
 import AudioPlayer from '../AudioPlayer';
 import './Stream.css';
 
 const Stream = () => {
   const [isLoading, setIsLoading] = useState(true);
   const dispatch = useDispatch();
-  const { queue } = useSelector((state) => state.player);
-  const tracksObject = useSelector((state) => state.tracks);
+  const { queue } = useSelector((state) => state.queue);
 
   useEffect(() => {
     (async () => {

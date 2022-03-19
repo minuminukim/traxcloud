@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchSingleTrack } from '../../actions/trackActions';
-import { setQueue } from '../../actions/playerActions';
+import { setQueue } from '../../actions/queueActions';
 import AudioPlayer, { PlayerFooter } from '../../components/AudioPlayer';
 import TrackArtwork from '../../components/TrackArtwork';
 import UserCard from '../../components/UserCard';
@@ -13,7 +13,7 @@ import './SingleTrackPage.css';
 const SingleTrackPage = () => {
   const dispatch = useDispatch();
   const { trackId } = useParams();
-  const { queue } = useSelector((state) => state.player);
+  const { queue } = useSelector((state) => state.queue);
   const track = useSelector((state) => state.tracks[trackId]);
   const sessionUser = useSelector((state) => state.session.user);
   const [isLoading, setLoading] = useState(true);

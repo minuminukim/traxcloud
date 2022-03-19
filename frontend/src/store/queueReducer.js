@@ -35,6 +35,8 @@ const queueReducer = (state = initialState, action) => {
       return initialState;
 
     case PLAY_TRACK:
+      const { index } = action;
+
       return {
         ...state,
         currentIndex: action.index,
