@@ -27,6 +27,10 @@ const AudioPlayerFooter = () => {
     dispatch(playPrevious(previousTrackId, previousIndex));
   };
 
+  if (!currentTrackId) {
+    return null;
+  }
+
   return (
     currentTrackId && (
       <footer className="footer-container">
