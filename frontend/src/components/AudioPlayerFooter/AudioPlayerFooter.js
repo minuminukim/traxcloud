@@ -3,6 +3,7 @@ import { PlaybackButton, Audio } from '../AudioPlayer';
 import { IoPlaySkipForward, IoPlaySkipBack } from 'react-icons/io5';
 import { Volume, SoundBadge } from '.';
 import { playNext, playPrevious } from '../../actions/playerActions';
+import usePlay from '../../hooks/usePlay';
 import ProgressBar from '../AudioPlayer/ProgressBar';
 import './AudioPlayerFooter.css';
 
@@ -13,9 +14,12 @@ const AudioPlayerFooter = () => {
     (state) => state.queue
   );
 
+  // const { incrementPlayCount } = usePlay(currentTrackId);
+
   const onPlayNext = () => {
     const nextTrackId = queue[nextIndex];
     dispatch(playNext(nextTrackId, nextIndex));
+    // incrementPlayCount();
   };
 
   const onPlayPrevious = () => {

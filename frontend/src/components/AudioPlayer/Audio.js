@@ -2,7 +2,6 @@ import { useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   setReference,
-  setTrack,
   updateTime,
   playNext,
   endPlayback,
@@ -12,16 +11,12 @@ function Audio({ trackId }) {
   const dispatch = useDispatch();
   const track = useSelector((state) => state.tracks[trackId]);
   const { queue, nextIndex } = useSelector((state) => state.queue);
-  const { isPlaying, currentTrackId, seekingTime, reference } = useSelector(
-    (state) => state.player
-  );
+  const { isPlaying, currentTrackId, seekingTime, reference, volume } =
+    useSelector((state) => state.player);
 
-  // const audioRef = useRef(reference);
   const audioRef = useRef(null);
 
   useEffect(() => {
-    console.log('audioRef', audioRef, 'redux reference', reference);
-    console.log('equality check', audioRef === reference);
     isPlaying && currentTrackId === trackId
       ? audioRef.current.play()
       : audioRef.current.pause();
@@ -30,6 +25,10 @@ function Audio({ trackId }) {
   useEffect(() => {
     audioRef.current.currentTime = seekingTime;
   }, [seekingTime]);
+
+  useEffect(() => {
+    audioRef.current.volume = volume;
+  }, [volume]);
 
   const onTimeUpdate = () => {
     dispatch(updateTime(audioRef.current.currentTime));
@@ -57,10 +56,6 @@ function Audio({ trackId }) {
       crossOrigin="anonymous"
       ref={audioRef}
       onTimeUpdate={onTimeUpdate}
-      // onPlay={() => {
-      //   console.log('time', audioRef.current.currentTime);
-      //   dispatch(setReference(audioRef));
-      // }}
       onPlay={onPlay}
       onEnded={onEnded}
     />

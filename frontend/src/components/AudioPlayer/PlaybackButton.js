@@ -11,18 +11,15 @@ const PlaybackButton = ({
   withBackground = true,
 }) => {
   const dispatch = useDispatch();
-  const { queue } = useSelector((state) => state.queue);
   const { isPlaying } = useSelector((state) => state.player);
-  const { incrementPlayCount, isCurrentlyPlaying, selectTrack } = usePlay(
-    +trackId
-  );
+  const { incrementPlayCount, isCurrentlyPlaying, selectTrack, setPlay } =
+    usePlay(+trackId);
 
   const onPause = () => dispatch(pauseTrack());
+
   const onPlay = () => {
     selectTrack();
-
-    const trackIndex = queue.indexOf(+trackId);
-    dispatch(playTrack(+trackId, trackIndex));
+    setPlay();
     incrementPlayCount();
   };
 

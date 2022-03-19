@@ -41,7 +41,6 @@ function playerReducer(state = initialState, action) {
       return {
         ...state,
         isPlaying: true,
-        // currentTrackId: action.trackId,
       };
 
     case PAUSE_TRACK:
@@ -66,7 +65,6 @@ function playerReducer(state = initialState, action) {
     case SET_SEEKING:
       return {
         ...state,
-        isPlaying: true,
         currentTime: action.currentTime,
         seekingTime: action.currentTime,
       };

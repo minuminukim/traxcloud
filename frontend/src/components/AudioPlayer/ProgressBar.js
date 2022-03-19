@@ -9,13 +9,13 @@ const ProgressBar = ({ trackId, transparent = false }) => {
   const dispatch = useDispatch();
   const track = useSelector((state) => state.tracks[trackId]);
   const { currentTime } = useSelector((state) => state.player);
-  const { incrementPlayCount, isCurrentlyPlaying, selectTrack } = usePlay(
-    +trackId
-  );
+  const { incrementPlayCount, isCurrentlyPlaying, selectTrack, setPlay } =
+    usePlay(+trackId);
 
-  const onChange = (e) => {
+  const onScrub = (e) => {
     selectTrack();
     dispatch(setSeeking(e.target.value));
+    setPlay();
     incrementPlayCount();
   };
 
@@ -43,7 +43,7 @@ const ProgressBar = ({ trackId, transparent = false }) => {
         max={track.duration || track.duration.toString()}
         step="1"
         value={isCurrentlyPlaying ? currentTime : 0}
-        onChange={onChange}
+        onChange={onScrub}
       />
     </div>
   );
