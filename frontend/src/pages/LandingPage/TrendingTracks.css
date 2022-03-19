@@ -15,10 +15,11 @@
 }
 
 .tracks-container {
-  display: flex;
-  flex-wrap: nowrap;
-  justify-content: space-between;
-  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(6, 180px);
+  column-gap: 20px;
+  max-height: 216px;
+  height: 100%;
   margin-bottom: 20px;
 }
 

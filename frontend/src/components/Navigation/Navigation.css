@@ -12,6 +12,7 @@
 
 .header.transparent {
   border: 0;
+  position: absolute;
 }
 
 .nav-bar {

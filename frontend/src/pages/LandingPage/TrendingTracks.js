@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { fetchTracks } from '../../store/trackReducer';
 import toArray from '../../utils/toArray';
 import TrendingBlock from './TrendingBlock';
+import PlayableTile from '../../components/PlayableTile';
 import SignupForm from '../../components/SignupForm';
 import ModalWrapper from '../../components/ModalWrapper';
 import './TrendingTracks.css';
@@ -23,7 +24,11 @@ const TrendingTracks = () => {
       </h3>
       <div className="tracks-container">
         {tracks.map((track) => (
-          <TrendingBlock key={track.id} track={track} />
+          <PlayableTile
+            className="trending"
+            trackId={track.id}
+            playbackSize="large"
+          />
         ))}
       </div>
       <ModalWrapper label="Explore trending tracks" className="large-button">

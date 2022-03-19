@@ -1,8 +1,23 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { PlaybackButton } from '../AudioPlayer';
 import { TrackArtwork, Overlay } from '../TrackArtwork';
 import './PlayableTile.css';
+
+const TileSignature = ({ trackId, title, displayName }) => {
+  return (
+    <>
+      <Link className="tile-title" to={`/tracks/${trackId}`}>
+        {title}
+      </Link>
+      {/* TODO: replace link to profile */}
+      <Link className="tile-artist" to="#">
+        {displayName}
+      </Link>
+    </>
+  );
+};
 
 const PlayableTile = ({
   className,
@@ -30,21 +45,30 @@ const PlayableTile = ({
   };
 
   return (
-    <div
-      className={`${className} playable-tile-art`}
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
-    >
-      {showOverlay && (
-        <Overlay>
-          <PlaybackButton
+    <div className={`playable-tile ${className}`}>
+        <div
+          className={`${className} playable-tile-art`}
+          onMouseEnter={onMouseEnter}
+          onMouseLeave={onMouseLeave}
+        >
+          {showOverlay && (
+            <Overlay>
+              <PlaybackButton
+                trackId={trackId}
+                className={playbackClass}
+                size={playbackSize}
+              />
+            </Overlay>
+          )}
+          <TrackArtwork trackId={trackId} />
+        </div>
+        <div className="tile-signature">
+          <TileSignature
             trackId={trackId}
-            className={playbackClass}
-            size={playbackSize}
+            title={track?.title}
+            displayName={track?.User?.displayName}
           />
-        </Overlay>
-      )}
-      <TrackArtwork className={className} trackId={trackId} />
+      </div>
     </div>
   );
 };
