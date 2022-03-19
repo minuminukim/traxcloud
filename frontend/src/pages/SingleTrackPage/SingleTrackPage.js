@@ -37,7 +37,7 @@ const SingleTrackPage = () => {
   return (
     !isLoading && (
       <div className="page-container single-track-page">
-        <div className="single-track-container">
+        <div className="single-track-container" style={{backgroundImage: `url(${track.artworkUrl})`}}>
           <AudioPlayer
             trackId={trackId}
             size="large"
