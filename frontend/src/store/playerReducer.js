@@ -25,11 +25,10 @@ export const getCurrentTrack = (trackId) => (state) => state.tracks[trackId];
 function playerReducer(state = initialState, action) {
   switch (action.type) {
     case SET_TRACK:
+      // dispatched by onPlay and onSeek events
       return {
         ...state,
         currentTrackId: action.trackId,
-        currentTime: action.currentTime,
-        seekingTime: action.currentTime,
       };
 
     case SET_REFERENCE:

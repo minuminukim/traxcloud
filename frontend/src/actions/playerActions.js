@@ -10,11 +10,9 @@ export const END_PLAYBACK = 'player/endPlayback';
 export const SET_SEEKING = 'player/setSeeking';
 
 /* ----- ACTIONS ----- */
-export const setTrack = (trackId, index = 0, currentTime = 0) => ({
+export const setTrack = (trackId) => ({
   type: SET_TRACK,
   trackId,
-  currentTime,
-  index,
 });
 
 export const setReference = (ref) => ({

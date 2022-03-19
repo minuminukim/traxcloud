@@ -42,23 +42,23 @@ const SingleTrackPage = () => {
           style={{ backgroundImage: `url(${track.artworkUrl})` }}
         >
           <AudioPlayer
-            trackId={trackId}
+            trackId={+trackId}
             size="large"
             withArtwork={false}
             withFooter={false}
             withCommentField={false}
           />
-          <TrackArtwork className="artwork-large" trackId={trackId} />
+          <TrackArtwork className="artwork-large" trackId={+trackId} />
         </div>
         <div className="single-track-page-main">
           {sessionUser && (
             <CommentField
-              trackId={trackId}
+              trackId={+trackId}
               duration={track.duration}
               height={40}
             />
           )}
-          <PlayerFooter trackId={trackId} />
+          <PlayerFooter trackId={+trackId} />
           <div className="single-track-page-main-row">
             <UserCard user={track?.User} size="medium" avatarSize="large" />
             <CommentsList />

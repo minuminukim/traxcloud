@@ -23,13 +23,9 @@ const PlaybackButton = ({
   const onPlay = () => {
     // if a new track has been selected..
     if (!isCurrentlyPlaying) {
-      // if a ref exists, reset previous ref to 0
-      // if (reference) {
-      //   reference.current.currentTime = 0;
-      // }
-
       dispatch(setTrack(+trackId));
     }
+    
     const trackIndex = queue.indexOf(+trackId);
     dispatch(playTrack(+trackId, trackIndex));
 
