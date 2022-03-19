@@ -1,11 +1,6 @@
-<<<<<<< HEAD
 import { useSelector, useDispatch } from 'react-redux';
-=======
-import { useSelector } from 'react-redux';
->>>>>>> main
 import { isCurrentTrack } from '../../utils';
 import Waveform from '../Waveform';
-import TrackArtwork from '../TrackArtwork';
 import {
   PlaybackButton,
   ProgressBar,
