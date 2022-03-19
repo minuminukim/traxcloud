@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchTracks } from '../../store/trackReducer';
+import { fetchTracks } from '../../actions/trackActions';
 import { fetchCommentsByTrackId } from '../../actions/commentActions';
 import { setPlaylist } from '../../actions/playerActions';
 import AudioPlayer from '../AudioPlayer';

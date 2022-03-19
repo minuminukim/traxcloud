@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchSingleTrack } from '../../store/trackReducer';
+import { fetchSingleTrack } from '../../actions/trackActions';
 import { setPlaylist } from '../../actions/playerActions';
 import AudioPlayer, { PlayerFooter } from '../../components/AudioPlayer';
 import TrackArtwork from '../../components/TrackArtwork';

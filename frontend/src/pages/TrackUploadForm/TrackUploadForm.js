@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
-import { fetchSingleTrack } from '../../store/trackReducer';
+import { fetchSingleTrack } from '../../actions/trackActions';
 import InputField from '../../components/common/InputField';
 import Button from '../../components/common/Button';
 import FileUploader from './FileUploader';
 import Textarea from '../../components/common/Textarea';
-import { postTrack, editTrack } from '../../store/trackReducer';
+import { postTrack, editTrack } from '../../actions/trackActions';
 import LoginForm from '../../components/LoginForm';
 import './TrackUploadForm.css';
 

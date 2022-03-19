@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { setTrack, setSeeking } from '../../actions/playerActions';
-import { editTrack } from '../../store/trackReducer';
+import { editTrack } from '../../actions/trackActions';
 import PlaybackTime from './PlaybackTime';
 import Slider from '../Slider';
 import './ProgressBar.css';

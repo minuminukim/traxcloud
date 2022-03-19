@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { playTrack, setTrack, pauseTrack } from '../../actions/playerActions';
-import { editTrack } from '../../store/trackReducer';
+import { editTrack } from '../../actions/trackActions';
 import { FaPlay, FaPause } from 'react-icons/fa';
 import './PlayButton.css';
 

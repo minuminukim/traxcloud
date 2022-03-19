@@ -1,5 +1,5 @@
 import { csrfFetch } from './csrf';
-import { LOAD_TRACKS } from './trackReducer';
+import { LOAD_TRACKS } from '../actions/trackActions';
 
 const ADD_USER = 'user/loadUser';
 const LOAD_USERS = 'user/loadUsers';

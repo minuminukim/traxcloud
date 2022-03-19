@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchTracks } from '../../store/trackReducer';
+import { fetchTracks } from '../../actions/trackActions';
 import toArray from '../../utils/toArray';
 import TrendingBlock from './TrendingBlock';
 import PlayableTile from '../../components/PlayableTile';
