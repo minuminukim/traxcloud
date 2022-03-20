@@ -54,6 +54,9 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         defaultValue: 0,
       },
+      peakData: {
+        type: DataTypes.JSON,
+      },
     },
     {}
   );
