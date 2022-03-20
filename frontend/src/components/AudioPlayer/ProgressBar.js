@@ -9,7 +9,9 @@ import './ProgressBar.css';
 const ProgressBar = ({ trackId, transparent = false }) => {
   const dispatch = useDispatch();
   const track = useSelector((state) => state.tracks[trackId]);
-  const { currentTime, duration, seekPosition, reference } = useSelector((state) => state.player);
+  const { currentTime, duration, seekPosition, reference } = useSelector(
+    (state) => state.player
+  );
   const { incrementPlayCount, isSelected, selectTrack, setPlay } = usePlay(
     +trackId
   );
@@ -38,6 +40,7 @@ const ProgressBar = ({ trackId, transparent = false }) => {
           time={track.duration}
         />
       </div>
+      {/* <div className="timeline-blur">a</div> */}
       <Slider
         className="progress-bar"
         min="1"

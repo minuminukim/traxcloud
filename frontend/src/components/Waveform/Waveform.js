@@ -3,9 +3,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { setSeeking, setWaveform } from '../../actions/playerActions';
 import usePlay from '../../hooks/usePlay';
 import WaveSurfer from 'wavesurfer.js';
-import Slider from '../Slider';
-import { Overlay } from '../TrackArtwork';
-import { options } from './options';
 
 const Waveform = ({ trackId }) => {
   const dispatch = useDispatch();
@@ -27,7 +24,9 @@ const Waveform = ({ trackId }) => {
       container: waveformRef.current,
       barGap: 2,
       barWidth: 2,
+      barHeight: 1.2,
       cursorColor: 'transparent',
+      height: 60,
     });
 
     wavesurfer.current.load(track.trackUrl);
