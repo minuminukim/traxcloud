@@ -6,7 +6,7 @@ const Main = () => {
   return (
     <div className="page-container main">
       <Stream />
-      {/* <AudioPlayerFooter /> */}
+      {/* <GlobalPlayer /> */}
     </div>
   );
 };

@@ -8,10 +8,10 @@ import usePlay from '../../hooks/usePlay';
 import Slider from '../Slider';
 import PlaybackTime from '../AudioPlayer/PlaybackTime';
 import ProgressBar from '../AudioPlayer/ProgressBar';
-import './AudioPlayerFooter.css';
+import './GlobalPlayer.css';
 import Waveform from '../Waveform';
 
-const AudioPlayerFooter = () => {
+const GlobalPlayer = () => {
   const dispatch = useDispatch();
   const { currentTrackId, currentTime } = useSelector((state) => state.player);
   const track = useSelector((state) => state.tracks[currentTrackId]);
@@ -49,8 +49,8 @@ const AudioPlayerFooter = () => {
     currentTrackId && (
       <footer className="footer-container">
         <div className="footer-player">
-          {/* <Waveform trackId={currentTrackId} hidden /> */}
-          <Audio trackId={currentTrackId} />
+          <Waveform trackId={currentTrackId} isGlobal hidden />
+          {/* <Audio trackId={currentTrackId} /> */}
           <div className="player-controls">
             <button className="player-control">
               <IoPlaySkipBack onClick={onPlayPrevious} />
@@ -89,4 +89,4 @@ const AudioPlayerFooter = () => {
   );
 };
 
-export default AudioPlayerFooter;
+export default GlobalPlayer;

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Switch, Route, useLocation } from 'react-router-dom';
 import { restoreUser } from './store/sessionReducer';
 import Navigation from './components/Navigation';
-import AudioPlayerFooter from './components/AudioPlayerFooter';
+import GlobalPlayer from './components/GlobalPlayer';
 // import TrackEditForm from './components/TrackEditForm';
 import {
   LandingPage,
@@ -53,7 +53,7 @@ function App() {
             </Route>
           </Switch>
         </main>
-        <AudioPlayerFooter />
+        <GlobalPlayer />
       </>
     )
   );
