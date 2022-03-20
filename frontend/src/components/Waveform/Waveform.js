@@ -58,6 +58,9 @@ const Waveform = ({ trackId }) => {
   useEffect(() => {
     if (isSelected && isPlaying) {
       dispatch(setWaveform(wavesurfer));
+      wavesurfer.current.play();
+    } else {
+      wavesurfer.current.pause();
     }
   }, [isSelected, isPlaying]);
 
