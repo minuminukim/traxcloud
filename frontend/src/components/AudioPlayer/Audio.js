@@ -61,7 +61,7 @@ function Audio({ trackId }) {
     <audio
       src={track?.trackUrl}
       id={`track-${track?.id}`}
-      crossOrigin="anonymous"
+      // crossOrigin="anonymous"
       ref={audioRef}
       onTimeUpdate={onTimeUpdate}
       onPlay={onPlay}

@@ -32,6 +32,7 @@ const Waveform = ({ trackId }) => {
 
     wavesurfer.current.load(track.trackUrl, track.peakData);
     wavesurfer.current.on('waveform-ready', () => {
+      console.log('track.peakData', track.peakData);
       // if waveform data doesn't exist, we export and
       // send to database
       if (!track.peakData) {
@@ -49,7 +50,7 @@ const Waveform = ({ trackId }) => {
 
   useEffect(() => {
     if (isSelected) {
-      wavesurfer.current.seekTo(seekPosition || 0);
+      wavesurfer?.current.seekTo(seekPosition || 0);
     }
   }, [isSelected, seekPosition]);
 

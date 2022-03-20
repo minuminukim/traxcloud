@@ -42,7 +42,7 @@ const AudioPlayerFooter = () => {
     currentTrackId && (
       <footer className="footer-container">
         <div className="footer-player">
-          {/* <Waveform trackId={currentTrackId} isFooter /> */}
+          {/* <Waveform trackId={currentTrackId} hidden /> */}
           <Audio trackId={currentTrackId} />
           <div className="player-controls">
             <button className="player-control">
