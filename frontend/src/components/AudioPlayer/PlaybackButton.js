@@ -19,7 +19,7 @@ const PlaybackButton = ({
   const onPause = () => dispatch(pauseTrack());
 
   const onPlay = () => {
-    selectTrack();
+    selectTrack(trackId);
     setPlay();
     incrementPlayCount();
   };

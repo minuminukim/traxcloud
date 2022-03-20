@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   setSeeking,
@@ -10,17 +10,22 @@ import { editTrack } from '../../actions/trackActions';
 import usePlay from '../../hooks/usePlay';
 import WaveSurfer from 'wavesurfer.js';
 
-const Waveform = ({ trackId, isGlobal = false }) => {
+const Waveform = ({ trackId }) => {
   const dispatch = useDispatch();
   const track = useSelector((state) => state.tracks[trackId]);
-  const { currentTime, waveformRef } = useSelector((state) => state.player);
+  const { currentTime, currentTrackId, waveformRef } = useSelector(
+    (state) => state.player
+  );
   const containerRef = useRef(null);
-  const wavesurfer = useRef(null);
-  const { seekPosition, isPlaying } = useSelector((state) => state.player);
-  const { selectTrack, isSelected, setPlay } = usePlay(trackId);
+  const wavesurfer = useRef();
+  const { seekPosition, isPlaying, isSelected } = useSelector(
+    (state) => state.player
+  );
+  const { selectTrack, setPlay } = usePlay(trackId);
 
   // Initialize waveform object
   useEffect(() => {
+    console.log('wavesurfer', wavesurfer);
     wavesurfer.current = WaveSurfer.create({
       container: containerRef.current,
       progressColor: '#f50',
@@ -36,6 +41,7 @@ const Waveform = ({ trackId, isGlobal = false }) => {
     });
 
     wavesurfer.current.load(track.trackUrl, track.peakData);
+    wavesurfer.current.setMute(true);
 
     wavesurfer.current.on('waveform-ready', () => {
       // if waveform data doesn't exist, we dispatch data to database
@@ -50,44 +56,60 @@ const Waveform = ({ trackId, isGlobal = false }) => {
     return () => wavesurfer.current.destroy();
   }, [track.trackUrl]);
 
-  // Sync application time with global wavesurfer object
+  // useEffect(() => {
+  //   if (isSelected) {
+  //     dispatch(setWaveform(wavesurfer.current));
+  //   }
+  // }, [isSelected]);
   useEffect(() => {
-    if (!isGlobal) {
-      wavesurfer.current.setMute(true);
-      // wavesurfer.current.setCurrentTime(currentTime);
-      return;
-    }
-
-    const onAudioProcess = () => {
-      // const globalTime = wavesurfer.current.getCurrentTime();
-      dispatch(updateTime(wavesurfer.current.getCurrentTime()));
-    };
-
-    wavesurfer.current.on('audioprocess', onAudioProcess);
-
-    return () => wavesurfer.current.un('audioprocess', onAudioProcess);
-  }, [isGlobal, dispatch]);
-
-  // Send waveform ref to store
-  useEffect(() => {
-    if (isGlobal) {
-      dispatch(setWaveform(wavesurfer));
-    }
-  }, [isGlobal]);
-
-  useEffect(() => {
-    if (isSelected && isPlaying) {
-      wavesurfer.current.play();
+    if (isPlaying && currentTrackId === trackId) {
+      console.log('playing');
+      wavesurfer.current.play(currentTime);
     } else {
+      console.log('paused');
       wavesurfer.current.pause();
     }
-  }, [isSelected, isPlaying, currentTime]);
+  }, [isPlaying, currentTrackId, trackId]);
 
-  useEffect(() => {
-    if (isSelected) {
-      wavesurfer?.current.seekTo(seekPosition || 0);
-    }
-  }, [isSelected, seekPosition]);
+  // useEffect(() => {
+  //   if (!isGlobal) {
+  //     wavesurfer.current.setMute(true);
+  //     return;
+  //   }
+
+  //   // Sync application time with global wavesurfer object
+  //   const onAudioProcess = () => {
+  //     if (isGlobal && isSelected) {
+  //       // const globalTime = wavesurfer.current.getCurrentTime();
+  //       dispatch(updateTime(wavesurfer.current.getCurrentTime()));
+  //     }
+  //   };
+
+  //   wavesurfer.current.on('audioprocess', onAudioProcess);
+
+  //   return () => wavesurfer.current.un('audioprocess', onAudioProcess);
+  // }, [isGlobal, isSelected, wavesurfer.current, dispatch]);
+
+  // Send waveform ref to store
+  // useEffect(() => {
+  //   if (isSelected) {
+  //     dispatch(setWaveform(wavesurfer));
+  //   }
+  // }, [isSelected, dispatch, wavesurfer]);
+
+  // useEffect(() => {
+  //   if (isSelected && isPlaying) {
+  //     wavesurfer.current.play();
+  //   } else {
+  //     wavesurfer.current.pause();
+  //   }
+  // }, [isSelected, isPlaying, wavesurfer.current]);
+
+  // useEffect(() => {
+  //   if (isSelected) {
+  //     wavesurfer?.current.seekTo(seekPosition || 0);
+  //   }
+  // }, [isSelected, seekPosition]);
 
   const onSeek = (e) => {
     // Synthetic mouse event doesn't have offsetX property
@@ -104,7 +126,7 @@ const Waveform = ({ trackId, isGlobal = false }) => {
 
   const onMouseDown = (e) => {
     if (!isSelected) {
-      selectTrack();
+      selectTrack(trackId);
     }
     onSeek(e);
     setPlay();

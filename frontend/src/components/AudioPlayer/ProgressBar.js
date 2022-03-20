@@ -17,7 +17,7 @@ const ProgressBar = ({ trackId, transparent = false }) => {
   );
 
   const onScrub = (e) => {
-    selectTrack();
+    selectTrack(trackId);
     const position = +e.target.value / track.duration;
     dispatch(setSeeking(position, +e.target.value));
     setPlay();

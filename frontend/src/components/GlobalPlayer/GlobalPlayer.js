@@ -1,15 +1,21 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { PlaybackButton, Audio } from '../AudioPlayer';
-import { IoPlaySkipForward, IoPlaySkipBack } from 'react-icons/io5';
-import { Volume, SoundBadge } from '.';
-import { playNext, playPrevious } from '../../actions/playerActions';
-import { setSeeking } from '../../actions/playerActions';
 import usePlay from '../../hooks/usePlay';
+import { Volume, SoundBadge } from '.';
+import {
+  playNext,
+  playPrevious,
+  updateTime,
+  setTrack,
+  setSeeking,
+} from '../../actions/playerActions';
+
 import Slider from '../Slider';
 import PlaybackTime from '../AudioPlayer/PlaybackTime';
-import ProgressBar from '../AudioPlayer/ProgressBar';
-import './GlobalPlayer.css';
 import Waveform from '../Waveform';
+import { PlaybackButton, Audio } from '../AudioPlayer';
+import { IoPlaySkipForward, IoPlaySkipBack } from 'react-icons/io5';
+// import GlobalAudio from './GlobalAudio';
+import './GlobalPlayer.css';
 
 const GlobalPlayer = () => {
   const dispatch = useDispatch();
@@ -19,7 +25,8 @@ const GlobalPlayer = () => {
     (state) => state.queue
   );
 
-  const { incrementPlayCount, isSelected, setPlay } = usePlay(currentTrackId);
+  const { incrementPlayCount, isSelected, selectTrack, setPlay } =
+    usePlay(currentTrackId);
 
   const onScrub = (e) => {
     const position = +e.target.value / track.duration;
@@ -28,17 +35,21 @@ const GlobalPlayer = () => {
     incrementPlayCount();
   };
 
-  const onPlayNext = () => {
+  const onPlayNext = async () => {
     if (nextIndex !== null) {
       const nextTrackId = queue[nextIndex];
-      dispatch(playNext(nextTrackId, nextIndex));
+      selectTrack(nextTrackId);
+      dispatch(updateTime(0));
+      await dispatch(playNext(nextTrackId, nextIndex));
     }
     // incrementPlayCount();
   };
 
-  const onPlayPrevious = () => {
+  const onPlayPrevious = async () => {
     const previousTrackId = queue[previousIndex];
-    dispatch(playPrevious(previousTrackId, previousIndex));
+    selectTrack(previousTrackId);
+    dispatch(updateTime(0));
+    await dispatch(playPrevious(previousTrackId, previousIndex));
   };
 
   if (!currentTrackId) {
@@ -49,8 +60,9 @@ const GlobalPlayer = () => {
     currentTrackId && (
       <footer className="footer-container">
         <div className="footer-player">
-          <Waveform trackId={currentTrackId} isGlobal hidden />
-          {/* <Audio trackId={currentTrackId} /> */}
+          {/* <Waveform trackId={currentTrackId} isGlobal hidden /> */}
+          {/* <GlobalAudio /> */}
+          <Audio trackId={currentTrackId} />
           <div className="player-controls">
             <button className="player-control">
               <IoPlaySkipBack onClick={onPlayPrevious} />

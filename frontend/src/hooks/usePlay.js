@@ -17,13 +17,13 @@ const usePlay = (trackId) => {
     dispatch(playTrack(trackId, trackIndex));
   };
 
-  const selectTrack = () => {
+  const selectTrack = (id) => {
     // If a new track has been selected
     if (!isSelected) {
       if (waveformRef) {
         waveformRef.current.setCurrentTime(0);
       }
-      dispatch(setTrack(trackId));
+      dispatch(setTrack(id || trackId));
     }
   };
 

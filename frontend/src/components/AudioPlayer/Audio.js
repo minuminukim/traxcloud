@@ -38,17 +38,17 @@ function Audio({ trackId }) {
 
   const onTimeUpdate = () => {
     dispatch(updateTime(audioRef.current.currentTime));
-    waveformRef.current.setCurrentTime(audioRef.current.currentTime);
+    // waveformRef.current.setCurrentTime(audioRef.current.currentTime);
     // waveformRef.current.setCurrentTime(audioRef.current.currentTime);
   };
 
-  const onEnded = () => {
+  const onEnded = async () => {
     if (nextIndex === null) {
       dispatch(endPlayback());
     }
 
     const nextId = queue[nextIndex];
-    dispatch(playNext(nextId, nextIndex));
+    await dispatch(playNext(nextId, nextIndex));
   };
 
   const onPlay = () => {
