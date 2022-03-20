@@ -1,6 +1,8 @@
 import {
+  SET_DURATION,
   SET_TRACK,
   SET_REFERENCE,
+  SET_WAVEFORM,
   PLAY_TRACK,
   PAUSE_TRACK,
   UPDATE_TIME,
@@ -10,10 +12,13 @@ import {
 } from '../actions/playerActions';
 
 const initialState = {
+  duration: null,
   currentTrackId: null,
   currentTime: 0,
-  seekingTime: 0,
+  seekPosition: 0,
+  seekTime: 0,
   reference: null,
+  waveformRef: null,
   isPlaying: false,
   isMuted: false,
   volume: 1,
@@ -24,6 +29,11 @@ export const getCurrentTrack = (trackId) => (state) => state.tracks[trackId];
 
 function playerReducer(state = initialState, action) {
   switch (action.type) {
+    case SET_DURATION:
+      return {
+        ...state,
+        duration: action.duration,
+      };
     case SET_TRACK:
       // dispatched by onPlay and onSeek events
       return {
@@ -37,10 +47,17 @@ function playerReducer(state = initialState, action) {
         reference: action.ref,
       };
 
+    case SET_WAVEFORM:
+      return {
+        ...state,
+        waveformRef: action.waveform,
+      };
+
     case PLAY_TRACK:
       return {
         ...state,
         isPlaying: true,
+        // currentTime: action.currentTime,
       };
 
     case PAUSE_TRACK:
@@ -65,8 +82,8 @@ function playerReducer(state = initialState, action) {
     case SET_SEEKING:
       return {
         ...state,
-        currentTime: action.currentTime,
-        seekingTime: action.currentTime,
+        seekPosition: action.position,
+        seekTime: action.currentTime,
       };
 
     case END_PLAYBACK:
@@ -74,7 +91,8 @@ function playerReducer(state = initialState, action) {
         ...state,
         isPlaying: false,
         currentTime: 0,
-        seekingTime: 0,
+        seekPosition: 0,
+        seekTime: 0,
       };
 
     default:

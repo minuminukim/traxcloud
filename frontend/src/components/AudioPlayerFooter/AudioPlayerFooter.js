@@ -9,6 +9,7 @@ import Slider from '../Slider';
 import PlaybackTime from '../AudioPlayer/PlaybackTime';
 import ProgressBar from '../AudioPlayer/ProgressBar';
 import './AudioPlayerFooter.css';
+import Waveform from '../Waveform';
 
 const AudioPlayerFooter = () => {
   const dispatch = useDispatch();
@@ -28,8 +29,10 @@ const AudioPlayerFooter = () => {
   };
 
   const onPlayNext = () => {
-    const nextTrackId = queue[nextIndex];
-    dispatch(playNext(nextTrackId, nextIndex));
+    if (nextIndex !== null) {
+      const nextTrackId = queue[nextIndex];
+      dispatch(playNext(nextTrackId, nextIndex));
+    }
     // incrementPlayCount();
   };
 
@@ -46,6 +49,7 @@ const AudioPlayerFooter = () => {
     currentTrackId && (
       <footer className="footer-container">
         <div className="footer-player">
+          {/* <Waveform trackId={currentTrackId} hidden /> */}
           <Audio trackId={currentTrackId} />
           <div className="player-controls">
             <button className="player-control">

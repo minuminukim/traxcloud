@@ -1,6 +1,8 @@
 /* ----- ACTION TYPES ----- */
+export const SET_DURATION = 'player/setDuration';
 export const SET_TRACK = 'player/setTrack';
 export const SET_REFERENCE = 'player/setReference';
+export const SET_WAVEFORM = 'player/setWaveform';
 export const TOGGLE_PLAYPAUSE = 'player/togglePlay';
 export const PLAY_TRACK = 'player/playTrack';
 export const PAUSE_TRACK = 'player/pauseTrack';
@@ -10,6 +12,11 @@ export const END_PLAYBACK = 'player/endPlayback';
 export const SET_SEEKING = 'player/setSeeking';
 
 /* ----- ACTIONS ----- */
+export const setDuration = (duration) => ({
+  type: SET_DURATION,
+  duration,
+});
+
 export const setTrack = (trackId) => ({
   type: SET_TRACK,
   trackId,
@@ -18,6 +25,10 @@ export const setTrack = (trackId) => ({
 export const setReference = (ref) => ({
   type: SET_REFERENCE,
   ref,
+});
+export const setWaveform = (waveform) => ({
+  type: SET_WAVEFORM,
+  waveform,
 });
 
 export const playTrack = (trackId, index, currentTime = 0) => ({
@@ -46,8 +57,9 @@ export const updateVolume = (volume, isMuted) => ({
   volume,
 });
 
-export const setSeeking = (currentTime) => ({
+export const setSeeking = (position, currentTime) => ({
   type: SET_SEEKING,
+  position,
   currentTime,
 });
 

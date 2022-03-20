@@ -29,45 +29,45 @@ const PlayableTile = ({
   const track = useSelector((state) => state.tracks[trackId]);
   const [showOverlay, setShowOverlay] = useState(false);
 
-  const isCurrentlyPlaying = isPlaying && currentTrackId === trackId;
+  const isSelected = isPlaying && currentTrackId === trackId;
 
   // if player is active, overlay should be visible
   useEffect(() => {
-    if (isCurrentlyPlaying) setShowOverlay(true);
+    if (isSelected) setShowOverlay(true);
     else setShowOverlay(false);
-  }, [isCurrentlyPlaying]);
+  }, [isSelected]);
 
   const onMouseEnter = () => setShowOverlay(true);
   const onMouseLeave = () => {
-    if (!isCurrentlyPlaying) {
+    if (!isSelected) {
       setShowOverlay(false);
     }
   };
 
   return (
     <div className={`playable-tile ${className}`}>
-        <div
-          className={`${className} playable-tile-art`}
-          onMouseEnter={onMouseEnter}
-          onMouseLeave={onMouseLeave}
-        >
-          {showOverlay && (
-            <Overlay>
-              <PlaybackButton
-                trackId={trackId}
-                className={playbackClass}
-                size={playbackSize}
-              />
-            </Overlay>
-          )}
-          <TrackArtwork trackId={trackId} />
-        </div>
-        <div className="tile-signature">
-          <TileSignature
-            trackId={trackId}
-            title={track?.title}
-            displayName={track?.User?.displayName}
-          />
+      <div
+        className={`${className} playable-tile-art`}
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
+      >
+        {showOverlay && (
+          <Overlay className="artwork-overlay">
+            <PlaybackButton
+              trackId={trackId}
+              className={playbackClass}
+              size={playbackSize}
+            />
+          </Overlay>
+        )}
+        <TrackArtwork trackId={trackId} />
+      </div>
+      <div className="tile-signature">
+        <TileSignature
+          trackId={trackId}
+          title={track?.title}
+          displayName={track?.User?.displayName}
+        />
       </div>
     </div>
   );

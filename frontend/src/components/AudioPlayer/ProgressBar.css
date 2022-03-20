@@ -4,6 +4,22 @@
   padding: 10px 0;
 }
 
+.player-medium .player-timeline-container {
+  height: 30px;
+}
+
+.player-medium .timers-container {
+  margin-bottom: 0;
+}
+
+.player-medium .timeline-blur {
+  width: 100%;
+  height: 20px;
+  filter: blur(1.5rem);
+  /* background-color: black; */
+  border: 1px solid black;
+}
+
 .timers-container {
   display: flex;
   align-items: center;
