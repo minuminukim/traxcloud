@@ -1,6 +1,7 @@
 import { useEffect, useRef, useMemo, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setSeeking, setWaveform } from '../../actions/playerActions';
+import { editTrack } from '../../actions/trackActions';
 import usePlay from '../../hooks/usePlay';
 import WaveSurfer from 'wavesurfer.js';
 
@@ -17,19 +18,30 @@ const Waveform = ({ trackId }) => {
   useEffect(() => {
     wavesurfer.current = WaveSurfer.create({
       progressColor: '#f50',
-      waveColor: '#8c8c8c',
       backend: 'MediaElement',
       responsive: true,
       interact: true,
+      normalize: true,
       container: waveformRef.current,
       barGap: 2,
       barWidth: 2,
-      barHeight: 1.2,
       cursorColor: 'transparent',
-      height: 60,
+      barHeight: 1,
+      // height: 60,
     });
 
-    wavesurfer.current.load(track.trackUrl);
+    wavesurfer.current.load(track.trackUrl, track.peakData);
+    wavesurfer.current.on('waveform-ready', () => {
+      // if waveform data doesn't exist, we export and
+      // send to database
+      if (!track.peakData) {
+        wavesurfer.current.exportPCM(256, 100, true).then((peakData) => {
+          const updated = { ...track, peakData };
+          dispatch(editTrack(updated));
+        });
+      }
+    });
+
     wavesurfer.current.setMute(true);
 
     return () => wavesurfer.current.destroy();
