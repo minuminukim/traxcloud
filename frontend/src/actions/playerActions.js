@@ -1,5 +1,5 @@
 /* ----- ACTION TYPES ----- */
-export const ON_LOAD = 'player/onLoad';
+export const SET_DURATION = 'player/setDuration';
 export const SET_TRACK = 'player/setTrack';
 export const SET_REFERENCE = 'player/setReference';
 export const TOGGLE_PLAYPAUSE = 'player/togglePlay';
@@ -11,8 +11,8 @@ export const END_PLAYBACK = 'player/endPlayback';
 export const SET_SEEKING = 'player/setSeeking';
 
 /* ----- ACTIONS ----- */
-export const onLoad = (duration) => ({
-  type: ON_LOAD,
+export const setDuration = (duration) => ({
+  type: SET_DURATION,
   duration,
 });
 
@@ -52,9 +52,10 @@ export const updateVolume = (volume, isMuted) => ({
   volume,
 });
 
-export const setSeeking = (position) => ({
+export const setSeeking = (position, currentTime) => ({
   type: SET_SEEKING,
   position,
+  currentTime,
 });
 
 // export const playTrack = (trackId, index, currentTime = 0) => ({

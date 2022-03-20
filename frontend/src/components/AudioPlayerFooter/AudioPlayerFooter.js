@@ -2,10 +2,11 @@ import { useSelector, useDispatch } from 'react-redux';
 import { PlaybackButton, Audio } from '../AudioPlayer';
 import { IoPlaySkipForward, IoPlaySkipBack } from 'react-icons/io5';
 import { Volume, SoundBadge } from '.';
-import { playNext, playPrevious } from '../../actions/playerActions';
+import { playNext, playPrevious, updateTime } from '../../actions/playerActions';
 import usePlay from '../../hooks/usePlay';
 import ProgressBar from '../AudioPlayer/ProgressBar';
 import './AudioPlayerFooter.css';
+import Waveform from '../Waveform';
 
 const AudioPlayerFooter = () => {
   const dispatch = useDispatch();
@@ -35,7 +36,8 @@ const AudioPlayerFooter = () => {
     currentTrackId && (
       <footer className="footer-container">
         <div className="footer-player">
-          {/* <Audio trackId={currentTrackId} /> */}
+          {/* <Waveform trackId={currentTrackId} isFooter /> */}
+          <Audio trackId={currentTrackId} />
           <div className="player-controls">
             <button className="player-control">
               <IoPlaySkipBack onClick={onPlayPrevious} />

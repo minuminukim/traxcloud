@@ -1,6 +1,5 @@
 import { useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import Waveform from '../Waveform';
 import {
   setReference,
   updateTime,
@@ -12,7 +11,7 @@ function Audio({ trackId }) {
   const dispatch = useDispatch();
   const track = useSelector((state) => state.tracks[trackId]);
   const { queue, nextIndex } = useSelector((state) => state.queue);
-  const { isPlaying, currentTrackId, seekingTime, reference, volume } =
+  const { isPlaying, currentTrackId, seekTime, reference, volume } =
     useSelector((state) => state.player);
 
   const audioRef = useRef(null);
@@ -24,8 +23,8 @@ function Audio({ trackId }) {
   }, [isPlaying, currentTrackId, trackId, dispatch]);
 
   useEffect(() => {
-    audioRef.current.currentTime = seekingTime;
-  }, [seekingTime]);
+    audioRef.current.currentTime = seekTime;
+  }, [seekTime]);
 
   useEffect(() => {
     audioRef.current.volume = volume;

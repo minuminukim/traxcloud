@@ -9,19 +9,15 @@ import './ProgressBar.css';
 const ProgressBar = ({ trackId, transparent = false }) => {
   const dispatch = useDispatch();
   const track = useSelector((state) => state.tracks[trackId]);
-  const { currentTime, seekingTime } = useSelector((state) => state.player);
+  const { currentTime, duration, seekPosition, reference } = useSelector((state) => state.player);
   const { incrementPlayCount, isSelected, selectTrack, setPlay } = usePlay(
     +trackId
   );
 
-  // TODO: convert currentTime into a seek.position between 0-1 for the waveform
-
   const onScrub = (e) => {
     selectTrack();
     const position = +e.target.value / track.duration;
-    // setSeekingValue(e.target.value)
-    dispatch(setSeeking(position));
-    // dispatch(setSeeking(e.target.value));
+    dispatch(setSeeking(position, +e.target.value));
     setPlay();
     incrementPlayCount();
   };
@@ -51,7 +47,7 @@ const ProgressBar = ({ trackId, transparent = false }) => {
         // min="0"
         // max="1"
         // step="0.02"
-        // value={isSelected ? seekingTime : 0}
+        // value={isSelected ? seekPosition : 0}
         onChange={onScrub}
       />
     </div>

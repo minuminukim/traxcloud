@@ -1,5 +1,5 @@
 import {
-  ON_LOAD,
+  SET_DURATION,
   SET_TRACK,
   SET_REFERENCE,
   PLAY_TRACK,
@@ -14,7 +14,8 @@ const initialState = {
   duration: null,
   currentTrackId: null,
   currentTime: 0,
-  seekingTime: 0,
+  seekPosition: 0,
+  seekTime: 0,
   reference: null,
   isPlaying: false,
   isMuted: false,
@@ -26,6 +27,11 @@ export const getCurrentTrack = (trackId) => (state) => state.tracks[trackId];
 
 function playerReducer(state = initialState, action) {
   switch (action.type) {
+    case SET_DURATION:
+      return {
+        ...state,
+        duration: action.duration,
+      };
     case SET_TRACK:
       // dispatched by onPlay and onSeek events
       return {
@@ -43,6 +49,7 @@ function playerReducer(state = initialState, action) {
       return {
         ...state,
         isPlaying: true,
+        // currentTime: action.currentTime,
       };
 
     case PAUSE_TRACK:
@@ -67,7 +74,8 @@ function playerReducer(state = initialState, action) {
     case SET_SEEKING:
       return {
         ...state,
-        seekingTime: action.position,
+        seekPosition: action.position,
+        seekTime: action.currentTime,
       };
 
     case END_PLAYBACK:
@@ -75,7 +83,8 @@ function playerReducer(state = initialState, action) {
         ...state,
         isPlaying: false,
         currentTime: 0,
-        seekingTime: 0,
+        seekPosition: 0,
+        seekTime: 0,
       };
 
     default:

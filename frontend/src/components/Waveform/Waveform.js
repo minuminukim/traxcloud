@@ -1,6 +1,11 @@
 import { useEffect, useRef, useMemo, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { setReference, updateTime } from '../../actions/playerActions';
+import {
+  setReference,
+  setDuration,
+  updateTime,
+  setSeeking,
+} from '../../actions/playerActions';
 import usePlay from '../../hooks/usePlay';
 import WaveSurfer from 'wavesurfer.js';
 
@@ -9,61 +14,73 @@ const Waveform = ({ trackId, children }) => {
   const track = useSelector((state) => state.tracks[trackId]);
   const waveformRef = useRef(null);
   const wavesurfer = useRef(null);
-  const { isPlaying, volume, reference, seekingTime } = useSelector(
-    (state) => state.player
-  );
+  const { seekPosition, currentTime } = useSelector((state) => state.player);
   const { selectTrack, isSelected, setPlay } = usePlay(trackId);
+  const [isLocalSeek, setLocalSeek] = useState(false);
 
+  // Initialize waveform
   useEffect(() => {
     wavesurfer.current = WaveSurfer.create({
       container: waveformRef.current,
       progressColor: '#f50',
       backend: 'MediaElement',
       responsive: true,
+      interact: true,
     });
     wavesurfer.current.load(track.trackUrl);
 
     return () => wavesurfer.current.destroy();
   }, [track.trackUrl]);
 
-  useEffect(() => {
-    isSelected && isPlaying
-      ? wavesurfer.current.play()
-      : wavesurfer.current.pause();
-  }, [isSelected, isPlaying, dispatch]);
+  // useEffect(() => {
+  //   if (isSelected) {
+  //     wavesurfer.current.setCurrentTime(currentTime);
+  //     // wavesurfer.current.seekTo(position);
+  //   }
+  // }, [isSelected, currentTime]);
 
-  useEffect(() => {
-    wavesurfer.current.setVolume(volume);
-  }, [volume]);
+  // When footer slider seeking
+  // useEffect(() => {
+  //   if (isSelected) {
+  //     if (isLocalSeek) {
+  //       const time = wavesurfer.current.getCurrentTime();
+  //       const position = time / track.duration;
+  //       wavesurfer.current.seekTo(position);
+  //       dispatch(setSeeking(position, time));
+  //       setLocalSeek(false);
+  //       return;
+  //     }
+  //     wavesurfer.current.seekTo(seekPosition || 0);
+  //   }
+  // }, [isLocalSeek, seekPosition]);
 
-  useEffect(() => {
-    const onAudioProcess = () =>
-      dispatch(updateTime(wavesurfer.current.getCurrentTime()));
+  const updateCurrentTrack = (e) => {
+    if (!isSelected) {
+      selectTrack();
+      setPlay();
+    }
 
-    const onPlay = () => {
-      if (reference === null || reference !== wavesurfer) {
-        dispatch(setReference(wavesurfer));
-      }
-    };
-
-    wavesurfer.current.on('audioprocess', onAudioProcess);
-    wavesurfer.current.on('play', onPlay);
-
-    return () => wavesurfer.current.unAll();
-    // return () => wavesurfer.current.un('audioprocess', onAudioProcess);
-  }, [reference, wavesurfer]);
-
-  useEffect(() => {
-    wavesurfer.current.seekTo(seekingTime);
-  }, [seekingTime]);
-
-  const updateCurrentTrack = () => selectTrack();
+    setLocalSeek(true);
+    const offsetX =
+      e.clientX - waveformRef.current.getBoundingClientRect().left;
+    const offsetWidth = waveformRef.current.offsetWidth;
+    const position = offsetX / offsetWidth;
+    const time = track?.duration * position;
+    console.log('position', position, 'time', time);
+    console.log('e', e);
+    console.log('offsetX', offsetX);
+    console.log('waveformRef', offsetWidth);
+    // const time = wavesurfer.current.getCurrentTime();
+    // const position = time / track.duration;
+    // wavesurfer.current.seekTo(position);
+    // dispatch(setSeeking(position, time));
+  };
 
   return (
     <div
       className="waveform-container"
       ref={waveformRef}
-      onClick={updateCurrentTrack}
+      onMouseDown={updateCurrentTrack}
     >
       {children}
     </div>

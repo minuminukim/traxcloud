@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { playTrack, setTrack } from '../actions/playerActions';
+import { playTrack, setTrack, updateTime } from '../actions/playerActions';
 import { editTrack } from '../actions/trackActions';
 
 const usePlay = (trackId) => {

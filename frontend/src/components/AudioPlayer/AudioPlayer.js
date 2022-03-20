@@ -27,35 +27,33 @@ const AudioPlayer = ({
   const isCurrent = isCurrentTrack(+trackId, currentTrackId);
 
   return (
-    // <Waveform trackId={trackId}>
-    <div className={`player track-${track.id} player-${size}`}>
-      {withHeader && <TrackHeader trackId={trackId} />}
-      <div className="player-main">
-        {withArtwork && (
-          <TrackArtwork
-            className={`track-artwork artwork-${size}`}
-            trackId={trackId}
-          />
-        )}
-        <div className="player-content">
-          <div className="player-header">
-            <PlaybackButton size={size} trackId={trackId} />
-            <TrackDetails trackId={track.id} size={size} />
-          </div>
-          <Waveform trackId={trackId} />
-          <ProgressBar trackId={trackId} isCurrent={isCurrent} />
-          {withCommentField && sessionUser && (
-            <CommentField
+      <div className={`player track-${track.id} player-${size}`}>
+        {withHeader && <TrackHeader trackId={trackId} />}
+        <div className="player-main">
+          {withArtwork && (
+            <TrackArtwork
+              className={`track-artwork artwork-${size}`}
               trackId={trackId}
-              duration={track.duration}
-              height={32}
             />
           )}
-          {withFooter && <PlayerFooter trackId={trackId} />}
+          <div className="player-content">
+            <div className="player-header">
+              <PlaybackButton size={size} trackId={trackId} />
+              <TrackDetails trackId={track.id} size={size} />
+            </div>
+            <Waveform trackId={trackId} />
+            <ProgressBar trackId={trackId} isCurrent={isCurrent} />
+            {withCommentField && sessionUser && (
+              <CommentField
+                trackId={trackId}
+                duration={track.duration}
+                height={32}
+              />
+            )}
+            {withFooter && <PlayerFooter trackId={trackId} />}
+          </div>
         </div>
       </div>
-    </div>
-    // </Waveform>
   );
 };
 
