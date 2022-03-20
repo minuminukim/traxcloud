@@ -52,7 +52,7 @@ const PlayableTile = ({
         onMouseLeave={onMouseLeave}
       >
         {showOverlay && (
-          <Overlay>
+          <Overlay className="artwork-overlay">
             <PlaybackButton
               trackId={trackId}
               className={playbackClass}

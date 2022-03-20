@@ -1,8 +1,10 @@
 import { useEffect, useRef, useMemo, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { setSeeking } from '../../actions/playerActions';
+import { setSeeking, setWaveform } from '../../actions/playerActions';
 import usePlay from '../../hooks/usePlay';
 import WaveSurfer from 'wavesurfer.js';
+import Slider from '../Slider';
+import { Overlay } from '../TrackArtwork';
 import { options } from './options';
 
 const Waveform = ({ trackId }) => {
@@ -10,32 +12,42 @@ const Waveform = ({ trackId }) => {
   const track = useSelector((state) => state.tracks[trackId]);
   const waveformRef = useRef(null);
   const wavesurfer = useRef(null);
-  const { seekPosition, currentTime } = useSelector((state) => state.player);
+  const { seekPosition, currentTime, isPlaying, incrementPlayCount } =
+    useSelector((state) => state.player);
   const { selectTrack, isSelected, setPlay } = usePlay(trackId);
 
   // Initialize waveform
   useEffect(() => {
     wavesurfer.current = WaveSurfer.create({
-      ...options,
+      progressColor: '#f50',
+      waveColor: '#8c8c8c',
+      backend: 'MediaElement',
+      responsive: true,
+      interact: true,
       container: waveformRef.current,
+      barGap: 2,
+      barWidth: 2,
+      cursorColor: 'transparent',
     });
+
     wavesurfer.current.load(track.trackUrl);
+    wavesurfer.current.setMute(true);
 
     return () => wavesurfer.current.destroy();
   }, [track.trackUrl]);
-
-  // Sync local time with application time
-  useEffect(() => {
-    if (isSelected) {
-      wavesurfer.current.setCurrentTime(currentTime);
-    }
-  }, [isSelected, currentTime]);
 
   useEffect(() => {
     if (isSelected) {
       wavesurfer.current.seekTo(seekPosition || 0);
     }
   }, [isSelected, seekPosition]);
+
+  // Send waveform ref to store
+  useEffect(() => {
+    if (isSelected && isPlaying) {
+      dispatch(setWaveform(wavesurfer));
+    }
+  }, [isSelected, isPlaying]);
 
   const onSeek = (e) => {
     // Synthetic mouse event doesn't have offsetX property

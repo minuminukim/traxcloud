@@ -2,6 +2,7 @@ import {
   SET_DURATION,
   SET_TRACK,
   SET_REFERENCE,
+  SET_WAVEFORM,
   PLAY_TRACK,
   PAUSE_TRACK,
   UPDATE_TIME,
@@ -17,6 +18,7 @@ const initialState = {
   seekPosition: 0,
   seekTime: 0,
   reference: null,
+  waveformRef: null,
   isPlaying: false,
   isMuted: false,
   volume: 1,
@@ -43,6 +45,12 @@ function playerReducer(state = initialState, action) {
       return {
         ...state,
         reference: action.ref,
+      };
+
+    case SET_WAVEFORM:
+      return {
+        ...state,
+        waveformRef: action.waveform,
       };
 
     case PLAY_TRACK:

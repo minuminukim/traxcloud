@@ -5,7 +5,7 @@ import { editTrack } from '../actions/trackActions';
 const usePlay = (trackId) => {
   const dispatch = useDispatch();
   const sessionUser = useSelector((state) => state.session.user);
-  const { currentTrackId } = useSelector((state) => state.player);
+  const { currentTrackId, waveformRef } = useSelector((state) => state.player);
   const track = useSelector((state) => state.tracks[trackId]);
   const { queue } = useSelector((state) => state.queue);
 
@@ -20,6 +20,9 @@ const usePlay = (trackId) => {
   const selectTrack = () => {
     // If a new track has been selected
     if (!isSelected) {
+      if (waveformRef) {
+        waveformRef.current.setCurrentTime(0);
+      }
       dispatch(setTrack(trackId));
     }
   };

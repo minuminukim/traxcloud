@@ -11,8 +11,14 @@ function Audio({ trackId }) {
   const dispatch = useDispatch();
   const track = useSelector((state) => state.tracks[trackId]);
   const { queue, nextIndex } = useSelector((state) => state.queue);
-  const { isPlaying, currentTrackId, seekTime, reference, volume } =
-    useSelector((state) => state.player);
+  const {
+    isPlaying,
+    currentTrackId,
+    seekTime,
+    reference,
+    volume,
+    waveformRef,
+  } = useSelector((state) => state.player);
 
   const audioRef = useRef(null);
 
@@ -32,6 +38,8 @@ function Audio({ trackId }) {
 
   const onTimeUpdate = () => {
     dispatch(updateTime(audioRef.current.currentTime));
+    waveformRef.current.setCurrentTime(audioRef.current.currentTime);
+    // waveformRef.current.setCurrentTime(audioRef.current.currentTime);
   };
 
   const onEnded = () => {

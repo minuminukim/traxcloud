@@ -2,6 +2,7 @@
 export const SET_DURATION = 'player/setDuration';
 export const SET_TRACK = 'player/setTrack';
 export const SET_REFERENCE = 'player/setReference';
+export const SET_WAVEFORM = 'player/setWaveform';
 export const TOGGLE_PLAYPAUSE = 'player/togglePlay';
 export const PLAY_TRACK = 'player/playTrack';
 export const PAUSE_TRACK = 'player/pauseTrack';
@@ -24,6 +25,10 @@ export const setTrack = (trackId) => ({
 export const setReference = (ref) => ({
   type: SET_REFERENCE,
   ref,
+});
+export const setWaveform = (waveform) => ({
+  type: SET_WAVEFORM,
+  waveform,
 });
 
 export const playTrack = (trackId, index, currentTime = 0) => ({

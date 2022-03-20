@@ -2,7 +2,11 @@ import { useSelector, useDispatch } from 'react-redux';
 import { PlaybackButton, Audio } from '../AudioPlayer';
 import { IoPlaySkipForward, IoPlaySkipBack } from 'react-icons/io5';
 import { Volume, SoundBadge } from '.';
-import { playNext, playPrevious, updateTime } from '../../actions/playerActions';
+import {
+  playNext,
+  playPrevious,
+  updateTime,
+} from '../../actions/playerActions';
 import usePlay from '../../hooks/usePlay';
 import ProgressBar from '../AudioPlayer/ProgressBar';
 import './AudioPlayerFooter.css';
@@ -18,8 +22,10 @@ const AudioPlayerFooter = () => {
   // const { incrementPlayCount } = usePlay(currentTrackId);
 
   const onPlayNext = () => {
-    const nextTrackId = queue[nextIndex];
-    dispatch(playNext(nextTrackId, nextIndex));
+    if (nextIndex !== null) {
+      const nextTrackId = queue[nextIndex];
+      dispatch(playNext(nextTrackId, nextIndex));
+    }
     // incrementPlayCount();
   };
 

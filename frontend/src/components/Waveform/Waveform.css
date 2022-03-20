@@ -1,3 +1,25 @@
 .waveform-container {
-  cursor: pointer !important;
+  display: flex;
+  flex-direction: column-reverse;
+  position: relative;
+  z-index: 1;
+  background-color: black;
+}
+.waveform-wrapper {
+  position: relative;
+}
+
+.waveform-overlay {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 840px;
+  height: 120px;
+  z-index: 10000;
+  border: 40px solid black;
+  cursor: pointer;
 }
