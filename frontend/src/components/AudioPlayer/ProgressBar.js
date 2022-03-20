@@ -25,17 +25,9 @@ const ProgressBar = ({ trackId, transparent = false }) => {
         className={`timers-container ${isCurrentlyPlaying ? 'between' : 'end'}`}
       >
         {isCurrentlyPlaying && (
-          <PlaybackTime
-            className="timer"
-            transparent={transparent}
-            time={currentTime}
-          />
+          <PlaybackTime className="timer" time={currentTime} />
         )}
-        <PlaybackTime
-          className="duration"
-          transparent={transparent}
-          time={track.duration}
-        />
+        <PlaybackTime className="duration" time={track.duration} />
       </div>
       <Slider
         className="progress-bar"

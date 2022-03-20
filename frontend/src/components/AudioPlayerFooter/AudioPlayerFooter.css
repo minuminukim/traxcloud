@@ -14,7 +14,7 @@
 .footer-player {
   display: flex;
   align-items: center;
-  width: 100%;
+  /* width: 100%; */
   max-width: 1240px;
   padding: 0 12px;
 }
@@ -43,29 +43,27 @@
   margin-left: 0;
 }
 
-.footer-player .player-timeline-container {
+.footer-slider {
+  display: flex;
   align-items: center;
-  width: 632px;
+  margin: 0;
+  padding-bottom: 4px;
 }
 
-.footer-player .progress-bar {
-  position: relative;
-  bottom: 4px;
+.footer-slider .slider-container {
   width: 512px;
-  margin: 0;
-}
-
-.footer-player .timers-container {
-  position: relative;
-  top: 10px;
-  margin: 0;
-  padding: 0 15px;
+  padding: 0 10px;
 }
 
 p.transparent {
   background-color: transparent;
   font-size: 14px;
+  /* margin-right: 20px; */
   border: 0;
+}
+
+.footer-slider .duration-text {
+  margin-right: 10px;
 }
 
 .soundbadge {
@@ -83,6 +81,11 @@ p.transparent {
   flex-direction: column;
   width: 223px;
   max-width: 223px;
+  height: 30px;
+}
+
+.footer-player .soundbadge a {
+  font-size: 13px;
 }
 
 .soundbadge-links a {
