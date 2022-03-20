@@ -1,4 +1,10 @@
-import { LOAD_QUEUE, APPEND_QUEUE, RESET_QUEUE } from '../actions/queueActions';
+import {
+  LOAD_QUEUE,
+  APPEND_QUEUE,
+  RESET_QUEUE,
+  LOAD_WAVEFORM,
+  REMOVE_WAVEFORM,
+} from '../actions/queueActions';
 
 import { PLAY_TRACK } from '../actions/playerActions';
 
@@ -7,6 +13,7 @@ const initialState = {
   previousIndex: null,
   currentIndex: null,
   nextIndex: null,
+  waveformRefs: {},
 };
 
 /* ----- SELECTORS ----- */
@@ -34,6 +41,24 @@ const queueReducer = (state = initialState, action) => {
 
     case RESET_QUEUE:
       return initialState;
+
+    case LOAD_WAVEFORM:
+      return {
+        ...state,
+        waveformRefs: {
+          ...state.waveformRefs,
+          [action.trackId]: action.waveform,
+        },
+      };
+
+    case REMOVE_WAVEFORM:
+      const next = { ...state.waveformRefs };
+      delete next[action.trackId];
+
+      return {
+        ...state,
+        waveformRefs: next,
+      };
 
     case PLAY_TRACK:
       const { index } = action;

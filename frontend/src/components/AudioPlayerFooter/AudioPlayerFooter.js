@@ -19,11 +19,11 @@ const AudioPlayerFooter = () => {
     (state) => state.queue
   );
 
-  const { incrementPlayCount, isCurrentlyPlaying, setPlay } =
-    usePlay(currentTrackId);
+  const { incrementPlayCount, isSelected, setPlay } = usePlay(currentTrackId);
 
   const onScrub = (e) => {
-    dispatch(setSeeking(e.target.value));
+    const position = +e.target.value / track.duration;
+    dispatch(setSeeking(position, +e.target.value));
     setPlay();
     incrementPlayCount();
   };
@@ -72,7 +72,7 @@ const AudioPlayerFooter = () => {
               min="1"
               max={track.duration || track.duration.toString()}
               step="1"
-              value={isCurrentlyPlaying ? currentTime : 0}
+              value={isSelected ? currentTime : 0}
               onChange={onScrub}
             />
             <PlaybackTime

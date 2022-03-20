@@ -22,9 +22,9 @@ const SingleTrackPage = () => {
     (async () => {
       try {
         const fetchedTrack = await dispatch(fetchSingleTrack(+trackId));
-
-        if (!queue.length) {
-          dispatch(setQueue([fetchedTrack.id]));
+        const index = queue.indexOf(fetchedTrack.id);
+        if (!queue.length || index === -1) {
+          dispatch(setQueue([...queue, fetchedTrack.id]));
         }
 
         setLoading(false);
