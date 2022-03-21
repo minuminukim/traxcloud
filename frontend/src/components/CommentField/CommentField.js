@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { postComment } from '../../actions/commentActions';
 import ProfilePicture from '../common/ProfilePicture';
 import InputField from '../common/InputField';
+import { AlertList } from '../Alert';
 import './CommentField.css';
 
 const generateRandomInt = (max) => {
@@ -15,10 +16,14 @@ const CommentField = ({ trackId, duration, height }) => {
   const { user } = useSelector((state) => state.session);
   const [body, setBody] = useState('');
   const [inProgress, setInProgress] = useState(false);
+  const [errors, setErrors] = useState([]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
     if (!body.length || inProgress) return;
+
+    setErrors([]);
 
     const commentData = {
       userId: user.id,
@@ -34,8 +39,12 @@ const CommentField = ({ trackId, duration, height }) => {
         await dispatch(postComment(commentData));
       } catch (error) {
         console.log('error posting comment', error);
+        const data = await error.json();
+        if (data && data.errors) {
+          setErrors(Object.values(data.errors));
+        }
       } finally {
-        setBody('');
+        if (!errors.length) setBody('');
         setInProgress(false);
       }
     })();
@@ -53,20 +62,23 @@ const CommentField = ({ trackId, duration, height }) => {
   const handleInputChange = (e) => setBody(e.target.value);
 
   return (
-    <form
-      className={`comment-field comment-field-${height}`}
-      onSubmit={handleSubmit}
-    >
-      <ProfilePicture user={user} size="medium" shape="square" />
-      <InputField
-        id="comment"
-        placeholder="Write a comment"
-        value={body}
-        onChange={handleInputChange}
-        onKeyUp={handleKeyUp}
-      />
-      <input type="submit" hidden ref={formRef} />
-    </form>
+    <>
+      <AlertList messages={errors} />
+      <form
+        className={`comment-field comment-field-${height}`}
+        onSubmit={handleSubmit}
+      >
+        <ProfilePicture user={user} size="medium" shape="square" />
+        <InputField
+          id="comment"
+          placeholder="Write a comment"
+          value={body}
+          onChange={handleInputChange}
+          onKeyUp={handleKeyUp}
+        />
+        <input type="submit" hidden ref={formRef} />
+      </form>
+    </>
   );
 };
 
