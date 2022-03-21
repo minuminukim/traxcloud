@@ -35,23 +35,23 @@ const GlobalPlayer = () => {
     incrementPlayCount();
   };
 
-  const onPlayNext = async () => {
+  const onPlayNext = () => {
     if (nextIndex !== null) {
       const nextTrackId = queue[nextIndex];
       selectTrack(nextTrackId);
       dispatch(updateTime(0));
       dispatch(setSeeking(0, 0));
-      await dispatch(playNext(nextTrackId, nextIndex));
+      dispatch(playNext(nextTrackId, nextIndex));
     }
     // incrementPlayCount();
   };
 
-  const onPlayPrevious = async () => {
+  const onPlayPrevious = () => {
     const previousTrackId = queue[previousIndex];
     selectTrack(previousTrackId);
     dispatch(updateTime(0));
     dispatch(setSeeking(0, 0));
-    await dispatch(playPrevious(previousTrackId, previousIndex));
+    dispatch(playPrevious(previousTrackId, previousIndex));
   };
 
   if (!currentTrackId) {

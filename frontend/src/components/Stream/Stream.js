@@ -8,14 +8,25 @@ import './Stream.css';
 
 const Stream = () => {
   const [isLoading, setIsLoading] = useState(true);
+  const [streamIds, setStreamIds] = useState([]);
   const dispatch = useDispatch();
-  const { queue } = useSelector((state) => state.queue);
+  const { currentTrackId, isPlaying } = useSelector((state) => state.player);
 
   useEffect(() => {
     (async () => {
       try {
         const tracks = await dispatch(fetchTracks());
-        dispatch(setQueue(tracks.map(({ id }) => id).sort((a, b) => b - a)));
+        const trackIds = [...tracks.map(({ id }) => id)].sort((a, b) => b - a);
+        setStreamIds(trackIds);
+
+        // A track should only appear in the queue once
+        const uniqueIds =
+          currentTrackId && isPlaying
+            ? trackIds.filter((id) => id !== currentTrackId)
+            : trackIds;
+
+        dispatch(setQueue(uniqueIds));
+        // dispatch(setQueue(tracks.map(({ id }) => id).sort((a, b) => b - a)));
         await Promise.all(
           tracks.map(
             async ({ id }) => await dispatch(fetchCommentsByTrackId(id))
@@ -34,7 +45,7 @@ const Stream = () => {
         <h1 className="heading-light">
           Hear the latest posts from our creators:
         </h1>
-        {queue.map((id, i) => (
+        {streamIds.map((id, i) => (
           <div className="stream-row" key={`row-${id}`}>
             <AudioPlayer
               key={id}

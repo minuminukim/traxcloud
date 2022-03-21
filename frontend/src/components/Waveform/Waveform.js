@@ -31,7 +31,7 @@ const Waveform = ({ trackId }) => {
       progressColor: '#f50',
       backend: 'MediaElement',
       responsive: true,
-      interact: true,
+      interact: false,
       normalize: true,
       barGap: 2,
       barWidth: 2,
@@ -80,20 +80,34 @@ const Waveform = ({ trackId }) => {
     }
   }, [seekPosition, currentTrackId, trackId]);
 
-  // Send waveform ref to store
-  // useEffect(() => {
-  //   if (isSelected) {
-  //     dispatch(setWaveform(wavesurfer));
-  //   }
-  // }, [isSelected, dispatch, wavesurfer]);
-
-  const onSeek = (e) => {
-    // Synthetic mouse event doesn't have offsetX property
+  const calculateSeekPosition = (e) => {
+    /**
+     * Synthetic mouse event doesn't have offsetX property,
+     * so we calculate the difference between e.clientX
+     * and containerRef's offsetLeft
+     */
     const offsetX =
       e.clientX - containerRef.current.getBoundingClientRect().left;
     const offsetWidth = containerRef.current.offsetWidth;
 
-    // calculate mouse event position and time to seek to
+    // Calculate mouse event position and time to seek to
+    const position = offsetX / offsetWidth;
+    const time = track?.duration * position;
+
+    return { position, time };
+  };
+
+  const onSeek = (e) => {
+    /**
+     * Synthetic mouse event doesn't have offsetX property,
+     * so we calculate the difference between e.clientX
+     * and containerRef's offsetLeft
+     */
+    const offsetX =
+      e.clientX - containerRef.current.getBoundingClientRect().left;
+    const offsetWidth = containerRef.current.offsetWidth;
+
+    // Calculate mouse event position and time to seek to
     const position = offsetX / offsetWidth;
     const time = track?.duration * position;
 

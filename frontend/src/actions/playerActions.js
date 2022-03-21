@@ -67,14 +67,14 @@ export const setSeeking = (position, currentTime) => ({
 
 // })
 
-export const playNext = (nextTrackId, nextIndex) => async (dispatch) => {
+export const playNext = (nextTrackId, nextIndex) => (dispatch) => {
   if (nextIndex !== null) {
     dispatch(setTrack(nextTrackId, nextIndex));
     dispatch(playTrack(nextTrackId, nextIndex));
   }
 };
 
-export const playPrevious = (previousId, previousIndex) => async (dispatch) => {
+export const playPrevious = (previousId, previousIndex) => (dispatch) => {
   if (previousIndex !== null) {
     dispatch(setTrack(previousId, previousIndex));
     dispatch(playTrack(previousId, previousIndex));
