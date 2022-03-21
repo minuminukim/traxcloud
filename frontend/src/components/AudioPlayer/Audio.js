@@ -1,26 +1,23 @@
 import { useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import usePlay from '../../hooks/usePlay';
 import {
   setReference,
   updateTime,
+  setSeeking,
   playNext,
   endPlayback,
 } from '../../actions/playerActions';
 
 function Audio({ trackId }) {
   const dispatch = useDispatch();
+  const audioRef = useRef(null);
   const track = useSelector((state) => state.tracks[trackId]);
   const { queue, nextIndex } = useSelector((state) => state.queue);
-  const {
-    isPlaying,
-    currentTrackId,
-    seekTime,
-    reference,
-    volume,
-    waveformRef,
-  } = useSelector((state) => state.player);
+  const { isPlaying, currentTrackId, seekTime, reference, volume } =
+    useSelector((state) => state.player);
 
-  const audioRef = useRef(null);
+  const { selectTrack } = usePlay();
 
   useEffect(() => {
     isPlaying && currentTrackId === trackId
@@ -43,10 +40,13 @@ function Audio({ trackId }) {
   const onEnded = async () => {
     if (nextIndex === null) {
       dispatch(endPlayback());
+    } else {
+      const nextId = queue[nextIndex];
+      selectTrack(nextId);
+      dispatch(updateTime(0));
+      dispatch(setSeeking(0, 0));
+      await dispatch(playNext(nextId, nextIndex));
     }
-
-    const nextId = queue[nextIndex];
-    await dispatch(playNext(nextId, nextIndex));
   };
 
   const onPlay = () => {
