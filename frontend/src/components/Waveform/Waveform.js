@@ -29,7 +29,7 @@ const Waveform = ({ trackId }) => {
     wavesurfer.current = WaveSurfer.create({
       container: containerRef.current,
       progressColor: '#f50',
-      backend: 'MediaElement',
+      backend: 'MediaElementWebAudio',
       responsive: true,
       interact: false,
       normalize: true,
