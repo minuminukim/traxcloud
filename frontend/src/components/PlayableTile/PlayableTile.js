@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { PlaybackButton } from '../AudioPlayer';
-import { TrackArtwork, Overlay } from '../TrackArtwork';
+import TrackArtwork from '../TrackArtwork';
+import Overlay from '../Overlay';
 import './PlayableTile.css';
 
 const TileSignature = ({ trackId, title, displayName, userId }) => {
@@ -51,7 +52,7 @@ const PlayableTile = ({
         onMouseLeave={onMouseLeave}
       >
         {showOverlay && (
-          <Overlay className="artwork-overlay">
+          <Overlay className="artwork-overlay absolute">
             <PlaybackButton
               trackId={trackId}
               className={playbackClass}

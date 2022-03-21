@@ -17,8 +17,4 @@ const TrackArtwork = ({ className, trackId, ...rest }) => {
   );
 };
 
-export const Overlay = ({ className, children }) => {
-  return <span className={`overlay ${className}`}>{children}</span>;
-};
-
 export default TrackArtwork;

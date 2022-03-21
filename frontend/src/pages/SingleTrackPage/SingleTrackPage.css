@@ -4,7 +4,12 @@
 
 .single-track-container {
   position: relative;
-  background-size: 1px;
+  overflow: hidden;
+}
+
+.single-track-container .player,
+.artwork-large {
+  z-index: 4;
 }
 
 .single-track-page-main {

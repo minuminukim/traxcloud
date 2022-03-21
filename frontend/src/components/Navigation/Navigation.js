@@ -25,9 +25,11 @@ const Navigation = () => {
       <li className="nav-item-dropdown">
         <ProfileButton user={sessionUser} />
       </li>
-      <li className="nav-item pointer signout" onClick={handleLogout}>
-        Sign out
-      </li>
+      <Button
+        label="Sign Out"
+        className="nav-button transparent"
+        onClick={handleLogout}
+      />
     </div>
   );
 

@@ -15,11 +15,11 @@
   width: 100%;
   grid-template-columns: auto 340px;
   padding: 30px 20px;
-  background: linear-gradient(
+  /* background: linear-gradient(
     90deg,
     rgba(255, 255, 255, 1) 0%,
     rgba(18, 23, 19, 0.7466591282894737) 100%
-  );
+  ); */
 }
 
 .player-large {
