@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { playTrack, setTrack, updateTime } from '../actions/playerActions';
 import { editTrack } from '../actions/trackActions';
@@ -8,22 +9,24 @@ const usePlay = (trackId) => {
   const { currentTrackId, waveformRef } = useSelector((state) => state.player);
   const track = useSelector((state) => state.tracks[trackId]);
   const { queue } = useSelector((state) => state.queue);
-
   const isSelected = trackId === currentTrackId;
   const trackBelongsToUser = sessionUser?.id === track?.userId;
 
-  const setPlay = () => {
+  const setPlaying = () => {
     const trackIndex = queue.indexOf(trackId);
     dispatch(playTrack(trackId, trackIndex));
   };
 
-  const selectTrack = (id) => {
+  const selectTrack = (nextId) => {
     // If a new track has been selected
     if (!isSelected) {
-      if (waveformRef) {
-        waveformRef.current.setCurrentTime(0);
-      }
-      dispatch(setTrack(id || trackId));
+      // if (waveformRef?.current) {
+      //   waveformRef.current.stop()
+      //   // waveformRef.current.setCurrentTime(0);
+      //   // waveformRef.current.seekTo(0);
+      // }
+
+      dispatch(setTrack(nextId));
     }
   };
 
@@ -40,7 +43,12 @@ const usePlay = (trackId) => {
     dispatch(editTrack(updatedTrack));
   };
 
-  return { incrementPlayCount, isSelected, selectTrack, setPlay };
+  return {
+    incrementPlayCount,
+    isSelected,
+    selectTrack,
+    setPlaying,
+  };
 };
 
 export default usePlay;

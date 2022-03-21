@@ -38,8 +38,6 @@ function Audio({ trackId }) {
 
   const onTimeUpdate = () => {
     dispatch(updateTime(audioRef.current.currentTime));
-    // waveformRef.current.setCurrentTime(audioRef.current.currentTime);
-    // waveformRef.current.setCurrentTime(audioRef.current.currentTime);
   };
 
   const onEnded = async () => {

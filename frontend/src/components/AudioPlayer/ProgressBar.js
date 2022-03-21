@@ -12,7 +12,7 @@ const ProgressBar = ({ trackId, transparent = false }) => {
   const { currentTime, duration, seekPosition, reference } = useSelector(
     (state) => state.player
   );
-  const { incrementPlayCount, isSelected, selectTrack, setPlay } = usePlay(
+  const { incrementPlayCount, isSelected, selectTrack, setPlaying } = usePlay(
     +trackId
   );
 
@@ -20,18 +20,14 @@ const ProgressBar = ({ trackId, transparent = false }) => {
     selectTrack(trackId);
     const position = +e.target.value / track.duration;
     dispatch(setSeeking(position, +e.target.value));
-    setPlay();
+    setPlaying();
     incrementPlayCount();
   };
 
   return (
     <div className="player-timeline-container">
-      <div
-        className={`timers-container ${isSelected ? 'between' : 'end'}`}
-      >
-        {isSelected && (
-          <PlaybackTime className="timer" time={currentTime} />
-        )}
+      <div className={`timers-container ${isSelected ? 'between' : 'end'}`}>
+        {isSelected && <PlaybackTime className="timer" time={currentTime} />}
         <PlaybackTime className="duration" time={track.duration} />
       </div>
       {/* <div className="timeline-blur">a</div> */}

@@ -21,7 +21,7 @@ const Waveform = ({ trackId }) => {
   const { seekPosition, isPlaying, isSelected } = useSelector(
     (state) => state.player
   );
-  const { selectTrack, setPlay } = usePlay(trackId);
+  const { selectTrack, setPlaying } = usePlay(trackId);
 
   // Initialize waveform object
   useEffect(() => {
@@ -56,39 +56,29 @@ const Waveform = ({ trackId }) => {
     return () => wavesurfer.current.destroy();
   }, [track.trackUrl]);
 
-  // useEffect(() => {
-  //   if (isSelected) {
-  //     dispatch(setWaveform(wavesurfer.current));
-  //   }
-  // }, [isSelected]);
   useEffect(() => {
-    if (isPlaying && currentTrackId === trackId) {
-      console.log('playing');
-      wavesurfer.current.play(currentTime);
+    if (currentTrackId === trackId) {
+      dispatch(setWaveform(wavesurfer.current));
+    }
+  }, [currentTrackId, trackId, wavesurfer.current]);
+
+  useEffect(() => {
+    if (currentTrackId === trackId) {
+      if (isPlaying) {
+        wavesurfer.current.play(currentTime);
+      } else {
+        wavesurfer.current.pause();
+      }
     } else {
-      console.log('paused');
-      wavesurfer.current.pause();
+      wavesurfer.current.stop();
     }
   }, [isPlaying, currentTrackId, trackId]);
 
-  // useEffect(() => {
-  //   if (!isGlobal) {
-  //     wavesurfer.current.setMute(true);
-  //     return;
-  //   }
-
-  //   // Sync application time with global wavesurfer object
-  //   const onAudioProcess = () => {
-  //     if (isGlobal && isSelected) {
-  //       // const globalTime = wavesurfer.current.getCurrentTime();
-  //       dispatch(updateTime(wavesurfer.current.getCurrentTime()));
-  //     }
-  //   };
-
-  //   wavesurfer.current.on('audioprocess', onAudioProcess);
-
-  //   return () => wavesurfer.current.un('audioprocess', onAudioProcess);
-  // }, [isGlobal, isSelected, wavesurfer.current, dispatch]);
+  useEffect(() => {
+    if (isPlaying && currentTrackId === trackId) {
+      wavesurfer.current.seekTo(seekPosition);
+    }
+  }, [seekPosition, currentTrackId, trackId]);
 
   // Send waveform ref to store
   // useEffect(() => {
@@ -96,20 +86,6 @@ const Waveform = ({ trackId }) => {
   //     dispatch(setWaveform(wavesurfer));
   //   }
   // }, [isSelected, dispatch, wavesurfer]);
-
-  // useEffect(() => {
-  //   if (isSelected && isPlaying) {
-  //     wavesurfer.current.play();
-  //   } else {
-  //     wavesurfer.current.pause();
-  //   }
-  // }, [isSelected, isPlaying, wavesurfer.current]);
-
-  // useEffect(() => {
-  //   if (isSelected) {
-  //     wavesurfer?.current.seekTo(seekPosition || 0);
-  //   }
-  // }, [isSelected, seekPosition]);
 
   const onSeek = (e) => {
     // Synthetic mouse event doesn't have offsetX property
@@ -129,7 +105,7 @@ const Waveform = ({ trackId }) => {
       selectTrack(trackId);
     }
     onSeek(e);
-    setPlay();
+    setPlaying();
   };
 
   return (

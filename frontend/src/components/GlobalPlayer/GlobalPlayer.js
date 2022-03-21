@@ -25,13 +25,13 @@ const GlobalPlayer = () => {
     (state) => state.queue
   );
 
-  const { incrementPlayCount, isSelected, selectTrack, setPlay } =
+  const { incrementPlayCount, isSelected, selectTrack, setPlaying } =
     usePlay(currentTrackId);
 
   const onScrub = (e) => {
     const position = +e.target.value / track.duration;
     dispatch(setSeeking(position, +e.target.value));
-    setPlay();
+    setPlaying();
     incrementPlayCount();
   };
 
@@ -40,6 +40,7 @@ const GlobalPlayer = () => {
       const nextTrackId = queue[nextIndex];
       selectTrack(nextTrackId);
       dispatch(updateTime(0));
+      dispatch(setSeeking(0, 0));
       await dispatch(playNext(nextTrackId, nextIndex));
     }
     // incrementPlayCount();
@@ -49,6 +50,7 @@ const GlobalPlayer = () => {
     const previousTrackId = queue[previousIndex];
     selectTrack(previousTrackId);
     dispatch(updateTime(0));
+    dispatch(setSeeking(0, 0));
     await dispatch(playPrevious(previousTrackId, previousIndex));
   };
 

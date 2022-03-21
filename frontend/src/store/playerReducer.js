@@ -57,7 +57,6 @@ function playerReducer(state = initialState, action) {
       return {
         ...state,
         isPlaying: true,
-        // currentTime: action.currentTime,
       };
 
     case PAUSE_TRACK:
