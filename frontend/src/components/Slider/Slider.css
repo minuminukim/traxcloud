@@ -20,7 +20,8 @@
   outline: none;
 }
 
-/* Chrome */
+/* -webkit- (Chrome, Opera, Safari, Edge) */
+/* -moz- (Firefox) */
 /* slider track */
 .slider::-webkit-slider-runnable-track {
   border: none;
@@ -28,12 +29,14 @@
 }
 
 /* slider thumb */
-.slider::-webkit-slider-thumb {
+.slider::-webkit-slider-thumb,
+.slider::-moz-range-thumb {
   -webkit-appearance: none;
   background-color: #f50;
   border-radius: 50%;
   height: 8px;
   width: 8px;
+  border: 0;
 }
 
 .slider-container.volume {
