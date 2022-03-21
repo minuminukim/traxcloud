@@ -37,27 +37,29 @@ function Profile() {
         setLoading(false);
       }
     })();
-  }, [userId]);
+  }, [dispatch, userId]);
 
   return (
     !isLoading && (
       <div className="page-container profile">
         <ProfileHeader />
-        <div>
-          <ul className="profile-tracks">
+        <section className="profile-main">
+          <h2 className="profile-section-heading">Recent</h2>
+          <ul className="profile-stream">
             {user?.trackIds?.map((id) => (
-              <li key={id}>
+              <li key={id} className="profile-stream-item">
                 <AudioPlayer
                   trackId={id}
                   size="medium"
                   withArtwork
                   withHeader
                   withFooter
+                  withCommentField
                 />
               </li>
             ))}
           </ul>
-        </div>
+        </section>
       </div>
     )
   );
