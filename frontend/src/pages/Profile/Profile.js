@@ -21,8 +21,10 @@ function Profile() {
   useEffect(() => {
     (async () => {
       try {
-        const [_user, tracks, _comments] = await Promise.all([
-          dispatch(fetchSingleUser(+userId)),
+        // Fetch user first to ensure that they are in state
+        await dispatch(fetchSingleUser(+userId));
+        const [tracks, _comments] = await Promise.all([
+
           dispatch(fetchUserTracks(+userId)),
           dispatch(fetchCommentsByUserId(+userId)),
         ]);
