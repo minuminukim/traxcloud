@@ -1,5 +1,5 @@
-// import { Link } from 'react-router-dom';
 import './ProfilePicture.css';
+import { onImageError } from '../../../utils';
 
 const ProfilePicture = ({ user, size, shape = 'round' }) => {
   return (
@@ -8,9 +8,8 @@ const ProfilePicture = ({ user, size, shape = 'round' }) => {
       src={user.profilePictureUrl}
       alt={user.displayName}
       crossOrigin="true"
+      onError={onImageError}
     />
-    // <Link to={`/users/${user.id}`}>
-    // </Link>
   );
 };
 

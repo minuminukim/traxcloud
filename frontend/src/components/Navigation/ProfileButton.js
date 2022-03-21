@@ -25,7 +25,8 @@ const ProfileButton = () => {
       {/* <div className="profile-button pointer" onClick={toggleMenu}> */}
       <NavLink className="profile-button nav-item" to={`/users/${user.id}`}>
         <img
-          src={prefixCORS(profilePictureUrl)}
+          // src={prefixCORS(profilePictureUrl)}
+          src={profilePictureUrl}
           alt="Profile photo"
           className="profile-button-avatar"
           crossOrigin="true"

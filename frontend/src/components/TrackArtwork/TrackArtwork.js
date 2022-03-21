@@ -8,7 +8,8 @@ const TrackArtwork = ({ className, trackId, ...rest }) => {
   return (
     <img
       className={className}
-      src={prefixCORS(artworkUrl)}
+      // src={prefixCORS(artworkUrl)}
+      src={artworkUrl}
       alt={`${title} artwork`}
       crossOrigin="true"
       onError={onImageError}
