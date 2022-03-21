@@ -31,7 +31,7 @@ const ProfileButton = () => {
         <span className="profile-button-username">{displayName}</span>
         <AiOutlineDown />
       </div>
-      {showMenu && <DropdownMenu user={user} />}
+      {/* {showMenu && <DropdownMenu user={user} />} */}
     </>
   );
 };

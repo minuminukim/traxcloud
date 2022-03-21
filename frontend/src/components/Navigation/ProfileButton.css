@@ -1,5 +1,6 @@
 .nav-item-dropdown {
-  width: 133px;
+  /* width: 133px; */
+  max-width: 150px;
   padding: 0 10px;
 }
 
@@ -25,7 +26,8 @@
 }
 
 .profile-button-username {
-  width: 70px;
+  max-width: 80px;
+  width: 100%;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;

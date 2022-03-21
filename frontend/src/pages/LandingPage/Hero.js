@@ -1,16 +1,14 @@
 import { useDispatch } from 'react-redux';
+import { useDemo } from '../../hooks';
 import { login } from '../../store/sessionReducer';
 import Button from '../../components/common/Button';
 import ModalWrapper from '../../components/ModalWrapper';
 import SignupForm from '../../components/SignupForm';
-import LoginForm from '../../components/LoginForm';
 import './Hero.css';
 
 const Hero = () => {
-  const dispatch = useDispatch();
-  const loginDemoUser = () => {
-    return dispatch(login({ credential: 'demoworld', password: 'newPass!' }));
-  };
+  const loginDemoUser = useDemo();
+
   return (
     <div className="hero-container">
       <div className="hero-content">

@@ -50,8 +50,13 @@
   width: 104px;
 }
 
+.nav-item:hover,
 .nav-item:hover a {
   color: #fff;
+}
+
+.nav-item.signout {
+  width: 60px;
 }
 
 .nav-main-left .nav-item {
@@ -105,9 +110,11 @@
   top: 2px;
 }
 
-.nav-bar .transparent {
+.nav-button.transparent {
   border: 1px solid #999;
-  margin-right: 16px;
+  width: -moz-fit-content;
+  width: fit-content;
+  margin-right: 7px;
 }
 
 .nav-bar .transparent:hover {

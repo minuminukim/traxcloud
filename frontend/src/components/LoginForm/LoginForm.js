@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useLocation, useHistory } from 'react-router-dom';
+import { useDemo } from '../../hooks';
 import { login } from '../../store/sessionReducer';
 import InputField from '../common/InputField';
 import Button from '../common/Button';
@@ -15,16 +16,16 @@ const LoginForm = () => {
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({});
 
+  const loginDemoUser = useDemo();
+
   const updateCredential = (e) => setCredential(e.target.value);
   const updatePassword = (e) => setPassword(e.target.value);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setErrors({});
-    return dispatch(login({ credential, password }))
+    dispatch(login({ credential, password }))
       .then(() => {
-        // when the action is being dispatched from the landing page,
-        // we redirect the user to the main feed
         if (pathname === '/') {
           history.push('/home');
         }
@@ -35,17 +36,6 @@ const LoginForm = () => {
           setErrors(data.errors);
         }
       });
-  };
-
-  const signDemo = (e) => {
-    e.preventDefault();
-    return dispatch(
-      login({ credential: 'demoworld', password: 'newPass!' })
-    ).then(() => {
-      if (pathname === '/') {
-        history.push('/home');
-      }
-    });
   };
 
   return (
@@ -73,8 +63,7 @@ const LoginForm = () => {
       <Button
         label="Sign In As Demo"
         className="large-button form-button"
-        onClick={signDemo}
-        type="submit"
+        onClick={loginDemoUser}
       />
     </form>
   );

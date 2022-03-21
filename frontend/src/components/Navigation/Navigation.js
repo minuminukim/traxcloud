@@ -1,10 +1,19 @@
-import { useSelector } from 'react-redux';
-import { NavLink } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { NavLink, useHistory } from 'react-router-dom';
+import { logout } from '../../store/sessionReducer';
 import { ProfileButton, UnauthenticatedLinks, NavLogo } from '.';
+import Button from '../common/Button';
 import './Navigation.css';
 
 const Navigation = () => {
+  const dispatch = useDispatch();
+  const history = useHistory();
   const sessionUser = useSelector((state) => state.session.user);
+
+  const handleLogout = () => {
+    dispatch(logout());
+    history.push('/');
+  };
 
   const sessionLinks = (
     <div className="nav-main-right">
@@ -15,6 +24,9 @@ const Navigation = () => {
       </li>
       <li className="nav-item-dropdown">
         <ProfileButton user={sessionUser} />
+      </li>
+      <li className="nav-item pointer signout" onClick={handleLogout}>
+        Sign out
       </li>
     </div>
   );
@@ -29,8 +41,8 @@ const Navigation = () => {
               Home
             </NavLink>
           </li>
-          <li className="nav-item">Stream</li>
-          <li className="nav-item">Library</li>
+          {/* <li className="nav-item">Stream</li> */}
+          {/* <li className="nav-item">Library</li> */}
         </ul>
         {sessionUser ? sessionLinks : <UnauthenticatedLinks />}
       </nav>
