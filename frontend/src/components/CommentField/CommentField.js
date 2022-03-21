@@ -23,6 +23,7 @@ const CommentField = ({ trackId, duration, height }) => {
     const commentData = {
       userId: user.id,
       trackId: +trackId,
+      // Generate a random time if one hasn't been provided
       timePosted: generateRandomInt(duration),
       body,
     };

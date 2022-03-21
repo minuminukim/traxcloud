@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchTracks } from '../../actions/trackActions';
 import { fetchCommentsByTrackId } from '../../actions/commentActions';
 import { setQueue } from '../../actions/queueActions';
-import AudioPlayer from '../AudioPlayer';
+import AudioPlayer from '../../components/AudioPlayer';
 import './Stream.css';
 
 const Stream = () => {

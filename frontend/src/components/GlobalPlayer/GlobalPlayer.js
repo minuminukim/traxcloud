@@ -5,16 +5,13 @@ import {
   playNext,
   playPrevious,
   updateTime,
-  setTrack,
   setSeeking,
 } from '../../actions/playerActions';
 
 import Slider from '../Slider';
 import PlaybackTime from '../AudioPlayer/PlaybackTime';
-import Waveform from '../Waveform';
 import { PlaybackButton, Audio } from '../AudioPlayer';
 import { IoPlaySkipForward, IoPlaySkipBack } from 'react-icons/io5';
-// import GlobalAudio from './GlobalAudio';
 import './GlobalPlayer.css';
 
 const GlobalPlayer = () => {
@@ -62,8 +59,6 @@ const GlobalPlayer = () => {
     currentTrackId && (
       <footer className="footer-container">
         <div className="footer-player">
-          {/* <Waveform trackId={currentTrackId} isGlobal hidden /> */}
-          {/* <GlobalAudio /> */}
           <Audio trackId={currentTrackId} />
           <div className="player-controls">
             <button className="player-control">

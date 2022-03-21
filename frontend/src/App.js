@@ -7,7 +7,7 @@ import GlobalPlayer from './components/GlobalPlayer';
 // import TrackEditForm from './components/TrackEditForm';
 import {
   LandingPage,
-  Main,
+  Stream,
   PageNotFound,
   SingleTrackPage,
   TrackUploadForm,
@@ -37,7 +37,7 @@ function App() {
               <LandingPage />
             </Route>
             <Route exact path="/home">
-              <Main />
+              <Stream />
             </Route>
             <Route exact path="/upload">
               <TrackUploadForm isUpload />

@@ -15,7 +15,7 @@
 .footer-player {
   display: flex;
   align-items: center;
-  /* width: 100%; */
+  width: 100%;
   max-width: 1240px;
   padding: 0 12px;
   background-color: #f2f2f2;
@@ -55,17 +55,23 @@
 
 .footer-slider .slider-container {
   width: 512px;
-  padding: 0 10px;
+  /* width: 100%; */
+  margin: 0 10px;
 }
 
 p.transparent {
   background-color: transparent;
   font-size: 14px;
-  /* margin-right: 20px; */
+  width: 50px;
   border: 0;
 }
 
+.footer-slider .timer-text {
+  text-align: right;
+}
+
 .footer-slider .duration-text {
+  text-align: left;
   margin-right: 10px;
 }
 
