@@ -1,7 +1,7 @@
 .nav-item-dropdown {
   /* width: 133px; */
   max-width: 150px;
-  padding: 0 10px;
+  padding: 0;
 }
 
 .profile-button {
@@ -11,7 +11,8 @@
   color: #ccc;
   font-size: 15px;
   font-weight: 300;
-  width: 100%;
+  width: 100% !important;
+  padding: 0 12px;
 }
 
 .profile-button-avatar {
