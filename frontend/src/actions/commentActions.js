@@ -55,7 +55,7 @@ export const fetchCommentsByTrackId = (trackId) => async (dispatch) => {
 };
 
 export const fetchCommentsByUserId = (userId) => async (dispatch) => {
-  const response = await csrfFetch(`/api/tracks/${userId}/comments`);
+  const response = await csrfFetch(`/api/users/${userId}/comments`);
   const { comments } = await response.json();
   dispatch(loadUserComments(comments, userId));
 

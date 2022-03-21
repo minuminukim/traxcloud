@@ -5,13 +5,13 @@ import './TrackDetails.css';
 
 const TrackDetails = ({ trackId, size }) => {
   const track = useSelector((state) => state.tracks[trackId]);
-  const user = track.User;
+  const user = useSelector((state) => state.users[track.userId]);
   const timeSince = calculateTimeSincePost(track.createdAt);
 
   return (
     <div className={`track-details track-details-${size}`}>
       <div className={`track-links track-links-${size}`}>
-        <Link className={`link-user-${size}`} to="#">
+        <Link className={`link-user-${size}`} to={`/users/${track.userId}`}>
           {user.displayName}
         </Link>
         {size === 'large' ? (

@@ -1,6 +1,9 @@
-import { useSelector } from 'react-redux';
-import { isCurrentTrack } from '../../utils';
+import { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchSingleUser } from '../../store/userReducer';
 import Waveform from '../Waveform';
+import CommentField from '../CommentField';
+import TrackArtwork from '../TrackArtwork';
 import {
   PlaybackButton,
   Timeline,
@@ -9,8 +12,6 @@ import {
   PlayerFooter,
 } from '.';
 
-import CommentField from '../CommentField';
-import TrackArtwork from '../TrackArtwork';
 import './AudioPlayer.css';
 
 const AudioPlayer = ({
@@ -21,12 +22,26 @@ const AudioPlayer = ({
   withFooter = false,
   withCommentField = false,
 }) => {
+  const dispatch = useDispatch();
   const track = useSelector((state) => state.tracks[trackId]);
   const sessionUser = useSelector((state) => state.session.user);
+  const user = useSelector((state) => state.users[track.userId]);
+  const [isLoading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (user) {
+      setLoading(false);
+      return;
+    }
+
+    dispatch(fetchSingleUser(track.userId))
+      .then(() => setLoading(false))
+      .catch((err) => console.log('error fetching user', err));
+  }, [user, track.userId]);
 
   return (
     <div className={`player track-${track.id} player-${size}`}>
-      {withHeader && <TrackHeader trackId={trackId} />}
+      {withHeader && !isLoading && <TrackHeader trackId={trackId} />}
       <div className="player-main">
         {withArtwork && (
           <TrackArtwork
@@ -37,7 +52,7 @@ const AudioPlayer = ({
         <div className="player-content">
           <div className="player-header">
             <PlaybackButton size={size} trackId={trackId} />
-            <TrackDetails trackId={track.id} size={size} />
+            {!isLoading && <TrackDetails trackId={track.id} size={size} />}
           </div>
           <div className="waveform-row">
             <Waveform trackId={trackId} size={size} />

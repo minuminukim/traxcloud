@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { NavLink } from 'react-router-dom';
 import { AiOutlineDown } from 'react-icons/ai';
 import DropdownMenu from './DropdownMenu';
 import prefixCORS from '../../utils/prefixCORS';
@@ -21,16 +22,19 @@ const ProfileButton = () => {
 
   return (
     <>
-      <div className="profile-button pointer" onClick={toggleMenu}>
+      {/* <div className="profile-button pointer" onClick={toggleMenu}> */}
+      <NavLink className="profile-button nav-item" to={`/users/${user.id}`}>
         <img
           src={prefixCORS(profilePictureUrl)}
           alt="Profile photo"
           className="profile-button-avatar"
           crossOrigin="true"
         />
-        <span className="profile-button-username">{displayName}</span>
-        <AiOutlineDown />
-      </div>
+        {displayName}
+        {/* <span className="profile-button-username">{displayName}</span> */}
+        {/* <AiOutlineDown /> */}
+      </NavLink>
+      {/* </div> */}
       {/* {showMenu && <DropdownMenu user={user} />} */}
     </>
   );

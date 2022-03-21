@@ -1,4 +1,4 @@
-// import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ProfilePicture from '../common/ProfilePicture';
 import { calculateTimeSincePost } from '../../utils/';
@@ -6,7 +6,7 @@ import './TrackHeader.css';
 
 const TrackHeader = ({ trackId }) => {
   const track = useSelector((state) => state.tracks[trackId]);
-  const user = track.User;
+  const user = useSelector((state) => state.users[track.userId]);
   const timeSince = calculateTimeSincePost(track.createdAt);
 
   return (
