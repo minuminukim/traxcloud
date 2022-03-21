@@ -11,6 +11,8 @@ import {
   COMMENT_REMOVED,
 } from '../actions/commentActions';
 
+import { PLAYER_LOADING, PLAYER_READY } from '../actions/playerActions';
+
 const trackReducer = (state = {}, action) => {
   switch (action.type) {
     case LOAD_TRACKS:
@@ -45,6 +47,24 @@ const trackReducer = (state = {}, action) => {
       const newState = { ...state };
       delete newState[action.trackId];
       return newState;
+
+    case PLAYER_LOADING:
+      return {
+        ...state,
+        [action.trackId]: {
+          ...state[action.trackId],
+          playerLoading: true,
+        },
+      };
+
+    case PLAYER_READY:
+      return {
+        ...state,
+        [action.trackId]: {
+          ...state[action.trackId],
+          playerLoading: false,
+        },
+      };
 
     case COMMENTS_LOADED:
       const commentIds = action.comments

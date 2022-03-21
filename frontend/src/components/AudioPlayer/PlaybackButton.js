@@ -5,6 +5,7 @@ import {
   setSeeking,
   pauseTrack,
 } from '../../actions/playerActions';
+import LoadingSpinner from '../common/LoadingSpinner';
 import { FaPlay, FaPause } from 'react-icons/fa';
 import './PlayButton.css';
 
@@ -16,6 +17,7 @@ const PlaybackButton = ({
 }) => {
   const dispatch = useDispatch();
   const { isPlaying, currentTrackId } = useSelector((state) => state.player);
+  const track = useSelector((state) => state.tracks[trackId]);
   const { incrementPlayCount, isSelected, selectTrack, setPlaying } = usePlay(
     +trackId
   );
@@ -34,6 +36,10 @@ const PlaybackButton = ({
     setPlaying();
     incrementPlayCount();
   };
+
+  if (track?.playerLoading && currentTrackId !== trackId) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <button

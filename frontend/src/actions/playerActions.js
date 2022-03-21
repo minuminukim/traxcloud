@@ -1,4 +1,6 @@
 /* ----- ACTION TYPES ----- */
+export const PLAYER_LOADING = 'player/playerLoading';
+export const PLAYER_READY = 'player/playerReady';
 export const SET_DURATION = 'player/setDuration';
 export const SET_TRACK = 'player/setTrack';
 export const SET_REFERENCE = 'player/setReference';
@@ -61,6 +63,16 @@ export const setSeeking = (position, currentTime) => ({
   type: SET_SEEKING,
   position,
   currentTime,
+});
+
+export const loadPlayer = (trackId) => ({
+  type: PLAYER_LOADING,
+  trackId,
+});
+
+export const setPlayerReady = (trackId) => ({
+  type: PLAYER_READY,
+  trackId,
 });
 
 // export const playTrack = (trackId, index, currentTime = 0) => ({

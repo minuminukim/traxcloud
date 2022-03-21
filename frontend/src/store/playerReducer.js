@@ -22,6 +22,7 @@ const initialState = {
   isPlaying: false,
   isMuted: false,
   volume: 1,
+  loading: null,
 };
 
 /* ----- SELECTORS ----- */

@@ -3,9 +3,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
   setSeeking,
   setWaveform,
+  loadPlayer,
+  setPlayerReady,
   updateTime,
 } from '../../actions/playerActions';
-import { loadWaveform, removeWaveform } from '../../actions/queueActions';
 import { editTrack } from '../../actions/trackActions';
 import usePlay from '../../hooks/usePlay';
 import WaveSurfer from 'wavesurfer.js';
@@ -23,15 +24,13 @@ const Waveform = ({ trackId }) => {
     (state) => state.player
   );
   const { selectTrack, setPlaying } = usePlay(trackId);
-  const [isLoading, setLoading] = useState(true);
 
   // Initialize waveform object
   useEffect(() => {
-    console.log('wavesurfer', wavesurfer);
     wavesurfer.current = WaveSurfer.create({
       container: containerRef.current,
       progressColor: '#f50',
-      // backend: 'MediaElement',
+      backend: 'MediaElement',
       responsive: true,
       interact: false,
       normalize: true,
@@ -42,6 +41,7 @@ const Waveform = ({ trackId }) => {
       // height: 60,
     });
 
+    dispatch(loadPlayer(trackId));
     wavesurfer.current.load(track.trackUrl, track.peakData);
     wavesurfer.current.setMute(true);
 
@@ -53,8 +53,8 @@ const Waveform = ({ trackId }) => {
           dispatch(editTrack(updated));
         });
       }
-      // setReady(true);
-      setLoading(false);
+
+      dispatch(setPlayerReady(trackId));
     });
 
     return () => wavesurfer.current.destroy();
@@ -84,23 +84,6 @@ const Waveform = ({ trackId }) => {
     }
   }, [seekPosition, currentTrackId, trackId]);
 
-  const calculateSeekPosition = (e) => {
-    /**
-     * Synthetic mouse event doesn't have offsetX property,
-     * so we calculate the difference between e.clientX
-     * and containerRef's offsetLeft
-     */
-    const offsetX =
-      e.clientX - containerRef.current.getBoundingClientRect().left;
-    const offsetWidth = containerRef.current.offsetWidth;
-
-    // Calculate mouse event position and time to seek to
-    const position = offsetX / offsetWidth;
-    const time = track?.duration * position;
-
-    return { position, time };
-  };
-
   const onSeek = (e) => {
     /**
      * Synthetic mouse event doesn't have offsetX property,
@@ -128,12 +111,14 @@ const Waveform = ({ trackId }) => {
 
   return (
     <>
+      {/* <div style={{ display: isLoading ? 'none' : 'block' }}> */}
       <div
         className="waveform-container"
         ref={containerRef}
         onMouseDown={onMouseDown}
         // hidden={isLoading}
       ></div>
+      {/* </div> */}
 
       {/* {isLoading ? <LoadingSpinner /> : <p>ready</p>} */}
     </>
