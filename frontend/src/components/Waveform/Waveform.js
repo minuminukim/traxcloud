@@ -9,6 +9,7 @@ import { loadWaveform, removeWaveform } from '../../actions/queueActions';
 import { editTrack } from '../../actions/trackActions';
 import usePlay from '../../hooks/usePlay';
 import WaveSurfer from 'wavesurfer.js';
+import LoadingSpinner from '../common/LoadingSpinner/LoadingSpinner';
 
 const Waveform = ({ trackId }) => {
   const dispatch = useDispatch();
@@ -22,6 +23,7 @@ const Waveform = ({ trackId }) => {
     (state) => state.player
   );
   const { selectTrack, setPlaying } = usePlay(trackId);
+  const [isLoading, setLoading] = useState(true);
 
   // Initialize waveform object
   useEffect(() => {
@@ -43,7 +45,7 @@ const Waveform = ({ trackId }) => {
     wavesurfer.current.load(track.trackUrl, track.peakData);
     wavesurfer.current.setMute(true);
 
-    wavesurfer.current.on('waveform-ready', () => {
+    wavesurfer.current.on('ready', () => {
       // if waveform data doesn't exist, we dispatch data to database
       if (!track.peakData) {
         wavesurfer.current.exportPCM(256, 100, true).then((peakData) => {
@@ -51,6 +53,8 @@ const Waveform = ({ trackId }) => {
           dispatch(editTrack(updated));
         });
       }
+      // setReady(true);
+      setLoading(false);
     });
 
     return () => wavesurfer.current.destroy();
@@ -123,11 +127,16 @@ const Waveform = ({ trackId }) => {
   };
 
   return (
-    <div
-      className="waveform-container"
-      ref={containerRef}
-      onMouseDown={onMouseDown}
-    ></div>
+    <>
+      <div
+        className="waveform-container"
+        ref={containerRef}
+        onMouseDown={onMouseDown}
+        // hidden={isLoading}
+      ></div>
+
+      {/* {isLoading ? <LoadingSpinner /> : <p>ready</p>} */}
+    </>
   );
 };
 
