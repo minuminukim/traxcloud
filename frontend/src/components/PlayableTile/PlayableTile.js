@@ -55,8 +55,7 @@ const PlayableTile = ({
           <Overlay className="artwork-overlay absolute">
             <PlaybackButton
               trackId={trackId}
-              className={playbackClass}
-              size={playbackSize}
+              className={`${playbackClass} responsive`}
             />
           </Overlay>
         )}

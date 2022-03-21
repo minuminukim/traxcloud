@@ -32,6 +32,10 @@
   cursor: pointer;
 }
 
+.playable-tile .play-button {
+  margin: 0;
+}
+
 .tile-signature {
   display: flex;
   flex-direction: column;
@@ -39,6 +43,7 @@
 
 .tile-signature a {
   font-size: 14px;
+  font-weight: 300;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;

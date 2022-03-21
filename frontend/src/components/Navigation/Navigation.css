@@ -18,8 +18,9 @@
   position: absolute;
 }
 
-.header.transparent .nav-bar {
-  border-top: 3px solid #f50;
+.nav-bar.landing {
+  padding: 30px;
+  border-top: 5px solid #f50;
 }
 
 .nav-bar {
@@ -111,6 +112,12 @@
 .nav-logo-text {
   position: relative;
   top: 2px;
+}
+
+.nav-button {
+  padding-top: 4px;
+  height: 30px;
+  font-weight: 200;
 }
 
 .nav-button.transparent {

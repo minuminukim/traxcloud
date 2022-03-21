@@ -40,6 +40,16 @@ const LoginForm = () => {
 
   return (
     <form className="login-form" onSubmit={handleSubmit}>
+      <Button
+        label="Continue as demo user"
+        className="large-button form-button demo-button"
+        onClick={loginDemoUser}
+      />
+      <div className="line-break">
+        <span className="line-break">or</span>
+        {/* <hr /> */}
+        {/* <hr /> */}
+      </div>
       <InputField
         id="login-credential"
         placeholder="Your email address or username"
@@ -56,14 +66,9 @@ const LoginForm = () => {
         error={errors.password}
       />
       <Button
-        label="Sign In"
+        label="Continue"
         className="large-button form-button"
         type="submit"
-      />
-      <Button
-        label="Sign In As Demo"
-        className="large-button form-button"
-        onClick={loginDemoUser}
       />
     </form>
   );

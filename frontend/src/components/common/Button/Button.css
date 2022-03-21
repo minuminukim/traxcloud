@@ -46,6 +46,12 @@
   height: 26px;
 }
 
+.login-form .demo-button {
+  margin-right: 0 !important;
+  margin-bottom: 7px;
+  background-color: #3578e5;
+}
+
 .transparent {
   background-color: transparent;
   border: 1px solid #fff;

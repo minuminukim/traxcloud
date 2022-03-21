@@ -29,9 +29,16 @@
 }
 
 /* slider thumb */
-.slider::-webkit-slider-thumb,
-.slider::-moz-range-thumb {
+.slider::-webkit-slider-thumb {
   -webkit-appearance: none;
+  background-color: #f50;
+  border-radius: 50%;
+  height: 8px;
+  width: 8px;
+  border: 0;
+}
+
+.slider::-moz-range-thumb {
   background-color: #f50;
   border-radius: 50%;
   height: 8px;

@@ -14,7 +14,7 @@ const SoundBadge = () => {
       </div>
       <div className="soundbadge-links">
         <Link className="link-light" to={`/users/${track.userId}`}>
-          {user?.displayName}
+          {track?.User?.displayName || user?.displayName}
         </Link>
         <Link to={`/tracks/${currentTrackId}`}>{track.title}</Link>
       </div>
