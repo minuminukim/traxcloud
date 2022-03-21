@@ -4,6 +4,7 @@ import { NavLink } from 'react-router-dom';
 import { AiOutlineDown } from 'react-icons/ai';
 import DropdownMenu from './DropdownMenu';
 import prefixCORS from '../../utils/prefixCORS';
+import { onImageError } from '../../utils';
 import './ProfileButton.css';
 
 const ProfileButton = () => {
@@ -30,6 +31,7 @@ const ProfileButton = () => {
           alt="Profile photo"
           className="profile-button-avatar"
           crossOrigin="true"
+          onError={onImageError}
         />
         {displayName}
         {/* <span className="profile-button-username">{displayName}</span> */}
