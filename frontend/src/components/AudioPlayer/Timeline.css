@@ -1,23 +1,12 @@
-.player-timeline-container {
+.player-medium .timeline {
+  z-index: 2;
+  margin-top: -30px;
+  margin-bottom: 30px;
+}
+
+.timeline {
   display: flex;
   flex-direction: column;
-  padding: 10px 0;
-}
-
-.player-medium .player-timeline-container {
-  /* height: 2px; */
-}
-
-.player-medium .timers-container {
-  margin-bottom: 0;
-}
-
-.player-medium .timeline-blur {
-  width: 100%;
-  height: 20px;
-  filter: blur(1.5rem);
-  /* background-color: black; */
-  border: 1px solid black;
 }
 
 .timers-container {
@@ -25,8 +14,7 @@
   align-items: center;
   height: 12px;
   width: 100%;
-  margin-bottom: 10px;
-  border: 0;
+  border-bottom: 1px solid #fff;
 }
 
 .timers-container.between {
@@ -57,4 +45,21 @@
 
 .duration-text {
   color: #999;
+}
+
+.player-medium .timeline-comments {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  bottom: 2px;
+  width: 100%;
+  height: 10px;
+  margin: 0;
+  padding: 0;
+}
+
+.timeline-comment,
+.timeline-comment img {
+  padding: 0;
+  margin: 0;
 }

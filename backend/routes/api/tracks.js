@@ -124,7 +124,14 @@ router.get(
     const trackId = +req.params.trackId;
     const track = await Track.findOne({
       where: { id: trackId },
-      include: { model: Comment, as: 'comments' },
+      include: {
+        model: Comment,
+        as: 'comments',
+        include: {
+          model: User,
+          as: 'user',
+        },
+      },
     });
 
     if (!track) {

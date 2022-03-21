@@ -50,8 +50,10 @@ const CommentField = ({ trackId, duration, height }) => {
     })();
   };
 
+  // To submit form on enter
   const handleKeyUp = (e) => {
     e.stopPropagation();
+
     // Enter key
     if (e.keyCode === 13) {
       e.target.blur();

@@ -1,16 +1,17 @@
-import { useEffect, useState, useRef } from 'react';
+import WaveSurfer from 'wavesurfer.js';
+import { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import usePlay from '../../hooks/usePlay';
+import { editTrack } from '../../actions/trackActions';
 import {
   setSeeking,
   setWaveform,
   loadPlayer,
   setPlayerReady,
 } from '../../actions/playerActions';
-import { editTrack } from '../../actions/trackActions';
-import usePlay from '../../hooks/usePlay';
-import WaveSurfer from 'wavesurfer.js';
 
-const Waveform = ({ trackId }) => {
+const Waveform = ({ trackId, size = 'medium' }) => {
   const dispatch = useDispatch();
   const track = useSelector((state) => state.tracks[trackId]);
   const { currentTime, currentTrackId } = useSelector((state) => state.player);
@@ -19,22 +20,24 @@ const Waveform = ({ trackId }) => {
   const { seekPosition, isPlaying, isSelected } = useSelector(
     (state) => state.player
   );
+
   const { selectTrack, setPlaying } = usePlay(trackId);
 
   // Initialize waveform object
   useEffect(() => {
     wavesurfer.current = WaveSurfer.create({
       container: containerRef.current,
-      progressColor: '#f50',
       backend: 'MediaElement',
+      waveColor: size === 'medium' ? '#8c8c8c' : '#dad8d8',
+      progressColor: '#f50',
       responsive: true,
       interact: false,
       normalize: true,
-      barGap: 2,
+      barGap: 1.1,
       barWidth: 2,
       cursorColor: 'transparent',
       barHeight: 1,
-      // height: 60,
+      height: size === 'medium' ? 60 : 100,
     });
 
     dispatch(loadPlayer(trackId));
@@ -59,6 +62,7 @@ const Waveform = ({ trackId }) => {
     return () => wavesurfer.current.destroy();
   }, [track.trackUrl]);
 
+  // Send waveform ref to store
   useEffect(() => {
     if (currentTrackId === trackId) {
       dispatch(setWaveform(wavesurfer.current));

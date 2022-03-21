@@ -3,7 +3,7 @@ import { isCurrentTrack } from '../../utils';
 import Waveform from '../Waveform';
 import {
   PlaybackButton,
-  ProgressBar,
+  Timeline,
   TrackDetails,
   TrackHeader,
   PlayerFooter,
@@ -23,8 +23,6 @@ const AudioPlayer = ({
 }) => {
   const track = useSelector((state) => state.tracks[trackId]);
   const sessionUser = useSelector((state) => state.session.user);
-  const { currentTrackId } = useSelector((state) => state.player);
-  const isCurrent = isCurrentTrack(+trackId, currentTrackId);
 
   return (
     <div className={`player track-${track.id} player-${size}`}>
@@ -41,8 +39,8 @@ const AudioPlayer = ({
             <PlaybackButton size={size} trackId={trackId} />
             <TrackDetails trackId={track.id} size={size} />
           </div>
-          <Waveform trackId={trackId} />
-          <ProgressBar trackId={trackId} isCurrent={isCurrent} />
+          <Waveform trackId={trackId} size={size} />
+          <Timeline trackId={trackId} />
           {withCommentField && sessionUser && (
             <CommentField
               trackId={trackId}
