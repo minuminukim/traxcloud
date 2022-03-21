@@ -46,7 +46,9 @@ const CommentListItem = ({ commentId }) => {
   return (
     !isLoading && (
       <li
-        className="comment-list-item"
+        className={`comment-list-item ${
+          belongsToCurrentUser ? 'grey' : 'white'
+        }`}
         onMouseOver={() => setShowActions(true)}
         onMouseLeave={() => setShowActions(false)}
       >
@@ -57,9 +59,11 @@ const CommentListItem = ({ commentId }) => {
         </div>
         <div className="comment-list-item-center">
           <Link className="comment-user-link" to={`/users/${user.id}`}>
-            {user.displayName}
+            {belongsToCurrentUser ? 'You' : user.displayName}{' '}
           </Link>
-          <span>at</span> <span>{formatTime(comment.timePosted)}</span>
+          <span className="comment-at">at</span>{' '}
+          <span className="comment-time">{formatTime(comment.timePosted)}</span>
+          <span className="comment-colon">:</span>
           <p>{comment.body}</p>
         </div>
         <div className="comment-list-item-right">

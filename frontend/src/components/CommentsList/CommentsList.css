@@ -2,15 +2,17 @@
   width: 100%;
   width: 650px;
   flex: 1 0;
-  padding-left: 0;
+  padding: 7px 0;
   margin-top: 0;
+  border-top: 1px solid #f5f5f5;
+  border-bottom: 1px solid #f5f5f5;
 }
 
 .track-comments-list-title {
   font-weight: 400;
   font-size: 15px;
   color: #999;
-  margin: 7px 0;
+  margin: 7px;
   padding-left: 10px;
 }
 

@@ -1,6 +1,5 @@
 .profile-picture {
   object-fit: cover;
-  border: 1px solid #999;
 }
 
 .profile-picture-round {
@@ -22,9 +21,9 @@
   height: 120px;
 }
 
-.profile-picture:hover {
+/* .profile-picture:hover {
   border-color: #333;
-}
+} */
 
 .profile-picture-tiny {
   width: 10px;

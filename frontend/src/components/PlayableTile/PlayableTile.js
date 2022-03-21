@@ -11,7 +11,6 @@ const TileSignature = ({ trackId, title, displayName, userId }) => {
       <Link className="tile-title" to={`/tracks/${trackId}`}>
         {title}
       </Link>
-      {/* TODO: replace link to profile */}
       <Link className="tile-artist" to={`/users/${userId}`}>
         {displayName}
       </Link>

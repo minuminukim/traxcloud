@@ -3,11 +3,14 @@
   justify-content: space-between;
   align-items: center;
   font-size: 13px;
-  background-color: #f2f2f2;
   /* max-width: 680px; */
   width: 100%;
   min-height: 60px;
   padding: 10px;
+}
+
+.comment-list-item.grey {
+  background-color: #f2f2f2;
 }
 
 .comment-list-item-left {
@@ -27,9 +30,23 @@
 .comment-list-item-center {
   min-width: 230px;
   flex: 1 0;
-  /* max-width: 480px; */
   width: 100%;
   word-wrap: break-word;
+}
+
+a.comment-user-link,
+.comment-time {
+  font-weight: 500;
+  color: #999;
+}
+
+a.comment-user-link:hover {
+  color: #333;
+}
+
+.comment-at,
+.comment-colon {
+  color: #ccc;
 }
 
 .comment-list-item p {
