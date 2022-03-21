@@ -38,6 +38,10 @@ const Waveform = ({ trackId }) => {
       barWidth: 2,
       cursorColor: 'transparent',
       barHeight: 1,
+      xhr: {
+        mode: 'cors',
+        headers: [{ key: 'Access-Control-Allow-Headers', value: '*' }],
+      },
       // height: 60,
     });
 
