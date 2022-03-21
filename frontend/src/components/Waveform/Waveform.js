@@ -40,6 +40,10 @@ const Waveform = ({ trackId }) => {
       barHeight: 1,
       xhr: {
         mode: 'cors',
+        method: 'GET',
+        credentials: 'same-origin',
+        redirect: 'follow',
+        referrer: 'client',
         headers: [{ key: 'Access-Control-Allow-Headers', value: '*' }],
       },
       // height: 60,
