@@ -1,7 +1,6 @@
 import WaveSurfer from 'wavesurfer.js';
 import { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useParams } from 'react-router-dom';
 import usePlay from '../../hooks/usePlay';
 import { editTrack } from '../../actions/trackActions';
 import {
@@ -113,13 +112,11 @@ const Waveform = ({ trackId, size = 'medium' }) => {
   };
 
   return (
-    <>
-      <div
-        className="waveform-container"
-        ref={containerRef}
-        onMouseDown={onMouseDown}
-      ></div>
-    </>
+    <div
+      className="waveform-container"
+      ref={containerRef}
+      onMouseDown={onMouseDown}
+    ></div>
   );
 };
 

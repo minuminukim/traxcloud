@@ -39,8 +39,10 @@ const AudioPlayer = ({
             <PlaybackButton size={size} trackId={trackId} />
             <TrackDetails trackId={track.id} size={size} />
           </div>
-          <Waveform trackId={trackId} size={size} />
-          <Timeline trackId={trackId} />
+          <div className="waveform-row">
+            <Waveform trackId={trackId} size={size} />
+            <Timeline trackId={trackId} />
+          </div>
           {withCommentField && sessionUser && (
             <CommentField
               trackId={trackId}

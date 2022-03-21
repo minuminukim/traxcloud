@@ -1,7 +1,5 @@
 .player-medium .timeline {
-  z-index: 2;
-  margin-top: -30px;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
 }
 
 .timeline {
@@ -14,6 +12,9 @@
   align-items: center;
   height: 12px;
   width: 100%;
+}
+
+.player-medium .timers-container {
   border-bottom: 1px solid #fff;
 }
 
