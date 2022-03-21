@@ -127,10 +127,10 @@ router.get(
       include: {
         model: Comment,
         as: 'comments',
-        include: {
-          model: User,
-          as: 'user',
-        },
+        // include: {
+        //   model: User,
+        //   as: 'user',
+        // },
       },
     });
 

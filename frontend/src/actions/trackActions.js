@@ -1,6 +1,7 @@
 import { csrfFetch } from '../store/csrf';
 
 export const LOAD_TRACKS = 'track/loadTracks';
+export const LOAD_USER_TRACKS = 'track/loadUserTracks';
 export const ADD_TRACK = 'track/addTrack';
 export const UPDATE_TRACK = 'track/updateTrack';
 export const REMOVE_TRACK = 'track/removeTrack';
@@ -8,6 +9,12 @@ export const REMOVE_TRACK = 'track/removeTrack';
 const loadTracks = (tracks) => ({
   type: LOAD_TRACKS,
   tracks,
+});
+
+const loadUserTracks = (tracks, userId) => ({
+  type: LOAD_USER_TRACKS,
+  tracks,
+  userId,
 });
 
 const addTrack = (track) => ({
@@ -20,9 +27,10 @@ const updateTrack = (track) => ({
   track,
 });
 
-const removeTrack = (trackId) => ({
+const removeTrack = (trackId, userId) => ({
   type: REMOVE_TRACK,
   trackId,
+  userId,
 });
 
 export const fetchTracks = () => async (dispatch) => {
@@ -36,7 +44,7 @@ export const fetchTracks = () => async (dispatch) => {
 export const fetchUserTracks = (userId) => async (dispatch) => {
   const response = await csrfFetch(`/api/users/${userId}tracks`);
   const { tracks } = await response.json();
-  dispatch(loadTracks(tracks));
+  dispatch(loadUserTracks(tracks, userId));
 
   return tracks;
 };
@@ -93,6 +101,6 @@ export const deleteTrack = (trackId, userId) => async (dispatch) => {
     body: JSON.stringify({ userId, trackId }),
   });
 
-  dispatch(removeTrack(trackId));
+  dispatch(removeTrack(trackId, userId));
   return response;
 };

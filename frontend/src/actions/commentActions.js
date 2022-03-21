@@ -2,6 +2,7 @@ import { csrfFetch } from '../store/csrf';
 
 /* ----- ACTION TYPES ----- */
 export const COMMENTS_LOADED = 'comments/commentsLoaded';
+export const USER_COMMENTS_LOADED = 'comments/userCommentsLoaded';
 export const COMMENT_ADDED = 'comments/commentAdded';
 export const COMMENT_UPDATED = 'comments/commentUpdated';
 export const COMMENT_REMOVED = 'comments/commentRemoved';
@@ -11,6 +12,12 @@ const loadComments = (comments, trackId) => ({
   type: COMMENTS_LOADED,
   comments,
   trackId,
+});
+
+const loadUserComments = (comments, userId) => ({
+  type: USER_COMMENTS_LOADED,
+  comments,
+  userId,
 });
 
 const addComment = (comment) => ({
@@ -23,10 +30,11 @@ const updateComment = (comment) => ({
   comment,
 });
 
-const removeComment = (commentId, trackId) => ({
+const removeComment = (commentId, trackId, userId) => ({
   type: COMMENT_REMOVED,
   commentId,
   trackId,
+  userId,
 });
 
 /* ----- THUNKS ----- */
@@ -42,6 +50,14 @@ export const fetchCommentsByTrackId = (trackId) => async (dispatch) => {
   const response = await csrfFetch(`/api/tracks/${trackId}/comments`);
   const { comments } = await response.json();
   dispatch(loadComments(comments, trackId));
+
+  return comments;
+};
+
+export const fetchCommentsByUserId = (userId) => async (dispatch) => {
+  const response = await csrfFetch(`/api/tracks/${userId}/comments`);
+  const { comments } = await response.json();
+  dispatch(loadUserComments(comments, userId));
 
   return comments;
 };
@@ -68,10 +84,11 @@ export const editComment = (comment) => async (dispatch) => {
   return data.comment;
 };
 
-export const deleteComment = (commentId, trackId) => async (dispatch) => {
-  const response = await csrfFetch(`/api/comments/${commentId}`, {
-    method: 'DELETE',
-  });
-  dispatch(removeComment(commentId, trackId));
-  return response;
-};
+export const deleteComment =
+  (commentId, trackId, userId) => async (dispatch) => {
+    const response = await csrfFetch(`/api/comments/${commentId}`, {
+      method: 'DELETE',
+    });
+    dispatch(removeComment(commentId, trackId, userId));
+    return response;
+  };

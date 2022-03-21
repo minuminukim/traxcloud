@@ -1,6 +1,6 @@
 import { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getSingleUser } from '../../store/userReducer';
+import { fetchSingleUser } from '../../store/userReducer';
 import { deleteComment } from '../../actions/commentActions';
 import ProfilePicture from '../common/ProfilePicture';
 import { EditDeleteButton } from '../AudioPlayer';
@@ -27,18 +27,17 @@ const CommentListItem = ({ commentId }) => {
       return;
     }
 
-    dispatch(getSingleUser(comment.userId))
+    dispatch(fetchSingleUser(comment.userId))
       .then(() => setLoading(false))
       .catch((error) => console.log('error fetching user', error));
   }, [comment.userId, dispatch, user]);
 
   const belongsToCurrentUser = sessionUser?.id === comment.userId;
 
-  const toggleActions = () => setShowActions(!showActions);
   const onDelete = () => {
     if (!belongsToCurrentUser) return;
     return (
-      dispatch(deleteComment(commentId, comment.trackId))
+      dispatch(deleteComment(commentId, comment.trackId, comment.userId))
         // .then(() => toggleActions())
         .catch((error) => console.log('error deleting comment', error))
     );

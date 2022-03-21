@@ -1,5 +1,6 @@
 import {
   COMMENTS_LOADED,
+  USER_COMMENTS_LOADED,
   COMMENT_ADDED,
   COMMENT_UPDATED,
   COMMENT_REMOVED,
@@ -8,6 +9,7 @@ import {
 const commentReducer = (state = {}, action) => {
   switch (action.type) {
     case COMMENTS_LOADED:
+    case USER_COMMENTS_LOADED:
       const comments = action.comments.reduce((acc, comment) => {
         acc[comment.id] = comment;
         return acc;

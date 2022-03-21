@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import ProfilePicture from '../common/ProfilePicture';
-import { getUsers } from '../../store/userReducer';
+import { fetchUsers } from '../../store/userReducer';
 import toArray from '../../utils/toArray';
 import './Recommended.css';
 
@@ -11,12 +11,11 @@ export const Recommended = () => {
   const users = toArray(usersObject);
 
   useEffect(() => {
-    return dispatch(getUsers())
-      .catch((data) => {
-        if (data && data.errors) {
-          return;
-        }
-      });
+    return dispatch(fetchUsers()).catch((data) => {
+      if (data && data.errors) {
+        return;
+      }
+    });
   }, []);
   return null;
 };

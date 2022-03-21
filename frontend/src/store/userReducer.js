@@ -1,5 +1,16 @@
 import { csrfFetch } from './csrf';
-import { LOAD_TRACKS } from '../actions/trackActions';
+import {
+  LOAD_TRACKS,
+  LOAD_USER_TRACKS,
+  ADD_TRACK,
+  REMOVE_TRACK,
+} from '../actions/trackActions';
+
+import {
+  USER_COMMENTS_LOADED,
+  COMMENT_ADDED,
+  COMMENT_REMOVED,
+} from '../actions/commentActions';
 
 const ADD_USER = 'user/loadUser';
 const LOAD_USERS = 'user/loadUsers';
@@ -9,18 +20,12 @@ const addUser = (user) => ({
   user,
 });
 
-const loadTracks = (userId, tracks) => ({
-  type: LOAD_TRACKS,
-  tracks,
-  userId,
-});
-
 const loadUsers = (users) => ({
   type: LOAD_USERS,
   users,
 });
 
-export const getSingleUser = (userId) => async (dispatch) => {
+export const fetchSingleUser = (userId) => async (dispatch) => {
   const response = await csrfFetch(`/api/users/${userId}`);
   const { user } = await response.json();
   dispatch(addUser(user));
@@ -28,16 +33,7 @@ export const getSingleUser = (userId) => async (dispatch) => {
   return user;
 };
 
-export const getUserWithTracks = (userId) => async (dispatch) => {
-  const response = await csrfFetch(`/api/users/${userId}/tracks`);
-  const { user } = await response.json();
-  const tracks = user?.Tracks;
-  dispatch(loadTracks(user.id, tracks));
-
-  return user;
-};
-
-export const getUsers = () => async (dispatch) => {
+export const fetchUsers = () => async (dispatch) => {
   const response = await csrfFetch(`/api/users`);
   const { users } = await response.json();
   dispatch(loadUsers(users));
@@ -52,26 +48,90 @@ const userReducer = (state = {}, action) => {
         acc[user.id] = user;
         return user;
       }, {});
+
       return {
         ...state,
         ...users,
       };
+
     case ADD_USER:
       return {
         ...state,
-        [action.user.id]: {
-          ...action.user,
-          ...state[action.user.id],
+        [action.user.id]: action.user,
+      };
+
+    case LOAD_USER_TRACKS:
+      return {
+        ...state,
+        [action.userId]: {
+          ...state[action.userId],
+          trackIds: action.tracks.map(({ id }) => id).sort((a, b) => b - a),
         },
       };
-    // case LOAD_TRACKS:
-    //   return {
-    //     ...state,
-    //     [action.userId]: {
-    //       ...state[action.userId],
-    //       tracks: action.tracks,
-    //     },
-    //   };
+
+    case ADD_TRACK:
+      const previous = state[action.track.userId]?.trackIds || [];
+
+      return {
+        ...state,
+        [action.track.userId]: {
+          ...state[action.track.userId],
+          trackIds: [...previous, action.track.id].sort((a, b) => b - a),
+        },
+      };
+
+    case REMOVE_TRACK:
+      const previousIds = state[action.userId]?.trackIds || [];
+
+      return {
+        ...state,
+        [action.userId]: {
+          ...state[action.userId],
+          trackIds: previous.length
+            ? previousIds
+                .filter((id) => id !== action.trackId)
+                .sort((a, b) => b - a)
+            : [],
+        },
+      };
+
+    case USER_COMMENTS_LOADED:
+      return {
+        ...state,
+        [action.userId]: {
+          ...state[action.userId],
+          commentIds: action.comments.map(({ id }) => id).sort((a, b) => b - a),
+        },
+      };
+
+    case COMMENT_ADDED:
+      const prevComments = state[action.comment.userId]?.commentIds || [];
+
+      return {
+        ...state,
+        [action.comment.userId]: {
+          ...state[action.comment.userId],
+          commentIds: [...prevComments, action.comment.id].sort(
+            (a, b) => b - a
+          ),
+        },
+      };
+
+    case COMMENT_REMOVED:
+      const previousComments = state[action.userId]?.commentIds || [];
+
+      return {
+        ...state,
+        [action.userId]: {
+          ...state[action.userId],
+          commentIds: previousComments.length
+            ? previousComments
+                .filter((id) => id !== action.commentId)
+                .sort((a, b) => b - a)
+            : [],
+        },
+      };
+
     default:
       return state;
   }

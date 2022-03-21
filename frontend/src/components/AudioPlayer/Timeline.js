@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import usePlay from '../../hooks/usePlay';
-import { getSingleUser } from '../../store/userReducer';
+import { fetchSingleUser } from '../../store/userReducer';
 import ProfilePicture from '../common/ProfilePicture';
 import PlaybackTime from './PlaybackTime';
 import './Timeline.css';

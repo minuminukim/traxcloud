@@ -1,5 +1,6 @@
 import {
   LOAD_TRACKS,
+  LOAD_USER_TRACKS,
   ADD_TRACK,
   UPDATE_TRACK,
   REMOVE_TRACK,
@@ -16,6 +17,7 @@ import { PLAYER_LOADING, PLAYER_READY } from '../actions/playerActions';
 const trackReducer = (state = {}, action) => {
   switch (action.type) {
     case LOAD_TRACKS:
+    case LOAD_USER_TRACKS:
       const tracksObject = action.tracks.reduce((acc, track) => {
         acc[track.id] = track;
         return acc;

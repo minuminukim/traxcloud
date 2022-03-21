@@ -3,17 +3,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Switch, Route, useLocation } from 'react-router-dom';
 import { restoreUser } from './store/sessionReducer';
 import Navigation from './components/Navigation';
+import { LandingNavigation } from './pages/LandingPage';
 import GlobalPlayer from './components/GlobalPlayer';
-// import TrackEditForm from './components/TrackEditForm';
 import {
   LandingPage,
   Stream,
   PageNotFound,
   SingleTrackPage,
   TrackUploadForm,
+  Profile,
 } from './pages';
-import { LandingNavigation } from './pages/LandingPage';
-// import LoginForm from './components/LoginForm';
 
 function App() {
   const dispatch = useDispatch();
@@ -47,6 +46,9 @@ function App() {
             </Route>
             <Route exact path="/tracks/:trackId/edit">
               <TrackUploadForm isUpload={false} />
+            </Route>
+            <Route exact path="/users/:userId">
+              <Profile />
             </Route>
             <Route>
               <PageNotFound />
