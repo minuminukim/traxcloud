@@ -5,19 +5,15 @@ import {
   setWaveform,
   loadPlayer,
   setPlayerReady,
-  updateTime,
 } from '../../actions/playerActions';
 import { editTrack } from '../../actions/trackActions';
 import usePlay from '../../hooks/usePlay';
 import WaveSurfer from 'wavesurfer.js';
-import LoadingSpinner from '../common/LoadingSpinner/LoadingSpinner';
 
 const Waveform = ({ trackId }) => {
   const dispatch = useDispatch();
   const track = useSelector((state) => state.tracks[trackId]);
-  const { currentTime, currentTrackId, waveformRef } = useSelector(
-    (state) => state.player
-  );
+  const { currentTime, currentTrackId } = useSelector((state) => state.player);
   const containerRef = useRef(null);
   const wavesurfer = useRef();
   const { seekPosition, isPlaying, isSelected } = useSelector(
@@ -42,9 +38,12 @@ const Waveform = ({ trackId }) => {
     });
 
     dispatch(loadPlayer(trackId));
-    wavesurfer.current.load(track.trackUrl, track.peakData);
-    wavesurfer.current.setMute(true);
 
+    const audio = new Audio(track.trackUrl);
+    audio.crossOrigin = 'anonymous';
+
+    wavesurfer.current.load(audio, track.peakData);
+    wavesurfer.current.setMute(true);
     wavesurfer.current.on('ready', () => {
       // if waveform data doesn't exist, we dispatch data to database
       if (!track.peakData) {
@@ -111,16 +110,11 @@ const Waveform = ({ trackId }) => {
 
   return (
     <>
-      {/* <div style={{ display: isLoading ? 'none' : 'block' }}> */}
       <div
         className="waveform-container"
         ref={containerRef}
         onMouseDown={onMouseDown}
-        // hidden={isLoading}
       ></div>
-      {/* </div> */}
-
-      {/* {isLoading ? <LoadingSpinner /> : <p>ready</p>} */}
     </>
   );
 };

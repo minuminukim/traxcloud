@@ -28,14 +28,14 @@ const ProgressBar = ({ trackId, transparent = false }) => {
         <PlaybackTime className="duration" time={track.duration} />
       </div>
       {/* <div className="timeline-blur">a</div> */}
-      <Slider
+      {/* <Slider
         className="progress-bar"
         min="1"
         max={track.duration || track.duration.toString()}
         step="1"
         value={isSelected ? currentTime : 0}
         onChange={onScrub}
-      />
+      /> */}
     </div>
   );
 };

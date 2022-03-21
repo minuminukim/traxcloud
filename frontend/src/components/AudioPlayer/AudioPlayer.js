@@ -41,7 +41,7 @@ const AudioPlayer = ({
             <PlaybackButton size={size} trackId={trackId} />
             <TrackDetails trackId={track.id} size={size} />
           </div>
-          {/* <Waveform trackId={trackId} /> */}
+          <Waveform trackId={trackId} />
           <ProgressBar trackId={trackId} isCurrent={isCurrent} />
           {withCommentField && sessionUser && (
             <CommentField
