@@ -9,12 +9,14 @@ import UserCard from '../../components/UserCard';
 import CommentField from '../../components/CommentField';
 import CommentsList from '../../components/CommentsList';
 import './SingleTrackPage.css';
+import { fetchSingleUser } from '../../store/userReducer';
 
 const SingleTrackPage = () => {
   const dispatch = useDispatch();
   const { trackId } = useParams();
   const { queue } = useSelector((state) => state.queue);
   const track = useSelector((state) => state.tracks[trackId]);
+  const user = useSelector((state) => state.users[track?.userId]);
   const sessionUser = useSelector((state) => state.session.user);
   const [isLoading, setLoading] = useState(true);
 
@@ -22,6 +24,7 @@ const SingleTrackPage = () => {
     (async () => {
       try {
         const fetchedTrack = await dispatch(fetchSingleTrack(+trackId));
+        await dispatch(fetchSingleUser(fetchedTrack.userId));
         const index = queue.indexOf(fetchedTrack.id);
         if (!queue.length || index === -1) {
           dispatch(setQueue([...queue, fetchedTrack.id]));
@@ -60,7 +63,7 @@ const SingleTrackPage = () => {
           )}
           <PlayerFooter trackId={+trackId} />
           <div className="single-track-page-main-row">
-            <UserCard user={track?.User} size="medium" avatarSize="large" />
+            <UserCard userId={track.userId} size="medium" avatarSize="large" />
             <CommentsList />
           </div>
         </div>

@@ -11,10 +11,12 @@ const TrackHeader = ({ trackId }) => {
 
   return (
     <div className="track-header">
-      <ProfilePicture user={user} size="small" />
+      <Link to={`/users/${track.userId}`}>
+        <ProfilePicture user={user} size="small" />
+      </Link>
       <div className="track-header-text">
         <p>
-          {user.displayName}
+          <Link to={`/users/${track.userId}`}>{user.displayName}</Link>
           <span>{`posted a track ${timeSince}`}</span>{' '}
         </p>
       </div>

@@ -6,6 +6,7 @@ import ProfilePicture from '../common/ProfilePicture';
 import { EditDeleteButton } from '../AudioPlayer';
 import { formatTime, calculateTimeSincePost } from '../../utils';
 import './CommentListItem.css';
+import { Link } from 'react-router-dom';
 
 const CommentListItem = ({ commentId }) => {
   const dispatch = useDispatch();
@@ -14,12 +15,12 @@ const CommentListItem = ({ commentId }) => {
   const sessionUser = useSelector((state) => state.session.user);
   const [isLoading, setLoading] = useState(true);
   const [showActions, setShowActions] = useState(false);
+
+  // Memoize createdAt value so that it doesn't re-render on hover events
   const createdAt = useMemo(
     () => calculateTimeSincePost(comment?.createdAt),
     [comment]
   );
-
-  // console.log('comment', comment);
 
   useEffect(() => {
     if (user) {
@@ -36,10 +37,9 @@ const CommentListItem = ({ commentId }) => {
 
   const onDelete = () => {
     if (!belongsToCurrentUser) return;
-    return (
-      dispatch(deleteComment(commentId, comment.trackId, comment.userId))
-        // .then(() => toggleActions())
-        .catch((error) => console.log('error deleting comment', error))
+
+    dispatch(deleteComment(commentId, comment.trackId, comment.userId)).catch(
+      (error) => console.log('error deleting comment', error)
     );
   };
 
@@ -51,13 +51,15 @@ const CommentListItem = ({ commentId }) => {
         onMouseLeave={() => setShowActions(false)}
       >
         <div className="comment-list-item-left">
-          <ProfilePicture user={user} size="medium" />
+          <Link to={`/users/${user?.id}`}>
+            <ProfilePicture user={user} size="medium" />
+          </Link>
         </div>
         <div className="comment-list-item-center">
-          <p>
-            {user.displayName} <span>at</span>{' '}
-            <span>{formatTime(comment.timePosted)}</span>
-          </p>
+          <Link className="comment-user-link" to={`/users/${user.id}`}>
+            {user.displayName}
+          </Link>
+          <span>at</span> <span>{formatTime(comment.timePosted)}</span>
           <p>{comment.body}</p>
         </div>
         <div className="comment-list-item-right">

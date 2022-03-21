@@ -5,14 +5,14 @@ import { PlaybackButton } from '../AudioPlayer';
 import { TrackArtwork, Overlay } from '../TrackArtwork';
 import './PlayableTile.css';
 
-const TileSignature = ({ trackId, title, displayName }) => {
+const TileSignature = ({ trackId, title, displayName, userId }) => {
   return (
     <>
       <Link className="tile-title" to={`/tracks/${trackId}`}>
         {title}
       </Link>
       {/* TODO: replace link to profile */}
-      <Link className="tile-artist" to="#">
+      <Link className="tile-artist" to={`/users/${userId}`}>
         {displayName}
       </Link>
     </>
@@ -65,6 +65,7 @@ const PlayableTile = ({
       <div className="tile-signature">
         <TileSignature
           trackId={trackId}
+          userId={track?.userId}
           title={track?.title}
           displayName={track?.User?.displayName}
         />

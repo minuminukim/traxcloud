@@ -13,7 +13,7 @@ const SoundBadge = () => {
         <TrackArtwork trackId={currentTrackId} height="30" width="30" />
       </div>
       <div className="soundbadge-links">
-        <Link className="link-light" to={`#`}>
+        <Link className="link-light" to={`/users/${track.userId}`}>
           {user?.displayName}
         </Link>
         <Link to={`/tracks/${currentTrackId}`}>{track.title}</Link>
