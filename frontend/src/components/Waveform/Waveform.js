@@ -30,7 +30,7 @@ const Waveform = ({ trackId }) => {
     wavesurfer.current = WaveSurfer.create({
       container: containerRef.current,
       progressColor: '#f50',
-      backend: 'MediaElement',
+      // backend: 'MediaElement',
       responsive: true,
       interact: false,
       normalize: true,
@@ -38,14 +38,6 @@ const Waveform = ({ trackId }) => {
       barWidth: 2,
       cursorColor: 'transparent',
       barHeight: 1,
-      xhr: {
-        mode: 'cors',
-        method: 'GET',
-        credentials: 'same-origin',
-        redirect: 'follow',
-        referrer: 'client',
-        headers: [{ key: 'Access-Control-Allow-Headers', value: '*' }],
-      },
       // height: 60,
     });
 
