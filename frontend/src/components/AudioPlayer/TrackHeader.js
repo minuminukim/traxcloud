@@ -12,7 +12,7 @@ const TrackHeader = ({ trackId }) => {
   return (
     <div className="track-header">
       <Link to={`/users/${track.userId}`}>
-        <ProfilePicture user={user} size="small" />
+        <ProfilePicture userId={track.userId} size="small" />
       </Link>
       <div className="track-header-text">
         <p>

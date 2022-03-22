@@ -70,7 +70,7 @@ const CommentField = ({ trackId, duration, height }) => {
         className={`comment-field comment-field-${height}`}
         onSubmit={handleSubmit}
       >
-        <ProfilePicture user={user} size="medium" shape="square" />
+        <ProfilePicture user={user.id} size="medium" shape="square" />
         <InputField
           id="comment"
           placeholder="Write a comment"

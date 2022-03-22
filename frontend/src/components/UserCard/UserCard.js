@@ -9,7 +9,7 @@ const UserCard = ({ userId, size, avatarSize }) => {
   return (
     <div className={`user-card user-card-${size}`}>
       <Link to={`/users/${userId}`}>
-        <ProfilePicture user={user} size={avatarSize} />
+        <ProfilePicture user={userId} size={avatarSize} />
       </Link>
       <div className={`user-card-body-${size}`}>
         <Link className="user-card-name" to={`/users/${userId}`}>

@@ -15,7 +15,7 @@ function ProfileHeader() {
         className="absolute blur"
       />
       <div className="profile-header-avatar">
-        <ProfilePicture user={user} size="200" shape="round" />
+        <ProfilePicture userId={userId} size="200" shape="round" />
       </div>
       <div className="profile-header-heading">
         <h1 className="profile-heading">{user.displayName}</h1>

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import { fetchSingleTrack } from '../../actions/trackActions';
@@ -10,20 +10,7 @@ import Textarea from '../../components/common/Textarea';
 import { postTrack, editTrack } from '../../actions/trackActions';
 import LoginForm from '../../components/LoginForm';
 import LoadingModal from '../../components/common/LoadingSpinner/LoadingModal';
-import PlaceholderImage from '../../assets/images/default-track-artwork.jpeg';
-import WaveSurfer from 'wavesurfer.js';
-import { waveformOptions } from '../../components/Waveform/options';
 import './TrackUploadForm.css';
-
-const initialFormState = {
-  title: '',
-  description: '',
-  artworkUrl: '',
-  trackFile: null,
-  imageFile: null,
-  trackDuration: 0,
-  fileSize: 0,
-};
 
 const TrackUploadForm = ({ isUpload }) => {
   const { trackId } = useParams();
@@ -43,34 +30,26 @@ const TrackUploadForm = ({ isUpload }) => {
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
-    if (isUpload || !sessionUser) {
-      setTitle('');
-      setDescription('');
-      setArtworkUrl('');
-      setTrackFile(null);
-      setImageFile(null);
-      setFileSize(0);
-      setInProgress(false);
-      setLoading(false);
+    if (!sessionUser) {
       return;
     }
 
-    (async () => {
-      try {
-        const track = await dispatch(fetchSingleTrack(+trackId));
-        if (track.userId !== sessionUser.id) {
-          throw Error('Unauthorized');
-        }
-        setTitle(track.title);
-        setDescription(track.description || '');
-        setArtworkUrl(track.artworkUrl);
-        setLoading(false);
-      } catch (error) {
-        console.log('error fetching track', error);
-        history.push('/error');
-      }
-    })();
-  }, [isUpload, sessionUser, trackId]);
+  //   (async () => {
+  //     try {
+  //       const track = await dispatch(fetchSingleTrack(+trackId));
+  //       if (track.userId !== sessionUser.id) {
+  //         throw Error('Unauthorized');
+  //       }
+  //       setTitle(track.title);
+  //       setDescription(track.description || '');
+  //       setArtworkUrl(track.artworkUrl);
+  //       setLoading(false);
+  //     } catch (error) {
+  //       console.log('error fetching track', error);
+  //       history.push('/error');
+  //     }
+  //   })();
+  // }, [isUpload, sessionUser, trackId]);
 
   const onUpload = (e) => {
     e.preventDefault();
@@ -158,7 +137,6 @@ const TrackUploadForm = ({ isUpload }) => {
 
   const updateTitle = (e) => setTitle(e.target.value);
   const updateDescription = (e) => setDescription(e.target.value);
-  const updateArtworkUrl = (e) => setArtworkUrl(e.target.value);
   const updateImageFile = (file) => setImageFile(file);
 
   return (
@@ -167,13 +145,11 @@ const TrackUploadForm = ({ isUpload }) => {
         <LoadingModal loading={inProgress} />
         {sessionUser ? (
           <div className="content-wrap upload">
-            <h1>{isUpload ? 'Upload a Track' : 'Edit Your Track'}</h1>
+            <h1>Upload a Track</h1>
             <div className="form-note">
-              {isUpload && (
-                <span className="form-requirement">
-                  Please provide an MP3 file no larger than 10MB.
-                </span>
-              )}
+              <span className="form-requirement">
+                Please provide an MP3 file no larger than 10MB.
+              </span>
               <span className="form-requirement">
                 Supported image files: .png, .jpg, .jpeg under 3MB.
               </span>
@@ -213,12 +189,10 @@ const TrackUploadForm = ({ isUpload }) => {
                     error={errors.description}
                     rows="10"
                   />
-                  {isUpload && (
-                    <FileUploader
-                      handleFile={handleTrackFile}
-                      disabled={inProgress}
-                    />
-                  )}
+                  <FileUploader
+                    handleFile={handleTrackFile}
+                    disabled={inProgress}
+                  />
                 </div>
               </div>
               <div className="form-submit-row">

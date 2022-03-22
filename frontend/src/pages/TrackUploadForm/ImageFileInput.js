@@ -1,10 +1,14 @@
 import { useState, useRef, useMemo } from 'react';
+import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import { FaCamera } from 'react-icons/fa';
 import AlertList from '../../components/Alert/AlertList';
 import PlaceholderImage from '../../assets/images/placeholder.png';
 
 const ImageFileInput = ({ updateImageFile, disabled = false, src = null }) => {
   const inputRef = useRef(null);
+  const { trackId } = useParams();
+  const track = useSelector((state) => state.tracks[trackId]);
   const [imageFile, setImageFile] = useState(null);
   const [errors, setErrors] = useState([]);
 
@@ -52,7 +56,7 @@ const ImageFileInput = ({ updateImageFile, disabled = false, src = null }) => {
       <div className="form-image-preview">
         <AlertList messages={errors} />
         <img
-          src={useMemo(() => toObjectURL(imageFile), [imageFile])}
+          src={useMemo(() => toObjectURL(imageFile), [imageFile, src])}
           alt="Cover preview"
         />
         {!imageFile && !src && (

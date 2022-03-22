@@ -5,6 +5,7 @@ import { restoreUser } from './store/sessionReducer';
 import Navigation from './components/Navigation';
 import { LandingNavigation } from './pages/LandingPage';
 import GlobalPlayer from './components/GlobalPlayer';
+import TrackEditForm from './components/TrackEditForm';
 import {
   LandingPage,
   Stream,
@@ -45,7 +46,7 @@ function App() {
               <SingleTrackPage />
             </Route>
             <Route exact path="/tracks/:trackId/edit">
-              <TrackUploadForm isUpload={false} />
+              <TrackEditForm />
             </Route>
             <Route exact path="/users/:userId">
               <Profile />

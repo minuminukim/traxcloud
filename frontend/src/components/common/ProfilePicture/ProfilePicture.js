@@ -1,12 +1,15 @@
-import './ProfilePicture.css';
+import { useSelector } from 'react-redux';
 import { onImageError } from '../../../utils';
+import './ProfilePicture.css';
 
-const ProfilePicture = ({ user, size, shape = 'round' }) => {
+const ProfilePicture = ({ userId, size, shape = 'round' }) => {
+  const user = useSelector((state) => state.users[userId]);
+
   return (
     <img
-      className={`profile-picture  profile-picture-${shape} profile-picture-${size} user-${user.id}`}
-      src={user.profilePictureUrl}
-      alt={user.displayName}
+      className={`profile-picture  profile-picture-${shape} profile-picture-${size}`}
+      src={user?.profilePictureUrl}
+      alt={user?.displayName}
       crossOrigin="true"
       onError={onImageError}
     />

@@ -29,7 +29,7 @@ const AudioPlayer = ({
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (user || !track) {
+    if (user && track) {
       setLoading(false);
       return;
     }

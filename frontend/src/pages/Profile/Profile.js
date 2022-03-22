@@ -24,7 +24,6 @@ function Profile() {
         // Fetch user first to ensure that they are in state
         await dispatch(fetchSingleUser(+userId));
         const [tracks, _comments] = await Promise.all([
-
           dispatch(fetchUserTracks(+userId)),
           dispatch(fetchCommentsByUserId(+userId)),
         ]);

@@ -93,3 +93,13 @@ li {
 .pointer {
   cursor: pointer;
 }
+
+.edit-track {
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.edit-track h1 {
+  margin-top: 0;
+}

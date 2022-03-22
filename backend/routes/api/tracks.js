@@ -146,7 +146,6 @@ router.put(
     const trackId = +req.params.trackId;
     const track = await Track.getTrackById(trackId);
     const user = req.user;
-    console.log('req.file', req?.files);
 
     if (track) {
       const pairs = Object.entries(req.body);
