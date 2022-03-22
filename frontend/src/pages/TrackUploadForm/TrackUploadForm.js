@@ -37,7 +37,6 @@ const TrackUploadForm = ({ isUpload }) => {
   const [artworkUrl, setArtworkUrl] = useState('');
   const [trackFile, setTrackFile] = useState(null);
   const [imageFile, setImageFile] = useState(null);
-  const [peakData, setPeakData] = useState([]);
   const [trackDuration, setTrackDuration] = useState(0);
   const [fileSize, setFileSize] = useState(0);
   const [inProgress, setInProgress] = useState(false);
@@ -45,6 +44,13 @@ const TrackUploadForm = ({ isUpload }) => {
 
   useEffect(() => {
     if (isUpload || !sessionUser) {
+      setTitle('');
+      setDescription('');
+      setArtworkUrl('');
+      setTrackFile(null);
+      setImageFile(null);
+      setFileSize(0);
+      setInProgress(false);
       setLoading(false);
       return;
     }
@@ -64,7 +70,7 @@ const TrackUploadForm = ({ isUpload }) => {
         history.push('/error');
       }
     })();
-  }, [isUpload, sessionUser]);
+  }, [isUpload, sessionUser, trackId]);
 
   const onUpload = (e) => {
     e.preventDefault();
@@ -74,7 +80,6 @@ const TrackUploadForm = ({ isUpload }) => {
     const params = {
       title,
       description,
-      // artworkUrl,
       trackDuration,
       trackFile,
       imageFile,
@@ -104,7 +109,8 @@ const TrackUploadForm = ({ isUpload }) => {
       id: trackId,
       title,
       description,
-      artworkUrl,
+      imageFile,
+      // artworkUrl,
       userId: sessionUser.id,
     };
 
@@ -142,10 +148,8 @@ const TrackUploadForm = ({ isUpload }) => {
 
   const handleTrackFile = async (file) => {
     if (file) {
-      console.log('file', file);
       const duration = await getTrackDuration(file);
       setTrackDuration(Math.ceil(duration));
-      setPeakData(peakData);
       setFileSize(Math.ceil(file.size));
       setTrackFile(file);
       setTitle(file.name);
@@ -165,9 +169,13 @@ const TrackUploadForm = ({ isUpload }) => {
           <div className="content-wrap upload">
             <h1>{isUpload ? 'Upload a Track' : 'Edit Your Track'}</h1>
             <div className="form-note">
+              {isUpload && (
+                <span className="form-requirement">
+                  Please provide an MP3 file no larger than 10MB.
+                </span>
+              )}
               <span className="form-requirement">
-                Please provide an MP3 file no larger than 10MB. Supported image
-                files: .png, .jpg, .jpeg under 3MB.
+                Supported image files: .png, .jpg, .jpeg under 3MB.
               </span>
             </div>
             <span className="form-file-name">{trackFile?.name}</span>
@@ -180,6 +188,7 @@ const TrackUploadForm = ({ isUpload }) => {
                   <div className="form-image-preview">
                     <ImageFileInput
                       updateImageFile={updateImageFile}
+                      src={artworkUrl}
                       disabled={inProgress}
                     />
                   </div>

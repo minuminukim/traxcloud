@@ -66,7 +66,7 @@ export const postTrack = (track) => async (dispatch) => {
 
   if (track.imageFile) {
     formData.append('imageFile', track.imageFile);
-  } 
+  }
 
   formData.append('title', track.title);
   formData.append('description', track.description);
@@ -88,12 +88,24 @@ export const postTrack = (track) => async (dispatch) => {
 };
 
 export const editTrack = (track) => async (dispatch) => {
-  const { id, ...rest } = track;
+  console.log('track', track);
+  const formData = new FormData();
+
+  if (track.imageFile) {
+    formData.append('imageFile', track.imageFile);
+  }
+
+  formData.append('title', track.title);
+  formData.append('description', track.description);
+  formData.append('userId', track.userId);
 
   const response = await csrfFetch(`/api/tracks/${track.id}`, {
     method: 'PUT',
-    body: JSON.stringify({ ...rest }),
+    headers: { 'Content-Type': 'multipart/form-data' },
+    body: formData,
+    // body: JSON.stringify({ ...rest }),
   });
+
   const { updatedTrack } = await response.json();
   dispatch(updateTrack(updatedTrack));
 

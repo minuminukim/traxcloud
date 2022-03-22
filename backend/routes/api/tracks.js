@@ -139,16 +139,28 @@ router.post(
 router.put(
   '/:trackId(\\d+)',
   requireAuth,
-  singleMulterUpload('imageFile'),
+  multerFieldsUpload(),
   validateTrackData,
   validateImage,
   asyncHandler(async (req, res, next) => {
     const trackId = +req.params.trackId;
     const track = await Track.getTrackById(trackId);
+    const user = req.user;
+    console.log('req.file', req?.files);
 
     if (track) {
       const pairs = Object.entries(req.body);
       pairs.forEach(([key, value]) => track.set(key, value));
+      const isImageUpdate = 'imageFile' in req.files;
+      if (isImageUpdate && track.artworkUrl !== user.profilePictureUrl) {
+        const key = getObjectKey(track.artworkUrl);
+        const [artworkUrl, _] = await Promise.all([
+          singlePublicFileUpload(req.files.imageFile[0]),
+          singlePublicFileDelete(key),
+        ]);
+        track.set('artworkUrl', artworkUrl);
+      }
+
       await track.save();
       const updatedTrack = await Track.fetchSingleTrackWithUser(track.id);
       res.status(200).json({ updatedTrack });
@@ -177,7 +189,7 @@ router.delete(
       // and delete the artwork if so
       if (track.artworkUrl !== user.profilePictureUrl) {
         const imageKey = getObjectKey(track.artworkUrl);
-        await singlePublicFileDelete(imageKey);;
+        await singlePublicFileDelete(imageKey);
       }
 
       await user.setDataSpent(track.fileSize, 'delete');

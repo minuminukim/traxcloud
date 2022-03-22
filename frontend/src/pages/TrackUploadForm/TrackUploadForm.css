@@ -60,6 +60,7 @@
   width: 100%;
   height: 100%;
   margin-top: 0;
+  margin-bottom: 12px;
 }
 
 .upload-form .form-header {
@@ -136,6 +137,7 @@
   height: 26px;
   transition: border 0.1s linear;
   margin-left: 131px;
+  margin-bottom: 12px;
 }
 
 .file-button.replace:hover {

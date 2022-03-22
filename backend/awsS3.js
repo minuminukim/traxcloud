@@ -97,7 +97,7 @@ const fileFilter = (req, file, cb) => {
     } else {
       cb({ message: 'Unsupported File Format' }, false);
     }
-  } else if (file.fieldname === 'imageFile'){
+  } else if (file.fieldname === 'imageFile') {
     // file.fieldname === 'imageFile'
     if (supportedImageFormats.some((format) => format === file.mimetype)) {
       cb(null, true);
@@ -176,9 +176,9 @@ const singleMulterUpload = (nameOfKey) => {
   return multer({
     storage,
     limits: {
-      fileSize: isTrack ? trackSizeLimit : imageSizeLimit,
+      fileSize: imageSizeLimit,
     },
-    fileFilter: isTrack ? trackFilter : imageFilter,
+    fileFilter: imageFilter,
   }).single(nameOfKey);
 };
 

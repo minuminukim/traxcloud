@@ -3,13 +3,15 @@ import { FaCamera } from 'react-icons/fa';
 import AlertList from '../../components/Alert/AlertList';
 import PlaceholderImage from '../../assets/images/placeholder.png';
 
-const ImageFileInput = ({ updateImageFile, disabled = false, src = '' }) => {
+const ImageFileInput = ({ updateImageFile, disabled = false, src = null }) => {
   const inputRef = useRef(null);
   const [imageFile, setImageFile] = useState(null);
   const [errors, setErrors] = useState([]);
 
-  const toObjectURL = (file) =>
-    file ? URL.createObjectURL(file) : PlaceholderImage;
+  const toObjectURL = (file) => {
+    if (src && !file) return src;
+    return file ? URL.createObjectURL(file) : PlaceholderImage;
+  };
 
   const isValidFormat = (type) =>
     ['image/jpeg', 'image/jpg', 'image/png'].some((format) => format === type);
@@ -53,7 +55,7 @@ const ImageFileInput = ({ updateImageFile, disabled = false, src = '' }) => {
           src={useMemo(() => toObjectURL(imageFile), [imageFile])}
           alt="Cover preview"
         />
-        {!imageFile && (
+        {!imageFile && !src && (
           <button
             className="file-button upload"
             onClick={chooseFile}
@@ -72,7 +74,7 @@ const ImageFileInput = ({ updateImageFile, disabled = false, src = '' }) => {
           hidden
         />
       </div>
-      {imageFile && (
+      {(src || imageFile) && (
         <button
           className="file-button replace"
           onClick={chooseFile}
