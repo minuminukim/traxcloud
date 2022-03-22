@@ -84,6 +84,7 @@ function playerReducer(state = initialState, action) {
         ...state,
         seekPosition: action.position,
         seekTime: action.currentTime,
+        currentTime: action.currentTime,
       };
 
     case END_PLAYBACK:

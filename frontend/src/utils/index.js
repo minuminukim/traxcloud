@@ -7,6 +7,7 @@ import prefixCORS from './prefixCORS';
 import sanitizeString from './sanitizeString';
 import toArray from './toArray';
 import formatTime from './formatTime';
+import shuffle from './shuffle';
 
 export {
   belongsTo,
@@ -18,4 +19,5 @@ export {
   sanitizeString,
   toArray,
   formatTime,
+  shuffle,
 };

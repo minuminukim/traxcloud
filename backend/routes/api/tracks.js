@@ -171,6 +171,23 @@ router.put(
   })
 );
 
+// Increment playcount
+router.post(
+  '/:trackId(\\d+)/plays',
+  asyncHandler(async (req, res, next) => {
+    const trackId = +req.params.trackId;
+    console.log('trackId', trackId);
+    const track = await Track.findByPk(trackId);
+    console.log('track.playcount', track.playCount);
+    const updated = await track.update({ playCount: track.playCount + 1 });
+    console.log('updated', updated);
+
+    return res.json({
+      track: updated,
+    });
+  })
+);
+
 router.delete(
   '/:trackId(\\d+)',
   requireAuth,

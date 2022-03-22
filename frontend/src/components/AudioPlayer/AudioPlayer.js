@@ -27,6 +27,7 @@ const AudioPlayer = ({
   const sessionUser = useSelector((state) => state.session.user);
   const user = useSelector((state) => state.users[track?.userId]);
   const [isLoading, setLoading] = useState(true);
+  const [waveformReady, setReady] = useState(false);
 
   useEffect(() => {
     if (user && track) {
@@ -38,6 +39,8 @@ const AudioPlayer = ({
       .then(() => setLoading(false))
       .catch((err) => console.log('error fetching user', err));
   }, [user, track?.userId]);
+
+  const onReady = () => setReady(true);
 
   if (!track) {
     return null;
@@ -55,11 +58,15 @@ const AudioPlayer = ({
         )}
         <div className="player-content">
           <div className="player-header">
-            <PlaybackButton size={size} trackId={trackId} />
+            <PlaybackButton
+              size={size}
+              trackId={trackId}
+              isReady={waveformReady}
+            />
             {!isLoading && <TrackDetails trackId={trackId} size={size} />}
           </div>
           <div className="waveform-row">
-            <Waveform trackId={trackId} size={size} />
+            <Waveform trackId={trackId} size={size} onReady={onReady} />
             <Timeline trackId={trackId} />
           </div>
           {withCommentField && sessionUser && (

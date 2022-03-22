@@ -88,7 +88,6 @@ export const postTrack = (track) => async (dispatch) => {
 };
 
 export const editTrack = (track) => async (dispatch) => {
-  console.log('track', track);
   const formData = new FormData();
 
   if (track.imageFile) {
@@ -109,7 +108,17 @@ export const editTrack = (track) => async (dispatch) => {
   const { updatedTrack } = await response.json();
   dispatch(updateTrack(updatedTrack));
 
-  return response;
+  return updatedTrack;
+};
+
+export const updatePlayCount = (trackId) => async (dispatch) => {
+  const response = await csrfFetch(`/api/tracks/${trackId}/plays`, {
+    method: 'POST',
+  });
+  const { track } = await response.json();
+  dispatch(updateTrack(track));
+
+  return track;
 };
 
 export const deleteTrack = (trackId, userId) => async (dispatch) => {

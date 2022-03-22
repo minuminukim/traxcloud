@@ -9,8 +9,9 @@ import {
   loadPlayer,
   setPlayerReady,
 } from '../../actions/playerActions';
+import { useTimer } from '../../hooks';
 
-const Waveform = ({ trackId, size = 'medium' }) => {
+const Waveform = ({ trackId, onReady, size = 'medium' }) => {
   const dispatch = useDispatch();
   const track = useSelector((state) => state.tracks[trackId]);
   const { currentTime, currentTrackId } = useSelector((state) => state.player);
@@ -21,6 +22,7 @@ const Waveform = ({ trackId, size = 'medium' }) => {
   );
 
   const { selectTrack, setPlaying } = usePlay(trackId);
+  const { time } = useTimer();
 
   // Initialize waveform object
   useEffect(() => {
@@ -39,7 +41,7 @@ const Waveform = ({ trackId, size = 'medium' }) => {
       height: size === 'medium' ? 60 : 100,
     });
 
-    dispatch(loadPlayer(trackId));
+    // dispatch(loadPlayer(trackId));
 
     const audio = new Audio(track.trackUrl);
     audio.crossOrigin = 'anonymous';
@@ -59,18 +61,12 @@ const Waveform = ({ trackId, size = 'medium' }) => {
     wavesurfer.current.load(audio, track.peakData);
     wavesurfer.current.on('ready', () => {
       wavesurfer.current.setMute(true);
-      dispatch(setPlayerReady(trackId));
+      // dispatch(setPlayerReady(trackId));
+      onReady();
     });
 
     return () => wavesurfer.current.destroy();
   }, [track.trackUrl, track.peakData]);
-
-  // Send waveform ref to store
-  useEffect(() => {
-    if (currentTrackId === trackId) {
-      dispatch(setWaveform(wavesurfer.current));
-    }
-  }, [currentTrackId, trackId, wavesurfer.current]);
 
   useEffect(() => {
     if (currentTrackId === trackId) {
@@ -82,7 +78,9 @@ const Waveform = ({ trackId, size = 'medium' }) => {
     } else {
       wavesurfer.current.stop();
     }
-  }, [isPlaying, currentTrackId, trackId]);
+    console.log('timeaaaa', wavesurfer.current.getCurrentTime());
+
+  }, [isPlaying, currentTime, currentTrackId, trackId]);
 
   useEffect(() => {
     if (isPlaying && currentTrackId === trackId) {

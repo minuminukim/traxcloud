@@ -27,15 +27,16 @@ function Audio({ trackId }) {
 
   useEffect(() => {
     audioRef.current.currentTime = seekTime;
+    dispatch(updateTime(audioRef.current.currentTime));
   }, [seekTime]);
 
   useEffect(() => {
     audioRef.current.volume = volume;
   }, [volume]);
 
-  const onTimeUpdate = () => {
-    dispatch(updateTime(audioRef.current.currentTime));
-  };
+  // const onTimeUpdate = () => {
+  //   dispatch(updateTime(audioRef.current.currentTime));
+  // };
 
   const onEnded = async () => {
     if (nextIndex === null) {
@@ -50,10 +51,15 @@ function Audio({ trackId }) {
   };
 
   const onPlay = () => {
+    dispatch(updateTime(audioRef.current.currentTime));
     if (audioRef === null || audioRef !== reference) {
       dispatch(setReference(audioRef));
     }
   };
+
+  // const onPause = () => {
+  //   dispatch(updateTime(audioRef.current.currentTime));
+  // };
 
   return (
     <audio
@@ -61,8 +67,9 @@ function Audio({ trackId }) {
       id={`track-${track?.id}`}
       crossOrigin="anonymous"
       ref={audioRef}
-      onTimeUpdate={onTimeUpdate}
+      // onTimeUpdate={onTimeUpdate}
       onPlay={onPlay}
+      // onPause={onPause}
       onEnded={onEnded}
     />
   );

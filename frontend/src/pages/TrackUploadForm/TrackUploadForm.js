@@ -18,38 +18,14 @@ const TrackUploadForm = ({ isUpload }) => {
   const history = useHistory();
   const sessionUser = useSelector((state) => state.session.user);
 
-  const [isLoading, setLoading] = useState(true);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [artworkUrl, setArtworkUrl] = useState('');
   const [trackFile, setTrackFile] = useState(null);
   const [imageFile, setImageFile] = useState(null);
   const [trackDuration, setTrackDuration] = useState(0);
   const [fileSize, setFileSize] = useState(0);
   const [inProgress, setInProgress] = useState(false);
   const [errors, setErrors] = useState({});
-
-  useEffect(() => {
-    if (!sessionUser) {
-      return;
-    }
-
-  //   (async () => {
-  //     try {
-  //       const track = await dispatch(fetchSingleTrack(+trackId));
-  //       if (track.userId !== sessionUser.id) {
-  //         throw Error('Unauthorized');
-  //       }
-  //       setTitle(track.title);
-  //       setDescription(track.description || '');
-  //       setArtworkUrl(track.artworkUrl);
-  //       setLoading(false);
-  //     } catch (error) {
-  //       console.log('error fetching track', error);
-  //       history.push('/error');
-  //     }
-  //   })();
-  // }, [isUpload, sessionUser, trackId]);
 
   const onUpload = (e) => {
     e.preventDefault();
@@ -89,7 +65,6 @@ const TrackUploadForm = ({ isUpload }) => {
       title,
       description,
       imageFile,
-      // artworkUrl,
       userId: sessionUser.id,
     };
 
@@ -140,88 +115,85 @@ const TrackUploadForm = ({ isUpload }) => {
   const updateImageFile = (file) => setImageFile(file);
 
   return (
-    !isLoading && (
-      <div className="page-container upload-page">
-        <LoadingModal loading={inProgress} />
-        {sessionUser ? (
-          <div className="content-wrap upload">
-            <h1>Upload a Track</h1>
-            <div className="form-note">
-              <span className="form-requirement">
-                Please provide an MP3 file no larger than 10MB.
-              </span>
-              <span className="form-requirement">
-                Supported image files: .png, .jpg, .jpeg under 3MB.
-              </span>
-            </div>
-            <span className="form-file-name">{trackFile?.name}</span>
-            <form onSubmit={handleSubmit} className="upload-form">
-              <div className="form-header">
-                <h2 className="form-heading">Basic Info</h2>
-              </div>
-              <div className="form-body upload">
-                <div className="form-section">
-                  <div className="form-image-preview">
-                    <ImageFileInput
-                      updateImageFile={updateImageFile}
-                      src={artworkUrl}
-                      disabled={inProgress}
-                    />
-                  </div>
-                </div>
-                <div className="form-section form-fields">
-                  <InputField
-                    label="Title"
-                    id="title"
-                    size="medium"
-                    value={title}
-                    onChange={updateTitle}
-                    error={errors.title}
-                    required
-                  />
-                  <Textarea
-                    label="Description"
-                    placeholder="Describe your track (optional)"
-                    id="description"
-                    size="medium"
-                    value={description}
-                    onChange={updateDescription}
-                    error={errors.description}
-                    rows="10"
-                  />
-                  <FileUploader
-                    handleFile={handleTrackFile}
-                    disabled={inProgress}
-                  />
-                </div>
-              </div>
-              <div className="form-submit-row">
-                <p className="form-requirement">
-                  <span className="validation-error">*</span>
-                  Required fields
-                </p>
-                <div className="form-buttons">
-                  <Button
-                    className="small-button cancel transparent"
-                    label="Cancel"
-                    onClick={history.goBack}
-                    disabled={inProgress}
-                  />
-                  <Button
-                    label="Save"
-                    className="small-button submit-button"
-                    type="submit"
-                    disabled={inProgress}
-                  />
-                </div>
-              </div>
-            </form>
+    <div className="page-container upload-page">
+      <LoadingModal loading={inProgress} />
+      {sessionUser ? (
+        <div className="content-wrap upload">
+          <h1>Upload a Track</h1>
+          <div className="form-note">
+            <span className="form-requirement">
+              Please provide an MP3 file no larger than 10MB.
+            </span>
+            <span className="form-requirement">
+              Supported image files: .png, .jpg, .jpeg under 3MB.
+            </span>
           </div>
-        ) : (
-          <LoginForm />
-        )}
-      </div>
-    )
+          <span className="form-file-name">{trackFile?.name}</span>
+          <form onSubmit={handleSubmit} className="upload-form">
+            <div className="form-header">
+              <h2 className="form-heading">Basic Info</h2>
+            </div>
+            <div className="form-body upload">
+              <div className="form-section">
+                <div className="form-image-preview">
+                  <ImageFileInput
+                    updateImageFile={updateImageFile}
+                    disabled={inProgress}
+                  />
+                </div>
+              </div>
+              <div className="form-section form-fields">
+                <InputField
+                  label="Title"
+                  id="title"
+                  size="medium"
+                  value={title}
+                  onChange={updateTitle}
+                  error={errors.title}
+                  required
+                />
+                <Textarea
+                  label="Description"
+                  placeholder="Describe your track (optional)"
+                  id="description"
+                  size="medium"
+                  value={description}
+                  onChange={updateDescription}
+                  error={errors.description}
+                  rows="10"
+                />
+                <FileUploader
+                  handleFile={handleTrackFile}
+                  disabled={inProgress}
+                />
+              </div>
+            </div>
+            <div className="form-submit-row">
+              <p className="form-requirement">
+                <span className="validation-error">*</span>
+                Required fields
+              </p>
+              <div className="form-buttons">
+                <Button
+                  className="small-button cancel transparent"
+                  label="Cancel"
+                  onClick={history.goBack}
+                  disabled={inProgress}
+                />
+                <Button
+                  label="Save"
+                  className="small-button submit-button"
+                  type="submit"
+                  disabled={inProgress}
+                />
+              </div>
+            </div>
+          </form>
+        </div>
+      ) : (
+        <LoginForm />
+      )}
+    </div>
   );
 };
 

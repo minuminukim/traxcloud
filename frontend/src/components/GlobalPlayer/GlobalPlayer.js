@@ -1,5 +1,4 @@
 import { useSelector, useDispatch } from 'react-redux';
-import usePlay from '../../hooks/usePlay';
 import { Volume, SoundBadge } from '.';
 import {
   playNext,
@@ -13,6 +12,7 @@ import PlaybackTime from '../AudioPlayer/PlaybackTime';
 import { PlaybackButton, Audio } from '../AudioPlayer';
 import { IoPlaySkipForward, IoPlaySkipBack } from 'react-icons/io5';
 import './GlobalPlayer.css';
+import { useTimer, usePlay } from '../../hooks';
 
 const GlobalPlayer = () => {
   const dispatch = useDispatch();
@@ -25,8 +25,11 @@ const GlobalPlayer = () => {
   const { incrementPlayCount, isSelected, selectTrack, setPlaying } =
     usePlay(currentTrackId);
 
-  const onScrub = (e) => {
+  const { time, setTime } = useTimer(currentTrackId);
+
+  const onScrub = async (e) => {
     const position = +e.target.value / track.duration;
+    // updateTime(+e.target.value);
     dispatch(setSeeking(position, +e.target.value));
     setPlaying();
     incrementPlayCount();
@@ -39,8 +42,8 @@ const GlobalPlayer = () => {
       dispatch(updateTime(0));
       dispatch(setSeeking(0, 0));
       dispatch(playNext(nextTrackId, nextIndex));
+      incrementPlayCount(nextTrackId);
     }
-    // incrementPlayCount();
   };
 
   const onPlayPrevious = () => {
@@ -69,19 +72,20 @@ const GlobalPlayer = () => {
               size="small"
               trackId={currentTrackId}
               withBackground={false}
+              isGlobal
             />
             <button className="player-control">
               <IoPlaySkipForward onClick={onPlayNext} />
             </button>
           </div>
           <div className="footer-slider">
-            <PlaybackTime className="timer" transparent time={currentTime} />
+            <PlaybackTime className="timer" transparent time={time} />
             <Slider
               className="progress-bar"
               min="1"
               max={track.duration || track.duration.toString()}
               step="1"
-              value={isSelected ? currentTime : 0}
+              value={time}
               onChange={onScrub}
             />
             <PlaybackTime

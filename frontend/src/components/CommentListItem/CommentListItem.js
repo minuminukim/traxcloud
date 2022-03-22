@@ -54,7 +54,7 @@ const CommentListItem = ({ commentId }) => {
       >
         <div className="comment-list-item-left">
           <Link to={`/users/${user?.id}`}>
-            <ProfilePicture user={user.id} size="medium" />
+            <ProfilePicture userId={user.id} size="medium" />
           </Link>
         </div>
         <div className="comment-list-item-center">

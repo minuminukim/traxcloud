@@ -1,9 +1,9 @@
 import usePlay from './usePlay';
-// import useSeek from './useSeek';
+import useTimer from './useTimer';
 import useDemo from './useDemo';
 
 export {
   usePlay,
-  // useSeek,
+  useTimer,
   useDemo,
 };
