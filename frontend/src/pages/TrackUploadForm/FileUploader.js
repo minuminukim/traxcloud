@@ -20,7 +20,6 @@ const FileUploader = ({ handleFile }) => {
   const handleChange = async (e) => {
     setFileErrors([]);
     const file = e.target.files[0];
-    console.log('file', file);
 
     if (file && file.type !== 'audio/mpeg') {
       return setFileErrors(['Please provide a valid mp3.']);

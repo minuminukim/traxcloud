@@ -70,7 +70,7 @@ const TrackUploadForm = ({ isUpload }) => {
     const params = {
       title,
       description,
-      artworkUrl,
+      // artworkUrl,
       trackDuration,
       trackFile,
       imageFile,
@@ -105,6 +105,7 @@ const TrackUploadForm = ({ isUpload }) => {
     return dispatch(editTrack(updatedTrack))
       .then(() => history.push(`/tracks/${trackId}`))
       .catch(async (res) => {
+        console.log('error posting track', res);
         const data = await res.json();
         if (data && data.errors) {
           setErrors(data.errors);
@@ -164,10 +165,6 @@ const TrackUploadForm = ({ isUpload }) => {
                 <div className="form-section">
                   <div className="form-image-preview">
                     <ImageFileInput updateImageFile={updateImageFile}/>
-                    {/* <img
-                      src={useMemo(() => toObjectURL(imageFile), [imageFile])}
-                      alt="Cover art preview"
-                    /> */}
                   </div>
                 </div>
                 <div className="form-section form-fields">
@@ -180,16 +177,6 @@ const TrackUploadForm = ({ isUpload }) => {
                     error={errors.title}
                     required
                   />
-                  {/* <InputField
-                    label="Artwork"
-                    id="artworkUrl"
-                    size="medium"
-                    value={artworkUrl}
-                    onChange={updateArtworkUrl}
-                    error={errors.artworkUrl}
-                    placeholder="Please provide a valid URL."
-                    required
-                  /> */}
                   <Textarea
                     label="Description"
                     placeholder="Describe your track (optional)"
@@ -218,7 +205,6 @@ const TrackUploadForm = ({ isUpload }) => {
                     label="Save"
                     className="small-button submit-button"
                     type="submit"
-                    // onClick={handleSubmit}
                   />
                 </div>
               </div>

@@ -64,14 +64,8 @@ router.post(
   '/',
   requireAuth,
   multerFieldsUpload(),
-  // // singleMulterUpload,
   validateTrack,
   asyncHandler(async (req, res, next) => {
-    const userId = parseInt(req.body.userId, 10);
-    const currentUser = await User.getCurrentUserById(userId);
-    // console.log('req.files', req.files);
-    console.log('made it through validations');
-
     // req.files = {
     //   trackFile: [
     //     {
@@ -89,23 +83,53 @@ router.post(
     //     }
     //   ]
     // }
-    const trackFile = req.files.trackFile[0];
-    const imageFile = req.files.imageFile[0];
-    const uploadSize = trackFile.size + imageFile.size;
 
-    // check if upload will push user over data limit of 50mb;
-    if (currentUser.dataSpent + uploadSize >= 52428800) {
+    const { user, body, files } = req;
+
+    const trackFile = files.trackFile[0];
+
+    const isImageUpload = 'imageFile' in files;
+    const imageSize = isImageUpload ? files.imageFile[0].size : 0;
+    const uploadSize = trackFile.size + imageSize;
+
+    // Check if upload will push user over data limit of 50mb;
+    if (user.dataSpent + uploadSize >= 52428800) {
       return next(dataLimitError());
     }
 
-    const [trackUrl, artworkUrl] = await multiplePublicFileUpload([trackFile, imageFile]);
+    /**
+     * Image isn't a required field, so we'll upload the track,
+     * and then create a new track with artworkUrl set to
+     * user.profilePictureUrl
+     */
 
-    await currentUser.setDataSpent(uploadSize, 'post');
-    // const trackUrl = await singlePublicFileUpload(req.file);
-    const track = await Track.create({ ...req.body, trackUrl, artworkUrl });
-    // const newTrack = await Track.fetchSingleTrackWithUser(track.id);
+    if (!isImageUpload) {
+      const trackUrl = await singlePublicFileUpload(trackFile);
+      console.log('test@@@@@@', trackUrl);
+      const track = await Track.create({
+        ...body,
+        trackUrl,
+        artworkUrl: user.profilePictureUrl,
+      });
+      await user.setDataSpent(uploadSize, 'post');
+      return res.json({ track });
+    }
+
+    const imageFile = files.imageFile[0];
+    const [trackUrl, artworkUrl] = await multiplePublicFileUpload([
+      trackFile,
+      imageFile,
+    ]);
+
+    const track = await Track.create({
+      ...body,
+      trackUrl,
+      artworkUrl
+    });
+
+    await user.setDataSpent(uploadSize, 'post');
+
     return res.json({ track });
-    // return res.json({ newTrack });
   })
 );
 

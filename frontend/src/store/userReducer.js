@@ -87,7 +87,7 @@ const userReducer = (state = {}, action) => {
         ...state,
         [action.userId]: {
           ...state[action.userId],
-          trackIds: previous.length
+          trackIds: previousIds.length
             ? previousIds
                 .filter((id) => id !== action.trackId)
                 .sort((a, b) => b - a)

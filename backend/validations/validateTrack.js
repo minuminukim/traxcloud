@@ -17,10 +17,11 @@ const validateTrack = [
     .isLength({ max: 4000 })
     .withMessage('Description cannot be longer than 4000 characters.'),
   check('imageFile').custom((_value, { req }) => {
-    const image = req.files.imageFile[0];
-    if (!image) {
-      throw new Error('Please provide an image.');
-    } else if (!isValidImageFormat(image.mimetype)) {
+    if (!('imageFile' in req.files)) {
+      return true;
+    }
+    const image = req.files?.imageFile[0];
+    if (!isValidImageFormat(image.mimetype)) {
       throw new Error('Image file must be .jpeg, .jpg, or .png');
     } else if (image.size >= 3 * 1024 * 1024) {
       throw new Error('Image size cannot exceed 3MB.');
@@ -28,7 +29,6 @@ const validateTrack = [
     return true;
   }),
   check('trackFile').custom((_value, { req }) => {
-    // const { file } = req;
     const track = req.files.trackFile[0];
     if (!track) {
       throw new Error('Please provide a valid mp3.');

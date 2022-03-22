@@ -18,7 +18,7 @@ const ImageFileInput = ({ updateImageFile }) => {
     setErrors([]);
 
     if (!file) {
-      return setErrors(['Please provide an image.']);
+      return;
     }
 
     if (!isValidFormat(file.type)) {
@@ -32,10 +32,10 @@ const ImageFileInput = ({ updateImageFile }) => {
 
   const handleChange = (e) => {
     e.preventDefault();
-    console.log('files', e.target.files);
+    e.stopPropagation();
     const file = e.target.files[0];
     validateFile(file);
-    if (!errors.length) {
+    if (file && !errors.length) {
       setImageFile(file);
       updateImageFile(file);
     }
@@ -48,9 +48,9 @@ const ImageFileInput = ({ updateImageFile }) => {
         src={useMemo(() => toObjectURL(imageFile), [imageFile])}
         alt="Cover preview"
       />
-      <button onClick={() => inputRef.current.click()}>
+      <span onClick={() => inputRef.current.click()}>
         <FaCamera /> Upload Image
-      </button>
+      </span>
       <input
         type="file"
         accept=".png,.jpg,.jpeg"

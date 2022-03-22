@@ -44,22 +44,26 @@ const Waveform = ({ trackId, size = 'medium' }) => {
     const audio = new Audio(track.trackUrl);
     audio.crossOrigin = 'anonymous';
 
-    wavesurfer.current.load(audio, track.peakData);
-    wavesurfer.current.setMute(true);
-    wavesurfer.current.on('ready', () => {
-      // if waveform data doesn't exist, we dispatch data to database
-      if (!track.peakData) {
-        wavesurfer.current.exportPCM(256, 100, true).then((peakData) => {
-          const updated = { ...track, peakData };
-          dispatch(editTrack(updated));
-        });
-      }
+    if (!track.peakData || !track.peakData?.length) {
+      wavesurfer.current.load(audio);
+      wavesurfer.current.on('waveform-ready', async () => {
+        const peakData = await wavesurfer.current.exportPCM(256, 100, true);
+        const updated = { ...track, peakData };
+        await dispatch(editTrack(updated));
+        wavesurfer.current.setMute(true);
+        // dispatch(setPlayerReady(trackId));
+        return;
+      });
+    }
 
+    wavesurfer.current.setMute(true);
+    wavesurfer.current.load(audio, track.peakData);
+    wavesurfer.current.on('ready', () => {
       dispatch(setPlayerReady(trackId));
     });
 
     return () => wavesurfer.current.destroy();
-  }, [track.trackUrl]);
+  }, [track.trackUrl, track.peakData]);
 
   // Send waveform ref to store
   useEffect(() => {

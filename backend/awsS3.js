@@ -97,7 +97,7 @@ const fileFilter = (req, file, cb) => {
     } else {
       cb({ message: 'Unsupported File Format' }, false);
     }
-  } else {
+  } else if (file.fieldname === 'imageFile'){
     // file.fieldname === 'imageFile'
     if (supportedImageFormats.some((format) => format === file.mimetype)) {
       cb(null, true);

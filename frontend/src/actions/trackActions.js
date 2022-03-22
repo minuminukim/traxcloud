@@ -59,7 +59,6 @@ export const fetchSingleTrack = (trackId) => async (dispatch) => {
 
 export const postTrack = (track) => async (dispatch) => {
   const formData = new FormData();
-  console.log('am i in here');
 
   if (track.trackFile) {
     formData.append('trackFile', track.trackFile);
@@ -67,7 +66,7 @@ export const postTrack = (track) => async (dispatch) => {
 
   if (track.imageFile) {
     formData.append('imageFile', track.imageFile);
-  }
+  } 
 
   formData.append('title', track.title);
   formData.append('description', track.description);
@@ -83,9 +82,9 @@ export const postTrack = (track) => async (dispatch) => {
   });
 
   const data = await response.json();
-  dispatch(addTrack(data.newTrack));
+  dispatch(addTrack(data.track));
 
-  return response;
+  return data;
 };
 
 export const editTrack = (track) => async (dispatch) => {
