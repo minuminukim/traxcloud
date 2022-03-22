@@ -10,6 +10,7 @@ const {
   singlePublicFileUpload,
   singlePublicFileDelete,
   multerFieldsUpload,
+  multiplePublicFileUpload,
 } = require('../../awsS3');
 
 const router = express.Router();
@@ -23,6 +24,15 @@ const trackNotFoundError = () => {
   };
 
   return trackError;
+};
+
+const dataLimitError = () => {
+  const error = new Error('You have reached your data limit.');
+  error.status = 400;
+  error.title = 'Data Limit Error';
+  error.errors = { trackFile: `${dataLimitError.message}` };
+
+  return error;
 };
 
 router.get(
@@ -53,29 +63,49 @@ router.get(
 router.post(
   '/',
   requireAuth,
-  multerFieldsUpload,
-  // singleMulterUpload,
+  multerFieldsUpload(),
+  // // singleMulterUpload,
   validateTrack,
   asyncHandler(async (req, res, next) => {
     const userId = parseInt(req.body.userId, 10);
     const currentUser = await User.getCurrentUserById(userId);
+    // console.log('req.files', req.files);
+    console.log('made it through validations');
+
+    // req.files = {
+    //   trackFile: [
+    //     {
+    //       fieldname: 'trackFile',
+    //       originalName: '...',
+    //       mimetype: '...',
+    //       buffer: <Buffer ...>,
+    //       size: 1231421412,
+    //     },
+    //   ],
+    //   imageFile: [
+    //     {
+    //       fieldName: 'imageFile',
+    //       ...
+    //     }
+    //   ]
+    // }
+    const trackFile = req.files.trackFile[0];
+    const imageFile = req.files.imageFile[0];
+    const uploadSize = trackFile.size + imageFile.size;
 
     // check if upload will push user over data limit of 50mb;
-    if (currentUser.dataSpent + req.file.size >= 52428800) {
-      const dataLimitError = new Error('You have reached your data limit.');
-      dataLimitError.status = 400;
-      dataLimitError.title = 'Data Limit Error';
-      dataLimitError.errors = { trackFile: `${dataLimitError.message}` };
-
-      return next(dataLimitError);
+    if (currentUser.dataSpent + uploadSize >= 52428800) {
+      return next(dataLimitError());
     }
 
-    await currentUser.setDataSpent(req.file.size, 'post');
-    const trackUrl = await singlePublicFileUpload(req.file);
-    const track = await Track.create({ ...req.body, trackUrl });
-    const newTrack = await Track.fetchSingleTrackWithUser(track.id);
+    const [trackUrl, artworkUrl] = await multiplePublicFileUpload([trackFile, imageFile]);
 
-    return res.json({ newTrack });
+    await currentUser.setDataSpent(uploadSize, 'post');
+    // const trackUrl = await singlePublicFileUpload(req.file);
+    const track = await Track.create({ ...req.body, trackUrl, artworkUrl });
+    // const newTrack = await Track.fetchSingleTrackWithUser(track.id);
+    return res.json({ track });
+    // return res.json({ newTrack });
   })
 );
 

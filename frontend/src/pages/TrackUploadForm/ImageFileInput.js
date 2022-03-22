@@ -3,7 +3,7 @@ import { FaCamera } from 'react-icons/fa';
 import AlertList from '../../components/Alert/AlertList';
 import PlaceholderImage from '../../assets/images/default-track-artwork.jpeg';
 
-const ImageFileInput = ({}) => {
+const ImageFileInput = ({ updateImageFile }) => {
   const inputRef = useRef(null);
   const [imageFile, setImageFile] = useState(null);
   const [errors, setErrors] = useState([]);
@@ -18,7 +18,7 @@ const ImageFileInput = ({}) => {
     setErrors([]);
 
     if (!file) {
-      return setErrors(['Please provide a file.']);
+      return setErrors(['Please provide an image.']);
     }
 
     if (!isValidFormat(file.type)) {
@@ -37,6 +37,7 @@ const ImageFileInput = ({}) => {
     validateFile(file);
     if (!errors.length) {
       setImageFile(file);
+      updateImageFile(file);
     }
   };
 

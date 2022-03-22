@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import { fetchSingleTrack } from '../../actions/trackActions';
@@ -12,6 +12,16 @@ import LoginForm from '../../components/LoginForm';
 import PlaceholderImage from '../../assets/images/default-track-artwork.jpeg';
 import './TrackUploadForm.css';
 
+const initialFormState = {
+  title: '',
+  description: '',
+  artworkUrl: '',
+  trackFile: null,
+  imageFile: null,
+  trackDuration: 0,
+  fileSize: 0,
+};
+
 const TrackUploadForm = ({ isUpload }) => {
   const { trackId } = useParams();
   const dispatch = useDispatch();
@@ -24,6 +34,7 @@ const TrackUploadForm = ({ isUpload }) => {
   const [description, setDescription] = useState('');
   const [artworkUrl, setArtworkUrl] = useState('');
   const [trackFile, setTrackFile] = useState(null);
+  const [imageFile, setImageFile] = useState(null);
   const [trackDuration, setTrackDuration] = useState(0);
   const [fileSize, setFileSize] = useState(0);
   const [errors, setErrors] = useState({});
@@ -62,15 +73,18 @@ const TrackUploadForm = ({ isUpload }) => {
       artworkUrl,
       trackDuration,
       trackFile,
+      imageFile,
       userId,
       fileSize,
     };
+    console.log('params', params);
 
     return dispatch(postTrack(params))
       .then(() => history.push('/'))
       .catch(async (res) => {
         const data = await res.json();
         if (data && data.errors) {
+          console.log('data', data);
           setErrors(data.errors);
         }
       });
@@ -129,6 +143,7 @@ const TrackUploadForm = ({ isUpload }) => {
   const updateTitle = (e) => setTitle(e.target.value);
   const updateDescription = (e) => setDescription(e.target.value);
   const updateArtworkUrl = (e) => setArtworkUrl(e.target.value);
+  const updateImageFile = (file) => setImageFile(file);
 
   return (
     !isLoading && (
@@ -147,13 +162,13 @@ const TrackUploadForm = ({ isUpload }) => {
               </div>
               <div className="form-body upload">
                 <div className="form-section">
-                  <ImageFileInput />
-                  {/* <div className="form-image-preview">
-                    <img
-                      src={PlaceholderImage || artworkUrl}
+                  <div className="form-image-preview">
+                    <ImageFileInput updateImageFile={updateImageFile}/>
+                    {/* <img
+                      src={useMemo(() => toObjectURL(imageFile), [imageFile])}
                       alt="Cover art preview"
-                    />
-                  </div> */}
+                    /> */}
+                  </div>
                 </div>
                 <div className="form-section form-fields">
                   <InputField
@@ -165,7 +180,7 @@ const TrackUploadForm = ({ isUpload }) => {
                     error={errors.title}
                     required
                   />
-                  <InputField
+                  {/* <InputField
                     label="Artwork"
                     id="artworkUrl"
                     size="medium"
@@ -174,7 +189,7 @@ const TrackUploadForm = ({ isUpload }) => {
                     error={errors.artworkUrl}
                     placeholder="Please provide a valid URL."
                     required
-                  />
+                  /> */}
                   <Textarea
                     label="Description"
                     placeholder="Describe your track (optional)"
@@ -203,6 +218,7 @@ const TrackUploadForm = ({ isUpload }) => {
                     label="Save"
                     className="small-button submit-button"
                     type="submit"
+                    // onClick={handleSubmit}
                   />
                 </div>
               </div>

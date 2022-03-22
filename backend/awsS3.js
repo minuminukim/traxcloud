@@ -138,21 +138,22 @@ const trackFilter = (req, file, cb) => {
 /**
  * Handles an upload with multiple fields (track && image).
  * Accepts an array of files, all with the name 'fieldname'.
- * The array of files will be stored in req.files
+ * An object with arrays of files will be stored in req.files:
  */
 const multerFieldsUpload = () => {
   const trackSizeLimit = 10 * 1024 * 1024;
   const imageSizeLimit = 3 * 1024 * 1024;
+  console.log('hello');
 
   return multer({
     storage,
     limits: {
+      fileSize: trackSizeLimit + imageSizeLimit,
       /**
        * Don't seem to be able to map individiual limits,
        * and multer stops reading from the stream as soon as
        * we encounter the limit, so we have to pass the sum of both files
        */
-      fileSize: trackSizeLimit + imageSizeLimit,
     },
     fileFilter,
   }).fields([

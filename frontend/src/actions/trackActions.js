@@ -59,16 +59,22 @@ export const fetchSingleTrack = (trackId) => async (dispatch) => {
 
 export const postTrack = (track) => async (dispatch) => {
   const formData = new FormData();
+  console.log('am i in here');
+
+  if (track.trackFile) {
+    formData.append('trackFile', track.trackFile);
+  }
+
+  if (track.imageFile) {
+    formData.append('imageFile', track.imageFile);
+  }
+
   formData.append('title', track.title);
   formData.append('description', track.description);
   formData.append('artworkUrl', track.artworkUrl);
   formData.append('duration', track.trackDuration);
   formData.append('fileSize', track.fileSize);
   formData.append('userId', track.userId);
-
-  if (track.trackFile) {
-    formData.append('trackFile', track.trackFile);
-  }
 
   const response = await csrfFetch('/api/tracks', {
     method: 'POST',
