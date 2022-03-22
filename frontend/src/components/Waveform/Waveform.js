@@ -56,9 +56,9 @@ const Waveform = ({ trackId, size = 'medium' }) => {
       });
     }
 
-    wavesurfer.current.setMute(true);
     wavesurfer.current.load(audio, track.peakData);
     wavesurfer.current.on('ready', () => {
+      wavesurfer.current.setMute(true);
       dispatch(setPlayerReady(trackId));
     });
 

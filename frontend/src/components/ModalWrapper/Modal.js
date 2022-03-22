@@ -11,7 +11,9 @@ const Modal = ({ onClose, children }) => {
         <div id="modal">
           <div id="modal-background" onClick={onClose} />
           <div id="modal-content">{children}</div>
-          <AiOutlineClose className="modal-close pointer" onClick={onClose} />
+          {onClose && (
+            <AiOutlineClose className="modal-close pointer" onClick={onClose} />
+          )}
         </div>,
         modalNode
       )

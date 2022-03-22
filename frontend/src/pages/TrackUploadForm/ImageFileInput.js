@@ -1,9 +1,9 @@
 import { useState, useRef, useMemo } from 'react';
 import { FaCamera } from 'react-icons/fa';
 import AlertList from '../../components/Alert/AlertList';
-import PlaceholderImage from '../../assets/images/default-track-artwork.jpeg';
+import PlaceholderImage from '../../assets/images/placeholder.png';
 
-const ImageFileInput = ({ updateImageFile }) => {
+const ImageFileInput = ({ updateImageFile, disabled = false, src = '' }) => {
   const inputRef = useRef(null);
   const [imageFile, setImageFile] = useState(null);
   const [errors, setErrors] = useState([]);
@@ -30,9 +30,13 @@ const ImageFileInput = ({ updateImageFile }) => {
     }
   };
 
+  const chooseFile = (e) => {
+    e.preventDefault();
+    inputRef.current.click();
+  };
+
   const handleChange = (e) => {
     e.preventDefault();
-    e.stopPropagation();
     const file = e.target.files[0];
     validateFile(file);
     if (file && !errors.length) {
@@ -42,25 +46,42 @@ const ImageFileInput = ({ updateImageFile }) => {
   };
 
   return (
-    <div className="form-image-preview">
-      <AlertList messages={errors} />
-      <img
-        src={useMemo(() => toObjectURL(imageFile), [imageFile])}
-        alt="Cover preview"
-      />
-      <span onClick={() => inputRef.current.click()}>
-        <FaCamera /> Upload Image
-      </span>
-      <input
-        type="file"
-        accept=".png,.jpg,.jpeg"
-        id="imageFile"
-        name="imageFile"
-        ref={inputRef}
-        onChange={handleChange}
-        hidden
-      />
-    </div>
+    <>
+      <div className="form-image-preview">
+        <AlertList messages={errors} />
+        <img
+          src={useMemo(() => toObjectURL(imageFile), [imageFile])}
+          alt="Cover preview"
+        />
+        {!imageFile && (
+          <button
+            className="file-button upload"
+            onClick={chooseFile}
+            disabled={disabled}
+          >
+            <FaCamera className="btn-icon" /> Upload Image
+          </button>
+        )}
+        <input
+          type="file"
+          accept=".png,.jpg,.jpeg"
+          id="imageFile"
+          name="imageFile"
+          ref={inputRef}
+          onChange={handleChange}
+          hidden
+        />
+      </div>
+      {imageFile && (
+        <button
+          className="file-button replace"
+          onClick={chooseFile}
+          disabled={disabled}
+        >
+          Replace Image
+        </button>
+      )}
+    </>
   );
 };
 

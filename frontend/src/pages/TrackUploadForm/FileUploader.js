@@ -2,7 +2,7 @@ import { useRef, useState } from 'react';
 import Button from '../../components/common/Button';
 import AlertList from '../../components/Alert/AlertList';
 
-const FileUploader = ({ handleFile }) => {
+const FileUploader = ({ handleFile, disabled }) => {
   const hiddenInput = useRef(null);
   const [fileErrors, setFileErrors] = useState([]);
   /** TODO: Improve validation error handling..
@@ -38,6 +38,7 @@ const FileUploader = ({ handleFile }) => {
         label="Choose a file to upload"
         className="large-button"
         onClick={handleClick}
+        disabled={disabled}
       />
       <input
         className={fileErrors.length ? 'error-field hidden' : 'hidden'}

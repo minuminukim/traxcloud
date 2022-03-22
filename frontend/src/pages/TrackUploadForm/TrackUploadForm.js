@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import { fetchSingleTrack } from '../../actions/trackActions';
@@ -9,7 +9,10 @@ import ImageFileInput from './ImageFileInput';
 import Textarea from '../../components/common/Textarea';
 import { postTrack, editTrack } from '../../actions/trackActions';
 import LoginForm from '../../components/LoginForm';
+import LoadingModal from '../../components/common/LoadingSpinner/LoadingModal';
 import PlaceholderImage from '../../assets/images/default-track-artwork.jpeg';
+import WaveSurfer from 'wavesurfer.js';
+import { waveformOptions } from '../../components/Waveform/options';
 import './TrackUploadForm.css';
 
 const initialFormState = {
@@ -26,7 +29,6 @@ const TrackUploadForm = ({ isUpload }) => {
   const { trackId } = useParams();
   const dispatch = useDispatch();
   const history = useHistory();
-
   const sessionUser = useSelector((state) => state.session.user);
 
   const [isLoading, setLoading] = useState(true);
@@ -35,8 +37,10 @@ const TrackUploadForm = ({ isUpload }) => {
   const [artworkUrl, setArtworkUrl] = useState('');
   const [trackFile, setTrackFile] = useState(null);
   const [imageFile, setImageFile] = useState(null);
+  const [peakData, setPeakData] = useState([]);
   const [trackDuration, setTrackDuration] = useState(0);
   const [fileSize, setFileSize] = useState(0);
+  const [inProgress, setInProgress] = useState(false);
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
@@ -77,12 +81,14 @@ const TrackUploadForm = ({ isUpload }) => {
       userId,
       fileSize,
     };
-    console.log('params', params);
 
-    return dispatch(postTrack(params))
+    setInProgress(true);
+    dispatch(postTrack(params))
+      .then(() => setInProgress(false))
       .then(() => history.push('/'))
       .catch(async (res) => {
         const data = await res.json();
+        setInProgress(false);
         if (data && data.errors) {
           console.log('data', data);
           setErrors(data.errors);
@@ -102,11 +108,14 @@ const TrackUploadForm = ({ isUpload }) => {
       userId: sessionUser.id,
     };
 
-    return dispatch(editTrack(updatedTrack))
+    setInProgress(true);
+    dispatch(editTrack(updatedTrack))
+      .then(() => setInProgress(false))
       .then(() => history.push(`/tracks/${trackId}`))
       .catch(async (res) => {
         console.log('error posting track', res);
         const data = await res.json();
+        setInProgress(false);
         if (data && data.errors) {
           setErrors(data.errors);
         }
@@ -133,8 +142,10 @@ const TrackUploadForm = ({ isUpload }) => {
 
   const handleTrackFile = async (file) => {
     if (file) {
+      console.log('file', file);
       const duration = await getTrackDuration(file);
       setTrackDuration(Math.ceil(duration));
+      setPeakData(peakData);
       setFileSize(Math.ceil(file.size));
       setTrackFile(file);
       setTitle(file.name);
@@ -149,14 +160,17 @@ const TrackUploadForm = ({ isUpload }) => {
   return (
     !isLoading && (
       <div className="page-container upload-page">
+        <LoadingModal loading={inProgress} />
         {sessionUser ? (
           <div className="content-wrap upload">
             <h1>{isUpload ? 'Upload a Track' : 'Edit Your Track'}</h1>
             <div className="form-note">
               <span className="form-requirement">
-                Please provide an MP3 file no larger than 10MB.
+                Please provide an MP3 file no larger than 10MB. Supported image
+                files: .png, .jpg, .jpeg under 3MB.
               </span>
             </div>
+            <span className="form-file-name">{trackFile?.name}</span>
             <form onSubmit={handleSubmit} className="upload-form">
               <div className="form-header">
                 <h2 className="form-heading">Basic Info</h2>
@@ -164,7 +178,10 @@ const TrackUploadForm = ({ isUpload }) => {
               <div className="form-body upload">
                 <div className="form-section">
                   <div className="form-image-preview">
-                    <ImageFileInput updateImageFile={updateImageFile}/>
+                    <ImageFileInput
+                      updateImageFile={updateImageFile}
+                      disabled={inProgress}
+                    />
                   </div>
                 </div>
                 <div className="form-section form-fields">
@@ -187,7 +204,12 @@ const TrackUploadForm = ({ isUpload }) => {
                     error={errors.description}
                     rows="10"
                   />
-                  {isUpload && <FileUploader handleFile={handleTrackFile} />}
+                  {isUpload && (
+                    <FileUploader
+                      handleFile={handleTrackFile}
+                      disabled={inProgress}
+                    />
+                  )}
                 </div>
               </div>
               <div className="form-submit-row">
@@ -200,11 +222,13 @@ const TrackUploadForm = ({ isUpload }) => {
                     className="small-button cancel transparent"
                     label="Cancel"
                     onClick={history.goBack}
+                    disabled={inProgress}
                   />
                   <Button
                     label="Save"
                     className="small-button submit-button"
                     type="submit"
+                    disabled={inProgress}
                   />
                 </div>
               </div>
