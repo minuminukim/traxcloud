@@ -2,8 +2,9 @@ const express = require('express');
 const asyncHandler = require('express-async-handler');
 const { User, Track, Comment } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth');
-const validateTrack = require('../../validations/validateTrack');
-const validateTrackPUT = require('../../validations/validateTrackPUT');
+const validateTrackFile = require('../../validations/validateTrackFile');
+const validateImage = require('../../validations/validateImage');
+const validateTrackData = require('../../validations/validateTrackData');
 const getObjectKey = require('../../utils/getObjectKey');
 const {
   singleMulterUpload,
@@ -64,7 +65,9 @@ router.post(
   '/',
   requireAuth,
   multerFieldsUpload(),
-  validateTrack,
+  validateTrackData,
+  validateImage,
+  validateTrackFile,
   asyncHandler(async (req, res, next) => {
     // req.files = {
     //   trackFile: [
@@ -105,7 +108,6 @@ router.post(
 
     if (!isImageUpload) {
       const trackUrl = await singlePublicFileUpload(trackFile);
-      console.log('test@@@@@@', trackUrl);
       const track = await Track.create({
         ...body,
         trackUrl,
@@ -124,7 +126,8 @@ router.post(
     const track = await Track.create({
       ...body,
       trackUrl,
-      artworkUrl
+      artworkUrl,
+      fileSize: uploadSize,
     });
 
     await user.setDataSpent(uploadSize, 'post');
@@ -136,7 +139,9 @@ router.post(
 router.put(
   '/:trackId(\\d+)',
   requireAuth,
-  validateTrackPUT,
+  singleMulterUpload('imageFile'),
+  validateTrackData,
+  validateImage,
   asyncHandler(async (req, res, next) => {
     const trackId = +req.params.trackId;
     const track = await Track.getTrackById(trackId);
@@ -164,10 +169,18 @@ router.delete(
 
     if (track) {
       const key = getObjectKey(track.trackUrl);
-      const userId = +req.body.userId;
-      const currentUser = await User.getCurrentUserById(userId);
+      const user = req.user;
       await singlePublicFileDelete(key);
-      await currentUser.setDataSpent(track.fileSize, 'delete');
+
+      // Since artwork defaults to the user's profile picture
+      // we check to see if they are separate resources
+      // and delete the artwork if so
+      if (track.artworkUrl !== user.profilePictureUrl) {
+        const imageKey = getObjectKey(track.artworkUrl);
+        await singlePublicFileDelete(imageKey);;
+      }
+
+      await user.setDataSpent(track.fileSize, 'delete');
       await track.destroy();
       res.status(204).json({ message: 'You have deleted your track.' });
     } else {
