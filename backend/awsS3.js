@@ -86,7 +86,43 @@ const storage = multer.memoryStorage({
   },
 });
 
+// Validate upload with both track && image fields
 const fileFilter = (req, file, cb) => {
+  const supportedTrackFormats = ['audio/mp3', 'audio/mpeg'];
+  const supportedImageFormats = ['image/jpeg', 'image/jpg', 'image/png'];
+
+  if (file.fieldname === 'trackFile') {
+    if (supportedTrackFormats.some((format) => format === file.mimetype)) {
+      cb(null, true);
+    } else {
+      cb({ message: 'Unsupported File Format' }, false);
+    }
+  } else {
+    // file.fieldname === 'imageFile'
+    if (supportedImageFormats.some((format) => format === file.mimetype)) {
+      cb(null, true);
+    } else {
+      cb({ message: 'Unsupported File Format' }, false);
+    }
+  }
+};
+
+const imageFilter = (req, file, cb) => {
+  const supportedImageFormats = ['image/jpeg', 'image/jpg', 'image/png'];
+
+  if (supportedImageFormats.some((format) => format === file.mimetype)) {
+    cb(null, true);
+  } else {
+    cb(
+      {
+        message: 'Unsopported File Format',
+      },
+      false
+    );
+  }
+};
+
+const trackFilter = (req, file, cb) => {
   if (file.mimetype === 'audio/mp3' || file.mimetype === 'audio/mpeg') {
     cb(null, true);
   } else {
@@ -99,14 +135,51 @@ const fileFilter = (req, file, cb) => {
   }
 };
 
-const singleMulterUpload = multer({
-  storage,
-  limits: {
-    fileSize: 10 * 1024 * 1024,
-  },
-  fileFilter,
-}).single('trackFile');
+/**
+ * Handles an upload with multiple fields (track && image).
+ * Accepts an array of files, all with the name 'fieldname'.
+ * The array of files will be stored in req.files
+ */
+const multerFieldsUpload = () => {
+  const trackSizeLimit = 10 * 1024 * 1024;
+  const imageSizeLimit = 3 * 1024 * 1024;
 
+  return multer({
+    storage,
+    limits: {
+      /**
+       * Don't seem to be able to map individiual limits,
+       * and multer stops reading from the stream as soon as
+       * we encounter the limit, so we have to pass the sum of both files
+       */
+      fileSize: trackSizeLimit + imageSizeLimit,
+    },
+    fileFilter,
+  }).fields([
+    {
+      name: 'trackFile',
+      maxCount: 1,
+    },
+    {
+      name: 'imageFile',
+      maxCount: 1,
+    },
+  ]);
+};
+
+const singleMulterUpload = (nameOfKey) => {
+  const trackSizeLimit = 10 * 1024 * 1024;
+  const imageSizeLimit = 3 * 1024 * 1024;
+  const isTrack = nameOfKey === 'trackFile';
+
+  return multer({
+    storage,
+    limits: {
+      fileSize: isTrack ? trackSizeLimit : imageSizeLimit,
+    },
+    fileFilter: isTrack ? trackFilter : imageFilter,
+  }).single(nameOfKey);
+};
 
 const multipleMulterUpload = (nameOfKey) =>
   multer({ storage: storage }).array(nameOfKey);
@@ -121,4 +194,5 @@ module.exports = {
   retrievePrivateFile,
   singleMulterUpload,
   multipleMulterUpload,
+  multerFieldsUpload,
 };

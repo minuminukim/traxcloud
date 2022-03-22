@@ -16,6 +16,7 @@ const FileUploader = ({ handleFile }) => {
    */
 
   const handleClick = () => hiddenInput.current.click();
+
   const handleChange = async (e) => {
     setFileErrors([]);
     const file = e.target.files[0];
@@ -43,8 +44,10 @@ const FileUploader = ({ handleFile }) => {
         className={fileErrors.length ? 'error-field hidden' : 'hidden'}
         type="file"
         id="trackFile"
+        name="trackFile"
         ref={hiddenInput}
         onChange={handleChange}
+        accept=".mp3"
       />
       {fileErrors.length > 0 && <AlertList messages={fileErrors} />}
     </>

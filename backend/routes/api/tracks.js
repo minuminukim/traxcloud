@@ -9,6 +9,7 @@ const {
   singleMulterUpload,
   singlePublicFileUpload,
   singlePublicFileDelete,
+  multerFieldsUpload,
 } = require('../../awsS3');
 
 const router = express.Router();
@@ -52,7 +53,8 @@ router.get(
 router.post(
   '/',
   requireAuth,
-  singleMulterUpload,
+  multerFieldsUpload,
+  // singleMulterUpload,
   validateTrack,
   asyncHandler(async (req, res, next) => {
     const userId = parseInt(req.body.userId, 10);
@@ -64,6 +66,7 @@ router.post(
       dataLimitError.status = 400;
       dataLimitError.title = 'Data Limit Error';
       dataLimitError.errors = { trackFile: `${dataLimitError.message}` };
+
       return next(dataLimitError);
     }
 
@@ -71,6 +74,7 @@ router.post(
     const trackUrl = await singlePublicFileUpload(req.file);
     const track = await Track.create({ ...req.body, trackUrl });
     const newTrack = await Track.fetchSingleTrackWithUser(track.id);
+
     return res.json({ newTrack });
   })
 );

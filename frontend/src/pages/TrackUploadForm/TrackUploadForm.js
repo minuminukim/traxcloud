@@ -5,15 +5,19 @@ import { fetchSingleTrack } from '../../actions/trackActions';
 import InputField from '../../components/common/InputField';
 import Button from '../../components/common/Button';
 import FileUploader from './FileUploader';
+import ImageFileInput from './ImageFileInput';
 import Textarea from '../../components/common/Textarea';
 import { postTrack, editTrack } from '../../actions/trackActions';
 import LoginForm from '../../components/LoginForm';
+import PlaceholderImage from '../../assets/images/default-track-artwork.jpeg';
 import './TrackUploadForm.css';
 
 const TrackUploadForm = ({ isUpload }) => {
   const { trackId } = useParams();
   const dispatch = useDispatch();
   const history = useHistory();
+
+  const sessionUser = useSelector((state) => state.session.user);
 
   const [isLoading, setLoading] = useState(true);
   const [title, setTitle] = useState('');
@@ -23,7 +27,6 @@ const TrackUploadForm = ({ isUpload }) => {
   const [trackDuration, setTrackDuration] = useState(0);
   const [fileSize, setFileSize] = useState(0);
   const [errors, setErrors] = useState({});
-  const sessionUser = useSelector((state) => state.session.user);
 
   useEffect(() => {
     if (isUpload || !sessionUser) {
@@ -144,11 +147,13 @@ const TrackUploadForm = ({ isUpload }) => {
               </div>
               <div className="form-body upload">
                 <div className="form-section">
-                  <div className="form-image-preview">
-                    {artworkUrl && (
-                      <img src={artworkUrl} alt="Cover art preview" />
-                    )}
-                  </div>
+                  <ImageFileInput />
+                  {/* <div className="form-image-preview">
+                    <img
+                      src={PlaceholderImage || artworkUrl}
+                      alt="Cover art preview"
+                    />
+                  </div> */}
                 </div>
                 <div className="form-section form-fields">
                   <InputField
