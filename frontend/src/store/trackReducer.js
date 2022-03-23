@@ -82,19 +82,20 @@ const trackReducer = (state = {}, action) => {
       };
 
     case COMMENT_ADDED:
-      const prevCommentIds = state[action.comment.trackId].commentIds;
+      const prevCommentIds = state[action.comment.trackId].commentIds || [];
+      const prevCount = state[action.comment.trackId].commentCount;
 
       return {
         ...state,
         [action.comment.trackId]: {
           ...state[action.comment.trackId],
-          commentCount: prevCommentIds.length + 1,
+          commentCount: prevCount + 1,
           commentIds: [...prevCommentIds, action.comment.id],
         },
       };
 
     case COMMENT_REMOVED:
-      const prevComments = state[action.trackId].commentIds;
+      const prevComments = state[action.trackId].comments;
       const filtered = prevComments.filter((id) => id !== action.commentId);
 
       return {

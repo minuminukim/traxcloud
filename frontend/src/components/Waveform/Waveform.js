@@ -62,10 +62,6 @@ const Waveform = ({ trackId, onReady, size = 'medium' }) => {
   useEffect(() => {
     if (isSelected) {
       wavesurfer.current.seekTo(seekPosition);
-      // if (!isPlaying) {
-      //   setPlaying();
-      // }
-      wavesurfer.current.play();
     }
   }, [isSelected, seekPosition]);
 
@@ -78,6 +74,9 @@ const Waveform = ({ trackId, onReady, size = 'medium' }) => {
   }, [isPlaying, isSelected, currentTime]);
 
   const onSeek = (e) => {
+    if (!isSelected) {
+      selectTrack();
+    }
     /**
      * Synthetic mouse event doesn't have offsetX property,
      * so we calculate the difference between e.clientX
@@ -96,11 +95,10 @@ const Waveform = ({ trackId, onReady, size = 'medium' }) => {
 
   const onMouseDown = (e) => {
     if (!isSelected) {
-      selectTrack(trackId);
+      selectTrack();
     }
 
     onSeek(e);
-    setPlaying();
   };
 
   return (

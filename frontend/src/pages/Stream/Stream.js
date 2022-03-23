@@ -7,17 +7,25 @@ import AudioPlayer from '../../components/AudioPlayer';
 import './Stream.css';
 
 const Stream = () => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [streamIds, setStreamIds] = useState([]);
   const dispatch = useDispatch();
   const { currentTrackId, isPlaying } = useSelector((state) => state.player);
+  const tracks = useSelector((state) => state.tracks);
+  const trackIds =
+    Object.values(tracks)
+      .map(({ id }) => id)
+      ?.sort((a, b) => b - a) || [];
+  console.log('trackIds', trackIds);
 
   useEffect(() => {
+    console.log('trackIds in effect', trackIds);
+    if (trackIds.length > 0 && trackIds.length >= 10) return;
     (async () => {
       try {
-        const tracks = await dispatch(fetchTracks());
-        const trackIds = [...tracks.map(({ id }) => id)].sort((a, b) => b - a);
-        setStreamIds(trackIds);
+        await dispatch(fetchTracks());
+        // const trackIds = [...tracks.map(({ id }) => id)].sort(
+        //   (a, b) => b - a
+        // );
+        // setStreamIds(trackIds);
 
         // A track should only appear in the queue once
         const uniqueIds =
@@ -26,26 +34,19 @@ const Stream = () => {
             : trackIds;
 
         dispatch(setQueue(uniqueIds));
-        // dispatch(setQueue(tracks.map(({ id }) => id).sort((a, b) => b - a)));
-        // await Promise.all(
-        //   tracks.map(
-        //     async ({ id }) => await dispatch(fetchCommentsByTrackId(id))
-        //   )
-        // );
-        setIsLoading(false);
       } catch (res) {
         console.log('error fetching tracks in Stream', res);
       }
     })();
-  }, [dispatch]);
+  }, [dispatch, trackIds.length]);
 
   return (
-    !isLoading && (
-      <div className="stream page-container">
-        <h1 className="heading-light">
-          Hear the latest posts from our creators:
-        </h1>
-        {streamIds.map((id, i) => (
+    <div className="stream page-container">
+      <h1 className="heading-light">
+        Hear the latest posts from our creators:
+      </h1>
+      {trackIds.length > 0 &&
+        trackIds.map((id, i) => (
           <div className="stream-row" key={`row-${id}`}>
             <AudioPlayer
               key={id}
@@ -59,8 +60,7 @@ const Stream = () => {
             />
           </div>
         ))}
-      </div>
-    )
+    </div>
   );
 };
 

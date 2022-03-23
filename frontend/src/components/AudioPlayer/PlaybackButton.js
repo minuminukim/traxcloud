@@ -1,10 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import usePlay from '../../hooks/usePlay';
-import {
-  updateTime,
-  setSeeking,
-  pauseTrack,
-} from '../../actions/playerActions';
+import { updateTime, playTrack, pauseTrack } from '../../actions/playerActions';
 import LoadingSpinner from '../common/LoadingSpinner';
 import { FaPlay, FaPause } from 'react-icons/fa';
 import './PlayButton.css';
@@ -21,7 +17,6 @@ const PlaybackButton = ({
   withBackground = true, // round & orange or transparent
 }) => {
   const dispatch = useDispatch();
-  const location = useLocation();
   const { isPlaying, currentTrackId } = useSelector((state) => state.player);
   const track = useSelector((state) => state.tracks[trackId]);
   const { timer, clearTimer } = useTimer(trackId);
@@ -33,17 +28,15 @@ const PlaybackButton = ({
     dispatch(pauseTrack());
     clearTimer();
   };
+
   const onPlay = () => {
     // If a new track has been selected, we want to clear the previous state
     if (!currentTrackId || !isSelected) {
-      selectTrack(trackId);
-      dispatch(updateTime(0));
-      dispatch(setSeeking(0, 0));
+      selectTrack();
+      incrementPlayCount(trackId);
+    } else {
+      dispatch(playTrack());
     }
-
-    // dispatch(updateTime(timer));
-    setPlaying();
-    incrementPlayCount(trackId);
   };
 
   if (!isReady && !isGlobal && !isTile) {

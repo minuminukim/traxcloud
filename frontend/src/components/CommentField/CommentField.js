@@ -10,10 +10,11 @@ const generateRandomInt = (max) => {
   return Math.floor(Math.random() * max);
 };
 
-const CommentField = ({ trackId, duration, height }) => {
+const CommentField = ({ trackId, height }) => {
   const dispatch = useDispatch();
   const formRef = useRef(null);
   const { user } = useSelector((state) => state.session);
+  const { duration } = useSelector((state) => state.tracks[trackId]);
   const [body, setBody] = useState('');
   const [inProgress, setInProgress] = useState(false);
   const [errors, setErrors] = useState([]);

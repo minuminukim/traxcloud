@@ -81,10 +81,14 @@ module.exports = (sequelize, DataTypes) => {
   };
 
   Track.getTracksByMostRecent = async function () {
-    const { User } = this.associations;
+    const { User, Comment } = this.associations;
     return await Track.findAll({
       order: [['id', 'DESC']],
-      include: User,
+      include: {
+        model: Comment,
+        // as: 'comments',
+        attributes: ['id'],
+      },
     });
   };
 

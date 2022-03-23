@@ -33,7 +33,7 @@ const removeTrack = (trackId, userId) => ({
   userId,
 });
 
-export const fetchTracks = () => async (dispatch) => {
+export const fetchTracks = () => async (dispatch, getState) => {
   const response = await csrfFetch(`/api/tracks`);
   const { tracks } = await response.json();
   dispatch(loadTracks(tracks));
@@ -49,7 +49,7 @@ export const fetchUserTracks = (userId) => async (dispatch) => {
   return tracks;
 };
 
-export const fetchSingleTrack = (trackId) => async (dispatch) => {
+export const fetchSingleTrack = (trackId) => async (dispatch, getState) => {
   const response = await csrfFetch(`/api/tracks/${trackId}`);
   const { track } = await response.json();
   dispatch(addTrack(track));

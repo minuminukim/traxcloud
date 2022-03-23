@@ -2,7 +2,6 @@ import { useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import usePlay from '../../hooks/usePlay';
 import {
-  setReference,
   updateTime,
   setSeeking,
   playNext,
@@ -15,9 +14,9 @@ function Audio({ trackId, children }) {
   const audioRef = useRef(null);
   const track = useSelector((state) => state.tracks[trackId]);
   const { queue, nextIndex } = useSelector((state) => state.queue);
-  const { isPlaying, currentTrackId, seekTime, reference, volume } =
-    useSelector((state) => state.player);
-  const { selectTrack } = usePlay();
+  const { isPlaying, currentTrackId, seekTime, volume } = useSelector(
+    (state) => state.player
+  );
   const location = useLocation();
 
   useEffect(() => {
@@ -38,24 +37,17 @@ function Audio({ trackId, children }) {
     audioRef.current.volume = volume;
   }, [volume]);
 
-
   const onEnded = async () => {
     if (nextIndex === null) {
       dispatch(endPlayback());
     } else {
       const nextId = queue[nextIndex];
-      selectTrack(nextId);
-      dispatch(updateTime(0));
-      dispatch(setSeeking(0, 0));
       await dispatch(playNext(nextId, nextIndex));
     }
   };
 
   const onPlay = () => {
     dispatch(updateTime(audioRef.current.currentTime));
-    if (audioRef === null || audioRef !== reference) {
-      dispatch(setReference(audioRef));
-    }
   };
 
   const onPause = () => {

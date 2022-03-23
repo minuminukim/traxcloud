@@ -31,12 +31,12 @@ const AudioPlayer = ({
 
   useEffect(() => {
     if (user) {
-      setLoading(false);
+      // setLoading(false);
       return;
     }
 
-    dispatch(fetchSingleUser(track?.userId))
-      .then(() => setLoading(false))
+    dispatch(fetchSingleUser(track.userId))
+      // .then(() => setLoading(false))
       .catch((err) => console.log('error fetching user', err));
   }, [user, track?.userId]);
 
@@ -48,7 +48,7 @@ const AudioPlayer = ({
 
   return (
     <div className={`player track-${trackId} player-${size}`}>
-      {withHeader && !isLoading && <TrackHeader trackId={trackId} />}
+      {withHeader && user && <TrackHeader trackId={trackId} />}
       <div className="player-main">
         {withArtwork && (
           <TrackArtwork
@@ -63,7 +63,7 @@ const AudioPlayer = ({
               trackId={trackId}
               isReady={waveformReady}
             />
-            {!isLoading && <TrackDetails trackId={trackId} size={size} />}
+            {user && <TrackDetails trackId={trackId} size={size} />}
           </div>
           <div className="waveform-row">
             <Waveform trackId={trackId} size={size} onReady={onReady} />
@@ -72,7 +72,6 @@ const AudioPlayer = ({
           {withCommentField && sessionUser && (
             <CommentField
               trackId={trackId}
-              duration={track?.duration}
               height={32}
             />
           )}

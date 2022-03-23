@@ -3,8 +3,6 @@ export const PLAYER_LOADING = 'player/playerLoading';
 export const PLAYER_READY = 'player/playerReady';
 export const SET_DURATION = 'player/setDuration';
 export const SET_TRACK = 'player/setTrack';
-export const SET_REFERENCE = 'player/setReference';
-export const SET_WAVEFORM = 'player/setWaveform';
 export const TOGGLE_PLAYPAUSE = 'player/togglePlay';
 export const PLAY_TRACK = 'player/playTrack';
 export const PAUSE_TRACK = 'player/pauseTrack';
@@ -19,24 +17,14 @@ export const setDuration = (duration) => ({
   duration,
 });
 
-export const setTrack = (trackId) => ({
+export const setTrack = (trackId, index) => ({
   type: SET_TRACK,
   trackId,
-});
-
-export const setReference = (ref) => ({
-  type: SET_REFERENCE,
-  ref,
-});
-export const setWaveform = (waveform) => ({
-  type: SET_WAVEFORM,
-  waveform,
-});
-
-export const playTrack = (trackId, index) => ({
-  type: PLAY_TRACK,
-  trackId,
   index,
+});
+
+export const playTrack = () => ({
+  type: PLAY_TRACK,
 });
 
 export const pauseTrack = () => ({
@@ -81,13 +69,11 @@ export const setPlayerReady = (trackId) => ({
 export const playNext = (nextTrackId, nextIndex) => (dispatch) => {
   if (nextIndex !== null) {
     dispatch(setTrack(nextTrackId, nextIndex));
-    dispatch(playTrack(nextTrackId, nextIndex));
   }
 };
 
 export const playPrevious = (previousId, previousIndex) => (dispatch) => {
   if (previousIndex !== null) {
     dispatch(setTrack(previousId, previousIndex));
-    dispatch(playTrack(previousId, previousIndex));
   }
 };

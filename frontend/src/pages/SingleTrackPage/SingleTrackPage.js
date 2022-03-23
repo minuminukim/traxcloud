@@ -18,58 +18,53 @@ const SingleTrackPage = () => {
   const { queue } = useSelector((state) => state.queue);
   const track = useSelector((state) => state.tracks[trackId]);
   const sessionUser = useSelector((state) => state.session.user);
-  const [isLoading, setLoading] = useState(true);
-
+  const trackIndex = queue.indexOf(+trackId);
   useEffect(() => {
-    (async () => {
-      try {
-        const fetchedTrack = await dispatch(fetchSingleTrack(+trackId));
-        await dispatch(fetchSingleUser(fetchedTrack.userId));
-        const index = queue.indexOf(fetchedTrack.id);
-        if (!queue.length || index === -1) {
-          dispatch(setQueue([...queue, fetchedTrack.id]));
+    if (!track) {
+      (async () => {
+        try {
+          await dispatch(fetchSingleTrack(+trackId));
+          if (!queue.length || trackIndex === -1) {
+            dispatch(setQueue([...queue, +trackId]));
+          }
+        } catch (err) {
+          console.log('error fetching tracks', err);
         }
+      })();
+    }
+  }, [dispatch, trackId, track, queue.length]);
 
-        setLoading(false);
-      } catch (err) {
-        console.log('error fetching tracks', err);
-      }
-    })();
-  }, [dispatch, trackId, queue.length]);
-
-  return (
-    !isLoading && (
-      <div className="page-container single-track-page">
-        <div className="single-track-container">
-          <Overlay
-            className="single-track-overlay blur absolute"
-            style={{ backgroundImage: `url(${track.artworkUrl})` }}
-          />
-          <AudioPlayer
+  return !track ? null : (
+    <div className="page-container single-track-page">
+      <div className="single-track-container">
+        <Overlay
+          className="single-track-overlay blur absolute"
+          style={{ backgroundImage: `url(${track.artworkUrl})` }}
+        />
+        <AudioPlayer
+          trackId={+trackId}
+          size="large"
+          withArtwork={false}
+          withFooter={false}
+          withCommentField={false}
+        />
+        <TrackArtwork className="artwork-large" trackId={+trackId} />
+      </div>
+      <div className="single-track-page-main">
+        {sessionUser && (
+          <CommentField
             trackId={+trackId}
-            size="large"
-            withArtwork={false}
-            withFooter={false}
-            withCommentField={false}
+            duration={track.duration}
+            height={40}
           />
-          <TrackArtwork className="artwork-large" trackId={+trackId} />
-        </div>
-        <div className="single-track-page-main">
-          {sessionUser && (
-            <CommentField
-              trackId={+trackId}
-              duration={track.duration}
-              height={40}
-            />
-          )}
-          <PlayerFooter trackId={+trackId} />
-          <div className="single-track-page-main-row">
-            <UserCard userId={track.userId} size="medium" avatarSize="large" />
-            <CommentsList />
-          </div>
+        )}
+        <PlayerFooter trackId={+trackId} />
+        <div className="single-track-page-main-row">
+          <UserCard userId={track.userId} size="medium" avatarSize="large" />
+          <CommentsList />
         </div>
       </div>
-    )
+    </div>
   );
 };
 
