@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { playTrack, setTrack } from '../actions/playerActions';
 import { updatePlayCount } from '../actions/trackActions';
@@ -9,18 +9,25 @@ const usePlay = (trackId) => {
   const { currentTrackId } = useSelector((state) => state.player);
   const track = useSelector((state) => state.tracks[trackId]);
   const { queue } = useSelector((state) => state.queue);
-  const isSelected = trackId === currentTrackId;
+  const [isSelected, setSelected] = useState(trackId === currentTrackId);
+  // const isSelected = trackId === currentTrackId;
   const trackBelongsToUser = sessionUser?.id === track?.userId;
+
+  useEffect(() => {
+    setSelected(currentTrackId === trackId);
+  }, [currentTrackId]);
 
   const setPlaying = () => {
     const trackIndex = queue.indexOf(trackId);
     dispatch(playTrack(trackId, trackIndex));
+    setSelected(true);
   };
 
   const selectTrack = (nextId) => {
     // If a new track has been selected
     if (!isSelected) {
       dispatch(setTrack(nextId));
+      setSelected(true);
     }
   };
 

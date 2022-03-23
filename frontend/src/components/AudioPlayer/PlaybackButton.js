@@ -8,6 +8,8 @@ import {
 import LoadingSpinner from '../common/LoadingSpinner';
 import { FaPlay, FaPause } from 'react-icons/fa';
 import './PlayButton.css';
+import { useLocation } from 'react-router-dom';
+import useTimer from '../../hooks/useTimer';
 
 const PlaybackButton = ({
   className = '',
@@ -18,30 +20,35 @@ const PlaybackButton = ({
   withBackground = true, // round & orange or transparent
 }) => {
   const dispatch = useDispatch();
+  const location = useLocation();
   const { isPlaying, currentTrackId } = useSelector((state) => state.player);
   const track = useSelector((state) => state.tracks[trackId]);
+  const { timer, clearTimer } = useTimer(trackId);
   const { incrementPlayCount, isSelected, selectTrack, setPlaying } = usePlay(
     +trackId
   );
 
-  const onPause = () => dispatch(pauseTrack());
-
+  const onPause = () => {
+    dispatch(pauseTrack());
+    clearTimer();
+  };
   const onPlay = () => {
-    selectTrack(trackId);
-
     // If a new track has been selected, we want to clear the previous state
-    if (currentTrackId && currentTrackId !== trackId) {
+    if (currentTrackId && !isSelected) {
+      selectTrack(trackId);
       dispatch(updateTime(0));
       dispatch(setSeeking(0, 0));
     }
 
+    dispatch(updateTime(timer));
     setPlaying();
     incrementPlayCount(trackId);
   };
 
-  if (track?.playerLoading && currentTrackId !== trackId) {
+  if (!isReady && !isGlobal) {
     return <LoadingSpinner />;
   }
+
 
   return (
     <button

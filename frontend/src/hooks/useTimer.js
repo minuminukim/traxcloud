@@ -1,31 +1,33 @@
-// import { useEffect, useRef, useState } from 'react';
-// import { useSelector } from 'react-redux';
+import { useEffect, useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
 
-// const useTimer = (trackId) => {
-//   const { currentTime, isPlaying, currentTrackId } = useSelector(
-//     (state) => state.player
-//   );
-//   const [time, setTime] = useState(currentTime);
-//   const intervalRef = useRef(null);
+const useTimer = (trackId) => {
+  const intervalRef = useRef(null);
+  const { currentTime, isPlaying, currentTrackId } = useSelector(
+    (state) => state.player
+  );
+  const [timer, setTimer] = useState(currentTime);
 
-//   useEffect(() => {
-//     const isSelected = currentTrackId === trackId;
+  const clearTimer = () => clearInterval(intervalRef?.current);
 
-//     if (isSelected && isPlaying) {
-//       setTime(currentTime);
-//       intervalRef.current = setInterval(
-//         () => setTime((time) => time + 1),
-//         1000
-//       );
-//     } else {
-//       setTime(isSelected ? currentTime : 0);
-//       clearInterval(intervalRef.current);
-//     }
+  useEffect(() => {
+    const isSelected = currentTrackId === trackId;
 
-//     return () => clearInterval(intervalRef.current);
-//   }, [currentTime, isPlaying, currentTrackId, trackId]);
+    if (isSelected && isPlaying) {
+      setTimer(currentTime);
+      intervalRef.current = setInterval(
+        () => setTimer((time) => time + 1),
+        1000
+      );
+    } else {
+      setTimer(isSelected ? currentTime : 0);
+      clearTimer();
+    }
 
-//   return { time, setTime };
-// };
+    return () => clearTimer();
+  }, [currentTime, isPlaying, currentTrackId, trackId]);
 
-// export default useTimer;
+  return { timer, setTimer, clearTimer };
+};
+
+export default useTimer;

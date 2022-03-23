@@ -12,11 +12,9 @@ const Waveform = ({ trackId, onReady, size = 'medium' }) => {
   const { currentTime, currentTrackId } = useSelector((state) => state.player);
   const containerRef = useRef(null);
   const wavesurfer = useRef();
-  const { seekPosition, isPlaying, isSelected } = useSelector(
-    (state) => state.player
-  );
+  const { seekPosition, isPlaying } = useSelector((state) => state.player);
 
-  const { selectTrack, setPlaying } = usePlay(trackId);
+  const { selectTrack, setPlaying, isSelected } = usePlay(trackId);
 
   // Initialize waveform object
   useEffect(() => {
@@ -35,8 +33,6 @@ const Waveform = ({ trackId, onReady, size = 'medium' }) => {
       height: size === 'medium' ? 60 : 100,
     });
 
-    dispatch(loadPlayer(trackId));
-
     const audio = new Audio(track.trackUrl);
     audio.crossOrigin = 'anonymous';
 
@@ -47,39 +43,54 @@ const Waveform = ({ trackId, onReady, size = 'medium' }) => {
         const peakData = await wavesurfer.current.exportPCM(256, 100, true);
         const updated = { ...track, peakData };
         await dispatch(editTrack(updated));
-        // wavesurfer.current.setMute(true);
-        // onReady();
+        wavesurfer.current.setMute(true);
+        onReady();
         return;
       });
     }
 
     wavesurfer.current.load(audio, track.peakData);
-    wavesurfer.current.setMute(true);
     wavesurfer.current.on('ready', () => {
-      dispatch(setPlayerReady(trackId));
-      // onReady();
+      wavesurfer.current.setMute(true);
+      // wavesurfer.current.seekTo(seekPosition);
+      onReady();
     });
 
     return () => wavesurfer.current.destroy();
   }, [track.trackUrl]);
 
   useEffect(() => {
-    if (currentTrackId === trackId) {
-      if (isPlaying) {
-        wavesurfer.current.play(currentTime);
-      } else {
-        wavesurfer.current.pause();
-      }
-    } else {
-      wavesurfer.current.stop();
+    if (isSelected) {
+      wavesurfer.current.seekTo(seekPosition);
+      wavesurfer.current.play();
     }
-  }, [currentTime, isPlaying, currentTrackId, trackId]);
+  }, [isSelected, seekPosition]);
 
   useEffect(() => {
-    if (isPlaying && currentTrackId === trackId) {
-      wavesurfer.current.seekTo(seekPosition);
-    }
-  }, [seekPosition, currentTrackId, trackId]);
+    isSelected
+      ? isPlaying
+        ? wavesurfer.current.play(currentTime)
+        : wavesurfer.current.pause()
+      : wavesurfer.current.stop();
+  }, [isPlaying, isSelected, currentTime]);
+
+  // useEffect(() => {
+  //   if (currentTrackId === trackId) {
+  //     if (isPlaying) {
+  //       wavesurfer.current.play(currentTime);
+  //     } else {
+  //       wavesurfer.current.pause();
+  //     }
+  //   } else {
+  //     wavesurfer.current.stop();
+  //   }
+  // }, [currentTime, isPlaying, currentTrackId, trackId]);
+
+  // useEffect(() => {
+  //   if (isPlaying && currentTrackId === trackId) {
+  //     wavesurfer.current.seekTo(seekPosition);
+  //   }
+  // }, [seekPosition, currentTrackId, trackId]);
 
   const onSeek = (e) => {
     /**
@@ -101,9 +112,10 @@ const Waveform = ({ trackId, onReady, size = 'medium' }) => {
   const onMouseDown = (e) => {
     if (!isSelected) {
       selectTrack(trackId);
+      setPlaying();
     }
+
     onSeek(e);
-    setPlaying();
   };
 
   return (

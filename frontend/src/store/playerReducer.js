@@ -1,5 +1,4 @@
 import {
-  SET_DURATION,
   SET_TRACK,
   SET_REFERENCE,
   SET_WAVEFORM,
@@ -30,11 +29,6 @@ export const getCurrentTrack = (trackId) => (state) => state.tracks[trackId];
 
 function playerReducer(state = initialState, action) {
   switch (action.type) {
-    case SET_DURATION:
-      return {
-        ...state,
-        duration: action.duration,
-      };
     case SET_TRACK:
       // dispatched by onPlay and onSeek events
       return {
@@ -84,7 +78,7 @@ function playerReducer(state = initialState, action) {
         ...state,
         seekPosition: action.position,
         seekTime: action.currentTime,
-        // currentTime: action.currentTime,
+        currentTime: action.currentTime,
       };
 
     case END_PLAYBACK:

@@ -10,19 +10,19 @@ import {
 } from '../../actions/playerActions';
 import { useLocation } from 'react-router-dom';
 
-function Audio({ trackId }) {
+function Audio({ trackId, setTime, children }) {
   const dispatch = useDispatch();
   const audioRef = useRef(null);
   const track = useSelector((state) => state.tracks[trackId]);
   const { queue, nextIndex } = useSelector((state) => state.queue);
   const { isPlaying, currentTrackId, seekTime, reference, volume } =
     useSelector((state) => state.player);
-  const location = useLocation();
   const { selectTrack } = usePlay();
+  const location = useLocation();
 
-  // useEffect(() => {
-  //   dispatch(updateTime(audioRef?.current.currentTime || 0));
-  // }, [location]);
+  useEffect(() => {
+    dispatch(updateTime(audioRef?.current?.currentTime || 0));
+  }, [location]);
 
   useEffect(() => {
     isPlaying && currentTrackId === trackId
@@ -38,9 +38,6 @@ function Audio({ trackId }) {
     audioRef.current.volume = volume;
   }, [volume]);
 
-  const onTimeUpdate = () => {
-    dispatch(updateTime(audioRef.current.currentTime));
-  };
 
   const onEnded = async () => {
     if (nextIndex === null) {
@@ -55,7 +52,7 @@ function Audio({ trackId }) {
   };
 
   const onPlay = () => {
-    // dispatch(updateTime(audioRef.current.currentTime));
+    dispatch(updateTime(audioRef.current.currentTime));
     if (audioRef === null || audioRef !== reference) {
       dispatch(setReference(audioRef));
     }
@@ -71,11 +68,13 @@ function Audio({ trackId }) {
       id={`track-${track?.id}`}
       crossOrigin="anonymous"
       ref={audioRef}
-      onTimeUpdate={onTimeUpdate}
+      // onTimeUpdate={() => setTime(audioRef.current)}
       onPlay={onPlay}
-      // onPause={onPause}
+      onPause={onPause}
       onEnded={onEnded}
-    />
+    >
+      {children}
+    </audio>
   );
 }
 

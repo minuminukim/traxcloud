@@ -68,6 +68,10 @@ export const postTrack = (track) => async (dispatch) => {
     formData.append('imageFile', track.imageFile);
   }
 
+  if (track.peakData) {
+    formData.append('peakData', track.peakData);
+  }
+
   formData.append('title', track.title);
   formData.append('description', track.description);
   formData.append('artworkUrl', track.artworkUrl);
@@ -92,6 +96,10 @@ export const editTrack = (track) => async (dispatch) => {
 
   if (track.imageFile) {
     formData.append('imageFile', track.imageFile);
+  }
+
+  if (track.peakData) {
+    formData.append('peakData', track.peakData);
   }
 
   formData.append('title', track.title);

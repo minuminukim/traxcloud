@@ -12,13 +12,18 @@ import PlaybackTime from '../AudioPlayer/PlaybackTime';
 import { PlaybackButton, Audio } from '../AudioPlayer';
 import { IoPlaySkipForward, IoPlaySkipBack } from 'react-icons/io5';
 import './GlobalPlayer.css';
-import {  usePlay } from '../../hooks';
+import { usePlay } from '../../hooks';
+import useTimer from '../../hooks/useTimer';
+import { useEffect, useRef, useState } from 'react';
 
 const GlobalPlayer = () => {
   const dispatch = useDispatch();
-  const { currentTrackId, currentTime, isPlaying } = useSelector(
+  const { currentTrackId, currentTime, isPlaying, seekPosition } = useSelector(
     (state) => state.player
   );
+  const [time, setTime] = useState(currentTime);
+  const intervalRef = useRef(null);
+
   const track = useSelector((state) => state.tracks[currentTrackId]);
   const { previousIndex, nextIndex, queue } = useSelector(
     (state) => state.queue
@@ -26,6 +31,8 @@ const GlobalPlayer = () => {
 
   const { incrementPlayCount, isSelected, selectTrack, setPlaying } =
     usePlay(currentTrackId);
+
+  const { timer } = useTimer(currentTrackId);
 
   const onScrub = (e) => {
     const position = +e.target.value / track.duration;
@@ -46,11 +53,13 @@ const GlobalPlayer = () => {
   };
 
   const onPlayPrevious = () => {
-    const previousTrackId = queue[previousIndex];
-    selectTrack(previousTrackId);
-    dispatch(updateTime(0));
-    dispatch(setSeeking(0, 0));
-    dispatch(playPrevious(previousTrackId, previousIndex));
+    if (previousIndex !== null) {
+      const previousTrackId = queue[previousIndex];
+      selectTrack(previousTrackId);
+      dispatch(updateTime(0));
+      dispatch(setSeeking(0, 0));
+      dispatch(playPrevious(previousTrackId, previousIndex));
+    }
   };
 
   if (!currentTrackId) {
@@ -61,7 +70,10 @@ const GlobalPlayer = () => {
     currentTrackId && (
       <footer className="footer-container">
         <div className="footer-player">
-          <Audio trackId={currentTrackId} />
+          <Audio
+            trackId={currentTrackId}
+            // setTime={timer}
+          />
           <div className="player-controls">
             <button className="player-control">
               <IoPlaySkipBack onClick={onPlayPrevious} />
@@ -71,6 +83,7 @@ const GlobalPlayer = () => {
               size="small"
               trackId={currentTrackId}
               withBackground={false}
+              time={timer}
               isGlobal
             />
             <button className="player-control">
@@ -78,13 +91,13 @@ const GlobalPlayer = () => {
             </button>
           </div>
           <div className="footer-slider">
-            <PlaybackTime className="timer" transparent time={currentTime} />
+            <PlaybackTime className="timer" transparent time={timer} />
             <Slider
               className="progress-bar"
               min="1"
               max={track.duration || track.duration.toString()}
               step="1"
-              value={isSelected ? currentTime : 0}
+              value={isSelected ? timer : 0}
               onChange={onScrub}
             />
             <PlaybackTime
