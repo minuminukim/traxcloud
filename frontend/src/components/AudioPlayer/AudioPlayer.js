@@ -30,7 +30,7 @@ const AudioPlayer = ({
   const [waveformReady, setReady] = useState(false);
 
   useEffect(() => {
-    if (user && track) {
+    if (user) {
       setLoading(false);
       return;
     }

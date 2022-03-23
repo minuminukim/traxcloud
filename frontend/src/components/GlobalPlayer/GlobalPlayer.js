@@ -12,11 +12,13 @@ import PlaybackTime from '../AudioPlayer/PlaybackTime';
 import { PlaybackButton, Audio } from '../AudioPlayer';
 import { IoPlaySkipForward, IoPlaySkipBack } from 'react-icons/io5';
 import './GlobalPlayer.css';
-import { useTimer, usePlay } from '../../hooks';
+import {  usePlay } from '../../hooks';
 
 const GlobalPlayer = () => {
   const dispatch = useDispatch();
-  const { currentTrackId, currentTime } = useSelector((state) => state.player);
+  const { currentTrackId, currentTime, isPlaying } = useSelector(
+    (state) => state.player
+  );
   const track = useSelector((state) => state.tracks[currentTrackId]);
   const { previousIndex, nextIndex, queue } = useSelector(
     (state) => state.queue
@@ -25,14 +27,11 @@ const GlobalPlayer = () => {
   const { incrementPlayCount, isSelected, selectTrack, setPlaying } =
     usePlay(currentTrackId);
 
-  const { time, setTime } = useTimer(currentTrackId);
-
-  const onScrub = async (e) => {
+  const onScrub = (e) => {
     const position = +e.target.value / track.duration;
     // updateTime(+e.target.value);
     dispatch(setSeeking(position, +e.target.value));
     setPlaying();
-    incrementPlayCount();
   };
 
   const onPlayNext = () => {
@@ -79,13 +78,13 @@ const GlobalPlayer = () => {
             </button>
           </div>
           <div className="footer-slider">
-            <PlaybackTime className="timer" transparent time={time} />
+            <PlaybackTime className="timer" transparent time={currentTime} />
             <Slider
               className="progress-bar"
               min="1"
               max={track.duration || track.duration.toString()}
               step="1"
-              value={time}
+              value={isSelected ? currentTime : 0}
               onChange={onScrub}
             />
             <PlaybackTime

@@ -33,11 +33,10 @@ export const setWaveform = (waveform) => ({
   waveform,
 });
 
-export const playTrack = (trackId, index, currentTime = 0) => ({
+export const playTrack = (trackId, index) => ({
   type: PLAY_TRACK,
   trackId,
   index,
-  currentTime,
 });
 
 export const pauseTrack = () => ({

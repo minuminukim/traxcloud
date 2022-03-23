@@ -3,13 +3,8 @@ import { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import usePlay from '../../hooks/usePlay';
 import { editTrack } from '../../actions/trackActions';
-import {
-  setSeeking,
-  setWaveform,
-  loadPlayer,
-  setPlayerReady,
-} from '../../actions/playerActions';
-import { useTimer } from '../../hooks';
+import { setSeeking } from '../../actions/playerActions';
+import { setPlayerReady, loadPlayer } from '../../actions/playerActions';
 
 const Waveform = ({ trackId, onReady, size = 'medium' }) => {
   const dispatch = useDispatch();
@@ -22,7 +17,6 @@ const Waveform = ({ trackId, onReady, size = 'medium' }) => {
   );
 
   const { selectTrack, setPlaying } = usePlay(trackId);
-  const { time } = useTimer();
 
   // Initialize waveform object
   useEffect(() => {
@@ -41,32 +35,33 @@ const Waveform = ({ trackId, onReady, size = 'medium' }) => {
       height: size === 'medium' ? 60 : 100,
     });
 
-    // dispatch(loadPlayer(trackId));
+    dispatch(loadPlayer(trackId));
 
     const audio = new Audio(track.trackUrl);
     audio.crossOrigin = 'anonymous';
 
+    // if waveform data doesn't exist, we dispatch data to database
     if (!track.peakData || !track.peakData?.length) {
       wavesurfer.current.load(audio);
       wavesurfer.current.on('waveform-ready', async () => {
         const peakData = await wavesurfer.current.exportPCM(256, 100, true);
         const updated = { ...track, peakData };
         await dispatch(editTrack(updated));
-        wavesurfer.current.setMute(true);
-        // dispatch(setPlayerReady(trackId));
+        // wavesurfer.current.setMute(true);
+        // onReady();
         return;
       });
     }
 
     wavesurfer.current.load(audio, track.peakData);
+    wavesurfer.current.setMute(true);
     wavesurfer.current.on('ready', () => {
-      wavesurfer.current.setMute(true);
-      // dispatch(setPlayerReady(trackId));
-      onReady();
+      dispatch(setPlayerReady(trackId));
+      // onReady();
     });
 
     return () => wavesurfer.current.destroy();
-  }, [track.trackUrl, track.peakData]);
+  }, [track.trackUrl]);
 
   useEffect(() => {
     if (currentTrackId === trackId) {
@@ -78,9 +73,7 @@ const Waveform = ({ trackId, onReady, size = 'medium' }) => {
     } else {
       wavesurfer.current.stop();
     }
-    console.log('timeaaaa', wavesurfer.current.getCurrentTime());
-
-  }, [isPlaying, currentTime, currentTrackId, trackId]);
+  }, [currentTime, isPlaying, currentTrackId, trackId]);
 
   useEffect(() => {
     if (isPlaying && currentTrackId === trackId) {

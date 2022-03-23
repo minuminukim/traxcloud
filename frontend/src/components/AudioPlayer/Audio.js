@@ -8,6 +8,7 @@ import {
   playNext,
   endPlayback,
 } from '../../actions/playerActions';
+import { useLocation } from 'react-router-dom';
 
 function Audio({ trackId }) {
   const dispatch = useDispatch();
@@ -16,27 +17,30 @@ function Audio({ trackId }) {
   const { queue, nextIndex } = useSelector((state) => state.queue);
   const { isPlaying, currentTrackId, seekTime, reference, volume } =
     useSelector((state) => state.player);
-
+  const location = useLocation();
   const { selectTrack } = usePlay();
+
+  // useEffect(() => {
+  //   dispatch(updateTime(audioRef?.current.currentTime || 0));
+  // }, [location]);
 
   useEffect(() => {
     isPlaying && currentTrackId === trackId
       ? audioRef.current.play()
       : audioRef.current.pause();
-  }, [isPlaying, currentTrackId, trackId, dispatch]);
+  }, [isPlaying, currentTrackId, trackId]);
 
   useEffect(() => {
     audioRef.current.currentTime = seekTime;
-    dispatch(updateTime(audioRef.current.currentTime));
   }, [seekTime]);
 
   useEffect(() => {
     audioRef.current.volume = volume;
   }, [volume]);
 
-  // const onTimeUpdate = () => {
-  //   dispatch(updateTime(audioRef.current.currentTime));
-  // };
+  const onTimeUpdate = () => {
+    dispatch(updateTime(audioRef.current.currentTime));
+  };
 
   const onEnded = async () => {
     if (nextIndex === null) {
@@ -51,15 +55,15 @@ function Audio({ trackId }) {
   };
 
   const onPlay = () => {
-    dispatch(updateTime(audioRef.current.currentTime));
+    // dispatch(updateTime(audioRef.current.currentTime));
     if (audioRef === null || audioRef !== reference) {
       dispatch(setReference(audioRef));
     }
   };
 
-  // const onPause = () => {
-  //   dispatch(updateTime(audioRef.current.currentTime));
-  // };
+  const onPause = () => {
+    dispatch(updateTime(audioRef.current.currentTime));
+  };
 
   return (
     <audio
@@ -67,7 +71,7 @@ function Audio({ trackId }) {
       id={`track-${track?.id}`}
       crossOrigin="anonymous"
       ref={audioRef}
-      // onTimeUpdate={onTimeUpdate}
+      onTimeUpdate={onTimeUpdate}
       onPlay={onPlay}
       // onPause={onPause}
       onEnded={onEnded}

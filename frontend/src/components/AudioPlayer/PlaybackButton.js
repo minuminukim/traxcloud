@@ -27,19 +27,19 @@ const PlaybackButton = ({
   const onPause = () => dispatch(pauseTrack());
 
   const onPlay = () => {
+    selectTrack(trackId);
 
     // If a new track has been selected, we want to clear the previous state
     if (currentTrackId && currentTrackId !== trackId) {
-      selectTrack(trackId);
       dispatch(updateTime(0));
       dispatch(setSeeking(0, 0));
-      incrementPlayCount(trackId);
     }
 
     setPlaying();
+    incrementPlayCount(trackId);
   };
 
-  if (!isReady && !isGlobal) {
+  if (track?.playerLoading && currentTrackId !== trackId) {
     return <LoadingSpinner />;
   }
 
