@@ -27,11 +27,11 @@ const Stream = () => {
 
         dispatch(setQueue(uniqueIds));
         // dispatch(setQueue(tracks.map(({ id }) => id).sort((a, b) => b - a)));
-        await Promise.all(
-          tracks.map(
-            async ({ id }) => await dispatch(fetchCommentsByTrackId(id))
-          )
-        );
+        // await Promise.all(
+        //   tracks.map(
+        //     async ({ id }) => await dispatch(fetchCommentsByTrackId(id))
+        //   )
+        // );
         setIsLoading(false);
       } catch (res) {
         console.log('error fetching tracks in Stream', res);

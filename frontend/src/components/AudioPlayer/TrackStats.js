@@ -1,15 +1,10 @@
-import { useSelector } from 'react-redux';
 import Ministat from '../Ministat';
 
 const TrackStats = ({ trackId }) => {
-  const { playCount, commentCount } = useSelector(
-    (state) => state.tracks[trackId]
-  );
-
   return (
     <div className="player-ministats">
-      <Ministat type="play" count={playCount} />
-      <Ministat type="comment" count={commentCount} trackId={trackId} />
+      <Ministat type="play" trackId={trackId} />
+      <Ministat type="comment" trackId={trackId} />
     </div>
   );
 };
