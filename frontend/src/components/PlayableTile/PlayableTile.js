@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { fetchSingleUser } from '../../store/userReducer';
 import { PlaybackButton } from '../AudioPlayer';
 import TrackArtwork from '../TrackArtwork';
 import Overlay from '../Overlay';
@@ -25,24 +26,37 @@ const PlayableTile = ({
   playbackClass = '',
   playbackSize = 'medium',
 }) => {
+  const dispatch = useDispatch();
   const { isPlaying, currentTrackId } = useSelector((state) => state.player);
   const track = useSelector((state) => state.tracks[trackId]);
+  const user = useSelector((state) => state.users[track?.userId]);
   const [showOverlay, setShowOverlay] = useState(false);
+  const [isHovering, setHovering] = useState(false);
 
-  const isSelected = isPlaying && currentTrackId === trackId;
+  const isSelected = isPlaying && currentTrackId === track?.id;
 
-  // if player is active, overlay should be visible
   useEffect(() => {
-    if (isSelected) setShowOverlay(true);
-    else setShowOverlay(false);
-  }, [isSelected]);
+    if (user) return;
+    (async () => {
+      try {
+        await dispatch(fetchSingleUser(track?.userId));
+      } catch (error) {
+        console.log('error fetching user data', error);
+      }
+    })();
+  }, [user, dispatch]);
 
-  const onMouseEnter = () => setShowOverlay(true);
-  const onMouseLeave = () => {
-    if (!isSelected) {
+  // If player is active, overlay should be visible
+  useEffect(() => {
+    if (isHovering || isSelected) {
+      setShowOverlay(true);
+    } else {
       setShowOverlay(false);
     }
-  };
+  }, [isHovering, isSelected]);
+
+  const onMouseEnter = () => setHovering(true);
+  const onMouseLeave = () => setHovering(false);
 
   return (
     <div className={`playable-tile ${className}`}>
@@ -56,6 +70,7 @@ const PlayableTile = ({
             <PlaybackButton
               trackId={trackId}
               className={`${playbackClass} responsive`}
+              isTile
             />
           </Overlay>
         )}
@@ -66,7 +81,7 @@ const PlayableTile = ({
           trackId={trackId}
           userId={track?.userId}
           title={track?.title}
-          displayName={track?.User?.displayName}
+          displayName={user?.displayName}
         />
       </div>
     </div>

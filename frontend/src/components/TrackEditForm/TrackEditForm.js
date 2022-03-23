@@ -33,7 +33,7 @@ const TrackEditForm = () => {
   };
 
   useEffect(() => {
-    if (!sessionUser || track?.userId === sessionUser?.id) {
+    if (!sessionUser) {
       history.push('/unauthorized');
     }
 

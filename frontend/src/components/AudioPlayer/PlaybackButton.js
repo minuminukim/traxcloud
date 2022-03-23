@@ -17,6 +17,7 @@ const PlaybackButton = ({
   trackId,
   isReady,
   isGlobal = false,
+  isTile = false,
   withBackground = true, // round & orange or transparent
 }) => {
   const dispatch = useDispatch();
@@ -45,10 +46,9 @@ const PlaybackButton = ({
     incrementPlayCount(trackId);
   };
 
-  if (!isReady && !isGlobal) {
+  if (!isReady && !isGlobal && !isTile) {
     return <LoadingSpinner />;
   }
-
 
   return (
     <button
