@@ -62,6 +62,9 @@ const Waveform = ({ trackId, onReady, size = 'medium' }) => {
   useEffect(() => {
     if (isSelected) {
       wavesurfer.current.seekTo(seekPosition);
+      // if (!isPlaying) {
+      //   setPlaying();
+      // }
       wavesurfer.current.play();
     }
   }, [isSelected, seekPosition]);
@@ -73,24 +76,6 @@ const Waveform = ({ trackId, onReady, size = 'medium' }) => {
         : wavesurfer.current.pause()
       : wavesurfer.current.stop();
   }, [isPlaying, isSelected, currentTime]);
-
-  // useEffect(() => {
-  //   if (currentTrackId === trackId) {
-  //     if (isPlaying) {
-  //       wavesurfer.current.play(currentTime);
-  //     } else {
-  //       wavesurfer.current.pause();
-  //     }
-  //   } else {
-  //     wavesurfer.current.stop();
-  //   }
-  // }, [currentTime, isPlaying, currentTrackId, trackId]);
-
-  // useEffect(() => {
-  //   if (isPlaying && currentTrackId === trackId) {
-  //     wavesurfer.current.seekTo(seekPosition);
-  //   }
-  // }, [seekPosition, currentTrackId, trackId]);
 
   const onSeek = (e) => {
     /**
@@ -112,10 +97,10 @@ const Waveform = ({ trackId, onReady, size = 'medium' }) => {
   const onMouseDown = (e) => {
     if (!isSelected) {
       selectTrack(trackId);
-      setPlaying();
     }
 
     onSeek(e);
+    setPlaying();
   };
 
   return (

@@ -10,7 +10,7 @@ import {
 } from '../../actions/playerActions';
 import { useLocation } from 'react-router-dom';
 
-function Audio({ trackId, setTime, children }) {
+function Audio({ trackId, children }) {
   const dispatch = useDispatch();
   const audioRef = useRef(null);
   const track = useSelector((state) => state.tracks[trackId]);

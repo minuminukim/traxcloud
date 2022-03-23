@@ -35,13 +35,13 @@ const PlaybackButton = ({
   };
   const onPlay = () => {
     // If a new track has been selected, we want to clear the previous state
-    if (currentTrackId && !isSelected) {
+    if (!currentTrackId || !isSelected) {
       selectTrack(trackId);
       dispatch(updateTime(0));
       dispatch(setSeeking(0, 0));
     }
 
-    dispatch(updateTime(timer));
+    // dispatch(updateTime(timer));
     setPlaying();
     incrementPlayCount(trackId);
   };
