@@ -8,6 +8,8 @@ import {
   END_PLAYBACK,
 } from '../actions/playerActions';
 
+import { REMOVE_TRACK } from '../actions/trackActions';
+
 const initialState = {
   duration: null,
   currentTrackId: null,
@@ -67,6 +69,7 @@ function playerReducer(state = initialState, action) {
         seekPosition: action.position,
         seekTime: action.currentTime,
         currentTime: action.currentTime,
+        isPlaying: true,
       };
 
     case END_PLAYBACK:
@@ -76,6 +79,18 @@ function playerReducer(state = initialState, action) {
         currentTime: 0,
         seekPosition: 0,
         seekTime: 0,
+      };
+
+    case REMOVE_TRACK:
+      const isCurrentTrack = action.trackId === state.currentTrackId;
+
+      return {
+        ...state,
+        currentTrackId: action.nextTrackId,
+        isPlaying: isCurrentTrack,
+        currentTime: isCurrentTrack ? state.currentTime : 0,
+        seekPosition: isCurrentTrack ? state.seekPosition : 0,
+        seekTime: isCurrentTrack ? state.seekTime : 0,
       };
 
     default:

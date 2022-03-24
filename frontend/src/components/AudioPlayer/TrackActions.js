@@ -7,35 +7,41 @@ import belongsTo from '../../utils/belongsTo';
 import { deleteTrack } from '../../actions/trackActions';
 import './TrackActions.css';
 import { pauseTrack } from '../../actions/playerActions';
+import { resetQueue } from '../../actions/queueActions';
 
 const TrackActions = ({ trackId }) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const track = useSelector((state) => state.tracks[trackId]);
   const sessionUser = useSelector((state) => state.session.user);
+  const { queue, nextIndex } = useSelector((state) => state.queue);
+  const { currentTrackId } = useSelector((state) => state.player);
 
   const belongsToSessionUser = belongsTo(sessionUser?.id, track.userId);
 
   const handleDelete = async () => {
     try {
-      await dispatch(pauseTrack());
-      await dispatch(deleteTrack(trackId, sessionUser.id));
+      // Pause player before we can unmount it
+      if (currentTrackId === trackId) {
+        dispatch(pauseTrack());
+      }
+
+      // Check if we're removing from a queue of one
+      const nextTrackId = nextIndex ? queue[nextIndex] : null;
+      await dispatch(deleteTrack(trackId, sessionUser.id, nextTrackId));
+      history.push(`/home`);
     } catch (response) {
       console.log('error deleting track', response);
     }
   };
 
-  const onEditClick = () => history.push(`/tracks/${trackId}/edit`);
+  const onClick = () => history.push(`/tracks/${trackId}/edit`);
 
   return (
     sessionUser &&
     belongsToSessionUser && (
       <div className="track-actions">
-        <EditDeleteButton
-          isEdit
-          onClick={onEditClick}
-          className="edit-button"
-        />
+        <EditDeleteButton isEdit onClick={onClick} className="edit-button" />
         <EditDeleteButton
           isEdit={false}
           onClick={handleDelete}

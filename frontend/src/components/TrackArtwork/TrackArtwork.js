@@ -4,13 +4,13 @@ import { prefixCORS } from '../../utils';
 import './TrackArtwork.css';
 
 const TrackArtwork = ({ className, trackId, ...rest }) => {
-  const { artworkUrl, title } = useSelector((state) => state.tracks[trackId]);
+  const track = useSelector((state) => state.tracks[trackId]);
   return (
     <img
       className={className}
       // src={prefixCORS(artworkUrl)}
-      src={artworkUrl}
-      alt={`${title} artwork`}
+      src={track?.artworkUrl}
+      alt={`${track?.title} artwork`}
       crossOrigin="true"
       onError={onImageError}
       {...rest}

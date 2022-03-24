@@ -27,10 +27,11 @@ const updateTrack = (track) => ({
   track,
 });
 
-const removeTrack = (trackId, userId) => ({
+const removeTrack = (trackId, userId, nextTrackId) => ({
   type: REMOVE_TRACK,
   trackId,
   userId,
+  nextTrackId,
 });
 
 export const fetchTracks = () => async (dispatch, getState) => {
@@ -129,12 +130,13 @@ export const updatePlayCount = (trackId) => async (dispatch) => {
   return track;
 };
 
-export const deleteTrack = (trackId, userId) => async (dispatch) => {
-  const response = await csrfFetch(`/api/tracks/${trackId}`, {
-    method: 'DELETE',
-    body: JSON.stringify({ userId, trackId }),
-  });
-
-  dispatch(removeTrack(trackId, userId));
-  return response;
-};
+export const deleteTrack =
+  (trackId, userId, nextTrackId) => async (dispatch) => {
+    const response = await csrfFetch(`/api/tracks/${trackId}`, {
+      method: 'DELETE',
+      body: JSON.stringify({ userId, trackId }),
+    });
+    dispatch(removeTrack(trackId, userId, nextTrackId));
+    
+    return response;
+  };

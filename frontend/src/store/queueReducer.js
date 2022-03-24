@@ -1,6 +1,7 @@
 import { LOAD_QUEUE, APPEND_QUEUE, RESET_QUEUE } from '../actions/queueActions';
 
 import { SET_TRACK } from '../actions/playerActions';
+import { REMOVE_TRACK } from '../actions/trackActions';
 
 /** TYPES OF QUEUES
  * main = from '/' or '/home'
@@ -55,6 +56,25 @@ const queueReducer = (state = initialState, action) => {
         currentIndex: action.index,
         previousIndex: state.queue[index - 1] ? index - 1 : null,
         nextIndex: state.queue[index + 1] ? index + 1 : null,
+      };
+
+    case REMOVE_TRACK:
+      const removeIndex = state.queue.indexOf(action.trackId);
+      const nextQueue =
+        trackIndex === -1
+          ? [...state.queue]
+          : state.queue.filter((id) => id !== action.trackId);
+      // if next length = 0, return to initial state
+      const nextCurrentIndex = nextQueue.length > 0 ? removeIndex : null;
+      const nextPreviousIndex = nextQueue.length <= 1 ? null : removeIndex - 1;
+      const nextNextIndex = nextQueue.length <= 1 ? null : removeIndex + 1;
+
+      return {
+        ...state,
+        currentIndex: nextCurrentIndex,
+        nextIndex: nextNextIndex,
+        previousIndex: nextPreviousIndex,
+        queue: nextQueue,
       };
 
     default:

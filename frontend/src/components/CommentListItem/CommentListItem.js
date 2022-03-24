@@ -28,17 +28,17 @@ const CommentListItem = ({ commentId }) => {
       return;
     }
 
-    dispatch(fetchSingleUser(comment.userId))
+    dispatch(fetchSingleUser(comment?.userId))
       .then(() => setLoading(false))
       .catch((error) => console.log('error fetching user', error));
-  }, [comment.userId, dispatch, user]);
+  }, [comment?.userId, dispatch, user]);
 
-  const belongsToCurrentUser = sessionUser?.id === comment.userId;
+  const belongsToCurrentUser = sessionUser?.id === comment?.userId;
 
   const onDelete = () => {
     if (!belongsToCurrentUser) return;
 
-    dispatch(deleteComment(commentId, comment.trackId, comment.userId)).catch(
+    dispatch(deleteComment(commentId, comment?.trackId, comment?.userId)).catch(
       (error) => console.log('error deleting comment', error)
     );
   };
