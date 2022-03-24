@@ -69,6 +69,24 @@ router.get(
   })
 );
 
+// req.files = {
+//   trackFile: [
+//     {
+//       fieldname: 'trackFile',
+//       originalName: '...',
+//       mimetype: '...',
+//       buffer: <Buffer ...>,
+//       size: 1231421412,
+//     },
+//   ],
+//   imageFile: [
+//     {
+//       fieldName: 'imageFile',
+//       ...
+//     }
+//   ]
+// }
+
 router.post(
   '/',
   requireAuth,
@@ -77,33 +95,34 @@ router.post(
   validateImage,
   validateTrackFile,
   asyncHandler(async (req, res, next) => {
-    // req.files = {
-    //   trackFile: [
-    //     {
-    //       fieldname: 'trackFile',
-    //       originalName: '...',
-    //       mimetype: '...',
-    //       buffer: <Buffer ...>,
-    //       size: 1231421412,
-    //     },
-    //   ],
-    //   imageFile: [
-    //     {
-    //       fieldName: 'imageFile',
-    //       ...
-    //     }
-    //   ]
-    // }
+    /**
+     * REQ.FILES EXAMPLE
+     * req.files = {
+     *   trackFile: [
+     *     {
+     *       fieldname: 'trackFile',
+     *       originalName: '...',
+     *       mimetype: '...',
+     *       buffer: <Buffer ...>,
+     *       size: 1231421412,
+     *     },
+     *   ],
+     *   imageFile: [
+     *     {
+     *       fieldName: 'imageFile',
+     *       ...
+     *     }
+     *   ]
+     * }
+     */
 
-    const { user, body, files } = req;
+    const { body, files, user } = req;
 
+    // Check if upload will push user over data limit of 50mb;
     const trackFile = files.trackFile[0];
-
     const isImageUpload = 'imageFile' in files;
     const imageSize = isImageUpload ? files.imageFile[0].size : 0;
     const uploadSize = trackFile.size + imageSize;
-
-    // Check if upload will push user over data limit of 50mb;
     if (user.dataSpent + uploadSize >= 52428800) {
       return next(dataLimitError());
     }
@@ -111,7 +130,7 @@ router.post(
     /**
      * Image isn't a required field, so we'll upload the track,
      * and then create a new track with artworkUrl set to
-     * user.profilePictureUrl
+     * user.profilePictureUrl...
      */
 
     if (!isImageUpload) {
@@ -120,11 +139,17 @@ router.post(
         ...body,
         trackUrl,
         artworkUrl: user.profilePictureUrl,
+        playCount: 0,
+        commentCount: 0,
+        peakData: [],
       });
       await user.setDataSpent(uploadSize, 'post');
+      await user.update({ trackCount: user.trackCount + 1 });
+
       return res.json({ track });
     }
 
+    // ...else we upload both files
     const imageFile = files.imageFile[0];
     const [trackUrl, artworkUrl] = await multiplePublicFileUpload([
       trackFile,
@@ -139,6 +164,7 @@ router.post(
     });
 
     await user.setDataSpent(uploadSize, 'post');
+    await user.update({ trackCount: user.trackCount + 1 });
 
     return res.json({ track });
   })
@@ -169,6 +195,7 @@ router.put(
       }
 
       await track.save();
+      await user.update();
       const updatedTrack = await Track.fetchSingleTrackWithUser(track.id);
       res.status(200).json({ updatedTrack });
     } else {
@@ -214,6 +241,7 @@ router.delete(
       }
 
       await user.setDataSpent(track.fileSize, 'delete');
+      await user.update({ trackCount: user.trackCount + 1 });
       await track.destroy();
       res.status(204).json({ message: 'You have deleted your track.' });
     } else {
@@ -231,10 +259,6 @@ router.get(
       include: {
         model: Comment,
         as: 'comments',
-        // include: {
-        //   model: User,
-        //   as: 'user',
-        // },
       },
     });
 
