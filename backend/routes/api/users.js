@@ -42,7 +42,22 @@ router.get(
   '/:userId(\\d+)',
   asyncHandler(async (req, res, next) => {
     const userId = +req.params.userId;
-    const user = await User.getSingleUserById(userId);
+    // const user = await User.getSingleUserById(userId);
+    const user = await User.findOne({
+      where: { id: userId },
+      include: [
+        {
+          model: Track,
+          as: 'tracks',
+          attributes: ['id'],
+        },
+        {
+          model: Comment,
+          as: 'comments',
+          attributes: ['id'],
+        },
+      ],
+    });
 
     if (!user) {
       next(userNotFoundError());
@@ -74,7 +89,7 @@ router.get(
         include: {
           model: Comment,
           as: 'comments',
-          attributes: ['id']
+          attributes: ['id'],
         },
       },
     });

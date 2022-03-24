@@ -1,4 +1,6 @@
 import { csrfFetch } from './csrf';
+import mapAndSortIDs from '../utils/mapAndSortIDs';
+
 import {
   LOAD_USER_TRACKS,
   ADD_TRACK,
@@ -12,16 +14,10 @@ import {
 // } from '../actions/commentActions';
 
 const ADD_USER = 'user/loadUser';
-const LOAD_USERS = 'user/loadUsers';
 
 const addUser = (user) => ({
   type: ADD_USER,
   user,
-});
-
-const loadUsers = (users) => ({
-  type: LOAD_USERS,
-  users,
 });
 
 export const fetchSingleUser = (userId) => async (dispatch) => {
@@ -32,31 +28,17 @@ export const fetchSingleUser = (userId) => async (dispatch) => {
   return user;
 };
 
-export const fetchUsers = () => async (dispatch) => {
-  const response = await csrfFetch(`/api/users`);
-  const { users } = await response.json();
-  dispatch(loadUsers(users));
-
-  return users;
-};
-
 const userReducer = (state = {}, action) => {
   switch (action.type) {
-    case LOAD_USERS:
-      const users = action.users.reduce((acc, user) => {
-        acc[user.id] = user;
-        return acc;
-      }, {});
-
-      return {
-        ...state,
-        ...users,
-      };
-
     case ADD_USER:
+      const user = {
+        ...action.user,
+        tracks: mapAndSortIDs(action.user.tracks),
+        comments: mapAndSortIDs(action.user.comments),
+      };
       return {
         ...state,
-        [action.user.id]: action.user,
+        [action.user.id]: user,
       };
 
     case LOAD_USER_TRACKS:
@@ -64,29 +46,33 @@ const userReducer = (state = {}, action) => {
         ...state,
         [action.userId]: {
           ...state[action.userId],
-          trackIds: action.tracks.map(({ id }) => id).sort((a, b) => b - a),
+          tracks: mapAndSortIDs(action.tracks),
         },
       };
 
     case ADD_TRACK:
-      const previous = state[action.track.userId]?.trackIds || [];
+      const previous = state[action.track.userId]?.tracks || [];
+      const inPrevious = previous.includes(action.track.id);
 
       return {
         ...state,
         [action.track.userId]: {
           ...state[action.track.userId],
-          trackIds: [...previous, action.track.id].sort((a, b) => b - a),
+          trackCount: state[action.track.userId].trackCount + 1,
+          tracks: inPrevious
+            ? [...previous]
+            : [...previous, action.track.id].sort((a, b) => b - a),
         },
       };
 
     case REMOVE_TRACK:
-      const previousIds = state[action.userId]?.trackIds || [];
+      const previousIds = state[action.userId]?.tracks || [];
 
       return {
         ...state,
         [action.userId]: {
           ...state[action.userId],
-          trackIds: previousIds.length
+          tracks: previousIds.length
             ? previousIds
                 .filter((id) => id !== action.trackId)
                 .sort((a, b) => b - a)

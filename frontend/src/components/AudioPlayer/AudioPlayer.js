@@ -13,6 +13,7 @@ import {
 } from '.';
 
 import './AudioPlayer.css';
+import { fetchSingleTrack } from '../../actions/trackActions';
 
 const AudioPlayer = ({
   trackId,
@@ -29,13 +30,26 @@ const AudioPlayer = ({
   const [waveformReady, setReady] = useState(false);
 
   useEffect(() => {
-    if (user) {
+    if (track) return;
+
+    (async () => {
+      await dispatch(fetchSingleTrack(+trackId)).catch((error) =>
+        console.log(`error fetching track ${trackId} in AudioPlayer`, error)
+      );
+    })();
+  }, [track, trackId]);
+
+  useEffect(() => {
+    // Fetch only when user or a
+    // reference to track.userId doesn't exist
+    if (user || !track?.userId) {
       return;
     }
 
-    dispatch(fetchSingleUser(track.userId))
-      .catch((err) => console.log('error fetching user', err));
-  }, [user, track.userId]);
+    dispatch(fetchSingleUser(track?.userId)).catch((err) =>
+      console.log(`error fetching user ${track.userId} in AudioPlayer`, err)
+    );
+  }, [user, track?.userId]);
 
   const onReady = () => setReady(true);
 
@@ -67,10 +81,7 @@ const AudioPlayer = ({
             <Timeline trackId={trackId} />
           </div>
           {withCommentField && sessionUser && (
-            <CommentField
-              trackId={trackId}
-              height={32}
-            />
+            <CommentField trackId={trackId} height={32} />
           )}
           {withFooter && <PlayerFooter trackId={trackId} />}
         </div>

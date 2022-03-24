@@ -17,13 +17,6 @@ const usePlay = (trackId) => {
     dispatch(playTrack());
   };
 
-  const selectTrack = () => {
-    // If a new track has been selected
-    if (!isSelected) {
-      dispatch(setTrack(trackId, trackIndex));
-    }
-  };
-
   const incrementPlayCount = async (trackId) => {
     if (trackBelongsToUser) {
       return;
@@ -32,6 +25,13 @@ const usePlay = (trackId) => {
     await dispatch(updatePlayCount(trackId));
   };
 
+  const selectTrack = () => {
+    // If a new track has been selected
+    if (!isSelected) {
+      dispatch(setTrack(trackId, trackIndex));
+      incrementPlayCount(trackId);
+    }
+  };
   return {
     incrementPlayCount,
     isSelected,

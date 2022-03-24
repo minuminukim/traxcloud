@@ -20,7 +20,7 @@ const trackReducer = (state = {}, action) => {
     case LOAD_USER_TRACKS:
       const tracksObject = action.tracks.reduce((acc, track) => {
         acc[track.id] = track;
-        acc[track.id].comments = track.comments.map(({ id }) => id);
+        acc[track.id].comments = track?.comments.map(({ id }) => id) || [];
         return acc;
       }, {});
 

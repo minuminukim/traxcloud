@@ -2,8 +2,15 @@ import { LOAD_QUEUE, APPEND_QUEUE, RESET_QUEUE } from '../actions/queueActions';
 
 import { SET_TRACK } from '../actions/playerActions';
 
+/** TYPES OF QUEUES
+ * main = from '/' or '/home'
+ * user-${userId} = from '/users/:userId'
+ * single-${trackId} = from '/tracks/:trackId'
+ */
+
 const initialState = {
   queue: [],
+  queueId: '',
   previousIndex: null,
   currentIndex: null,
   nextIndex: null,
@@ -19,10 +26,12 @@ const queueReducer = (state = initialState, action) => {
   switch (action.type) {
     case LOAD_QUEUE:
       return {
-        // spread in case it's a queue of one
+        // Spread in case it's a queue of one
         queue: [...action.tracks],
+        queueId: action.queueId,
         previousIndex: null,
-        currentIndex: 0,
+        // Find index of the player that dispatched action
+        currentIndex: action.tracks.indexOf(action.trackId),
         nextIndex: action.tracks[1] ? 1 : null,
       };
 
@@ -38,7 +47,7 @@ const queueReducer = (state = initialState, action) => {
         ...initialState,
       };
 
-      case SET_TRACK:
+    case SET_TRACK:
       const { index } = action;
 
       return {

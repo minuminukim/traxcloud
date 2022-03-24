@@ -33,7 +33,6 @@ const GlobalPlayer = () => {
 
   const onScrub = (e) => {
     const position = +e.target.value / duration;
-    // updateTime(+e.target.value);
     dispatch(setSeeking(position, +e.target.value));
   };
 
