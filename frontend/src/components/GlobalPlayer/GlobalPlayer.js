@@ -25,7 +25,7 @@ const GlobalPlayer = () => {
     (state) => state.queue
   );
 
-  const { incrementPlayCount, isSelected } = usePlay(currentTrackId);
+  const { incrementPlayCount } = usePlay(currentTrackId);
 
   const { timer } = useTimer(currentTrackId);
 
@@ -57,10 +57,7 @@ const GlobalPlayer = () => {
     currentTrackId && (
       <footer className="footer-container">
         <div className="footer-player">
-          <Audio
-            trackId={currentTrackId}
-            // setTime={timer}
-          />
+          <Audio trackId={currentTrackId} />
           <div className="player-controls">
             <button className="player-control">
               <IoPlaySkipBack onClick={onPlayPrevious} />

@@ -23,10 +23,10 @@ function Audio({ trackId, children }) {
   const isSelected = +trackId === currentTrackId;
 
   useEffect(() => {
-    isPlaying && currentTrackId === trackId
+    isPlaying && +trackId === currentTrackId
       ? audioRef.current.play()
       : audioRef.current.pause();
-  }, [isPlaying, currentTrackId, trackId]);
+  }, [isPlaying, trackId, currentTrackId]);
 
   useEffect(() => {
     audioRef.current.currentTime = seekTime;
@@ -53,9 +53,7 @@ function Audio({ trackId, children }) {
     }
   };
 
-  const onPause = () => {
-    dispatch(updateTime(audioRef.current.currentTime));
-  };
+  const onPause = () => dispatch(updateTime(audioRef.current.currentTime));
 
   return (
     <audio
@@ -63,6 +61,7 @@ function Audio({ trackId, children }) {
       id={`track-${track?.id}`}
       crossOrigin="anonymous"
       ref={audioRef}
+      // onPlay={onPlayPause}
       onPause={onPause}
       onEnded={onEnded}
     >

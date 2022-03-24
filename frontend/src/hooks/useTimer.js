@@ -6,12 +6,13 @@ const useTimer = (trackId) => {
   const { currentTime, isPlaying, currentTrackId } = useSelector(
     (state) => state.player
   );
-  const isSelected = currentTrackId === trackId;
   const [timer, setTimer] = useState(currentTime);
 
   const clearTimer = () => clearInterval(intervalRef?.current);
 
   useEffect(() => {
+    const isSelected = currentTrackId === trackId;
+
     if (isSelected && isPlaying) {
       setTimer(currentTime);
       intervalRef.current = setInterval(
@@ -24,7 +25,7 @@ const useTimer = (trackId) => {
     }
 
     return () => clearTimer();
-  }, [currentTime, isSelected, isPlaying]);
+  }, [currentTime, currentTrackId, trackId, isPlaying]);
   return { timer, setTimer, clearTimer };
 };
 
