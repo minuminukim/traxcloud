@@ -3,12 +3,12 @@ import { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import usePlay from '../../hooks/usePlay';
 import { editTrack } from '../../actions/trackActions';
-import { setSeeking, updateTime } from '../../actions/playerActions';
+import { setSeeking } from '../../actions/playerActions';
 
-const Waveform = ({ trackId, onReady, size = 'medium' }) => {
+const Waveform = ({ trackId, onReady, resetQueue, size = 'medium' }) => {
   const dispatch = useDispatch();
   const track = useSelector((state) => state.tracks[trackId]);
-  const { currentTime, } = useSelector((state) => state.player);
+  const { currentTime } = useSelector((state) => state.player);
   const containerRef = useRef(null);
   const wavesurfer = useRef();
   const { seekPosition, isPlaying } = useSelector((state) => state.player);
@@ -31,24 +31,21 @@ const Waveform = ({ trackId, onReady, size = 'medium' }) => {
       barHeight: 1,
       height: size === 'medium' ? 60 : 100,
     });
-    // wavesurfer.current.setMute(true);
 
     const audio = new Audio(track.trackUrl);
     audio.crossOrigin = 'anonymous';
 
     wavesurfer.current.load(audio, track.peakData);
     wavesurfer.current.setMute(true);
-    // if waveform data doesn't exist, we dispatch data to database
+
+    // if waveform data doesn't exist, we send data to database
     if (!track.peakData || track.peakData.length === 0) {
-      console.log('test');
       wavesurfer.current.load(audio);
       wavesurfer.current.on('waveform-ready', async () => {
         const peakData = await wavesurfer.current.exportPCM(256, 100, true);
         const updated = { ...track, peakData };
         await dispatch(editTrack(updated));
-        // wavesurfer.current.setMute(true);
         onReady();
-        // return;
       });
     }
 
@@ -93,6 +90,7 @@ const Waveform = ({ trackId, onReady, size = 'medium' }) => {
   const onMouseDown = (e) => {
     if (!isSelected) {
       selectTrack();
+      resetQueue();
     }
 
     onSeek(e);

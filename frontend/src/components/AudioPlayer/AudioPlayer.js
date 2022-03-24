@@ -18,6 +18,7 @@ import './AudioPlayer.css';
 const AudioPlayer = ({
   trackId,
   size,
+  resetQueue,
   withArtwork = false,
   withHeader = false,
   withFooter = false,
@@ -74,11 +75,17 @@ const AudioPlayer = ({
               size={size}
               trackId={trackId}
               isReady={waveformReady}
+              resetQueue={resetQueue}
             />
             {user && <TrackDetails trackId={trackId} size={size} />}
           </div>
           <div className="waveform-row">
-            <Waveform trackId={trackId} size={size} onReady={onReady} />
+            <Waveform
+              trackId={trackId}
+              size={size}
+              onReady={onReady}
+              resetQueue={resetQueue}
+            />
             <Timeline trackId={trackId} />
           </div>
           {withCommentField && sessionUser && (

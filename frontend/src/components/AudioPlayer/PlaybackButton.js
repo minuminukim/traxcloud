@@ -10,6 +10,7 @@ const PlaybackButton = ({
   className = '',
   size,
   trackId,
+  resetQueue,
   isReady,
   isGlobal = false,
   isTile = false,
@@ -18,7 +19,7 @@ const PlaybackButton = ({
   const dispatch = useDispatch();
   const { isPlaying, currentTrackId } = useSelector((state) => state.player);
   const { clearTimer } = useTimer(trackId);
-  const { incrementPlayCount, isSelected, selectTrack } = usePlay(+trackId);
+  const { isSelected, selectTrack } = usePlay(+trackId);
 
   const onPause = () => {
     dispatch(pauseTrack());
@@ -29,7 +30,7 @@ const PlaybackButton = ({
     // If a new track has been selected, we want to clear the previous state
     if (!currentTrackId || !isSelected) {
       selectTrack();
-      incrementPlayCount(trackId);
+      resetQueue();
     } else {
       dispatch(playTrack());
     }

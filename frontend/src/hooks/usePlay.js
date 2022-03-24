@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { playTrack, setTrack } from '../actions/playerActions';
+import { setQueue } from '../actions/queueActions';
 import { updatePlayCount } from '../actions/trackActions';
 
 const usePlay = (trackId) => {
@@ -7,7 +8,7 @@ const usePlay = (trackId) => {
   const sessionUser = useSelector((state) => state.session.user);
   const { currentTrackId } = useSelector((state) => state.player);
   const userId = useSelector((state) => state.tracks[trackId]?.userId);
-  const { queue } = useSelector((state) => state.queue);
+  const { queue, queueId } = useSelector((state) => state.queue);
 
   const isSelected = trackId === currentTrackId;
   const trackBelongsToUser = sessionUser?.id === userId;

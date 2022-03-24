@@ -29,14 +29,14 @@ const queueReducer = (state = initialState, action) => {
       const trackIndex = action.trackId
         ? action.tracks.indexOf(action.trackId)
         : 0;
+        
       return {
         // Spread in case it's a queue of one
         queue: [...action.tracks],
         queueId: action.queueId,
-        previousIndex: null,
-        // Find index of the player that dispatched action
         currentIndex: trackIndex,
-        nextIndex: action.tracks[1] ? 1 : null,
+        previousIndex: action.tracks[trackIndex - 1] ? trackIndex - 1 : null,
+        nextIndex: action.tracks[trackIndex + 1] ? trackIndex + 1 : null,
       };
 
     case APPEND_QUEUE:

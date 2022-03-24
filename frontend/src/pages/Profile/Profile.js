@@ -39,7 +39,7 @@ function Profile() {
           <h2 className="profile-section-heading">Recent</h2>
           <PlayersList
             tracks={user?.tracks}
-            queueType={`user-${userId}`}
+            nextQueueId={`user-${userId}`}
             listClassName="profile-stream"
             itemClassName="profile-stream-item"
           />

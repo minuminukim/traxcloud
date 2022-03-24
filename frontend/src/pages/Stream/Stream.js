@@ -8,7 +8,6 @@ import './Stream.css';
 
 const Stream = () => {
   const dispatch = useDispatch();
-  const { currentTrackId, isPlaying } = useSelector((state) => state.player);
   const tracks = useSelector((state) => state.tracks);
   const trackIds = Object.keys(tracks)
     ?.map((id) => +id)
@@ -25,13 +24,6 @@ const Stream = () => {
     (async () => {
       try {
         await dispatch(fetchTracks());
-        // A track should only appear in the queue once
-        // const uniqueIds =
-        //   currentTrackId && isPlaying
-        //     ? trackIds.filter((id) => id !== currentTrackId)
-        //     : trackIds;
-
-        // dispatch(setQueue(uniqueIds));
         setLoading(false);
       } catch (res) {
         console.log('error fetching tracks in Stream', res);
@@ -47,7 +39,7 @@ const Stream = () => {
         </h1>
         <PlayersList
           tracks={trackIds}
-          queueType="main"
+          nextQueueId="main"
           listClassName="main-stream"
           itemClassName="stream-row"
         />

@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import { useQueue } from '../../hooks';
 import { fetchSingleTrack } from '../../actions/trackActions';
-import { fetchSingleUser } from '../../store/userReducer';
 import { setQueue } from '../../actions/queueActions';
 import AudioPlayer, { PlayerFooter } from '../../components/AudioPlayer';
 import TrackArtwork from '../../components/TrackArtwork';
@@ -20,6 +20,8 @@ const SingleTrackPage = () => {
   const sessionUser = useSelector((state) => state.session.user);
   const [isLoading, setLoading] = useState(true);
 
+  const { resetQueue } = useQueue([+trackId], `single-${trackId}`);
+
   useEffect(() => {
     if (track) {
       setLoading(false);
@@ -29,9 +31,6 @@ const SingleTrackPage = () => {
     (async () => {
       try {
         await dispatch(fetchSingleTrack(+trackId));
-        if (!queue.length) {
-          dispatch(setQueue([+trackId], `single-${trackId}`, +trackId));
-        }
       } catch (err) {
         console.log('error fetching tracks', err);
       } finally {
@@ -55,6 +54,7 @@ const SingleTrackPage = () => {
           <AudioPlayer
             trackId={+trackId}
             size="large"
+            resetQueue={() => resetQueue(+trackId)}
             withArtwork={false}
             withFooter={false}
             withCommentField={false}
