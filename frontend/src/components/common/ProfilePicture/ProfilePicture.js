@@ -4,12 +4,16 @@ import './ProfilePicture.css';
 
 const ProfilePicture = ({ userId, size, shape = 'round' }) => {
   const user = useSelector((state) => state.users[userId]);
+  const sessionUser = useSelector((state) => state.session.user);
+  const isCurrentUser = sessionUser?.id === userId;
 
   return (
     <img
       className={`profile-picture  profile-picture-${shape} profile-picture-${size}`}
-      src={user?.profilePictureUrl}
-      alt={user?.displayName}
+      src={
+        isCurrentUser ? sessionUser?.profilePictureUrl : user?.profilePictureUrl
+      }
+      alt={isCurrentUser ? sessionUser?.displayName : user?.displayName}
       crossOrigin="true"
       onError={onImageError}
     />

@@ -3,7 +3,7 @@ import mapAndSortIDs from '../utils/mapAndSortIDs';
 
 import {
   LOAD_USER_TRACKS,
-  ADD_TRACK,
+  CREATE_TRACK,
   REMOVE_TRACK,
 } from '../actions/trackActions';
 
@@ -50,7 +50,7 @@ const userReducer = (state = {}, action) => {
         },
       };
 
-    case ADD_TRACK:
+    case CREATE_TRACK:
       const previous = state[action.track.userId]?.tracks || [];
       const inPrevious = previous.includes(action.track.id);
 
@@ -58,7 +58,7 @@ const userReducer = (state = {}, action) => {
         ...state,
         [action.track.userId]: {
           ...state[action.track.userId],
-          trackCount: state[action.track.userId].trackCount + 1,
+          trackCount: state[action.track.userId]?.trackCount + 1 || 1,
           tracks: inPrevious
             ? [...previous]
             : [...previous, action.track.id].sort((a, b) => b - a),

@@ -26,13 +26,16 @@ export const getNextIndex = (state) => state.nextIndex;
 const queueReducer = (state = initialState, action) => {
   switch (action.type) {
     case LOAD_QUEUE:
+      const trackIndex = action.trackId
+        ? action.tracks.indexOf(action.trackId)
+        : 0;
       return {
         // Spread in case it's a queue of one
         queue: [...action.tracks],
         queueId: action.queueId,
         previousIndex: null,
         // Find index of the player that dispatched action
-        currentIndex: action.tracks.indexOf(action.trackId),
+        currentIndex: trackIndex,
         nextIndex: action.tracks[1] ? 1 : null,
       };
 
@@ -60,22 +63,24 @@ const queueReducer = (state = initialState, action) => {
 
     case REMOVE_TRACK:
       const removeIndex = state.queue.indexOf(action.trackId);
-      const nextQueue =
-        trackIndex === -1
-          ? [...state.queue]
-          : state.queue.filter((id) => id !== action.trackId);
-      // if next length = 0, return to initial state
+      const removedFromQueue = removeIndex !== -1;
+      const nextQueue = state.queue.filter((id) => id !== action.trackId);
+
+      // If next length = 0, return to initial state
       const nextCurrentIndex = nextQueue.length > 0 ? removeIndex : null;
       const nextPreviousIndex = nextQueue.length <= 1 ? null : removeIndex - 1;
       const nextNextIndex = nextQueue.length <= 1 ? null : removeIndex + 1;
 
-      return {
-        ...state,
-        currentIndex: nextCurrentIndex,
-        nextIndex: nextNextIndex,
-        previousIndex: nextPreviousIndex,
-        queue: nextQueue,
-      };
+      // Queue only gets updated if track was removed from queue
+      return removedFromQueue
+        ? {
+            ...state,
+            currentIndex: nextCurrentIndex,
+            nextIndex: nextNextIndex,
+            previousIndex: nextPreviousIndex,
+            queue: nextQueue,
+          }
+        : { ...state };
 
     default:
       return state;

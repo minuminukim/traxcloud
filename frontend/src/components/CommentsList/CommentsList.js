@@ -36,7 +36,7 @@ const CommentsList = () => {
           {count} {titleText}
         </p>
         <ul className="track-comments-list">
-          {comments &&
+          {comments?.length > 0 &&
             [...comments]
               .sort((a, b) => b - a)
               .map((id) => <CommentListItem key={id} commentId={id} />)}

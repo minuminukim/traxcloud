@@ -3,6 +3,7 @@ import { csrfFetch } from '../store/csrf';
 export const LOAD_TRACKS = 'track/loadTracks';
 export const LOAD_USER_TRACKS = 'track/loadUserTracks';
 export const ADD_TRACK = 'track/addTrack';
+export const CREATE_TRACK = 'track/createTrack';
 export const UPDATE_TRACK = 'track/updateTrack';
 export const REMOVE_TRACK = 'track/removeTrack';
 
@@ -19,6 +20,11 @@ const loadUserTracks = (tracks, userId) => ({
 
 const addTrack = (track) => ({
   type: ADD_TRACK,
+  track,
+});
+
+const createTrack = (track) => ({
+  type: CREATE_TRACK,
   track,
 });
 
@@ -87,9 +93,9 @@ export const postTrack = (track) => async (dispatch) => {
   });
 
   const data = await response.json();
-  dispatch(addTrack(data.track));
+  dispatch(createTrack(data.track));
 
-  return data;
+  return data?.track;
 };
 
 export const editTrack = (track) => async (dispatch) => {
@@ -137,6 +143,6 @@ export const deleteTrack =
       body: JSON.stringify({ userId, trackId }),
     });
     dispatch(removeTrack(trackId, userId, nextTrackId));
-    
+
     return response;
   };

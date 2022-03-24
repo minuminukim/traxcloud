@@ -2,6 +2,7 @@ import {
   LOAD_TRACKS,
   LOAD_USER_TRACKS,
   ADD_TRACK,
+  CREATE_TRACK,
   UPDATE_TRACK,
   REMOVE_TRACK,
 } from '../actions/trackActions';
@@ -30,6 +31,7 @@ const trackReducer = (state = {}, action) => {
       };
 
     case ADD_TRACK:
+    case CREATE_TRACK:
       return {
         ...state,
         [action.track.id]: { ...state.track?.id, ...action.track },

@@ -16,7 +16,7 @@ const TrendingTracks = () => {
     (async () => {
       try {
         const tracks = await dispatch(fetchTracks());
-        dispatch(setQueue(tracks.slice(0, 6).map(({ id }) => id)));
+        dispatch(setQueue(tracks.slice(0, 6).map(({ id }) => id)), 'main');
         setFetching(false);
       } catch (error) {
         console.log('error fetching tracks', error);
@@ -24,7 +24,7 @@ const TrendingTracks = () => {
     })();
   }, [dispatch]);
 
-  return (
+  return !isFetching && (
     <div className="trending-tracks">
       <h3 className="trending-tracks-title">
         Hear what's trending for free in the TraxCloud community

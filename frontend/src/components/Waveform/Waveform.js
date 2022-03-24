@@ -41,15 +41,16 @@ const Waveform = ({ trackId, onReady, size = 'medium' }) => {
     wavesurfer.current.load(audio, track.peakData);
     wavesurfer.current.setMute(true);
     // if waveform data doesn't exist, we dispatch data to database
-    if (!track.peakData) {
-      // wavesurfer.current.load(audio);
+    if (!track.peakData || track.peakData.length === 0) {
+      console.log('test');
+      wavesurfer.current.load(audio);
       wavesurfer.current.on('waveform-ready', async () => {
         const peakData = await wavesurfer.current.exportPCM(256, 100, true);
         const updated = { ...track, peakData };
         await dispatch(editTrack(updated));
         // wavesurfer.current.setMute(true);
         onReady();
-        return;
+        // return;
       });
     }
 
@@ -58,7 +59,7 @@ const Waveform = ({ trackId, onReady, size = 'medium' }) => {
     });
 
     return () => wavesurfer.current.destroy();
-  }, [track.trackUrl]);
+  }, [track.trackUrl, track.peakData]);
 
   useEffect(() => {
     if (isSelected) {

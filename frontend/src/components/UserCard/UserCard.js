@@ -10,12 +10,12 @@ const UserCard = ({ userId, size, avatarSize }) => {
   const user = useSelector((state) => state.users[userId]);
 
   useEffect(() => {
-    if (!user.displayName) {
+    if (!user?.displayName) {
       dispatch(fetchSingleUser(userId)).catch((error) =>
         console.log('error fetching user', error)
       );
     }
-  }, [user.displayName, userId, dispatch]);
+  }, [user?.displayName, userId, dispatch]);
 
   return !user ? null : (
     <div className={`user-card user-card-${size}`}>
@@ -24,7 +24,7 @@ const UserCard = ({ userId, size, avatarSize }) => {
       </Link>
       <div className={`user-card-body-${size}`}>
         <Link className="user-card-name" to={`/users/${userId}`}>
-          {user.displayName}
+          {user?.displayName}
         </Link>
       </div>
     </div>
