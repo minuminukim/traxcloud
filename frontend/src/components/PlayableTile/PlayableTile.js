@@ -24,7 +24,7 @@ const PlayableTile = ({
   className,
   trackId,
   playbackClass = '',
-  playbackSize = 'medium',
+  resetQueue,
 }) => {
   const dispatch = useDispatch();
   const { isPlaying, currentTrackId } = useSelector((state) => state.player);
@@ -71,6 +71,7 @@ const PlayableTile = ({
               trackId={trackId}
               className={`${playbackClass} responsive`}
               isTile
+              resetQueue={resetQueue}
             />
           </Overlay>
         )}

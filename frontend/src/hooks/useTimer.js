@@ -11,17 +11,15 @@ const useTimer = (trackId) => {
 
   const clearTimer = () => clearInterval(intervalRef?.current);
 
-  // console.log('currentTime', currentTime);
   useEffect(() => {
-    setTimer(currentTime);
     if (isSelected && isPlaying) {
-      // console.log('inEffect', currentTime);
+      setTimer(currentTime);
       intervalRef.current = setInterval(
         () => setTimer((time) => time + 1),
         1000
       );
     } else {
-      // setTimer(isSelected ? currentTime : 0);
+      setTimer(isSelected ? currentTime : 0);
       clearTimer();
     }
 
