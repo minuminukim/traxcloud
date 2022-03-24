@@ -17,11 +17,8 @@ function Audio({ trackId, children }) {
   const { isPlaying, currentTrackId, seekTime, volume } = useSelector(
     (state) => state.player
   );
+  const isSelected = +trackId === currentTrackId;
   const location = useLocation();
-
-  useEffect(() => {
-    dispatch(updateTime(audioRef?.current?.currentTime || 0));
-  }, [location]);
 
   useEffect(() => {
     isPlaying && currentTrackId === trackId
@@ -32,6 +29,12 @@ function Audio({ trackId, children }) {
   useEffect(() => {
     audioRef.current.currentTime = seekTime;
   }, [seekTime]);
+
+  useEffect(() => {
+    if (isPlaying && isSelected) {
+      dispatch(updateTime(audioRef?.current?.currentTime || 0));
+    }
+  }, [location, isPlaying, isSelected]);
 
   useEffect(() => {
     audioRef.current.volume = volume;

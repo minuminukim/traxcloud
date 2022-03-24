@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import usePlay from '../../hooks/usePlay';
-import { updateTime, playTrack, pauseTrack } from '../../actions/playerActions';
+import { playTrack, pauseTrack } from '../../actions/playerActions';
 import LoadingSpinner from '../common/LoadingSpinner';
 import { FaPlay, FaPause } from 'react-icons/fa';
 import './PlayButton.css';
@@ -20,7 +20,7 @@ const PlaybackButton = ({
   const { isPlaying, currentTrackId } = useSelector((state) => state.player);
   const track = useSelector((state) => state.tracks[trackId]);
   const { timer, clearTimer } = useTimer(trackId);
-  const { incrementPlayCount, isSelected, selectTrack, setPlaying } = usePlay(
+  const { incrementPlayCount, isSelected, selectTrack } = usePlay(
     +trackId
   );
 

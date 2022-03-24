@@ -3,7 +3,6 @@ import { Volume, SoundBadge } from '.';
 import {
   playNext,
   playPrevious,
-  updateTime,
   setSeeking,
 } from '../../actions/playerActions';
 
@@ -14,7 +13,6 @@ import { IoPlaySkipForward, IoPlaySkipBack } from 'react-icons/io5';
 import './GlobalPlayer.css';
 import { usePlay } from '../../hooks';
 import useTimer from '../../hooks/useTimer';
-import { useEffect, useRef, useState } from 'react';
 
 const GlobalPlayer = () => {
   const dispatch = useDispatch();
@@ -85,14 +83,10 @@ const GlobalPlayer = () => {
               min="1"
               max={duration || duration?.toString()}
               step="1"
-              value={isSelected ? timer : 0}
+              value={timer}
               onChange={onScrub}
             />
-            <PlaybackTime
-              className="duration"
-              transparent
-              time={duration}
-            />
+            <PlaybackTime className="duration" transparent time={duration} />
           </div>
           <Volume />
           <SoundBadge />

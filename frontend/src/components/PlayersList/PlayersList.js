@@ -14,7 +14,7 @@ const PlayersList = ({
   const { currentTrackId, isPlaying } = useSelector((state) => state.player);
   // const everyTrackReady = trackIds?.every((id) => tracks.hasOwnProperty([id]));
   // const tracksToFetch = trackIds?.filter((id) => !tracks.hasOwnProperty([id]));
-  console.log('trackIds in list', tracks);
+
   /** TYPES OF QUEUES
    * main = from '/' or '/home'
    * user-${userId} = from '/users/:userId'
@@ -26,11 +26,10 @@ const PlayersList = ({
     queueId !== queueType && isPlaying && tracks.includes(currentTrackId);
 
   useEffect(() => {
-    console.log('queueId', queueId, 'queueType', queueType);
     if (queueId === queueType) return;
-    if (shouldResetQueue) {
-      dispatch(setQueue(tracks, queueType, currentTrackId));
-    }
+    // if (shouldResetQueue) {
+    //   dispatch(setQueue(tracks, queueType, currentTrackId));
+    // }
   }, [
     queue.length,
     shouldResetQueue,
