@@ -1,16 +1,15 @@
 import { csrfFetch } from './csrf';
 import {
-  LOAD_TRACKS,
   LOAD_USER_TRACKS,
   ADD_TRACK,
   REMOVE_TRACK,
 } from '../actions/trackActions';
 
-import {
-  USER_COMMENTS_LOADED,
-  COMMENT_ADDED,
-  COMMENT_REMOVED,
-} from '../actions/commentActions';
+// import {
+//   USER_COMMENTS_LOADED,
+//   COMMENT_ADDED,
+//   COMMENT_REMOVED,
+// } from '../actions/commentActions';
 
 const ADD_USER = 'user/loadUser';
 const LOAD_USERS = 'user/loadUsers';
@@ -95,42 +94,42 @@ const userReducer = (state = {}, action) => {
         },
       };
 
-    case USER_COMMENTS_LOADED:
-      return {
-        ...state,
-        [action.userId]: {
-          ...state[action.userId],
-          commentIds: action.comments.map(({ id }) => id).sort((a, b) => b - a),
-        },
-      };
+    // case USER_COMMENTS_LOADED:
+    //   return {
+    //     ...state,
+    //     [action.userId]: {
+    //       ...state[action.userId],
+    //       commentIds: action.comments.map(({ id }) => id).sort((a, b) => b - a),
+    //     },
+    //   };
 
-    case COMMENT_ADDED:
-      const prevComments = state[action.comment.userId]?.commentIds || [];
+    // case COMMENT_ADDED:
+    //   const prevComments = state[action.comment.userId]?.commentIds || [];
 
-      return {
-        ...state,
-        [action.comment.userId]: {
-          ...state[action.comment.userId],
-          commentIds: [...prevComments, action.comment.id].sort(
-            (a, b) => b - a
-          ),
-        },
-      };
+    //   return {
+    //     ...state,
+    //     [action.comment.userId]: {
+    //       ...state[action.comment.userId],
+    //       commentIds: [...prevComments, action.comment.id].sort(
+    //         (a, b) => b - a
+    //       ),
+    //     },
+    //   };
 
-    case COMMENT_REMOVED:
-      const previousComments = state[action.userId]?.commentIds || [];
+    // case COMMENT_REMOVED:
+    //   const previousComments = state[action.userId]?.commentIds || [];
 
-      return {
-        ...state,
-        [action.userId]: {
-          ...state[action.userId],
-          commentIds: previousComments.length
-            ? previousComments
-                .filter((id) => id !== action.commentId)
-                .sort((a, b) => b - a)
-            : [],
-        },
-      };
+    //   return {
+    //     ...state,
+    //     [action.userId]: {
+    //       ...state[action.userId],
+    //       commentIds: previousComments.length
+    //         ? previousComments
+    //             .filter((id) => id !== action.commentId)
+    //             .sort((a, b) => b - a)
+    //         : [],
+    //     },
+    //   };
 
     default:
       return state;

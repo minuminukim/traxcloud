@@ -68,8 +68,26 @@ router.get(
     const userId = +req.params.userId;
     const user = await User.findOne({
       where: { id: userId },
-      include: { model: Track, as: 'tracks' },
+      include: {
+        model: Track,
+        as: 'tracks',
+        include: {
+          model: Comment,
+          as: 'comments',
+          attributes: ['id']
+        },
+      },
     });
+
+    // const tracks = await Track.findAll({
+    //   where: { userId: userId },
+    //   order: [['id', 'DESC']],
+    //   include: {
+    //     model: Comment,
+    //     as: 'comments',
+    //     attributes: ['id'],
+    //   },
+    // });
 
     if (!user) {
       next(userNotFoundError());

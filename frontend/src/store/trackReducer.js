@@ -20,6 +20,7 @@ const trackReducer = (state = {}, action) => {
     case LOAD_USER_TRACKS:
       const tracksObject = action.tracks.reduce((acc, track) => {
         acc[track.id] = track;
+        acc[track.id].comments = track.comments.map(({ id }) => id);
         return acc;
       }, {});
 
@@ -35,13 +36,13 @@ const trackReducer = (state = {}, action) => {
       };
 
     case UPDATE_TRACK:
-      const previousCommentIds = state[action.track.id]?.commentIds || [];
+      // const previousCommentIds = state[action.track.id]?. || [];
       return {
         ...state,
         [action.track.id]: {
           ...state.track?.id,
           ...action.track,
-          commentIds: previousCommentIds,
+          // commentIds: previousCommentIds,
         },
       };
 
@@ -77,12 +78,12 @@ const trackReducer = (state = {}, action) => {
         ...state,
         [action.trackId]: {
           ...state[action.trackId],
-          commentIds,
+          comments: commentIds,
         },
       };
 
     case COMMENT_ADDED:
-      const prevCommentIds = state[action.comment.trackId].commentIds || [];
+      const prevCommentIds = state[action.comment.trackId].comments || [];
       const prevCount = state[action.comment.trackId].commentCount;
 
       return {
@@ -90,7 +91,7 @@ const trackReducer = (state = {}, action) => {
         [action.comment.trackId]: {
           ...state[action.comment.trackId],
           commentCount: prevCount + 1,
-          commentIds: [...prevCommentIds, action.comment.id],
+          comments: [...prevCommentIds, action.comment.id],
         },
       };
 
@@ -102,7 +103,7 @@ const trackReducer = (state = {}, action) => {
         ...state,
         [action.trackId]: {
           ...state[action.trackId],
-          commentIds: filtered,
+          comments: filtered,
           commentCount: filtered.length,
         },
       };

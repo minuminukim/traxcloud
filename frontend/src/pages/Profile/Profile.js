@@ -14,7 +14,6 @@ function Profile() {
   const dispatch = useDispatch();
 
   const user = useSelector((state) => state.users[userId]);
-  const comments = useSelector((state) => state.comments);
   const { queue } = useSelector((state) => state.queue);
   const [isLoading, setLoading] = useState(true);
 
@@ -25,7 +24,7 @@ function Profile() {
         await dispatch(fetchSingleUser(+userId));
         const [tracks, _comments] = await Promise.all([
           dispatch(fetchUserTracks(+userId)),
-          dispatch(fetchCommentsByUserId(+userId)),
+          // dispatch(fetchCommentsByUserId(+userId)),
         ]);
 
         if (queue.length === 0) {

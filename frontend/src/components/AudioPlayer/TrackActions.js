@@ -6,6 +6,7 @@ import EditDeleteButton from './EditDeleteButton';
 import belongsTo from '../../utils/belongsTo';
 import { deleteTrack } from '../../actions/trackActions';
 import './TrackActions.css';
+import { pauseTrack } from '../../actions/playerActions';
 
 const TrackActions = ({ trackId }) => {
   const dispatch = useDispatch();
@@ -17,7 +18,8 @@ const TrackActions = ({ trackId }) => {
 
   const handleDelete = async () => {
     try {
-      await dispatch(deleteTrack(track.id, sessionUser.id));
+      await dispatch(pauseTrack());
+      await dispatch(deleteTrack(trackId, sessionUser.id));
     } catch (response) {
       console.log('error deleting track', response);
     }

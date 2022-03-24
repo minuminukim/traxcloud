@@ -26,12 +26,6 @@ export const getCurrentTrack = (trackId) => (state) => state.tracks[trackId];
 function playerReducer(state = initialState, action) {
   switch (action.type) {
     case SET_TRACK:
-      const previousTrackId = state.currentTrackId;
-      const nextState = {
-        currentTime: 0,
-        seekPosition: 0,
-        seekTime: 0,
-      };
       // dispatched by onPlay and onSeek events
       return {
         ...state,

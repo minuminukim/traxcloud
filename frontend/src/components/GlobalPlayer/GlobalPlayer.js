@@ -20,18 +20,19 @@ const GlobalPlayer = () => {
   const dispatch = useDispatch();
   const { currentTrackId } = useSelector((state) => state.player);
 
-  const track = useSelector((state) => state.tracks[currentTrackId]);
+  const duration = useSelector(
+    (state) => state.tracks[currentTrackId]?.duration
+  );
   const { previousIndex, nextIndex, queue } = useSelector(
     (state) => state.queue
   );
 
-  const { incrementPlayCount, isSelected, setPlaying } =
-    usePlay(currentTrackId);
+  const { incrementPlayCount, isSelected } = usePlay(currentTrackId);
 
   const { timer } = useTimer(currentTrackId);
 
   const onScrub = (e) => {
-    const position = +e.target.value / track.duration;
+    const position = +e.target.value / duration;
     // updateTime(+e.target.value);
     dispatch(setSeeking(position, +e.target.value));
   };
@@ -72,7 +73,6 @@ const GlobalPlayer = () => {
               size="small"
               trackId={currentTrackId}
               withBackground={false}
-              time={timer}
               isGlobal
             />
             <button className="player-control">
@@ -84,7 +84,7 @@ const GlobalPlayer = () => {
             <Slider
               className="progress-bar"
               min="1"
-              max={track.duration || track.duration.toString()}
+              max={duration || duration?.toString()}
               step="1"
               value={isSelected ? timer : 0}
               onChange={onScrub}
@@ -92,7 +92,7 @@ const GlobalPlayer = () => {
             <PlaybackTime
               className="duration"
               transparent
-              time={track.duration}
+              time={duration}
             />
           </div>
           <Volume />

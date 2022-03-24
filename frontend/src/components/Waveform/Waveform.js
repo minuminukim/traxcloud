@@ -12,6 +12,7 @@ const Waveform = ({ trackId, onReady, size = 'medium' }) => {
   const { currentTime, currentTrackId } = useSelector((state) => state.player);
   const containerRef = useRef(null);
   const wavesurfer = useRef();
+  const audioRef = useRef(null);
   const { seekPosition, isPlaying } = useSelector((state) => state.player);
 
   const { selectTrack, setPlaying, isSelected } = usePlay(trackId);
@@ -32,27 +33,27 @@ const Waveform = ({ trackId, onReady, size = 'medium' }) => {
       barHeight: 1,
       height: size === 'medium' ? 60 : 100,
     });
+    // wavesurfer.current.setMute(true);
 
     const audio = new Audio(track.trackUrl);
     audio.crossOrigin = 'anonymous';
 
+    wavesurfer.current.load(audio, track.peakData);
+    wavesurfer.current.setMute(true);
     // if waveform data doesn't exist, we dispatch data to database
-    if (!track.peakData || !track.peakData?.length) {
-      wavesurfer.current.load(audio);
+    if (!track.peakData) {
+      // wavesurfer.current.load(audio);
       wavesurfer.current.on('waveform-ready', async () => {
         const peakData = await wavesurfer.current.exportPCM(256, 100, true);
         const updated = { ...track, peakData };
         await dispatch(editTrack(updated));
-        wavesurfer.current.setMute(true);
+        // wavesurfer.current.setMute(true);
         onReady();
         return;
       });
     }
 
-    wavesurfer.current.load(audio, track.peakData);
     wavesurfer.current.on('ready', () => {
-      wavesurfer.current.setMute(true);
-      // wavesurfer.current.seekTo(seekPosition);
       onReady();
     });
 
@@ -71,12 +72,9 @@ const Waveform = ({ trackId, onReady, size = 'medium' }) => {
         ? wavesurfer.current.play(currentTime)
         : wavesurfer.current.pause()
       : wavesurfer.current.stop();
-  }, [isPlaying, isSelected, currentTime]);
+  }, [isPlaying, isSelected]);
 
   const onSeek = (e) => {
-    if (!isSelected) {
-      selectTrack();
-    }
     /**
      * Synthetic mouse event doesn't have offsetX property,
      * so we calculate the difference between e.clientX

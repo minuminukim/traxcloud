@@ -6,11 +6,11 @@ const usePlay = (trackId) => {
   const dispatch = useDispatch();
   const sessionUser = useSelector((state) => state.session.user);
   const { currentTrackId } = useSelector((state) => state.player);
-  const track = useSelector((state) => state.tracks[trackId]);
+  const userId = useSelector((state) => state.tracks[trackId]?.userId);
   const { queue } = useSelector((state) => state.queue);
 
   const isSelected = trackId === currentTrackId;
-  const trackBelongsToUser = sessionUser?.id === track?.userId;
+  const trackBelongsToUser = sessionUser?.id === userId;
   const trackIndex = queue.indexOf(trackId);
 
   const setPlaying = () => {

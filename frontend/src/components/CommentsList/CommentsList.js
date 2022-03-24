@@ -9,14 +9,16 @@ import './CommentsList.css';
 const CommentsList = () => {
   const dispatch = useDispatch();
   const { trackId } = useParams();
-  const { commentIds, commentCount } = useSelector(
+  const { comments, commentCount } = useSelector(
     (state) => state.tracks[trackId]
   );
 
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
-    return dispatch(fetchCommentsByTrackId(+trackId))
+    if (comments?.length === commentCount) return;
+
+    dispatch(fetchCommentsByTrackId(+trackId))
       .then(() => setLoading(false))
       .catch((error) => console.log('error fetching comments', error));
   }, [dispatch, trackId]);
@@ -34,8 +36,8 @@ const CommentsList = () => {
           {count} {titleText}
         </p>
         <ul className="track-comments-list">
-          {commentIds &&
-            [...commentIds]
+          {comments &&
+            [...comments]
               .sort((a, b) => b - a)
               .map((id) => <CommentListItem key={id} commentId={id} />)}
         </ul>

@@ -26,19 +26,16 @@ const AudioPlayer = ({
   const track = useSelector((state) => state.tracks[trackId]);
   const sessionUser = useSelector((state) => state.session.user);
   const user = useSelector((state) => state.users[track?.userId]);
-  const [isLoading, setLoading] = useState(true);
   const [waveformReady, setReady] = useState(false);
 
   useEffect(() => {
     if (user) {
-      // setLoading(false);
       return;
     }
 
     dispatch(fetchSingleUser(track.userId))
-      // .then(() => setLoading(false))
       .catch((err) => console.log('error fetching user', err));
-  }, [user, track?.userId]);
+  }, [user, track.userId]);
 
   const onReady = () => setReady(true);
 

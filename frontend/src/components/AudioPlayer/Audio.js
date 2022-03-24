@@ -46,10 +46,6 @@ function Audio({ trackId, children }) {
     }
   };
 
-  const onPlay = () => {
-    dispatch(updateTime(audioRef.current.currentTime));
-  };
-
   const onPause = () => {
     dispatch(updateTime(audioRef.current.currentTime));
   };
@@ -61,7 +57,6 @@ function Audio({ trackId, children }) {
       crossOrigin="anonymous"
       ref={audioRef}
       // onTimeUpdate={() => setTime(audioRef.current)}
-      onPlay={onPlay}
       onPause={onPause}
       onEnded={onEnded}
     >

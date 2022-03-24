@@ -14,19 +14,13 @@ const Stream = () => {
     Object.values(tracks)
       .map(({ id }) => id)
       ?.sort((a, b) => b - a) || [];
-  console.log('trackIds', trackIds);
 
   useEffect(() => {
-    console.log('trackIds in effect', trackIds);
-    if (trackIds.length > 0 && trackIds.length >= 10) return;
+    if (trackIds.length >= 10) return;
+
     (async () => {
       try {
         await dispatch(fetchTracks());
-        // const trackIds = [...tracks.map(({ id }) => id)].sort(
-        //   (a, b) => b - a
-        // );
-        // setStreamIds(trackIds);
-
         // A track should only appear in the queue once
         const uniqueIds =
           currentTrackId && isPlaying

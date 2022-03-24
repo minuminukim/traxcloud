@@ -58,11 +58,11 @@ router.get(
     // const tracks = await Track.fetchTracks();
     const tracks = await Track.findAll({
       order: [['id', 'DESC']],
-      // include: {
-      //   model: Comment,
-      //   as: 'comments',
-      //   attributes: ['id'],
-      // },
+      include: {
+        model: Comment,
+        as: 'comments',
+        attributes: ['id'],
+      },
     });
 
     return res.json({ tracks });
