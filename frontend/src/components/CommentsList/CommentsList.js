@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { fetchCommentsByTrackId } from '../../actions/commentActions';
+import {
+  fetchCommentsByTrackId,
+  fetchSingleComment,
+} from '../../actions/commentActions';
 import { FaCommentAlt } from 'react-icons/fa';
 import CommentListItem from '../CommentListItem';
 import './CommentsList.css';
@@ -9,19 +12,26 @@ import './CommentsList.css';
 const CommentsList = () => {
   const dispatch = useDispatch();
   const { trackId } = useParams();
-  const { comments, commentCount } = useSelector(
+  const [isLoading, setLoading] = useState(true);
+
+  const comments = useSelector((state) => state.comments);
+  const { comments: commentIds, commentCount } = useSelector(
     (state) => state.tracks[trackId]
   );
 
-  const [isLoading, setLoading] = useState(true);
+  // Checks if every comment is available in store
+  const every = commentIds?.every((id) => comments.hasOwnProperty([id]));
 
   useEffect(() => {
-    if (comments?.length === commentCount) return;
+    if (every) {
+      setLoading(false);
+      return;
+    }
 
     dispatch(fetchCommentsByTrackId(+trackId))
       .then(() => setLoading(false))
       .catch((error) => console.log('error fetching comments', error));
-  }, [dispatch, trackId]);
+  }, [every, trackId, dispatch]);
 
   const count = commentCount || 0;
   const titleText = commentCount === 1 ? 'comment' : 'comments';
@@ -36,10 +46,8 @@ const CommentsList = () => {
           {count} {titleText}
         </p>
         <ul className="track-comments-list">
-          {comments?.length > 0 &&
-            [...comments]
-              .sort((a, b) => b - a)
-              .map((id) => <CommentListItem key={id} commentId={id} />)}
+          {commentIds?.length > 0 &&
+            commentIds.map((id) => <CommentListItem key={id} commentId={id} />)}
         </ul>
       </div>
     )

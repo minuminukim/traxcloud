@@ -12,18 +12,6 @@ const Timeline = ({ trackId }) => {
 
   const { timer } = useTimer(trackId);
 
-  // useEffect(() => {
-  //   setTime(currentTime);
-
-  //   if (isPlaying) {
-  //     intervalRef.current = setInterval(
-  //       () => setTime((prev) => prev + 1),
-  //       1000
-  //     );
-  //   }
-  //   return () => clearInterval(intervalRef.current);
-  // }, [currentTime, isPlaying]);
-
   return (
     <div className="timeline">
       <div className={`timers-container ${isSelected ? 'between' : 'end'}`}>

@@ -46,6 +46,14 @@ export const fetchComments = () => async (dispatch) => {
   return comments;
 };
 
+export const fetchSingleComment = (commentId) => async (dispatch) => {
+  const response = await csrfFetch(`/api/comments/${commentId}`);
+  const { comment } = await response.json();
+  dispatch(addComment(comment));
+
+  return comment;
+}
+
 export const fetchCommentsByTrackId = (trackId) => async (dispatch) => {
   const response = await csrfFetch(`/api/tracks/${trackId}/comments`);
   const { comments } = await response.json();

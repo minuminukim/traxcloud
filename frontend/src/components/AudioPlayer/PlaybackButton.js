@@ -1,11 +1,10 @@
 import { useDispatch, useSelector } from 'react-redux';
 import usePlay from '../../hooks/usePlay';
+import useTimer from '../../hooks/useTimer';
 import { playTrack, pauseTrack } from '../../actions/playerActions';
 import LoadingSpinner from '../common/LoadingSpinner';
 import { FaPlay, FaPause } from 'react-icons/fa';
 import './PlayButton.css';
-import { useLocation } from 'react-router-dom';
-import useTimer from '../../hooks/useTimer';
 
 const PlaybackButton = ({
   className = '',
@@ -18,11 +17,8 @@ const PlaybackButton = ({
 }) => {
   const dispatch = useDispatch();
   const { isPlaying, currentTrackId } = useSelector((state) => state.player);
-  const track = useSelector((state) => state.tracks[trackId]);
-  const { timer, clearTimer } = useTimer(trackId);
-  const { incrementPlayCount, isSelected, selectTrack } = usePlay(
-    +trackId
-  );
+  const { clearTimer } = useTimer(trackId);
+  const { incrementPlayCount, isSelected, selectTrack } = usePlay(+trackId);
 
   const onPause = () => {
     dispatch(pauseTrack());

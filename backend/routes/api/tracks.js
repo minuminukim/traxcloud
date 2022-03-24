@@ -39,7 +39,16 @@ router.get(
   '/:trackId(\\d+)',
   asyncHandler(async (req, res, next) => {
     const trackId = +req.params.trackId;
-    const track = await Track.fetchSingleTrackWithUser(trackId);
+    // const track = await Track.fetchSingleTrackWithUser(trackId);
+    const track = await Track.findOne({
+      where: { id: trackId },
+      order: [['id', 'DESC']],
+      include: {
+        model: Comment,
+        as: 'comments',
+        attributes: ['id'],
+      },
+    });
 
     if (!track) {
       return next(trackNotFoundError());

@@ -14,6 +14,7 @@ import {
 } from '../actions/commentActions';
 
 import { PLAYER_LOADING, PLAYER_READY } from '../actions/playerActions';
+import mapAndSortIDs from '../utils/mapAndSortIDs';
 
 const trackReducer = (state = {}, action) => {
   switch (action.type) {
@@ -21,7 +22,7 @@ const trackReducer = (state = {}, action) => {
     case LOAD_USER_TRACKS:
       const tracksObject = action.tracks.reduce((acc, track) => {
         acc[track.id] = track;
-        acc[track.id].comments = track?.comments.map(({ id }) => id) || [];
+        acc[track.id].comments = mapAndSortIDs(track?.comments) || [];
         return acc;
       }, {});
 
@@ -34,17 +35,18 @@ const trackReducer = (state = {}, action) => {
     case CREATE_TRACK:
       return {
         ...state,
-        [action.track.id]: { ...state.track?.id, ...action.track },
+        [action.track.id]: {
+          ...action.track,
+          comments: mapAndSortIDs(action.track?.comments) || [],
+        },
       };
 
     case UPDATE_TRACK:
-      // const previousCommentIds = state[action.track.id]?. || [];
       return {
         ...state,
         [action.track.id]: {
           ...state.track?.id,
           ...action.track,
-          // commentIds: previousCommentIds,
         },
       };
 
@@ -72,15 +74,15 @@ const trackReducer = (state = {}, action) => {
       };
 
     case COMMENTS_LOADED:
-      const commentIds = action.comments
-        .filter((comment) => comment.trackId === action.trackId)
-        .map(({ id }) => id);
+      const commentIds = action.comments.filter(
+        (comment) => comment.trackId === action.trackId
+      );
 
       return {
         ...state,
         [action.trackId]: {
           ...state[action.trackId],
-          comments: commentIds,
+          comments: mapAndSortIDs(commentIds),
         },
       };
 
@@ -93,7 +95,7 @@ const trackReducer = (state = {}, action) => {
         [action.comment.trackId]: {
           ...state[action.comment.trackId],
           commentCount: prevCount + 1,
-          comments: [...prevCommentIds, action.comment.id],
+          comments: [action.comment.id, ...prevCommentIds],
         },
       };
 

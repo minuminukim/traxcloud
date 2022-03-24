@@ -12,13 +12,15 @@ import { useLocation } from 'react-router-dom';
 function Audio({ trackId, children }) {
   const dispatch = useDispatch();
   const audioRef = useRef(null);
+  const location = useLocation();
+
   const track = useSelector((state) => state.tracks[trackId]);
   const { queue, nextIndex } = useSelector((state) => state.queue);
   const { isPlaying, currentTrackId, seekTime, volume } = useSelector(
     (state) => state.player
   );
+
   const isSelected = +trackId === currentTrackId;
-  const location = useLocation();
 
   useEffect(() => {
     isPlaying && currentTrackId === trackId
@@ -30,6 +32,7 @@ function Audio({ trackId, children }) {
     audioRef.current.currentTime = seekTime;
   }, [seekTime]);
 
+  // When the location changes, we update application time
   useEffect(() => {
     if (isPlaying && isSelected) {
       dispatch(updateTime(audioRef?.current?.currentTime || 0));
@@ -40,6 +43,7 @@ function Audio({ trackId, children }) {
     audioRef.current.volume = volume;
   }, [volume]);
 
+  // If we're at the end of the queue, we end playback
   const onEnded = async () => {
     if (nextIndex === null) {
       dispatch(endPlayback());
@@ -59,8 +63,6 @@ function Audio({ trackId, children }) {
       id={`track-${track?.id}`}
       crossOrigin="anonymous"
       ref={audioRef}
-      // onPlay={() => updateTime(audioRef.current.currentTime)}
-      // onTimeUpdate={() => setTime(audioRef.current)}
       onPause={onPause}
       onEnded={onEnded}
     >

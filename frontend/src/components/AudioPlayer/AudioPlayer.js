@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchSingleUser } from '../../store/userReducer';
+import { fetchSingleTrack } from '../../actions/trackActions';
 import Waveform from '../Waveform';
 import CommentField from '../CommentField';
 import TrackArtwork from '../TrackArtwork';
@@ -13,7 +14,6 @@ import {
 } from '.';
 
 import './AudioPlayer.css';
-import { fetchSingleTrack } from '../../actions/trackActions';
 
 const AudioPlayer = ({
   trackId,
@@ -51,6 +51,7 @@ const AudioPlayer = ({
     );
   }, [user, track?.userId]);
 
+  // When waveform fires 'waveform-ready' event, we update loading state
   const onReady = () => setReady(true);
 
   if (!track) {

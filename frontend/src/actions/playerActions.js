@@ -52,20 +52,6 @@ export const setSeeking = (position, currentTime) => ({
   currentTime,
 });
 
-export const loadPlayer = (trackId) => ({
-  type: PLAYER_LOADING,
-  trackId,
-});
-
-export const setPlayerReady = (trackId) => ({
-  type: PLAYER_READY,
-  trackId,
-});
-
-// export const playTrack = (trackId, index, currentTime = 0) => ({
-
-// })
-
 export const playNext = (nextTrackId, nextIndex) => (dispatch) => {
   if (nextIndex !== null) {
     dispatch(setTrack(nextTrackId, nextIndex));

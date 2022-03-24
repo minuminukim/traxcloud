@@ -25,6 +25,21 @@ router.get(
   })
 );
 
+router.get(
+  '/:id(\\d+)',
+  asyncHandler(async (req, res, next) => {
+    const id = +req.params.id;
+    const comment = await Comment.findByPk(id);
+    if (!comment) {
+      return next();
+    }
+
+    return res.json({
+      comment,
+    });
+  })
+);
+
 router.post(
   '/',
   requireAuth,

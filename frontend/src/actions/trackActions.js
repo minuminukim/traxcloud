@@ -117,7 +117,6 @@ export const editTrack = (track) => async (dispatch) => {
     method: 'PUT',
     headers: { 'Content-Type': 'multipart/form-data' },
     body: formData,
-    // body: JSON.stringify({ ...rest }),
   });
 
   const { updatedTrack } = await response.json();
