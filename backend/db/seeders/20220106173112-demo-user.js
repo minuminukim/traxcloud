@@ -12,28 +12,32 @@ module.exports = {
           username: 'demoworld',
           displayName: 'demoworld',
           hashedPassword: bcrypt.hashSync(passwords.demo),
-          profilePictureUrl: `https://traxcloud-react-project.s3.amazonaws.com/IMG_1458.JPG`
+          trackCount: 2,
+          profilePictureUrl: `https://traxcloud-react-project.s3.amazonaws.com/IMG_1458.JPG`,
         },
         {
           email: 'moodymann@traxcloud.com',
           username: 'moodymann',
           displayName: 'Moodymann',
           hashedPassword: bcrypt.hashSync(passwords.seed),
-          profilePictureUrl: `https://i.ibb.co/Q6BXsT1/moodymann.jpg`
+          trackCount: 3,
+          profilePictureUrl: `https://i.ibb.co/Q6BXsT1/moodymann.jpg`,
         },
         {
           email: 'chuckperson@traxcloud.com',
           username: 'chuck-person',
           displayName: 'Chuck Person',
+          trackCount: 2,
           hashedPassword: bcrypt.hashSync(passwords.seed),
-          profilePictureUrl: `https://i.ibb.co/19WtL2h/chuckperson.jpg`
+          profilePictureUrl: `https://i.ibb.co/19WtL2h/chuckperson.jpg`,
         },
         {
           email: 'sons@traxcloud.com',
           username: 'sons',
           displayName: 'S.O.N.S',
+          trackCount: 2,
           hashedPassword: bcrypt.hashSync(passwords.seed),
-          profilePictureUrl: `https://i.ibb.co/Wnc5SQf/SONS.jpg`
+          profilePictureUrl: `https://i.ibb.co/Wnc5SQf/SONS.jpg`,
         },
       ],
       {}
@@ -45,7 +49,9 @@ module.exports = {
     return queryInterface.bulkDelete(
       'Users',
       {
-        username: { [Op.in]: ['demoworld', 'moodymann', 'chuck-person', 'sons'] },
+        username: {
+          [Op.in]: ['demoworld', 'moodymann', 'chuck-person', 'sons'],
+        },
       },
       {}
     );
