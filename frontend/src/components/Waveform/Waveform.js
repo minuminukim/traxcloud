@@ -3,7 +3,7 @@ import { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import usePlay from '../../hooks/usePlay';
 import { editTrack } from '../../actions/trackActions';
-import { setSeeking } from '../../actions/playerActions';
+import { setSeeking, updateTime } from '../../actions/playerActions';
 
 const Waveform = ({ trackId, onReady, size = 'medium' }) => {
   const dispatch = useDispatch();

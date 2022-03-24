@@ -56,6 +56,7 @@ function Audio({ trackId, children }) {
       id={`track-${track?.id}`}
       crossOrigin="anonymous"
       ref={audioRef}
+      // onPlay={() => updateTime(audioRef.current.currentTime)}
       // onTimeUpdate={() => setTime(audioRef.current)}
       onPause={onPause}
       onEnded={onEnded}

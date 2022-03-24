@@ -6,27 +6,27 @@ const useTimer = (trackId) => {
   const { currentTime, isPlaying, currentTrackId } = useSelector(
     (state) => state.player
   );
+  const isSelected = currentTrackId === trackId;
   const [timer, setTimer] = useState(currentTime);
 
   const clearTimer = () => clearInterval(intervalRef?.current);
 
+  // console.log('currentTime', currentTime);
   useEffect(() => {
-    const isSelected = currentTrackId === trackId;
-
+    setTimer(currentTime);
     if (isSelected && isPlaying) {
-      setTimer(currentTime);
+      // console.log('inEffect', currentTime);
       intervalRef.current = setInterval(
         () => setTimer((time) => time + 1),
         1000
       );
     } else {
-      setTimer(isSelected ? currentTime : 0);
+      // setTimer(isSelected ? currentTime : 0);
       clearTimer();
     }
 
     return () => clearTimer();
-  }, [currentTime, isPlaying, currentTrackId, trackId]);
-
+  }, [currentTime, isSelected, isPlaying]);
   return { timer, setTimer, clearTimer };
 };
 
