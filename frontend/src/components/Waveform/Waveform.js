@@ -4,18 +4,16 @@ import { useSelector, useDispatch } from 'react-redux';
 import usePlay from '../../hooks/usePlay';
 import { editTrack } from '../../actions/trackActions';
 import { setSeeking } from '../../actions/playerActions';
-import { setPlayerReady, loadPlayer } from '../../actions/playerActions';
 
 const Waveform = ({ trackId, onReady, size = 'medium' }) => {
   const dispatch = useDispatch();
   const track = useSelector((state) => state.tracks[trackId]);
-  const { currentTime, currentTrackId } = useSelector((state) => state.player);
+  const { currentTime, } = useSelector((state) => state.player);
   const containerRef = useRef(null);
   const wavesurfer = useRef();
-  const audioRef = useRef(null);
   const { seekPosition, isPlaying } = useSelector((state) => state.player);
 
-  const { selectTrack, setPlaying, isSelected } = usePlay(trackId);
+  const { selectTrack, isSelected } = usePlay(trackId);
 
   // Initialize waveform object
   useEffect(() => {
