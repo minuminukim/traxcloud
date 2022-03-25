@@ -52,3 +52,7 @@ a.comment-user-link:hover {
 .comment-list-item p {
   margin: 0;
 }
+
+.comment-list-item-actions {
+  display: flex;
+}

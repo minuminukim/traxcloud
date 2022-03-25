@@ -16,6 +16,8 @@ const CommentListItem = ({ commentId }) => {
   const [isLoading, setLoading] = useState(true);
   const [showActions, setShowActions] = useState(false);
 
+  const belongsToCurrentUser = sessionUser?.id === comment?.userId;
+
   // Memoize createdAt value so that it doesn't re-render on hover events
   const createdAt = useMemo(
     () => calculateTimeSincePost(comment?.createdAt),
@@ -32,8 +34,6 @@ const CommentListItem = ({ commentId }) => {
       .then(() => setLoading(false))
       .catch((error) => console.log('error fetching user', error));
   }, [comment?.userId, dispatch, user]);
-
-  const belongsToCurrentUser = sessionUser?.id === comment?.userId;
 
   const onDelete = () => {
     if (!belongsToCurrentUser) return;

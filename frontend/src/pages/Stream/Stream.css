@@ -5,6 +5,10 @@
   padding: 46px 30px 76px 30px;
 }
 
+.stream h1 {
+  margin-bottom: 0;
+}
+
 .stream-row {
   display: flex;
   flex-direction: column;
@@ -15,4 +19,8 @@
 
 .stream .music-player {
   padding: 0;
+}
+
+.main-stream {
+  padding-left: 0;
 }
