@@ -98,7 +98,6 @@ const fileFilter = (req, file, cb) => {
       cb({ message: 'Unsupported File Format' }, false);
     }
   } else if (file.fieldname === 'imageFile') {
-    // file.fieldname === 'imageFile'
     if (supportedImageFormats.some((format) => format === file.mimetype)) {
       cb(null, true);
     } else {
@@ -143,7 +142,6 @@ const trackFilter = (req, file, cb) => {
 const multerFieldsUpload = () => {
   const trackSizeLimit = 10 * 1024 * 1024;
   const imageSizeLimit = 3 * 1024 * 1024;
-  console.log('hello');
 
   return multer({
     storage,
