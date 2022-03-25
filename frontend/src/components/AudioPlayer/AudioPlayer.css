@@ -75,8 +75,11 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-top: 10px;
 }
 
 .player-medium .player-ministats {
-  padding-top: 10px;
+  /* padding-bottom: 5px; */
+  position: relative;
+  bottom: 5px;
 }
