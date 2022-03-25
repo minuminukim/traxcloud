@@ -59,10 +59,10 @@ const CommentListItem = ({ commentId }) => {
         </div>
         <div className="comment-list-item-center">
           <Link className="comment-user-link" to={`/users/${user.id}`}>
-            {belongsToCurrentUser ? 'You' : user.displayName}{' '}
+            {belongsToCurrentUser ? 'You' : user.displayName}
           </Link>
-          <span className="comment-at">at</span>{' '}
-          <span className="comment-time">{formatTime(comment.timePosted)}</span>
+          {/* <span className="comment-at">at</span>{' '}
+          <span className="comment-time">{formatTime(comment.timePosted)}</span> */}
           <span className="comment-colon">:</span>
           <p>{comment.body}</p>
         </div>

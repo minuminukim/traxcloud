@@ -89,7 +89,7 @@ const AudioPlayer = ({
             <Timeline trackId={trackId} />
           </div>
           {withCommentField && sessionUser && (
-            <CommentField trackId={trackId} height={32} />
+            <CommentField trackId={trackId} height={40} />
           )}
           {withFooter && <PlayerFooter trackId={trackId} />}
         </div>

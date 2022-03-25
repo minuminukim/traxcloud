@@ -18,6 +18,7 @@ const CommentField = ({ trackId, height }) => {
   const [body, setBody] = useState('');
   const [inProgress, setInProgress] = useState(false);
   const [errors, setErrors] = useState([]);
+  const [messages, setMessages] = useState([]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -25,6 +26,7 @@ const CommentField = ({ trackId, height }) => {
     if (!body.length || inProgress) return;
 
     setErrors([]);
+    setMessages([]);
 
     const commentData = {
       userId: user.id,
@@ -38,6 +40,7 @@ const CommentField = ({ trackId, height }) => {
       try {
         setInProgress(true);
         await dispatch(postComment(commentData));
+        setMessages(['Comment has been successfully posted.']);
       } catch (error) {
         console.log('error posting comment', error);
         const data = await error.json();
@@ -66,7 +69,8 @@ const CommentField = ({ trackId, height }) => {
 
   return (
     <>
-      <AlertList messages={errors} />
+      <AlertList messages={errors} isError />
+      <AlertList messages={messages} isError={false} />
       <form
         className={`comment-field comment-field-${height}`}
         onSubmit={handleSubmit}

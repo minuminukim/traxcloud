@@ -29,7 +29,7 @@ const Waveform = ({ trackId, onReady, resetQueue, size = 'medium' }) => {
       barWidth: 2,
       cursorColor: 'transparent',
       barHeight: 1,
-      height: size === 'medium' ? 60 : 100,
+      height: size === 'medium' ? 70 : 100,
     });
 
     const audio = new Audio(track.trackUrl);

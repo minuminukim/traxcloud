@@ -1,8 +1,13 @@
 import { useState, useEffect } from 'react';
-import { AiOutlineExclamation, AiOutlineClose } from 'react-icons/ai';
+import {
+  AiOutlineExclamation,
+  AiOutlineClose,
+  AiOutlineCheck,
+} from 'react-icons/ai';
 
-const Alert = ({ message, imageSource = null }) => {
+const Alert = ({ message, isError = true }) => {
   const [visible, setVisible] = useState(true);
+  const alertType = isError ? 'error' : 'success';
 
   useEffect(() => {
     const timeout = setTimeout(() => setVisible(false), 5000);
@@ -13,16 +18,8 @@ const Alert = ({ message, imageSource = null }) => {
     visible && (
       <li className="alert">
         <div className="alert-content">
-          <div className="alert-image-container">
-            {imageSource ? (
-              <img
-                className="alert-image"
-                src={imageSource}
-                alt="Panel indicating an alert."
-              />
-            ) : (
-              <AiOutlineExclamation />
-            )}
+          <div className={`alert-image-container ${alertType}`}>
+            {isError ? <AiOutlineExclamation /> : <AiOutlineCheck />}
           </div>
           <p className="alert-message">{message}</p>
         </div>
