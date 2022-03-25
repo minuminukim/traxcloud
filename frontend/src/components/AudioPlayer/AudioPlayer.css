@@ -6,7 +6,7 @@
 
 .player-medium {
   width: 100%;
-  max-width: 819px;
+  max-width: 900px;
   margin-right: 0;
 }
 
@@ -15,11 +15,6 @@
   width: 100%;
   grid-template-columns: auto 340px;
   padding: 30px 20px;
-  /* background: linear-gradient(
-    90deg,
-    rgba(255, 255, 255, 1) 0%,
-    rgba(18, 23, 19, 0.7466591282894737) 100%
-  ); */
 }
 
 .player-large {
@@ -60,7 +55,7 @@
 
 .player-medium .player-header {
   margin-bottom: 12px;
-  padding-top: 7px;
+  padding-top: 0px;
 }
 
 .player-large .music-player-main {
@@ -68,8 +63,8 @@
 }
 
 .track-artwork {
-  height: 160px;
-  width: 160px;
+  height: 180px;
+  width: 180px;
 }
 
 .link-user {
@@ -80,4 +75,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.player-medium .player-ministats {
+  padding-top: 10px;
 }
