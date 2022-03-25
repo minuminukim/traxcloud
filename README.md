@@ -55,6 +55,27 @@
 - Update your .env with your `Access Key ID`, `Secret Access Key`, and the name of your bucket
 - Finally, fire up your servers: run `npm start` in `/backend` and once again in `/frontend`
 
+## Implementation
+**Player state**
+
+To implement continuous playback, player state was centralized in Redux with two slices of state: one that manages player state, another that manages queue state.
+
+```
+const initialPlayerState = {
+  duration: null,
+  currentTrackId: null,
+  currentTime: 0,
+  seekPosition: 0,
+  seekTime: 0,
+  isPlaying: false,
+  isMuted: false,
+  volume: 1,
+};
+```
+`<GlobalPlayer />` lives outside of the main component hierarchy, which contains an instance of an `<audio>` HTML element. Subscribed to the store, the audio interface is controlled in a series of effects as playback actions get dispatched throughout the application.
+
+Updates to the application's current time are made on play, pause, and seek events as well as whenever the location object updates. Timers that indicate a track's progress are updated by leveraging component state and a `setInterval` call.
+
 ## Features
 - User registration and JWT authentication
 - Song and image upload with AWS S3 integration
@@ -64,6 +85,12 @@
 
 <img src="./frontend/public/images/track-view.png" width=1440 alt="Single track page" />
 
+## Future Goals
+- Define React PropTypes
+- Waveform scrub event
+- Map comments to timeline
+- Player shuffle and repeat
+- Allow users to view and set their own queues
 
 
 
