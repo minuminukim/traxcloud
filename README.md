@@ -62,7 +62,6 @@ To implement continuous playback, player state was centralized in Redux with two
 
 ```
 const initialPlayerState = {
-  duration: null,
   currentTrackId: null,
   currentTime: 0,
   seekPosition: 0,
