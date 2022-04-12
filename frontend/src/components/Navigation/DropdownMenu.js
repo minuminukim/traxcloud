@@ -5,7 +5,7 @@ import { FaUser } from 'react-icons/fa';
 import { logout } from '../../store/sessionReducer';
 import './DropdownMenu.css';
 
-const DropdownMenu = ({ user }) => {
+const DropdownMenu = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 

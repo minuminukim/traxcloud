@@ -4,7 +4,7 @@ import { fetchSingleUser } from '../../store/userReducer';
 import { deleteComment } from '../../actions/commentActions';
 import ProfilePicture from '../common/ProfilePicture';
 import { EditDeleteButton } from '../AudioPlayer';
-import { formatTime, calculateTimeSincePost } from '../../utils';
+import { calculateTimeSincePost } from '../../utils';
 import './CommentListItem.css';
 import { Link } from 'react-router-dom';
 
@@ -61,8 +61,6 @@ const CommentListItem = ({ commentId }) => {
           <Link className="comment-user-link" to={`/users/${user.id}`}>
             {belongsToCurrentUser ? 'You' : user.displayName}
           </Link>
-          {/* <span className="comment-at">at</span>{' '}
-          <span className="comment-time">{formatTime(comment.timePosted)}</span> */}
           <span className="comment-colon">:</span>
           <p>{comment.body}</p>
         </div>

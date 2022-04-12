@@ -38,11 +38,10 @@ const AudioPlayer = ({
         console.log(`error fetching track ${trackId} in AudioPlayer`, error)
       );
     })();
-  }, [track, trackId]);
+  }, [track, trackId, dispatch]);
 
   useEffect(() => {
-    // Fetch only when user or a
-    // reference to track.userId doesn't exist
+    // Fetch only when user or a reference to track.userId doesn't exist
     if (user || !track?.userId) {
       return;
     }
@@ -50,7 +49,7 @@ const AudioPlayer = ({
     dispatch(fetchSingleUser(track?.userId)).catch((err) =>
       console.log(`error fetching user ${track.userId} in AudioPlayer`, err)
     );
-  }, [user, track?.userId]);
+  }, [user, track?.userId, dispatch]);
 
   // When waveform fires 'waveform-ready' event, we update loading state
   const onReady = () => setReady(true);

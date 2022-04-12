@@ -37,7 +37,7 @@ function Audio({ trackId, children }) {
     if (isPlaying && isSelected) {
       dispatch(updateTime(audioRef?.current?.currentTime || 0));
     }
-  }, [location, isPlaying, isSelected]);
+  }, [location, isPlaying, isSelected, dispatch]);
 
   useEffect(() => {
     audioRef.current.volume = volume;
@@ -61,7 +61,6 @@ function Audio({ trackId, children }) {
       id={`track-${track?.id}`}
       crossOrigin="anonymous"
       ref={audioRef}
-      // onPlay={onPlayPause}
       onPause={onPause}
       onEnded={onEnded}
     >

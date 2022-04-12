@@ -44,7 +44,7 @@ const PlayableTile = ({
         console.log('error fetching user data', error);
       }
     })();
-  }, [user, dispatch]);
+  }, [user, track?.userId, dispatch]);
 
   // If player is active, overlay should be visible
   useEffect(() => {

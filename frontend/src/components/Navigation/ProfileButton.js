@@ -1,9 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-import { AiOutlineDown } from 'react-icons/ai';
-import DropdownMenu from './DropdownMenu';
-import prefixCORS from '../../utils/prefixCORS';
 import { onImageError } from '../../utils';
 import './ProfileButton.css';
 
@@ -19,26 +16,18 @@ const ProfileButton = () => {
     return () => document.removeEventListener('click', closeMenu);
   }, [showMenu]);
 
-  const toggleMenu = () => setShowMenu(!showMenu);
-
   return (
     <>
-      {/* <div className="profile-button pointer" onClick={toggleMenu}> */}
       <NavLink className="profile-button nav-item" to={`/users/${user.id}`}>
         <img
-          // src={prefixCORS(profilePictureUrl)}
           src={profilePictureUrl}
-          alt="Profile photo"
+          alt="User avatar"
           className="profile-button-avatar"
           crossOrigin="true"
           onError={onImageError}
         />
         {displayName}
-        {/* <span className="profile-button-username">{displayName}</span> */}
-        {/* <AiOutlineDown /> */}
       </NavLink>
-      {/* </div> */}
-      {/* {showMenu && <DropdownMenu user={user} />} */}
     </>
   );
 };

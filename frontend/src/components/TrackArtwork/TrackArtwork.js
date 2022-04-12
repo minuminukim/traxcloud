@@ -1,6 +1,5 @@
 import { useSelector } from 'react-redux';
 import { onImageError } from '../../utils';
-import { prefixCORS } from '../../utils';
 import './TrackArtwork.css';
 
 const TrackArtwork = ({ className, trackId, ...rest }) => {
@@ -8,7 +7,6 @@ const TrackArtwork = ({ className, trackId, ...rest }) => {
   return (
     <img
       className={className}
-      // src={prefixCORS(artworkUrl)}
       src={track?.artworkUrl}
       alt={`${track?.title} artwork`}
       crossOrigin="true"

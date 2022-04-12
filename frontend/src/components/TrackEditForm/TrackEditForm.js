@@ -55,7 +55,7 @@ const TrackEditForm = () => {
       setLoading(false);
     }
     return () => resetForm();
-  }, [sessionUser, track, trackId]);
+  }, [sessionUser, track, trackId, dispatch, history]);
 
   const onEdit = (e) => {
     e.preventDefault();

@@ -54,7 +54,7 @@ const Waveform = ({ trackId, onReady, resetQueue, size = 'medium' }) => {
     });
 
     return () => wavesurfer.current.destroy();
-  }, [track.trackUrl, track.peakData]);
+  }, [track.trackUrl, track.peakData, dispatch]);
 
   useEffect(() => {
     if (isSelected) {

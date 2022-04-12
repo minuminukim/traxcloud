@@ -1,13 +1,10 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-// import TrackEditForm from '../TrackEditForm';
-// import ModalWrapper from '../ModalWrapper';
 import EditDeleteButton from './EditDeleteButton';
 import belongsTo from '../../utils/belongsTo';
 import { deleteTrack } from '../../actions/trackActions';
 import './TrackActions.css';
 import { pauseTrack } from '../../actions/playerActions';
-import { resetQueue } from '../../actions/queueActions';
 
 const TrackActions = ({ trackId }) => {
   const dispatch = useDispatch();

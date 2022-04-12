@@ -64,7 +64,6 @@ router.get(
 router.get(
   '/',
   asyncHandler(async (req, res) => {
-    // const tracks = await Track.fetchTracks();
     const tracks = await Track.findAll({
       order: [['id', 'DESC']],
       include: {

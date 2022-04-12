@@ -1,10 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import {
-  fetchCommentsByTrackId,
-  fetchSingleComment,
-} from '../../actions/commentActions';
+import { fetchCommentsByTrackId } from '../../actions/commentActions';
 import { FaCommentAlt } from 'react-icons/fa';
 import CommentListItem from '../CommentListItem';
 import './CommentsList.css';

@@ -43,8 +43,6 @@ const Navigation = () => {
               Home
             </NavLink>
           </li>
-          {/* <li className="nav-item">Stream</li> */}
-          {/* <li className="nav-item">Library</li> */}
         </ul>
         {sessionUser ? sessionLinks : <UnauthenticatedLinks />}
       </nav>

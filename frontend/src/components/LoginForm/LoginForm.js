@@ -47,8 +47,6 @@ const LoginForm = () => {
       />
       <div className="line-break">
         <span className="line-break">or</span>
-        {/* <hr /> */}
-        {/* <hr /> */}
       </div>
       <InputField
         id="login-credential"
